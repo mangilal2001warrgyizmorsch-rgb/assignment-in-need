@@ -65,7 +65,7 @@ export const Navbar = () => {
             <span className="hidden lg:inline text-sm">+44 20 7946 0958</span>
           </a>
           <Button
-            variant="cta"
+            variant="primary"
             size="sm"
             onClick={() => {
               const target = document.querySelector("#quote-form");
@@ -119,7 +119,7 @@ export const Navbar = () => {
             <span>+44 20 7946 0958</span>
           </a>
           <Button
-            variant="cta"
+            variant="primary"
             size="md"
             style={{ width: "100%" }}
             onClick={() => {
