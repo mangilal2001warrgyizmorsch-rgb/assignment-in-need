@@ -33,9 +33,9 @@
   .btn-shutter-primary {
     position: relative;
     overflow: hidden;
-    background-color: #ffffff !important; /* normal white background */
-    color: #120C2E !important; /* normal primary text color */
-    border: 1px solid rgba(18, 12, 46, 0.1) !important;
+    background-color: #F97316 !important; /* normal state orange background */
+    color: #120C2E !important; /* normal state primary dark text color */
+    border: 1px solid #F97316 !important;
     z-index: 1;
     transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
   }
@@ -48,7 +48,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #F97316; /* accent-600 (Orange shutter) */
+    background-color: #ffffff; /* white shutter slides in on hover */
     z-index: -1;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -62,8 +62,8 @@
   }
 
   .btn-shutter-primary:hover {
-    color: #120C2E !important; /* text color remains dark navy on hover */
-    border-color: #F97316 !important;
+    color: #120C2E !important; /* text remains dark navy on hover */
+    border-color: rgba(18, 12, 46, 0.1) !important;
   }
 
   .btn-shutter-primary:hover::before {
@@ -78,10 +78,11 @@
   .btn-shutter-secondary {
     position: relative;
     overflow: hidden;
-    background-color: #F97316 !important; /* background becomes orange when hovered */
-    color: #120C2E !important; /* normal state text is dark navy */
+    background-color: #F97316 !important; /* underlay background is orange */
+    color: #120C2E !important; /* normal text is dark navy */
+    border: 1px solid rgba(18, 12, 46, 0.1) !important;
     z-index: 1;
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
   }
 
   .btn-shutter-secondary::before,
@@ -92,7 +93,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ffffff; /* normal state white background */
+    background-color: #ffffff; /* shutter cover is white by default */
     z-index: -1;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -108,6 +109,7 @@
 
   .btn-shutter-secondary:hover {
     color: #ffffff !important; /* text becomes white on hover */
+    border-color: #F97316 !important;
   }
 
   /* Slides away on hover (revealing orange background) */
