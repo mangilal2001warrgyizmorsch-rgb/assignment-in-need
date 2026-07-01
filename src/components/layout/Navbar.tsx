@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { Phone, Menu, X } from "lucide-react";
 import { Button } from "../ui/Button";
-import styles from "./Navbar.module.css";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,24 +17,29 @@ export const Navbar = () => {
     { label: "Our Services", href: "#services" },
     { label: "Guarantees", href: "#guarantees" },
     { label: "Testimonials", href: "#testimonials" },
+    { label: "FAQs", href: "#faqs" },
   ];
 
   return (
-    <header className={`${styles.header} glassmorphism`}>
-      <div className="container flex-between">
+    <header className="sticky top-0 z-50 w-full border-b border-primary-100/50 bg-white/90 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className={styles.logo}>
-          <span style={{ color: "var(--primary)" }}>Assignment</span>
-          <span className={styles.logoText}>In Need</span>
+        <Link href="/" className="flex items-center gap-2 select-none">
+          <div className="w-10 h-10 rounded-xl bg-gradient-logo flex items-center justify-center font-heading font-extrabold text-white text-xl shadow-md shadow-primary-500/10">
+            A
+          </div>
+          <span className="font-heading font-extrabold text-lg md:text-xl text-text-heading flex items-center">
+            Assignment<span className="gradient-text font-black ml-1">In Need</span>
+          </span>
         </Link>
 
-        {/* Desktop Nav links */}
-        <nav className={styles.desktopNav}>
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className={styles.navLink}
+              className="text-sm font-semibold text-text-muted hover:text-primary-700 transition-colors duration-150"
               onClick={(e) => {
                 const target = document.querySelector(link.href);
                 if (target) {
@@ -49,9 +54,18 @@ export const Navbar = () => {
         </nav>
 
         {/* Desktop Actions */}
-        <div className={styles.desktopActions}>
+        <div className="hidden md:flex items-center gap-6">
+          <a
+            href="tel:+442079460958"
+            className="flex items-center gap-2 text-sm font-bold text-text-heading hover:text-primary-700 transition-colors duration-150"
+          >
+            <div className="w-8 h-8 rounded-full bg-primary-50 text-primary-700 flex items-center justify-center">
+              <Phone className="w-4 h-4" />
+            </div>
+            <span className="hidden lg:inline text-sm">+44 20 7946 0958</span>
+          </a>
           <Button
-            variant="primary"
+            variant="cta"
             size="sm"
             onClick={() => {
               const target = document.querySelector("#quote-form");
@@ -60,84 +74,67 @@ export const Navbar = () => {
               }
             }}
           >
-            Order Homework
+            Get Free Quote
           </Button>
         </div>
 
         {/* Mobile menu toggle */}
         <button
-          className={styles.mobileToggle}
+          className="md:hidden p-2 text-text-heading hover:text-primary-700 transition-colors"
           onClick={toggleMenu}
           aria-label={isOpen ? "Close menu" : "Open menu"}
         >
-          {isOpen ? (
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          ) : (
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          )}
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {/* Mobile Drawer Menu */}
-      <div className={`${styles.mobileMenu} ${isOpen ? styles.open : ""}`}>
-        {navLinks.map((link) => (
-          <Link
-            key={link.label}
-            href={link.href}
-            className={styles.navLink}
-            style={{ fontSize: "1.2rem", padding: "0.5rem 0" }}
-            onClick={(e) => {
+      {isOpen && (
+        <div className="md:hidden fixed inset-x-0 top-20 bg-white border-b border-primary-100/50 flex flex-col p-6 gap-4 shadow-lg animate-in fade-in duration-200">
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="text-base font-semibold text-text-body hover:text-primary-700 py-1 transition-colors duration-150"
+              onClick={(e) => {
+                setIsOpen(false);
+                const target = document.querySelector(link.href);
+                if (target) {
+                  e.preventDefault();
+                  target.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <hr className="border-primary-100/50 my-1" />
+          <a
+            href="tel:+442079460958"
+            className="flex items-center gap-3 text-base font-bold text-text-heading py-1"
+          >
+            <div className="w-9 h-9 rounded-full bg-primary-50 text-primary-700 flex items-center justify-center">
+              <Phone className="w-4 h-4" />
+            </div>
+            <span>+44 20 7946 0958</span>
+          </a>
+          <Button
+            variant="cta"
+            size="md"
+            style={{ width: "100%" }}
+            onClick={() => {
               setIsOpen(false);
-              const target = document.querySelector(link.href);
+              const target = document.querySelector("#quote-form");
               if (target) {
-                e.preventDefault();
                 target.scrollIntoView({ behavior: "smooth" });
               }
             }}
           >
-            {link.label}
-          </Link>
-        ))}
-        <Button
-          variant="primary"
-          size="md"
-          style={{ width: "100%", marginTop: "1rem" }}
-          onClick={() => {
-            setIsOpen(false);
-            const target = document.querySelector("#quote-form");
-            if (target) {
-              target.scrollIntoView({ behavior: "smooth" });
-            }
-          }}
-        >
-          Order Homework
-        </Button>
-      </div>
+            Get Free Quote
+          </Button>
+        </div>
+      )}
     </header>
   );
 };
+Navbar.displayName = "Navbar";

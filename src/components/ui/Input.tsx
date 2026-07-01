@@ -1,50 +1,71 @@
-import React, { InputHTMLAttributes, TextareaHTMLAttributes, SelectHTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from "react";
+import { cn } from "@/lib/utils";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  labelIcon?: React.ReactNode;
+  icon?: React.ReactNode;
   helperText?: string;
   error?: string;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className = "", label, helperText, error, id, type = "text", ...props }, ref) => {
+  ({ className, label, labelIcon, icon, helperText, error, id, type = "text", ...props }, ref) => {
     const inputId = id || `input-${Math.random().toString(36).substring(2, 9)}`;
+
     return (
-      <div className="form-group">
+      <div className="flex flex-col gap-1.5 w-full">
         {label && (
-          <label htmlFor={inputId} className="form-label">
+          <label htmlFor={inputId} className="flex items-center gap-1.5 text-sm font-heading font-semibold text-text-heading">
+            {labelIcon && <span className="text-primary-500 w-4 h-4 flex items-center justify-center">{labelIcon}</span>}
             {label}
           </label>
         )}
-        <input
-          ref={ref}
-          id={inputId}
-          type={type}
-          className={className}
-          style={error ? { borderColor: "hsl(0, 84%, 60%)" } : undefined}
-          {...props}
-        />
-        {error && <span className="form-error">{error}</span>}
-        {!error && helperText && <span className="form-helper">{helperText}</span>}
+        <div className="relative flex items-center w-full">
+          {icon && (
+            <div className="absolute left-3.5 text-text-muted w-5 h-5 flex items-center justify-center pointer-events-none">
+              {React.isValidElement(icon)
+                ? React.cloneElement(icon as React.ReactElement<{ className?: string }>, { className: "w-5 h-5" })
+                : icon}
+            </div>
+          )}
+          <input
+            ref={ref}
+            id={inputId}
+            type={type}
+            className={cn(
+              "w-full bg-white text-text-body border border-primary-100/50 rounded-btn py-3 px-4 text-base focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 transition-all duration-200 placeholder:text-text-muted/60",
+              icon && "pl-11",
+              error && "border-red-500 focus-visible:ring-red-500",
+              className
+            )}
+            {...props}
+          />
+        </div>
+        {error && <span className="text-xs font-semibold text-red-500">{error}</span>}
+        {!error && helperText && <span className="text-xs text-text-muted">{helperText}</span>}
       </div>
     );
   }
 );
 Input.displayName = "Input";
 
-export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
+  labelIcon?: React.ReactNode;
   helperText?: string;
   error?: string;
 }
 
 export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ className = "", label, helperText, error, id, rows = 4, ...props }, ref) => {
+  ({ className, label, labelIcon, helperText, error, id, rows = 4, ...props }, ref) => {
     const inputId = id || `textarea-${Math.random().toString(36).substring(2, 9)}`;
+
     return (
-      <div className="form-group">
+      <div className="flex flex-col gap-1.5 w-full">
         {label && (
-          <label htmlFor={inputId} className="form-label">
+          <label htmlFor={inputId} className="flex items-center gap-1.5 text-sm font-heading font-semibold text-text-heading">
+            {labelIcon && <span className="text-primary-500 w-4 h-4 flex items-center justify-center">{labelIcon}</span>}
             {label}
           </label>
         )}
@@ -52,52 +73,17 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
           ref={ref}
           id={inputId}
           rows={rows}
-          className={className}
-          style={error ? { borderColor: "hsl(0, 84%, 60%)" } : undefined}
+          className={cn(
+            "w-full bg-white text-text-body border border-primary-100/50 rounded-btn py-3 px-4 text-base focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 transition-all duration-200 resize-none placeholder:text-text-muted/60",
+            error && "border-red-500 focus-visible:ring-red-500",
+            className
+          )}
           {...props}
         />
-        {error && <span className="form-error">{error}</span>}
-        {!error && helperText && <span className="form-helper">{helperText}</span>}
+        {error && <span className="text-xs font-semibold text-red-500">{error}</span>}
+        {!error && helperText && <span className="text-xs text-text-muted">{helperText}</span>}
       </div>
     );
   }
 );
 TextArea.displayName = "TextArea";
-
-export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
-  helperText?: string;
-  error?: string;
-  options: { label: string; value: string | number }[];
-}
-
-export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className = "", label, helperText, error, id, options, ...props }, ref) => {
-    const inputId = id || `select-${Math.random().toString(36).substring(2, 9)}`;
-    return (
-      <div className="form-group">
-        {label && (
-          <label htmlFor={inputId} className="form-label">
-            {label}
-          </label>
-        )}
-        <select
-          ref={ref}
-          id={inputId}
-          className={className}
-          style={error ? { borderColor: "hsl(0, 84%, 60%)" } : undefined}
-          {...props}
-        >
-          {options.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-        {error && <span className="form-error">{error}</span>}
-        {!error && helperText && <span className="form-helper">{helperText}</span>}
-      </div>
-    );
-  }
-);
-Select.displayName = "Select";

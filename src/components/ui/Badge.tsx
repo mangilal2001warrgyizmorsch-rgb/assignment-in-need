@@ -1,67 +1,33 @@
-import React, { HTMLAttributes } from "react";
+import React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
-export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
-  variant?: "primary" | "secondary" | "accent" | "warning" | "outline";
-}
-
-export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ className = "", variant = "primary", children, ...props }, ref) => {
-    const getStyles = () => {
-      switch (variant) {
-        case "secondary":
-          return {
-            background: "var(--secondary-soft)",
-            color: "var(--secondary)",
-            borderColor: "hsla(var(--secondary-hue), var(--secondary-saturation), var(--secondary-lightness), 0.15)",
-          };
-        case "accent":
-          return {
-            background: "var(--accent-soft)",
-            color: "var(--accent)",
-            borderColor: "hsla(var(--accent-hue), var(--accent-saturation), var(--accent-lightness), 0.15)",
-          };
-        case "warning":
-          return {
-            background: "hsla(var(--warning-hue), var(--warning-saturation), var(--warning-lightness), 0.1)",
-            color: "var(--warning)",
-            borderColor: "hsla(var(--warning-hue), var(--warning-saturation), var(--warning-lightness), 0.15)",
-          };
-        case "outline":
-          return {
-            background: "transparent",
-            color: "var(--muted)",
-            borderColor: "var(--border)",
-          };
-        case "primary":
-        default:
-          return {
-            background: "var(--primary-soft)",
-            color: "var(--primary)",
-            borderColor: "hsla(var(--primary-hue), var(--primary-saturation), var(--primary-lightness), 0.15)",
-          };
-      }
-    };
-
-    const inlineStyles = {
-      display: "inline-flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "0.25rem 0.75rem",
-      fontSize: "0.75rem",
-      fontWeight: 700,
-      borderRadius: "9999px",
-      letterSpacing: "0.05em",
-      textTransform: "uppercase" as const,
-      border: "1px solid",
-      ...getStyles(),
-    };
-
-    return (
-      <span ref={ref} style={inlineStyles} className={className} {...props}>
-        {children}
-      </span>
-    );
+const badgeVariants = cva(
+  "inline-flex items-center justify-center px-3 py-1 rounded-pill text-xs font-heading font-semibold uppercase tracking-wider gap-1.5",
+  {
+    variants: {
+      variant: {
+        "soft-purple": "bg-primary-50 text-primary-700 border border-primary-100/50",
+        "soft-orange": "bg-accent-500/10 text-accent-600 border border-accent-500/10",
+        outline: "border border-primary-700/20 text-primary-700 bg-transparent",
+      },
+    },
+    defaultVariants: {
+      variant: "soft-purple",
+    },
   }
 );
 
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLSpanElement>,
+    VariantProps<typeof badgeVariants> {}
+
+export const Badge: React.FC<BadgeProps> = ({ className, variant, ...props }) => {
+  return (
+    <span
+      className={cn(badgeVariants({ variant }), className)}
+      {...props}
+    />
+  );
+};
 Badge.displayName = "Badge";

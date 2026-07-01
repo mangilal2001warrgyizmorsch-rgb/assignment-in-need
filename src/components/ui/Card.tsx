@@ -1,66 +1,38 @@
-import React, { HTMLAttributes } from "react";
+import React from "react";
+import { cn } from "@/lib/utils";
 
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverEffect?: boolean;
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className = "", hoverEffect = true, children, ...props }, ref) => {
+  ({ className, hoverEffect = true, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        style={{
-          background: "var(--card)",
-          color: "var(--card-foreground)",
-          borderRadius: "var(--radius-lg)",
-          border: "1px solid var(--card-border)",
-          padding: "2rem",
-          boxShadow: "var(--shadow-sm)",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-        }}
-        className={`${hoverEffect ? "hover-lift" : ""} ${className}`}
+        className={cn(
+          "bg-white rounded-card shadow-card border border-primary-100/50 flex flex-col gap-4 p-6",
+          hoverEffect && "transition-all duration-300 hover:-translate-y-1.5 hover:shadow-cardHover",
+          className
+        )}
         {...props}
-      >
-        {children}
-      </div>
+      />
     );
   }
 );
 Card.displayName = "Card";
 
-export const CardHeader = ({ className = "", children, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <div className={`flex-column ${className}`} style={{ gap: "0.25rem" }} {...props}>
-    {children}
-  </div>
+export const CardHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn("flex flex-col gap-1", className)} {...props} />
 );
 CardHeader.displayName = "CardHeader";
 
-export const CardTitle = ({ className = "", children, ...props }: HTMLAttributes<HTMLHeadingElement>) => (
-  <h3 className={`${className}`} style={{ fontWeight: 700, margin: 0 }} {...props}>
-    {children}
-  </h3>
+export const CardBody = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn("flex-1 text-text-body text-base leading-relaxed", className)} {...props} />
 );
-CardTitle.displayName = "CardTitle";
+CardBody.displayName = "CardBody";
 
-export const CardDescription = ({ className = "", children, ...props }: HTMLAttributes<HTMLParagraphElement>) => (
-  <p className={`${className}`} style={{ fontSize: "0.9rem", color: "var(--muted)", margin: 0 }} {...props}>
-    {children}
-  </p>
-);
-CardDescription.displayName = "CardDescription";
-
-export const CardContent = ({ className = "", children, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <div className={`${className}`} style={{ flex: 1 }} {...props}>
-    {children}
-  </div>
-);
-CardContent.displayName = "CardContent";
-
-export const CardFooter = ({ className = "", children, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <div className={`flex-center ${className}`} style={{ marginTop: "1rem", justifyContent: "flex-start" }} {...props}>
-    {children}
-  </div>
+export const CardFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn("flex items-center justify-start mt-2", className)} {...props} />
 );
 CardFooter.displayName = "CardFooter";
