@@ -103,7 +103,7 @@ export default function SubjectLanding() {
                 </Button>
               </a>
               <a href="/samples">
-                <Button variant="outline" size="lg">
+                <Button variant="cta" size="lg">
                   View Samples
                 </Button>
               </a>

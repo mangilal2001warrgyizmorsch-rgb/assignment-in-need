@@ -131,7 +131,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           We have received your requirements. One of our expert academic writers will contact you shortly at <span className="font-semibold text-primary-700">{email}</span> with a custom quote.
         </p>
         <Button
-          variant="outline"
+          variant="cta"
           size="sm"
           className="mt-4"
           onClick={() => {

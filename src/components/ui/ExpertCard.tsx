@@ -149,7 +149,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
         </CardBody>
 
         <CardFooter className="p-0 w-full mt-2">
-          <Button variant="outline" size="sm" fullWidth={true} onClick={onHire}>
+          <Button variant="cta" size="sm" fullWidth={true} onClick={onHire}>
             Hire Now
           </Button>
         </CardFooter>
@@ -190,7 +190,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
       </CardBody>
       
       <CardFooter className="w-full mt-1">
-        <Button variant="outline" size="sm" fullWidth={true} onClick={onHire}>
+        <Button variant="cta" size="sm" fullWidth={true} onClick={onHire}>
           Hire This Expert
         </Button>
       </CardFooter>

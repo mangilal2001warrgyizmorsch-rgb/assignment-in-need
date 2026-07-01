@@ -196,7 +196,7 @@ export default function PricingPage() {
               If you have any doubts regarding our referencing guides, pricing schedules, or secure payment portals, explore options here.
             </Text>
             <Link href="/contact">
-              <Button variant="outline" size="sm" className="mt-2 text-xs">
+              <Button variant="cta" size="sm" className="mt-2 text-xs">
                 Contact Us →
               </Button>
             </Link>

@@ -137,8 +137,8 @@ export default function StyleGuide() {
             <div className="flex flex-col gap-2">
               <span className="text-sm font-bold text-text-heading">Button Variants</span>
               <div className="flex flex-wrap gap-4 items-center">
-                <Button variant="primary">Primary Purple</Button>
-                <Button variant="cta">CTA Orange</Button>
+                <Button variant="primary">Primary (Orange)</Button>
+                <Button variant="cta">Secondary (White)</Button>
                 <Button variant="gradient">Primary Gradient</Button>
                 <Button variant="outline">Outline</Button>
                 <Button variant="ghost">Ghost Link</Button>

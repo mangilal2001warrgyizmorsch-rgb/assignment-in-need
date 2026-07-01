@@ -206,7 +206,7 @@ export default function ContactPage() {
                   Thank you, <span className="font-semibold text-primary-700">{name}</span>. Your request has been logged successfully. Our student helpline desk will call or email you shortly.
                 </p>
                 <Button
-                  variant="outline"
+                  variant="cta"
                   size="sm"
                   className="mt-4"
                   onClick={() => {
@@ -304,12 +304,11 @@ export default function ContactPage() {
                   {/* NOTE: Purple primary button for message submission, NOT orange */}
                   <Button
                     type="submit"
-                    variant="primary"
+                    variant="gradient"
                     size="lg"
                     fullWidth
                     isLoading={isSubmitting}
-                    className="mt-2 bg-primary-700 border-primary-700 hover:bg-primary-650 text-white"
-                    style={{ backgroundColor: "#5B21B6", borderColor: "#5B21B6", color: "#ffffff" }}
+                    className="mt-2 text-white"
                   >
                     Send Message
                   </Button>

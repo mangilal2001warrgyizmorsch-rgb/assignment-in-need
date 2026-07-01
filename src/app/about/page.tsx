@@ -107,7 +107,7 @@ export default function AboutPage() {
                   </Button>
                 </Link>
                 <Link href="/pricing">
-                  <Button variant="outline" size="md">
+                  <Button variant="cta" size="md">
                     Get Free Quote
                   </Button>
                 </Link>

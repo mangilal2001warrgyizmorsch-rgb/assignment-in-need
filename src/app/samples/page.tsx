@@ -88,7 +88,7 @@ export default function SamplesPage() {
                   </Button>
                 </a>
                 <a href="/pricing">
-                  <Button variant="outline" size="md">
+                  <Button variant="cta" size="md">
                     Get Expert Help
                   </Button>
                 </a>

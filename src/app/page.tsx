@@ -129,7 +129,7 @@ export default function Home() {
                 </Button>
               </a>
               <a href="#experts">
-                <Button variant="outline" size="lg">
+                <Button variant="cta" size="lg">
                   View Our Experts
                 </Button>
               </a>
