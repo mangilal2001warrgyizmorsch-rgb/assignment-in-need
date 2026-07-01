@@ -2,28 +2,42 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Phone, Menu, X } from "lucide-react";
+import { Phone, Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "../ui/Button";
+import { cn } from "@/lib/utils";
+
+const SERVICES = [
+  { name: "Assignment Writing", slug: "assignment-writing" },
+  { name: "Essay Writing", slug: "essay-writing" },
+  { name: "Dissertation Help", slug: "dissertation-help" },
+  { name: "Case Study Help", slug: "case-study-help" },
+  { name: "Report Writing", slug: "report-writing" },
+  { name: "Coursework Help", slug: "coursework-help" },
+  { name: "Proofreading & Editing", slug: "proofreading-editing" },
+];
+
+const SUBJECTS = [
+  { name: "Accounting", slug: "accounting" },
+  { name: "Business Management", slug: "business" },
+  { name: "Law", slug: "law" },
+  { name: "Nursing", slug: "nursing" },
+  { name: "Engineering", slug: "engineering" },
+  { name: "Computer Science", slug: "computer-science" },
+  { name: "Psychology", slug: "psychology" },
+];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeMobileDropdown, setActiveMobileDropdown] = useState<string | null>(null);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  const toggleMobileDropdown = (name: string) => {
+    setActiveMobileDropdown(activeMobileDropdown === name ? null : name);
   };
 
-  const navLinks = [
-    { label: "Home", href: "#hero" },
-    { label: "Our Services", href: "#services" },
-    { label: "Guarantees", href: "#guarantees" },
-    { label: "Testimonials", href: "#testimonials" },
-    { label: "FAQs", href: "#faqs" },
-  ];
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-primary-100/50 bg-white/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-primary-100/50 bg-white/95 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
-        {/* Logo */}
+        {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2 select-none">
           <div className="w-10 h-10 rounded-xl bg-gradient-logo flex items-center justify-center font-heading font-extrabold text-white text-xl shadow-md shadow-primary-500/10">
             A
@@ -33,105 +47,190 @@ export const Navbar = () => {
           </span>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="text-sm font-semibold text-text-muted hover:text-primary-700 transition-colors duration-150"
-              onClick={(e) => {
-                const target = document.querySelector(link.href);
-                if (target) {
-                  e.preventDefault();
-                  target.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-            >
-              {link.label}
-            </Link>
-          ))}
+        {/* Desktop Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-6">
+          <Link href="/" className="text-sm font-bold text-text-muted hover:text-primary-700 transition-colors">
+            Home
+          </Link>
+
+          {/* Services Dropdown */}
+          <div className="relative group py-2">
+            <button className="flex items-center gap-1.5 text-sm font-bold text-text-muted hover:text-primary-700 transition-colors group-hover:text-primary-700">
+              Services
+              <ChevronDown className="w-4 h-4 opacity-70 group-hover:rotate-180 transition-transform duration-250" />
+            </button>
+            <div className="absolute top-full left-0 mt-1 w-64 bg-white border border-primary-100 rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 p-2 flex flex-col gap-1 z-50">
+              {SERVICES.map((s) => (
+                <Link
+                  key={s.slug}
+                  href={`/services/${s.slug}`}
+                  className="text-xs font-semibold text-text-body hover:text-primary-700 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                >
+                  {s.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Subjects Dropdown */}
+          <div className="relative group py-2">
+            <button className="flex items-center gap-1.5 text-sm font-bold text-text-muted hover:text-primary-700 transition-colors group-hover:text-primary-700">
+              Subjects
+              <ChevronDown className="w-4 h-4 opacity-70 group-hover:rotate-180 transition-transform duration-250" />
+            </button>
+            <div className="absolute top-full left-0 mt-1 w-60 bg-white border border-primary-100 rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 p-2 flex flex-col gap-1 z-50">
+              {SUBJECTS.map((sub) => (
+                <Link
+                  key={sub.slug}
+                  href={`/subjects/${sub.slug}`}
+                  className="text-xs font-semibold text-text-body hover:text-primary-700 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                >
+                  {sub.name} Assignment Help
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <Link href="/writers" className="text-sm font-bold text-text-muted hover:text-primary-700 transition-colors">
+            Our Experts
+          </Link>
+
+          <Link href="/samples" className="text-sm font-bold text-text-muted hover:text-primary-700 transition-colors">
+            Samples
+          </Link>
+
+          <Link href="/pricing" className="text-sm font-bold text-text-muted hover:text-primary-700 transition-colors">
+            Pricing
+          </Link>
+
+          <Link href="/about" className="text-sm font-bold text-text-muted hover:text-primary-700 transition-colors">
+            About Us
+          </Link>
+
+          <Link href="/contact" className="text-sm font-bold text-text-muted hover:text-primary-700 transition-colors">
+            Contact
+          </Link>
         </nav>
 
-        {/* Desktop Actions */}
-        <div className="hidden md:flex items-center gap-6">
+        {/* Action Button & Contact Info */}
+        <div className="hidden lg:flex items-center gap-5">
           <a
-            href="tel:+442079460958"
-            className="flex items-center gap-2 text-sm font-bold text-text-heading hover:text-primary-700 transition-colors duration-150"
+            href="tel:+447300640066"
+            className="flex items-center gap-2 text-sm font-bold text-text-heading hover:text-primary-700 transition-colors"
           >
             <div className="w-8 h-8 rounded-full bg-primary-50 text-primary-700 flex items-center justify-center">
               <Phone className="w-4 h-4" />
             </div>
-            <span className="hidden lg:inline text-sm">+44 20 7946 0958</span>
+            <span>+44 7300 640066</span>
           </a>
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={() => {
-              const target = document.querySelector("#quote-form");
-              if (target) {
-                target.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-          >
-            Get Free Quote
-          </Button>
+          <Link href="/pricing">
+            <Button variant="primary" size="sm">
+              Get Free Quote
+            </Button>
+          </Link>
         </div>
 
-        {/* Mobile menu toggle */}
+        {/* Mobile Hamburger Button */}
         <button
-          className="md:hidden p-2 text-text-heading hover:text-primary-700 transition-colors"
-          onClick={toggleMenu}
-          aria-label={isOpen ? "Close menu" : "Open menu"}
+          className="lg:hidden p-2 text-text-heading hover:text-primary-700 transition-colors"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
         >
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer (with mobile-friendly nested dropdowns) */}
       {isOpen && (
-        <div className="md:hidden fixed inset-x-0 top-20 bg-white border-b border-primary-100/50 flex flex-col p-6 gap-4 shadow-lg animate-in fade-in duration-200">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="text-base font-semibold text-text-body hover:text-primary-700 py-1 transition-colors duration-150"
-              onClick={(e) => {
-                setIsOpen(false);
-                const target = document.querySelector(link.href);
-                if (target) {
-                  e.preventDefault();
-                  target.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
+        <div className="lg:hidden fixed inset-x-0 top-20 bg-white border-b border-primary-100/50 flex flex-col p-6 gap-4 shadow-lg z-50 max-h-[80vh] overflow-y-auto">
+          <Link href="/" className="text-base font-bold text-text-heading hover:text-primary-700 py-1" onClick={() => setIsOpen(false)}>
+            Home
+          </Link>
+
+          {/* Services Mobile Accordion */}
+          <div className="flex flex-col">
+            <button
+              onClick={() => toggleMobileDropdown("services")}
+              className="flex items-center justify-between w-full text-base font-bold text-text-heading hover:text-primary-700 py-1 text-left"
             >
-              {link.label}
-            </Link>
-          ))}
+              <span>Services</span>
+              <ChevronDown className={cn("w-4 h-4 transition-transform", activeMobileDropdown === "services" && "rotate-180")} />
+            </button>
+            {activeMobileDropdown === "services" && (
+              <div className="flex flex-col gap-2 pl-4 mt-2 border-l border-primary-50">
+                {SERVICES.map((s) => (
+                  <Link
+                    key={s.slug}
+                    href={`/services/${s.slug}`}
+                    className="text-sm font-semibold text-text-body hover:text-primary-700 py-1.5"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {s.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Subjects Mobile Accordion */}
+          <div className="flex flex-col">
+            <button
+              onClick={() => toggleMobileDropdown("subjects")}
+              className="flex items-center justify-between w-full text-base font-bold text-text-heading hover:text-primary-700 py-1 text-left"
+            >
+              <span>Subjects</span>
+              <ChevronDown className={cn("w-4 h-4 transition-transform", activeMobileDropdown === "subjects" && "rotate-180")} />
+            </button>
+            {activeMobileDropdown === "subjects" && (
+              <div className="flex flex-col gap-2 pl-4 mt-2 border-l border-primary-50">
+                {SUBJECTS.map((sub) => (
+                  <Link
+                    key={sub.slug}
+                    href={`/subjects/${sub.slug}`}
+                    className="text-sm font-semibold text-text-body hover:text-primary-700 py-1.5"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {sub.name} Assignment Help
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link href="/writers" className="text-base font-bold text-text-heading hover:text-primary-700 py-1" onClick={() => setIsOpen(false)}>
+            Our Experts
+          </Link>
+
+          <Link href="/samples" className="text-base font-bold text-text-heading hover:text-primary-700 py-1" onClick={() => setIsOpen(false)}>
+            Samples
+          </Link>
+
+          <Link href="/pricing" className="text-base font-bold text-text-heading hover:text-primary-700 py-1" onClick={() => setIsOpen(false)}>
+            Pricing
+          </Link>
+
+          <Link href="/about" className="text-base font-bold text-text-heading hover:text-primary-700 py-1" onClick={() => setIsOpen(false)}>
+            About Us
+          </Link>
+
+          <Link href="/contact" className="text-base font-bold text-text-heading hover:text-primary-700 py-1" onClick={() => setIsOpen(false)}>
+            Contact
+          </Link>
+
           <hr className="border-primary-100/50 my-1" />
-          <a
-            href="tel:+442079460958"
-            className="flex items-center gap-3 text-base font-bold text-text-heading py-1"
-          >
+
+          <a href="tel:+447300640066" className="flex items-center gap-3 text-base font-bold text-text-heading py-2">
             <div className="w-9 h-9 rounded-full bg-primary-50 text-primary-700 flex items-center justify-center">
               <Phone className="w-4 h-4" />
             </div>
-            <span>+44 20 7946 0958</span>
+            <span>+44 7300 640066</span>
           </a>
-          <Button
-            variant="primary"
-            size="md"
-            style={{ width: "100%" }}
-            onClick={() => {
-              setIsOpen(false);
-              const target = document.querySelector("#quote-form");
-              if (target) {
-                target.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-          >
-            Get Free Quote
-          </Button>
+
+          <Link href="/pricing" onClick={() => setIsOpen(false)}>
+            <Button variant="primary" size="md" fullWidth>
+              Get Free Quote
+            </Button>
+          </Link>
         </div>
       )}
     </header>

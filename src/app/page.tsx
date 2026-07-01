@@ -1,490 +1,465 @@
 "use client";
 
-import React, { useState } from "react";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
-import { Card, CardHeader, CardBody, CardFooter } from "@/components/ui/Card";
-import { IconBadge } from "@/components/ui/IconBadge";
+import React from "react";
+import Link from "next/link";
+import { QuoteForm } from "@/components/ui/QuoteForm";
+import { UniversityLogos } from "@/components/ui/UniversityLogos";
+import { ServiceCard } from "@/components/ui/ServiceCard";
+import { SubjectCard } from "@/components/ui/SubjectCard";
+import { ResultCard } from "@/components/ui/ResultCard";
+import { ToolCard } from "@/components/ui/ToolCard";
+import { SampleCard } from "@/components/ui/SampleCard";
+import { TestimonialCarousel } from "@/components/ui/TestimonialCarousel";
+import { ExpertCarousel } from "@/components/ui/ExpertCarousel";
+import { StatsStrip } from "@/components/ui/StatsStrip";
+import { PromoBanner } from "@/components/ui/PromoBanner";
+import { ProcessSteps } from "@/components/ui/ProcessSteps";
+import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Heading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
-import { StatBlock } from "@/components/ui/StatBlock";
-import { TestimonialCard } from "@/components/ui/TestimonialCard";
-import { ExpertCard } from "@/components/ui/ExpertCard";
+import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/Accordion";
-import { Input, TextArea } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
-import { PromoBanner } from "@/components/ui/PromoBanner";
-import { SectionContainer } from "@/components/ui/SectionContainer";
-import { ShieldCheck, Award, Clock, Users, Phone, CheckCircle2 } from "lucide-react";
+import {
+  UploadCloud,
+  UserCheck,
+  Cpu,
+  FileCheck2,
+  CheckCircle2,
+  ShieldCheck,
+  Sparkles,
+  FileText,
+  HelpCircle
+} from "lucide-react";
+import { WRITERS, SERVICES, SUBJECTS, SAMPLES, TESTIMONIALS, FAQS } from "@/lib/data";
 
 export default function Home() {
-  // Quote form state
-  const [subject, setSubject] = useState("marketing");
-  const [deadline, setDeadline] = useState("48-hours");
-  const [pages, setPages] = useState(2);
-  const [email, setEmail] = useState("");
-  const [requirements, setRequirements] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  // Dynamic Price Calculation
-  const calculatePrice = () => {
-    let baseRatePerPage = 12.99;
-    
-    if (subject === "law" || subject === "engineering") {
-      baseRatePerPage = 15.99;
-    } else if (subject === "nursing" || subject === "finance") {
-      baseRatePerPage = 14.50;
-    }
-
-    let deadlineMultiplier = 1.0;
-    if (deadline === "24-hours") {
-      deadlineMultiplier = 1.6;
-    } else if (deadline === "48-hours") {
-      deadlineMultiplier = 1.3;
-    } else if (deadline === "3-days") {
-      deadlineMultiplier = 1.15;
-    }
-
-    return (baseRatePerPage * pages * deadlineMultiplier).toFixed(2);
-  };
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 1500);
-  };
-
-  const resetForm = () => {
-    setEmail("");
-    setRequirements("");
-    setIsSubmitted(false);
-  };
-
-  const services = [
+  const steps = [
     {
-      id: "marketing",
-      title: "Business Marketing",
-      desc: "Strategic marketing plans, brand analysis projects, market research summaries, and competitor matrix charts constructed with academic rigor.",
-      tag: "Popular",
+      number: 1,
+      icon: <UploadCloud className="w-6 h-6" />,
+      title: "Submit Requirements",
+      description: "Share your assignment details and specifications with us.",
     },
     {
-      id: "finance",
-      title: "Finance & Accounting",
-      desc: "Complex financial spreadsheets, spreadsheet modeling, balance sheets, corporate accounting papers, and cost-benefit audit reports.",
-      tag: "PhD Writers",
+      number: 2,
+      icon: <UserCheck className="w-6 h-6" />,
+      title: "Get Matched",
+      description: "We assign the absolute best expert writer in your field.",
     },
     {
-      id: "law",
-      title: "Business Law Cases",
-      desc: "Detailed legal arguments, contract law interpretations, tort cases briefs, and corporate governance papers formatted with IRAC style guides.",
-      tag: "Complex",
+      number: 3,
+      icon: <Cpu className="w-6 h-6" />,
+      title: "Work In Progress",
+      description: "Expert researches, designs, and drafts your document.",
     },
     {
-      id: "nursing",
-      title: "Nursing & Healthcare",
-      desc: "Evidence-based practice (EBP) papers, PICOT questions research, patient care plans, healthcare policy reports, and clinical journals analyses.",
-      tag: "High Demand",
+      number: 4,
+      icon: <FileCheck2 className="w-6 h-6" />,
+      title: "Review & Feedback",
+      description: "Receive first draft, request adjustments if required.",
     },
     {
-      id: "engineering",
-      title: "Engineering Reports",
-      desc: "Detailed technical reporting, software design specs, system engineering diagrams explanation, CAD models description, and lab manuals.",
-      tag: "Specialist",
-    },
-    {
-      id: "case-studies",
-      title: "Case Study Analysis",
-      desc: "Comprehensive business analysis, Harvard-style case analysis, problem statements, strategic recommendations, and SWOT models.",
-      tag: "Best Seller",
+      number: 5,
+      icon: <CheckCircle2 className="w-6 h-6" />,
+      title: "Final Delivery",
+      description: "Get the polished assignment delivered to your inbox.",
     },
   ];
 
-  const promoBadges = [
-    { icon: <ShieldCheck />, label: "Turnitin Checked" },
-    { icon: <Clock />, label: "48h Delivery" },
-    { icon: <Award />, label: "GPA Booster" },
+  // Map free promo items
+  const freeBadges = [
+    { icon: <ShieldCheck />, label: "Plagiarism Report" },
+    { icon: <Sparkles />, label: "Rewriting & Paraphrasing" },
+    { icon: <FileText />, label: "Title Page" },
+    { icon: <FileText />, label: "Bibliography" },
+    { icon: <Sparkles />, label: "Formatting" },
+    { icon: <CheckCircle2 />, label: "Unlimited Revisions" },
+    { icon: <CheckCircle2 />, label: "24/7 Priority Support" },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <Navbar />
+    <div className="bg-white">
+      {/* 1. Hero Section */}
+      <section className="relative overflow-hidden bg-white py-12 md:py-20 lg:py-24 border-b border-primary-50">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Hero Content Left */}
+          <div className="lg:col-span-7 flex flex-col gap-6 text-left">
+            <div className="inline-flex w-fit bg-accent-50 text-accent-700 font-heading font-extrabold text-xs px-3.5 py-1.5 rounded-pill border border-accent-100 flex items-center gap-1.5 shadow-sm">
+              <span className="text-sm">⭐</span>
+              Rated 4.9/5 by 25,000+ UK Students
+            </div>
+            
+            <Heading level={1} className="text-4xl md:text-5xl lg:text-6xl text-text-heading font-extrabold tracking-tight leading-[1.1] md:leading-[1.05]">
+              Get Expert Academic Support{" "}
+              <span className="gradient-text bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600 font-black">
+                To Score Higher Grades
+              </span>
+            </Heading>
+            
+            <Text className="text-base md:text-lg text-text-body leading-relaxed max-w-xl">
+              Connect with top-rated UK academic writers. We deliver custom-formatted, 100% original, and plagiarism-free assignments matching your university criteria.
+            </Text>
 
-      <main className="flex-1">
-        {/* HERO SECTION */}
-        <SectionContainer id="hero" background="lavender" className="relative overflow-hidden pt-12 md:pt-20">
-          {/* Decorative gradients */}
-          <div className="absolute top-0 right-0 w-[40rem] h-[40rem] rounded-full bg-primary-100/30 blur-3xl -z-10 translate-x-1/3 -translate-y-1/3"></div>
-          <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] rounded-full bg-accent-500/5 blur-3xl -z-10 -translate-x-1/3 translate-y-1/3"></div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
-            {/* Left Column: Copy */}
-            <div className="flex flex-col gap-6 lg:col-span-7">
-              <div className="flex">
-                <Badge variant="soft-orange">⚡ 48-Hour Delivery Guarantee</Badge>
+            {/* Metrics Row */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2 bg-primary-50/40 p-4 rounded-2xl border border-primary-100/50">
+              <div className="flex flex-col">
+                <span className="font-heading font-extrabold text-xl text-primary-700">25,000+</span>
+                <span className="text-[10px] text-text-muted font-bold uppercase tracking-wide">Delivered</span>
               </div>
-              <Heading level={1} highlight="100% ORIGINAL" highlightVariant="gradient">
-                Get 100% ORIGINAL Plagiarism-free Assignment In Need Help within 48 Hours.
-              </Heading>
-              <Text variant="body" className="text-lg">
-                Struggling with unclear guidelines, essays, or complex case studies? Avail our expert PhD writers for your essay, term paper, or dissertation to lock in the top grade in your class. 100% satisfaction guaranteed with proper citation styles.
-              </Text>
-
-              {/* Guarantees Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-success shrink-0" />
-                  <span className="text-sm font-semibold text-text-heading">100% Plagiarism-free</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-success shrink-0" />
-                  <span className="text-sm font-semibold text-text-heading">Turnitin report included</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 text-success shrink-0" />
-                  <span className="text-sm font-semibold text-text-heading">Lock Top Grade</span>
-                </div>
+              <div className="flex flex-col">
+                <span className="font-heading font-extrabold text-xl text-primary-700">150+</span>
+                <span className="text-[10px] text-text-muted font-bold uppercase tracking-wide">PhD Experts</span>
               </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  icon={true}
-                  onClick={() => document.querySelector("#services")?.scrollIntoView({ behavior: "smooth" })}
-                >
-                  Explore Subjects
-                </Button>
-                <a
-                  href="tel:+442079460958"
-                  className="inline-flex items-center justify-center border-2 border-primary-100 rounded-btn px-7 py-3 text-lg font-heading font-semibold text-primary-700 bg-white hover:bg-primary-50 transition-all gap-2"
-                >
-                  <Phone className="w-5 h-5" />
-                  <span>Call +44 20 7946 0958</span>
-                </a>
+              <div className="flex flex-col">
+                <span className="font-heading font-extrabold text-xl text-primary-700">4.9/5</span>
+                <span className="text-[10px] text-text-muted font-bold uppercase tracking-wide">Rating</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-heading font-extrabold text-xl text-primary-700">98%</span>
+                <span className="text-[10px] text-text-muted font-bold uppercase tracking-wide">On-Time</span>
               </div>
             </div>
 
-            {/* Right Column: Interactive Pricing Calculator */}
-            <div className="lg:col-span-5" id="quote-form">
-              <Card className="p-6 md:p-8 bg-white border border-primary-100/50 shadow-xl">
-                <CardHeader className="mb-2">
-                  <Badge variant="soft-purple" className="self-start mb-1">Inquiry Form</Badge>
-                  <Heading level={3} className="text-xl">Calculate Price Instantly</Heading>
-                  <Text variant="small">Get matched with a PhD writer in minutes</Text>
-                </CardHeader>
-                <CardBody className="pt-2">
-                  {isSubmitted ? (
-                    <div className="text-center py-8 flex flex-col items-center justify-center gap-4">
-                      <div className="w-16 h-16 rounded-full bg-success/10 text-success flex items-center justify-center text-3xl font-bold mb-2">
-                        ✓
-                      </div>
-                      <Heading level={3} className="text-lg">Request Successfully Sent!</Heading>
-                      <Text variant="body" className="text-sm">
-                        An academic coordinator is reviewing your guidelines. We will send your writer profile and pricing details to your email within 15 minutes.
-                      </Text>
-                      <Button variant="outline" size="md" fullWidth={true} className="mt-4" onClick={resetForm}>
-                        Submit Another Inquiry
-                      </Button>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
-                      <Select
-                        label="Subject Area"
-                        options={[
-                          { label: "Business Marketing", value: "marketing" },
-                          { label: "Finance & Accounting", value: "finance" },
-                          { label: "Business Law Case Briefs", value: "law" },
-                          { label: "Nursing & Healthcare", value: "nursing" },
-                          { label: "Engineering Reports", value: "engineering" },
-                          { label: "Case Study Analysis", value: "case-studies" },
-                        ]}
-                        value={subject}
-                        onValueChange={(val) => setSubject(val)}
-                      />
-
-                      <div className="grid grid-cols-2 gap-4">
-                        <Select
-                          label="Deadline"
-                          options={[
-                            { label: "24 Hours (Express)", value: "24-hours" },
-                            { label: "48 Hours (Standard)", value: "48-hours" },
-                            { label: "3 Days (Eco)", value: "3-days" },
-                            { label: "7 Days (Eco)", value: "7-days" },
-                          ]}
-                          value={deadline}
-                          onValueChange={(val) => setDeadline(val)}
-                        />
-                        <Input
-                          label="Pages (250w/page)"
-                          type="number"
-                          min="1"
-                          max="100"
-                          value={pages}
-                          onChange={(e) => setPages(parseInt(e.target.value) || 1)}
-                        />
-                      </div>
-
-                      <Input
-                        label="Student Email Address"
-                        type="email"
-                        placeholder="e.g. name@university.edu"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                      />
-
-                      <TextArea
-                        label="Assignment Details (Optional)"
-                        placeholder="Specific guidelines, formatting requests, or instructions..."
-                        value={requirements}
-                        onChange={(e) => setRequirements(e.target.value)}
-                        rows={2}
-                      />
-
-                      {/* Estimated cost box */}
-                      <div className="flex items-center justify-between p-4 bg-surface-lavender border border-dashed border-primary-100 rounded-btn">
-                        <div className="flex flex-col">
-                          <span className="text-[10px] font-heading font-extrabold uppercase text-text-muted tracking-wider">Estimated Price</span>
-                          <span className="text-[11px] font-semibold text-success flex items-center gap-1">Plagiarism Report Included</span>
-                        </div>
-                        <div className="text-2xl font-heading font-black text-primary-700">
-                          ${calculatePrice()}
-                        </div>
-                      </div>
-
-                      <Button type="submit" variant="cta" fullWidth={true} isLoading={isSubmitting}>
-                        Secure Order Assistance
-                      </Button>
-                    </form>
-                  )}
-                </CardBody>
-              </Card>
+            <div className="flex flex-wrap gap-4 mt-2">
+              <a href="#quote-form">
+                <Button variant="primary" size="lg" className="shadow-lg">
+                  Get Free Quote Now
+                </Button>
+              </a>
+              <a href="#experts">
+                <Button variant="outline" size="lg">
+                  View Our Experts
+                </Button>
+              </a>
             </div>
           </div>
-        </SectionContainer>
 
-        {/* METRICS BANNER */}
-        <div className="bg-primary-900 border-y border-primary-950 py-6">
-          <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <StatBlock variant="dark" icon={<Users />} number="25,000+" label="Assignments Delivered" />
-            <StatBlock variant="dark" icon={<ShieldCheck />} number="100%" label="Plagiarism-free Turnitin" />
-            <StatBlock variant="dark" icon={<Clock />} number="4.9 / 5.0" label="Average Star Rating" />
+          {/* Hero Form Right */}
+          <div className="lg:col-span-5 w-full">
+            <QuoteForm variant="compact" title="Get Instant Quote" />
           </div>
         </div>
+      </section>
 
-        {/* SERVICES SECTION */}
-        <SectionContainer id="services" background="white">
-          <div className="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
-            <Badge variant="soft-purple" className="mb-3">Expert Writing Fields</Badge>
-            <Heading level={2} className="mb-4">Professional Help for Complex Assignment Tasks</Heading>
-            <Text variant="muted">
-              Our specialists cover all fields with proper referencing styles. availing expert case study writers for essays, dissertation plans, and term papers.
-            </Text>
-          </div>
+      {/* 2. University Logos */}
+      <UniversityLogos />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((serv) => (
-              <Card key={serv.id} className="p-6">
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <Badge variant="soft-purple">{serv.tag}</Badge>
-                    <div className="w-10 h-10 rounded-lg bg-primary-50 text-primary-700 flex items-center justify-center text-lg font-bold">
-                      📚
-                    </div>
-                  </div>
-                  <Heading level={3} className="text-lg mt-4 leading-tight">{serv.title}</Heading>
-                </CardHeader>
-                <CardBody className="pt-2">
-                  <Text variant="body" className="text-sm leading-relaxed">
-                    {serv.desc}
-                  </Text>
-                </CardBody>
-                <CardFooter className="pt-4 border-t border-slate-50 mt-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="p-0 text-primary-700 hover:bg-transparent hover:text-primary-500 font-bold"
-                    onClick={() => {
-                      setSubject(serv.id);
-                      document.querySelector("#quote-form")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                  >
-                    Select subject & quote →
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-        </SectionContainer>
-
-        {/* GUARANTEES / WHY CHOOSE US */}
-        <SectionContainer id="guarantees" background="lavender">
-          <div className="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
-            <Badge variant="soft-orange" className="mb-3">Guaranteed Satisfaction</Badge>
-            <Heading level={2} className="mb-4">Why UK Students Trust Assignment In Need</Heading>
-            <Text variant="muted">
-              We secure top grades in class by offering plagiarism-free reports and express 48 hours deliverability.
-            </Text>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card hoverEffect={false} className="bg-white border border-primary-100/30 p-8 text-center items-center">
-              <IconBadge color="green" size="lg" icon={<ShieldCheck />} />
-              <Heading level={3} className="text-xl mt-4">100% Plagiarism-Free</Heading>
-              <Text variant="body" className="mt-2 text-sm">
-                Every single file is custom-written. We provide a turnitin-verified original report with every final draft to guarantee zero copying.
-              </Text>
-            </Card>
-
-            <Card hoverEffect={false} className="bg-white border border-primary-100/30 p-8 text-center items-center">
-              <IconBadge color="orange" size="lg" icon={<Clock />} />
-              <Heading level={3} className="text-xl mt-4">Under 48 Hours Turnaround</Heading>
-              <Text variant="body" className="mt-2 text-sm">
-                Urgent homework? We specialise in express timeline support. We draft quality assignments in 48 hours or less, guaranteed.
-              </Text>
-            </Card>
-
-            <Card hoverEffect={false} className="bg-white border border-primary-100/30 p-8 text-center items-center">
-              <IconBadge color="purple" size="lg" icon={<Award />} />
-              <Heading level={3} className="text-xl mt-4">Lock the Top Grade</Heading>
-              <Text variant="body" className="mt-2 text-sm">
-                Our UK dissertation and essay writers reference every paper correctly (Harvard, APA, MLA), meeting strict rubric requirements.
-              </Text>
-            </Card>
-          </div>
-        </SectionContainer>
-
-        {/* PH.D. WRITERS GRID */}
-        <SectionContainer background="white">
-          <div className="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
-            <Badge variant="soft-purple" className="mb-3">Our UK PhD Experts</Badge>
-            <Heading level={2} className="mb-4">Match With Our Highest Rated Academic Writers</Heading>
-            <Text variant="muted">
-              Hire vetted UK professors and writers with stellar subject ratings.
+      {/* 3. Our Most Popular Services */}
+      <SectionContainer className="bg-surface-lavender">
+        <div className="flex flex-col gap-8">
+          <div className="text-center max-w-2xl mx-auto flex flex-col gap-2">
+            <Badge variant="soft-purple" className="w-fit mx-auto text-xs px-3 py-1 font-bold">Top Services</Badge>
+            <Heading level={2} className="text-3xl font-extrabold text-text-heading">
+              Our Most Popular Services
+            </Heading>
+            <Text className="text-text-muted text-sm md:text-base">
+              Explore professional writing solutions curated for undergraduate, graduate, and doctoral course parameters.
             </Text>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <ExpertCard
-              name="Dr. Sarah Jenkins"
-              role="PhD - Business Marketing"
-              ordersCount="1,240"
-              rating={5.0}
-              avatar="SJ"
-              onHire={() => document.querySelector("#quote-form")?.scrollIntoView({ behavior: "smooth" })}
-            />
-            <ExpertCard
-              name="Dr. Stephen Finch"
-              role="PhD - Business Law"
-              ordersCount="910"
-              rating={4.9}
-              avatar="SF"
-              onHire={() => document.querySelector("#quote-form")?.scrollIntoView({ behavior: "smooth" })}
-            />
-            <ExpertCard
-              name="Dr. Evelyn Patel"
-              role="PhD - Nursing & Medical"
-              ordersCount="1,350"
-              rating={4.9}
-              avatar="EP"
-              onHire={() => document.querySelector("#quote-form")?.scrollIntoView({ behavior: "smooth" })}
-            />
-            <ExpertCard
-              name="Dr. Marcus Bell"
-              role="PhD - Engineering Systems"
-              ordersCount="680"
-              rating={4.8}
-              avatar="MB"
-              onHire={() => document.querySelector("#quote-form")?.scrollIntoView({ behavior: "smooth" })}
-            />
+            {SERVICES.slice(0, 8).map((serv) => (
+              <ServiceCard
+                key={serv.slug}
+                title={serv.title}
+                description={serv.description}
+                price={serv.price}
+                orderCount={serv.orderCount}
+                image={serv.image}
+                slug={serv.slug}
+              />
+            ))}
           </div>
-        </SectionContainer>
+        </div>
+      </SectionContainer>
 
-        {/* TESTIMONIALS */}
-        <SectionContainer id="testimonials" background="lavender">
-          <div className="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
-            <Badge variant="soft-purple" className="mb-3">Student Reviews</Badge>
-            <Heading level={2} className="mb-4">Hear What Students Say About Our Support</Heading>
-            <Text variant="muted">
-              Over 15,000 students trust AIN to lock high scores in essays, exams, and term reports.
+      {/* 4. Explore Subjects */}
+      <SectionContainer className="bg-white">
+        <div className="flex flex-col gap-8">
+          <div className="flex items-end justify-between flex-wrap gap-4 border-b border-primary-50 pb-4">
+            <div className="flex flex-col gap-1 text-left">
+              <Badge variant="soft-purple" className="w-fit text-xs px-2.5 py-0.5 font-bold">Academic Fields</Badge>
+              <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
+                Explore Subjects
+              </Heading>
+              <Text className="text-text-muted text-xs md:text-sm">
+                Expert support available in 150+ academic fields and research modules.
+              </Text>
+            </div>
+            <a href="/samples" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors">
+              View All Subjects →
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {SUBJECTS.map((sub) => (
+              <SubjectCard
+                key={sub.slug}
+                name={sub.name}
+                iconName={sub.iconName}
+                orderCount={sub.orderCount}
+                letterBadge={sub.letterBadge}
+                letterColorClass={sub.letterColorClass}
+                slug={sub.slug}
+              />
+            ))}
+          </div>
+        </div>
+      </SectionContainer>
+
+      {/* 5. Why Choose AIN & Experts Carousel */}
+      <SectionContainer className="bg-surface-lavender" id="experts">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          {/* Left Column: Why Choose */}
+          <div className="lg:col-span-5 flex flex-col gap-6 text-left">
+            <Badge variant="soft-purple" className="w-fit text-xs px-3 py-1 font-bold">Why Assignment In Need</Badge>
+            <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading leading-tight">
+              Why Students Trust Us With Their Grades
+            </Heading>
+            <Text className="text-text-muted text-sm">
+              We focus on absolute quality, integrity, and strict adherence to marking instructions.
+            </Text>
+
+            <ul className="flex flex-col gap-3.5 mt-2">
+              {[
+                "UK-Based Native Subject Scholars",
+                "100% Original Content (Zero AI, Turnitin Verified)",
+                "Precise Citations (APA, Harvard, MLA, OSCOLA)",
+                "Continuous Revisions & Draft Feedback Loops",
+                "On-Time Priority Delivery Guaranteed",
+                "100% Secure & Under strict confidentiality guidelines",
+              ].map((bullet) => (
+                <li key={bullet} className="flex items-start gap-2.5 text-sm font-medium text-text-body">
+                  <CheckCircle2 className="w-5 h-5 text-success shrink-0 mt-0.5" />
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
+
+            {/* Trustpilot Placeholder */}
+            <div className="mt-4 p-4 rounded-xl border border-success/20 bg-success/5 flex items-center gap-3">
+              <span className="text-2xl">🟢</span>
+              <div>
+                <p className="text-sm font-extrabold text-text-heading">Trustpilot Verified</p>
+                <p className="text-xs text-text-muted font-semibold">Rated 4.9/5 stars based on 25,000+ UK reviews</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Experts */}
+          <div className="lg:col-span-7 flex flex-col gap-6 text-left">
+            <div className="flex items-center justify-between border-b border-primary-100 pb-3">
+              <div>
+                <Heading level={3} className="text-lg md:text-xl font-bold text-text-heading">
+                  Meet Our Academic Experts
+                </Heading>
+                <p className="text-xs text-text-muted mt-0.5">PhD & Master&apos;s qualified UK academic writing experts.</p>
+              </div>
+              <Link href="/writers" className="text-xs font-bold text-primary-700 hover:text-primary-600 transition-colors">
+                View All Experts →
+              </Link>
+            </div>
+
+            <ExpertCarousel experts={WRITERS} />
+          </div>
+        </div>
+      </SectionContainer>
+
+      {/* 6. How It Works */}
+      <SectionContainer className="bg-white">
+        <ProcessSteps
+          steps={steps}
+          title="How It Works — Simple & Transparent"
+          subtitle="Follow our straightforward project timeline steps from submission to top grades."
+        />
+      </SectionContainer>
+
+      {/* 7. Real Results. Real Success. */}
+      <SectionContainer className="bg-surface-lavender">
+        <div className="flex flex-col gap-8">
+          <div className="text-center max-w-2xl mx-auto flex flex-col gap-2">
+            <Badge variant="soft-purple" className="w-fit mx-auto text-xs px-3 py-1 font-bold">Grade Improvements</Badge>
+            <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
+              Real Results. Real Success.
+            </Heading>
+            <Text className="text-text-muted text-sm">
+              See the direct before-and-after academic grade enhancements achieved by our student clients.
             </Text>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <TestimonialCard
-              name="Alice W."
-              institution="University of Edinburgh"
-              quote="I was extremely stressed about my Business Marketing case study report. AIN delivered a thoroughly cited paper in 36 hours. Scored a solid A!"
-              rating={5}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <ResultCard
+              beforeScore={68}
+              afterScore={82}
+              title="FTSE 100 Strategic Corporate Governance Report"
+              studentName="James T."
+              institution="University of Manchester"
             />
-            <TestimonialCard
-              name="Michael T."
+            <ResultCard
+              beforeScore={64}
+              afterScore={78}
+              title="PICOT Framework Evaluation transitional nursing protocols"
+              studentName="Olivia D."
               institution="King's College London"
-              quote="Incredible support for Nursing PICOT research. The evidence-based analysis was extremely precise, and referencing formatting was 100% correct."
-              rating={5}
-              featured={true}
             />
-            <TestimonialCard
-              name="Lewis H."
-              institution="University of Leeds"
-              quote="Engineering technical reports require deep details and layout structure. The PhD writer matched my lab guidelines perfectly. Absolute lifesavers!"
-              rating={5}
+            <ResultCard
+              beforeScore={59}
+              afterScore={74}
+              title="Constitutional Reform Statutory Law Essay"
+              studentName="William K."
+              institution="University of Birmingham"
             />
           </div>
-        </SectionContainer>
+          
+          <a href="/about" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors text-center mt-2">
+            View More Success Stories →
+          </a>
+        </div>
+      </SectionContainer>
 
-        {/* FAQs SECTION */}
-        <SectionContainer id="faqs" background="white">
-          <div className="max-w-3xl mx-auto flex flex-col items-center">
-            <div className="text-center mb-12">
-              <Badge variant="soft-purple">Answers & Help</Badge>
-              <Heading level={2} className="mt-2">Answers to Common Questions</Heading>
+      {/* 8. Academic Tools & Resources */}
+      <SectionContainer className="bg-white">
+        <div className="flex flex-col gap-8">
+          <div className="text-center max-w-2xl mx-auto flex flex-col gap-2">
+            <Badge variant="soft-purple" className="w-fit mx-auto text-xs px-3 py-1 font-bold">Free Tools</Badge>
+            <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
+              Academic Tools & Resources
+            </Heading>
+            <Text className="text-text-muted text-sm">
+              Free-to-use digital assistants designed to support citation layouts, document planning, and vocabulary checks.
+            </Text>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <ToolCard
+              iconName="Calculator"
+              title="Grade Calculator"
+              description="Calculate weights of current modules to plan targets for distinction levels."
+            />
+            <ToolCard
+              iconName="FileText"
+              title="Reference Generator"
+              description="Instantly format entries for Harvard, APA, MLA, or OSCOLA legal citations."
+            />
+            <ToolCard
+              iconName="ShieldCheck"
+              title="Plagiarism Checker"
+              description="Ensure unique language patterns prior to submitting to university portals."
+            />
+            <ToolCard
+              iconName="Binary"
+              title="Word Counter"
+              description="Convert page layouts to word count matrices and target guidelines."
+            />
+          </div>
+          
+          <a href="/samples" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors text-center mt-2">
+            Explore All Tools →
+          </a>
+        </div>
+      </SectionContainer>
+
+      {/* 9. Promo Banner */}
+      <SectionContainer className="bg-white py-0 md:py-0">
+        <PromoBanner
+          layoutVariant="gift"
+          backgroundVariant="promo"
+          title="GET UP TO 30% OFF ON YOUR FIRST ORDER"
+          description="Use code AIN30 during checkout or mention it to your expert writer to activate your discount package today."
+          couponCode="AIN30"
+          badgeItems={freeBadges}
+        />
+      </SectionContainer>
+
+      {/* 10. Samples Carousel */}
+      <SectionContainer className="bg-surface-lavender">
+        <div className="flex flex-col gap-8">
+          <div className="flex items-end justify-between flex-wrap gap-4 border-b border-primary-100 pb-3">
+            <div className="flex flex-col gap-1 text-left">
+              <Badge variant="soft-purple" className="w-fit text-xs px-2.5 py-0.5 font-bold">Research Papers</Badge>
+              <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
+                Assignment Samples
+              </Heading>
+              <Text className="text-text-muted text-xs md:text-sm">
+                Inspect past high-scoring model answers compiled by our Ph.D specialists.
+              </Text>
             </div>
-            <Card hoverEffect={false} className="p-6 md:p-8 w-full border border-slate-100">
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="faq-1">
-                  <AccordionTrigger>Is my assignment guaranteed to be original?</AccordionTrigger>
-                  <AccordionContent>
-                    Yes, 100%. All papers are created strictly from scratch according to your custom guidelines. We provide a turnitin-verified plagiarism report alongside the final document to assure complete originality.
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="faq-2">
-                  <AccordionTrigger>How fast can you deliver my nursing care plan case study?</AccordionTrigger>
-                  <AccordionContent>
-                    Our express writing timeline can deliver complete custom assignments in under 24 hours. Normal standard turnaround is 48 hours. Our expert network is active 24/7 to handle urgent orders.
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="faq-3">
-                  <AccordionTrigger>Can I get revisions if my professor requests edits?</AccordionTrigger>
-                  <AccordionContent>
-                    Yes! We offer free revisions within 14 days of order delivery. If your professor needs formatting edits, citation changes, or expanded explanations, simply submit a request and your writer will edit it.
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </Card>
+            <a href="/samples" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors">
+              View All Samples →
+            </a>
           </div>
-        </SectionContainer>
 
-        {/* PROMO BANNER SECTION */}
-        <SectionContainer background="lavender">
-          <PromoBanner
-            title="Lock the Top Grade in Class With 30% OFF Your First Order!"
-            description="Avail premium assignment help, essays, and term papers from expert UK PhD writers. Get free Turnitin reports and formatting styles."
-            badgeItems={promoBadges}
-            ctaLabel="Get Discount Price Now"
-            onCtaClick={() => document.querySelector("#quote-form")?.scrollIntoView({ behavior: "smooth" })}
-          />
-        </SectionContainer>
-      </main>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {SAMPLES.slice(0, 3).map((sample, idx) => (
+              <SampleCard
+                key={idx}
+                title={sample.title}
+                subject={sample.subject}
+                image={sample.image}
+                href={sample.href}
+              />
+            ))}
+          </div>
+        </div>
+      </SectionContainer>
 
-      <Footer />
+      {/* 11. What Students Say */}
+      <SectionContainer className="bg-white">
+        <div className="flex flex-col gap-8">
+          <div className="text-center max-w-2xl mx-auto flex flex-col gap-2">
+            <Badge variant="soft-purple" className="w-fit mx-auto text-xs px-3 py-1 font-bold">Student Stories</Badge>
+            <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
+              What Students Say About Us
+            </Heading>
+            <Text className="text-text-muted text-sm">
+              Read real verified logs from international scholars whom we have helped hit target grades.
+            </Text>
+          </div>
+
+          <TestimonialCarousel testimonials={TESTIMONIALS} />
+        </div>
+      </SectionContainer>
+
+      {/* 12. FAQ Section */}
+      <SectionContainer className="bg-surface-lavender">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="lg:col-span-5 flex flex-col gap-4 text-left">
+            <Badge variant="soft-purple" className="w-fit text-xs px-3 py-1 font-bold">Help Desk</Badge>
+            <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading leading-tight">
+              Frequently Asked Questions
+            </Heading>
+            <Text className="text-text-muted text-sm">
+              If you have any doubts regarding our referencing guides, revisions, or secure payment portals, explore options here.
+            </Text>
+            <a href="/contact" className="inline-flex items-center gap-1.5 text-sm font-bold text-primary-700 hover:underline mt-2">
+              Still have questions? Contact Us
+            </a>
+          </div>
+
+          <div className="lg:col-span-7">
+            <Accordion type="single" collapsible className="w-full flex flex-col gap-3">
+              {FAQS.map((faq, idx) => (
+                <AccordionItem key={idx} value={`item-${idx}`} className="bg-white rounded-xl border border-primary-100/50 overflow-hidden shadow-sm">
+                  <AccordionTrigger className="px-5 py-4 hover:bg-primary-50/20 font-heading font-bold text-sm sm:text-base text-text-heading text-left hover:no-underline">
+                    <span className="flex items-center gap-3">
+                      <HelpCircle className="w-5 h-5 text-primary-500 shrink-0" />
+                      {faq.question}
+                    </span>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-5 pb-4 pt-1 text-sm leading-relaxed text-text-body">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
+      </SectionContainer>
+
+      {/* 13. Bottom Stats Strip */}
+      <StatsStrip />
     </div>
   );
 }
