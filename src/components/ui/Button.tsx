@@ -8,8 +8,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "btn-shutter-primary text-white shadow-md shadow-primary-700/10 hover:shadow-lg hover:shadow-primary-700/20",
-        cta: "btn-shutter-secondary text-white shadow-md shadow-accent-600/10 hover:shadow-lg hover:shadow-accent-600/20",
+        primary: "btn-shutter-primary shadow-md shadow-primary-700/10 hover:shadow-lg hover:shadow-primary-700/20",
+        cta: "btn-shutter-secondary shadow-md shadow-accent-600/10 hover:shadow-lg hover:shadow-accent-600/20",
         outline: "bg-white border border-primary-700 text-primary-700 hover:bg-primary-50",
         ghost: "text-primary-700 hover:bg-primary-50",
         gradient: "bg-gradient-primary text-white hover:opacity-95 shadow-md shadow-primary-900/10 hover:shadow-lg hover:shadow-primary-900/20",
