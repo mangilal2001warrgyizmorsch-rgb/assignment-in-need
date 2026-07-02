@@ -3,6 +3,7 @@
 import React from "react";
 import * as Icons from "lucide-react";
 import { Card } from "./Card";
+import { Heading } from "./Heading";
 import { cn } from "@/lib/utils";
 
 interface ToolCardProps {
@@ -36,15 +37,15 @@ export const ToolCard: React.FC<ToolCardProps> = ({
       </div>
 
       <div className="flex flex-col gap-2">
-        <h4 className="font-heading font-bold text-base text-text-heading group-hover/card:text-primary-700 transition-colors">
+        <Heading level={4} className="text-base group-hover/card:text-primary-700 transition-colors">
           {title}
-        </h4>
+        </Heading>
         <p className="text-sm text-text-body leading-relaxed">
           {description}
         </p>
       </div>
 
-      <div className="mt-2 flex items-center gap-1 text-xs font-bold text-primary-700 group-hover/card:translate-x-1 transition-transform duration-200 w-fit">
+      <div className="mt-2 flex items-center gap-1 text-xs font-bold text-primary-700 group-hover/card:text-accent-600 group-hover/card:translate-x-1 w-fit link-slide-hover">
         <span>Use Tool</span>
         <Icons.ArrowRight className="w-3.5 h-3.5" />
       </div>

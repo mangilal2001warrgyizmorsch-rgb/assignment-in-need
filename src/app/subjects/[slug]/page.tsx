@@ -144,12 +144,12 @@ export default function SubjectLanding() {
                   <Award className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <h4 className="font-heading font-bold text-sm sm:text-base text-text-heading">
+                  <Heading level={4} className="text-sm sm:text-base">
                     {item.title}
-                  </h4>
-                  <p className="text-xs text-text-body leading-relaxed">
+                  </Heading>
+                  <Text className="text-xs text-text-body leading-relaxed">
                     {item.desc}
-                  </p>
+                  </Text>
                 </div>
               </div>
             ))}
@@ -170,7 +170,7 @@ export default function SubjectLanding() {
                 Learn from the best. Our experts are here to help you achieve top grades.
               </Text>
             </div>
-            <Link href="/writers" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors">
+            <Link href="/writers" className="text-sm font-bold text-primary-700 link-slide-hover">
               View All Experts →
             </Link>
           </div>
@@ -260,8 +260,8 @@ export default function SubjectLanding() {
                   <ShieldCheck className="w-4.5 h-4.5" />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <h4 className="font-heading font-bold text-sm sm:text-base text-text-heading">{b.title}</h4>
-                  <p className="text-xs text-text-body leading-relaxed">{b.desc}</p>
+                  <Heading level={4} className="text-sm sm:text-base">{b.title}</Heading>
+                  <Text className="text-xs text-text-body leading-relaxed">{b.desc}</Text>
                 </div>
               </div>
             ))}
@@ -273,16 +273,18 @@ export default function SubjectLanding() {
       <section className="bg-navy-900 py-10 text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10 text-left">
           <div className="flex flex-col gap-1.5 max-w-xl">
-            <h3 className="font-heading font-extrabold text-xl md:text-2xl text-white">
+            <Heading level={3} className="text-xl md:text-2xl text-white">
               Struggling With Your {subject.name} Coursework?
-            </h3>
-            <p className="text-xs md:text-sm text-primary-200/80">
+            </Heading>
+            <Text className="text-xs md:text-sm text-primary-200/80">
               Get direct tutoring support from qualified chartered specialists to unlock your target distinction grade.
-            </p>
+            </Text>
           </div>
-          <a href="/pricing" className="bg-accent-600 hover:bg-accent-500 text-white font-heading font-bold px-6 py-3 rounded-lg shadow-md transition-colors shrink-0 text-sm">
-            Get Free Quote Now →
-          </a>
+          <Link href="/pricing" className="shrink-0">
+            <Button variant="cta" size="md">
+              Get Free Quote Now →
+            </Button>
+          </Link>
         </div>
       </section>
 

@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Card, CardHeader, CardBody, CardFooter } from "./Card";
 import { Button } from "./Button";
+import { Heading } from "./Heading";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -48,9 +49,9 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
 
       <div className="p-5 flex flex-col flex-1 gap-3">
         <CardHeader className="p-0">
-          <h3 className="font-heading font-extrabold text-base md:text-lg text-text-heading group-hover/card:text-primary-700 transition-colors line-clamp-1">
+          <Heading level={3} className="text-base md:text-lg group-hover/card:text-primary-700 transition-colors line-clamp-2">
             {title}
-          </h3>
+          </Heading>
         </CardHeader>
 
         <CardBody className="p-0 text-sm line-clamp-3 text-text-body">
@@ -66,7 +67,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             <Button
               variant="ghost"
               size="sm"
-              className="px-2 py-1 text-xs font-bold gap-1 text-primary-700 hover:bg-primary-50"
+              className="px-2 py-1 text-xs font-bold gap-1 text-primary-700 hover:text-accent-600 hover:bg-transparent group-hover/card:text-accent-600 bg-transparent link-slide-hover"
               icon={<ArrowRight className="w-3.5 h-3.5 text-current transition-transform duration-200 group-hover/card:translate-x-1" />}
             >
               Order Now

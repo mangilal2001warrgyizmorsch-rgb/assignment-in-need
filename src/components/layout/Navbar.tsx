@@ -74,16 +74,17 @@ export const Navbar = () => {
           
           {/* Services Dropdown */}
           <div className="relative group py-2">
-            <button className="flex items-center gap-1 text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors group-hover:text-[#5B21B6]">
+            <button className="relative pb-1 flex items-center gap-1 text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors group-hover:text-[#5B21B6]">
               Services
               <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-250" />
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#5B21B6] group-hover:w-full transition-all duration-300" />
             </button>
-            <div className="absolute top-full left-0 mt-1 w-64 bg-white border border-primary-100 rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 p-2 flex flex-col gap-0.5 z-50">
+            <div className="absolute top-full left-0 mt-1 w-64 bg-white border border-primary-100 rounded-xl shadow-lg opacity-0 scale-95 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-250 ease-out origin-top-left p-2 flex flex-col gap-0.5 z-50">
               {SERVICES.map((s) => (
                 <Link
                   key={s.slug}
                   href={`/services/${s.slug}`}
-                  className="text-xs font-semibold text-text-body hover:text-primary-700 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                  className="text-xs font-semibold text-text-body hover:text-primary-700 hover:bg-primary-50 px-3 py-2 rounded-lg transition-all duration-200 transform translate-x-0 hover:translate-x-1"
                 >
                   {s.name}
                 </Link>
@@ -93,16 +94,17 @@ export const Navbar = () => {
 
           {/* Subjects Dropdown */}
           <div className="relative group py-2">
-            <button className="flex items-center gap-1 text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors group-hover:text-[#5B21B6]">
+            <button className="relative pb-1 flex items-center gap-1 text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors group-hover:text-[#5B21B6]">
               Subjects
               <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-250" />
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#5B21B6] group-hover:w-full transition-all duration-300" />
             </button>
-            <div className="absolute top-full left-0 mt-1 w-60 bg-white border border-primary-100 rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 p-2 flex flex-col gap-0.5 z-50">
+            <div className="absolute top-full left-0 mt-1 w-60 bg-white border border-primary-100 rounded-xl shadow-lg opacity-0 scale-95 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-250 ease-out origin-top-left p-2 flex flex-col gap-0.5 z-50">
               {SUBJECTS.map((sub) => (
                 <Link
                   key={sub.slug}
                   href={`/subjects/${sub.slug}`}
-                  className="text-xs font-semibold text-text-body hover:text-primary-700 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                  className="text-xs font-semibold text-text-body hover:text-primary-700 hover:bg-primary-50 px-3 py-2 rounded-lg transition-all duration-200 transform translate-x-0 hover:translate-x-1"
                 >
                   {sub.name} Assignment Help
                 </Link>
@@ -110,26 +112,29 @@ export const Navbar = () => {
             </div>
           </div>
 
-          <Link href="/writers" className="text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors">
+          <Link href="/writers" className="relative pb-1 text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors group/link">
             Experts
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#5B21B6] group-hover/link:w-full transition-all duration-300" />
           </Link>
 
-          <Link href="/samples" className="text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors">
+          <Link href="/samples" className="relative pb-1 text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors group/link">
             Samples
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#5B21B6] group-hover/link:w-full transition-all duration-300" />
           </Link>
 
           {/* Resources Dropdown */}
           <div className="relative group py-2">
-            <button className="flex items-center gap-1 text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors group-hover:text-[#5B21B6]">
+            <button className="relative pb-1 flex items-center gap-1 text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors group-hover:text-[#5B21B6]">
               Resources
               <ChevronDown className="w-3.5 h-3.5 opacity-70 group-hover:rotate-180 transition-transform duration-250" />
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#5B21B6] group-hover:w-full transition-all duration-300" />
             </button>
-            <div className="absolute top-full left-0 mt-1 w-56 bg-white border border-primary-100 rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 p-2 flex flex-col gap-0.5 z-50">
+            <div className="absolute top-full left-0 mt-1 w-56 bg-white border border-primary-100 rounded-xl shadow-lg opacity-0 scale-95 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-250 ease-out origin-top-left p-2 flex flex-col gap-0.5 z-50">
               {RESOURCES.map((res, index) => (
                 <Link
                   key={index}
                   href={`/${res.slug}`}
-                  className="text-xs font-semibold text-text-body hover:text-primary-700 hover:bg-primary-50 px-3 py-2 rounded-lg transition-colors"
+                  className="text-xs font-semibold text-text-body hover:text-primary-700 hover:bg-primary-50 px-3 py-2 rounded-lg transition-all duration-200 transform translate-x-0 hover:translate-x-1"
                 >
                   {res.name}
                 </Link>
@@ -137,12 +142,14 @@ export const Navbar = () => {
             </div>
           </div>
 
-          <Link href="/about" className="text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors">
+          <Link href="/about" className="relative pb-1 text-sm font-bold text-text-muted hover:text-[#5B21B6] transition-colors group/link">
             About Us
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#5B21B6] group-hover/link:w-full transition-all duration-300" />
           </Link>
 
-          <Link href="/contact" className="text-sm font-bold text-[#5B21B6] hover:text-[#4C1D95] transition-colors">
+          <Link href="/contact" className="relative pb-1 text-sm font-bold text-[#5B21B6] hover:text-[#4C1D95] transition-colors group/link">
             Contact
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#4C1D95] group-hover/link:w-full transition-all duration-300" />
           </Link>
         </nav>
 
@@ -160,9 +167,9 @@ export const Navbar = () => {
               <span className="text-[10px] text-text-muted font-bold tracking-wide leading-none mt-0.5">24/7 Support</span>
             </div>
           </a>
-          <Link href="/pricing">
-            <Button variant="primary" size="sm" className="px-5 py-2.5">
-              Get Free Quote
+          <Link href="/order">
+            <Button variant="primary" size="sm" className="px-5 py-2.5 bg-primary-700 hover:bg-primary-650 text-white font-heading font-semibold border-none">
+              Order Now
             </Button>
           </Link>
         </div>
@@ -284,9 +291,9 @@ export const Navbar = () => {
             </div>
           </a>
 
-          <Link href="/pricing" onClick={() => setIsOpen(false)}>
-            <Button variant="primary" size="md" fullWidth>
-              Get Free Quote
+          <Link href="/order" onClick={() => setIsOpen(false)}>
+            <Button variant="primary" size="md" fullWidth className="bg-primary-700 hover:bg-primary-650 text-white font-heading font-semibold border-none">
+              Order Now
             </Button>
           </Link>
         </div>

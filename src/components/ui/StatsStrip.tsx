@@ -1,6 +1,10 @@
 import React from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Trophy, Users, Star, GraduationCap } from "lucide-react";
+import { Heading } from "./Heading";
+import { Text } from "./Text";
+import { Button } from "./Button";
 
 interface StatsStripProps {
   className?: string;
@@ -38,21 +42,24 @@ export const StatsStrip: React.FC<StatsStripProps> = ({
         )}>
           {showCta && (
             <div className="flex flex-col gap-3 lg:max-w-md">
-              <h3 className="font-heading font-bold text-xl md:text-2xl text-white leading-tight">
+              <Heading level={3} className="text-white leading-tight">
                 {ctaText}
-              </h3>
-              <p className="text-primary-100/70 text-sm leading-relaxed">
+              </Heading>
+              <Text className="text-primary-100/70 text-sm leading-relaxed">
                 {ctaDescription}
-              </p>
-              <a
-                href="/pricing"
-                className="inline-flex items-center gap-2 mt-2 px-6 py-3 bg-accent-600 hover:bg-accent-500 text-white font-heading font-semibold rounded-btn transition-colors w-fit text-sm shadow-md"
-              >
-                Get Free Quote Now
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </a>
+              </Text>
+              <Link href="/pricing" className="mt-2 w-fit">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="bg-accent-600 hover:bg-accent-500 text-white font-heading font-semibold rounded-btn transition-colors shadow-md border-none flex items-center gap-2"
+                >
+                  Get Free Quote Now
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Button>
+              </Link>
             </div>
           )}
 

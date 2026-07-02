@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Card, CardHeader, CardBody, CardFooter } from "./Card";
 import { Button } from "./Button";
 import { Badge } from "./Badge";
+import { Heading } from "./Heading";
 
 export interface ExpertCardProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
@@ -57,9 +58,9 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
           </div>
 
           <div className="flex flex-col gap-1">
-            <h3 className="font-heading font-extrabold text-base md:text-lg text-text-heading leading-tight">
+            <Heading level={3} className="text-base md:text-lg leading-tight">
               {name}
-            </h3>
+            </Heading>
             <span className="text-xs font-bold text-accent-600">
               {role}
             </span>
@@ -76,7 +77,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
           {qualifications && (
             <div className="flex items-center gap-2 text-xs text-text-body font-medium">
               <GraduationCap className="w-3.5 h-3.5 text-primary-500 shrink-0" />
-              <span className="truncate">{qualifications}</span>
+              <span>{qualifications}</span>
             </div>
           )}
           <div className="flex items-center gap-2 text-xs text-text-muted">
@@ -115,7 +116,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
           </div>
 
           <div className="flex flex-col gap-1 min-w-0">
-            <h3 className="font-heading font-bold text-base md:text-lg text-text-heading leading-tight truncate">{name}</h3>
+            <Heading level={3} className="text-base md:text-lg leading-tight truncate">{name}</Heading>
             <Badge variant="soft-purple" className="text-[10px] py-0.5 px-2 w-fit">{role}</Badge>
             <div className="flex items-center gap-1.5 mt-0.5">
               <div className="flex items-center gap-0.5 text-warning shrink-0">
@@ -142,7 +143,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
               <span className="text-[10px] text-text-muted font-extrabold uppercase tracking-wider">Qualifications</span>
               <p className="text-xs text-text-heading font-bold flex items-center gap-1.5">
                 <Award className="w-4 h-4 text-primary-500 shrink-0" />
-                <span className="truncate">{qualifications}</span>
+                <span>{qualifications}</span>
               </p>
             </div>
           )}
@@ -173,7 +174,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
         </div>
 
         <div className="flex flex-col items-center mt-2 gap-1">
-          <h3 className="font-heading font-bold text-lg text-text-heading leading-tight">{name}</h3>
+          <Heading level={3} className="text-lg leading-tight">{name}</Heading>
           <Badge variant="soft-purple" className="text-[10px] py-0.5 px-2">{role}</Badge>
         </div>
       </CardHeader>

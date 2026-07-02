@@ -168,7 +168,7 @@ export default function AboutPage() {
       {/* 3. Numbers Speak Inline Stats strip */}
       <SectionContainer className="bg-white py-0 md:py-0">
         <div className="bg-gradient-to-br from-primary-800 to-indigo-900 rounded-card p-8 text-white text-center shadow-lg relative overflow-hidden flex flex-col gap-4">
-          <h3 className="font-heading font-extrabold text-lg text-white">Numbers Speak of Our Success Story</h3>
+          <Heading level={3} className="text-lg text-white">Numbers Speak of Our Success Story</Heading>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-2">
             {[
               { val: "182,532+", lbl: "Orders Delivered" },
@@ -242,8 +242,8 @@ export default function AboutPage() {
                   {item.icon}
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <h4 className="font-heading font-bold text-sm sm:text-base text-text-heading">{item.title}</h4>
-                  <p className="text-xs text-text-body leading-relaxed">{item.desc}</p>
+                  <Heading level={4} className="text-sm sm:text-base">{item.title}</Heading>
+                  <Text className="text-xs text-text-body leading-relaxed">{item.desc}</Text>
                 </div>
               </div>
             ))}
@@ -290,7 +290,7 @@ export default function AboutPage() {
                 Meet Our Academic Experts
               </Heading>
             </div>
-            <Link href="/writers" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors">
+            <Link href="/writers" className="text-sm font-bold text-primary-700 link-slide-hover">
               View All Experts →
             </Link>
           </div>
@@ -319,11 +319,13 @@ export default function AboutPage() {
       {/* Bottom CTA strip */}
       <section className="bg-navy-900 py-10 text-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-left">
-          <h3 className="font-heading font-extrabold text-xl md:text-2xl text-white">
+          <Heading level={3} className="text-xl md:text-2xl text-white">
             Need Expert Academic Support?
-          </h3>
-          <Link href="/pricing" className="bg-accent-600 hover:bg-accent-500 text-white font-heading font-bold px-6 py-3 rounded-lg shadow-md transition-colors shrink-0 text-sm">
-            Get Free Quote Now →
+          </Heading>
+          <Link href="/pricing" className="shrink-0">
+            <Button variant="cta" size="md">
+              Get Free Quote Now →
+            </Button>
           </Link>
         </div>
       </section>

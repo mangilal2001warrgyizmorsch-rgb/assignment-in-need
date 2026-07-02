@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Select } from "./Select";
 import { Input, TextArea } from "./Input";
 import { Button } from "./Button";
+import { Heading } from "./Heading";
 import { CheckCircle2 } from "lucide-react";
 
 export interface QuoteFormProps {
@@ -126,7 +127,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         <div className="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center text-success mb-2 animate-bounce">
           <CheckCircle2 className="w-10 h-10" />
         </div>
-        <h3 className="font-heading font-extrabold text-2xl text-text-heading">Quote Request Sent!</h3>
+        <Heading level={3} className="text-2xl">Quote Request Sent!</Heading>
         <p className="text-text-body text-sm max-w-sm">
           We have received your requirements. One of our expert academic writers will contact you shortly at <span className="font-semibold text-primary-700">{email}</span> with a custom quote.
         </p>
@@ -143,6 +144,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             setWordCount("");
             setEmail("");
             setRequirements("");
+            setErrors({});
           }}
         >
           Request Another Quote
@@ -154,10 +156,10 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
   return (
     <div className={cn("bg-white rounded-card shadow-card border border-primary-100/50 p-6 md:p-8 flex flex-col gap-6", className)} id="quote-form">
       <div>
-        <h3 className="font-heading font-extrabold text-xl md:text-2xl text-text-heading leading-tight flex items-center gap-1.5">
+        <Heading level={3} className="text-xl md:text-2xl leading-tight flex items-center gap-1.5">
           {title}
           <span className="inline-block w-1.5 h-1.5 rounded-full bg-accent-600 animate-ping" />
-        </h3>
+        </Heading>
         <div className="w-12 h-1 bg-gradient-logo rounded-full mt-2" />
       </div>
 

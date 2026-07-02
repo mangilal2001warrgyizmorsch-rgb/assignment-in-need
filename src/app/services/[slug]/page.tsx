@@ -151,7 +151,7 @@ export default function ServiceLanding() {
                 Connect directly with writers holding terminal degrees in your specific discipline.
               </Text>
             </div>
-            <Link href="/writers" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors">
+            <Link href="/writers" className="text-sm font-bold text-primary-700 link-slide-hover">
               View All Writers →
             </Link>
           </div>
@@ -204,8 +204,8 @@ export default function ServiceLanding() {
                   <ShieldCheck className="w-4.5 h-4.5" />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <h4 className="font-heading font-bold text-sm sm:text-base text-text-heading">{item.title}</h4>
-                  <p className="text-xs text-text-body leading-relaxed">{item.desc}</p>
+                  <Heading level={4} className="text-sm sm:text-base">{item.title}</Heading>
+                  <Text className="text-xs text-text-body leading-relaxed">{item.desc}</Text>
                 </div>
               </div>
             ))}
@@ -289,7 +289,7 @@ export default function ServiceLanding() {
             Guaranteed Academic Support Under Strict Quality Frameworks
           </Heading>
           
-          <div className={cn("flex flex-col gap-3 text-sm text-text-body leading-relaxed transition-all duration-300 overflow-hidden", !seoExpanded && "max-h-[140px] relative")}>
+          <div className={cn("block text-sm text-text-body leading-relaxed transition-all duration-300 overflow-hidden space-y-3", !seoExpanded && "max-h-[140px] relative")}>
             <p>
               When ordering our professional academic services, you connect with native British tutors holding accredited graduate degrees from leading institutions. We parse complex assignment criteria, gather scholarly evidence from peer-reviewed databases, and design standard analytical structures.
             </p>

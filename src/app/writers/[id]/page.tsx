@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { StatsStrip } from "@/components/ui/StatsStrip";
@@ -24,6 +24,7 @@ import {
 
 export default function WriterProfile() {
   const params = useParams();
+  const router = useRouter();
   const id = params?.id as string;
   const writer = WRITERS.find((w) => w.id === id) || WRITERS[0]; // fallback to first expert
 
@@ -144,7 +145,7 @@ export default function WriterProfile() {
                 About {writer.name}
               </span>
               
-              <div className={cn("flex flex-col gap-3 text-sm text-text-body leading-relaxed transition-all duration-300 overflow-hidden", !isExpanded && "max-h-[140px] relative")}>
+              <div className={cn("block text-sm text-text-body leading-relaxed transition-all duration-300 overflow-hidden space-y-3", !isExpanded && "max-h-[140px] relative")}>
                 {writer.about.map((p, idx) => (
                   <p key={idx}>{p}</p>
                 ))}
@@ -172,7 +173,7 @@ export default function WriterProfile() {
                     <Award className="w-5 h-5 text-accent-500 shrink-0 mt-0.5" />
                     <div className="flex flex-col min-w-0">
                       <span className="text-[10px] text-text-muted font-extrabold uppercase tracking-wide">{cred.label}</span>
-                      <span className="text-xs text-text-heading font-bold mt-0.5 truncate">{cred.value}</span>
+                      <span className="text-xs text-text-heading font-bold mt-0.5 break-words">{cred.value}</span>
                     </div>
                   </div>
                 ))}
@@ -185,9 +186,9 @@ export default function WriterProfile() {
             
             {/* Why Choose Card */}
             <Card className="p-6 border-t-4 border-t-primary-700 shadow-md">
-              <h4 className="font-heading font-extrabold text-base text-text-heading border-b border-primary-50 pb-3 text-left">
+              <Heading level={4} className="text-base border-b border-primary-50 pb-3 text-left">
                 Why Choose {writer.name.split(" ")[1]}?
-              </h4>
+              </Heading>
               <ul className="flex flex-col gap-3 py-4 text-left">
                 {[
                   "Qualified & Experienced Writers",
@@ -208,7 +209,7 @@ export default function WriterProfile() {
                 size="md"
                 fullWidth
                 onClick={() => {
-                  window.location.href = "/pricing";
+                  router.push("/pricing");
                 }}
               >
                 Hire {writer.name.split(" ")[1]} Now
@@ -222,9 +223,9 @@ export default function WriterProfile() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex flex-col">
                   <span className="text-[9px] font-extrabold tracking-wider bg-white/15 px-2 py-0.5 rounded-pill w-fit uppercase mb-1.5">First Order Offer</span>
-                  <h4 className="font-heading font-black text-sm italic tracking-wide uppercase leading-tight text-white">
+                  <Heading level={4} className="text-sm italic tracking-wide uppercase leading-tight text-white">
                     TOP-QUALITY, 100% ORIGINAL ASSIGNMENTS
-                  </h4>
+                  </Heading>
                   <p className="text-[10px] text-primary-200 mt-1">Delivered in just a few hours!</p>
                 </div>
                 

@@ -1,5 +1,7 @@
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Heading } from "./Heading";
+import { Text } from "./Text";
 
 export interface ProcessStep {
   number: number;
@@ -25,11 +27,11 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = ({
     <div className={cn("flex flex-col items-center gap-10", className)}>
       {title && (
         <div className="text-center max-w-2xl">
-          <h2 className="font-heading font-bold text-2xl md:text-3xl text-text-heading mb-3">
+          <Heading level={2} className="text-2xl md:text-3xl mb-3">
             {title}
-          </h2>
+          </Heading>
           {subtitle && (
-            <p className="text-text-muted text-sm md:text-base">{subtitle}</p>
+            <Text variant="muted" className="text-sm md:text-base">{subtitle}</Text>
           )}
         </div>
       )}
@@ -48,12 +50,12 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = ({
                   {step.number}
                 </div>
               </div>
-              <h4 className="font-heading font-bold text-sm text-text-heading leading-tight">
+              <Heading level={4} className="text-sm leading-tight">
                 {step.title}
-              </h4>
-              <p className="text-text-muted text-xs leading-relaxed">
+              </Heading>
+              <Text variant="muted" className="text-xs leading-relaxed">
                 {step.description}
-              </p>
+              </Text>
             </div>
 
             {/* Arrow connector */}
@@ -86,12 +88,12 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = ({
               )}
             </div>
             <div className="flex flex-col gap-1 pt-1">
-              <h4 className="font-heading font-bold text-sm text-text-heading">
+              <Heading level={4} className="text-sm">
                 {step.title}
-              </h4>
-              <p className="text-text-muted text-xs leading-relaxed">
+              </Heading>
+              <Text variant="muted" className="text-xs leading-relaxed">
                 {step.description}
-              </p>
+              </Text>
             </div>
           </div>
         ))}

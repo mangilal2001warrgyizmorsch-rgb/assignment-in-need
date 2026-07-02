@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FileText, ArrowRight } from "lucide-react";
 import { Card } from "./Card";
 import { Badge } from "./Badge";
+import { Heading } from "./Heading";
 import { cn } from "@/lib/utils";
 
 interface SampleCardProps {
@@ -53,11 +54,11 @@ export const SampleCard: React.FC<SampleCardProps> = ({
       </div>
 
       <div className="p-5 flex flex-col flex-1 gap-4 justify-between">
-        <h4 className="font-heading font-bold text-sm md:text-base text-text-heading leading-snug line-clamp-2 group-hover/card:text-primary-700 transition-colors">
+        <Heading level={4} className="text-sm md:text-base leading-snug line-clamp-2 group-hover/card:text-primary-700 transition-colors">
           {title}
-        </h4>
+        </Heading>
         
-        <Link href={href} className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-700 hover:text-primary-600 transition-colors mt-auto w-fit group/link">
+        <Link href={href} className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-700 group-hover/card:text-accent-600 mt-auto w-fit group/link link-slide-hover">
           View Free Sample
           <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/link:translate-x-1" />
         </Link>

@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
@@ -30,7 +28,6 @@ export default function StyleGuide() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <Navbar />
 
       <main className="flex-1">
         {/* Style Guide Header */}
@@ -366,8 +363,6 @@ export default function StyleGuide() {
           </div>
         </SectionContainer>
       </main>
-
-      <Footer />
     </div>
   );
 }

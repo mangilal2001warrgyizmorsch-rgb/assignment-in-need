@@ -112,8 +112,8 @@ export default function PricingPage() {
                   <ShieldCheck className="w-4.5 h-4.5" />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <h4 className="font-heading font-bold text-sm sm:text-base text-text-heading">{card.title}</h4>
-                  <p className="text-xs text-text-body leading-relaxed">{card.desc}</p>
+                  <Heading level={4} className="text-sm sm:text-base">{card.title}</Heading>
+                  <Text className="text-xs text-text-body leading-relaxed">{card.desc}</Text>
                 </div>
               </div>
             ))}
@@ -152,8 +152,8 @@ export default function PricingPage() {
                   {v.icon}
                 </div>
                 <div className="flex flex-col gap-1 min-w-0">
-                  <h4 className="font-heading font-bold text-sm text-text-heading">{v.title}</h4>
-                  <p className="text-xs text-text-body leading-relaxed">{v.desc}</p>
+                  <Heading level={4} className="text-sm">{v.title}</Heading>
+                  <Text className="text-xs text-text-body leading-relaxed">{v.desc}</Text>
                 </div>
               </div>
             ))}
@@ -225,11 +225,13 @@ export default function PricingPage() {
       {/* Bottom CTA strip */}
       <section className="bg-navy-900 py-10 text-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-left">
-          <h3 className="font-heading font-extrabold text-xl md:text-2xl text-white">
+          <Heading level={3} className="text-xl md:text-2xl text-white">
             Ready To Get Started?
-          </h3>
-          <a href="#quote-form" className="bg-accent-600 hover:bg-accent-500 text-white font-heading font-bold px-6 py-3 rounded-lg shadow-md transition-colors shrink-0 text-sm">
-            Get Free Quote Now →
+          </Heading>
+          <a href="#quote-form" className="shrink-0">
+            <Button variant="cta" size="md">
+              Get Free Quote Now →
+            </Button>
           </a>
         </div>
       </section>

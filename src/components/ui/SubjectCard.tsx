@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import * as Icons from "lucide-react";
 import { Card } from "./Card";
+import { Heading } from "./Heading";
 import { cn } from "@/lib/utils";
 
 interface SubjectCardProps {
@@ -47,9 +48,9 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <IconComponent className="w-4 h-4 text-primary-500 shrink-0" />
-            <h4 className="font-heading font-bold text-sm md:text-base text-text-heading group-hover/card:text-primary-700 transition-colors truncate">
+            <Heading level={4} className="text-sm md:text-base group-hover/card:text-primary-700 transition-colors truncate">
               {name}
-            </h4>
+            </Heading>
           </div>
           <p className="text-xs text-text-muted mt-0.5 font-medium">
             {orderCount ? `${orderCount} Orders Completed` : `${sampleCount} Free Samples`}

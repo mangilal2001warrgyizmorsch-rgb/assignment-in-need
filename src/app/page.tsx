@@ -29,8 +29,13 @@ import {
   ShieldCheck,
   Sparkles,
   FileText,
-  HelpCircle
+  HelpCircle,
+  TrendingUp,
+  Brain,
+  GraduationCap,
+  MessageSquare
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { WRITERS, SERVICES, SUBJECTS, SAMPLES, TESTIMONIALS, FAQS } from "@/lib/data";
 
 export default function Home() {
@@ -85,7 +90,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
           {/* Hero Content Left */}
-          <div className="lg:col-span-7 flex flex-col gap-6 text-left">
+          <motion.div 
+            className="lg:col-span-7 flex flex-col gap-6 text-left"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <div className="inline-flex w-fit bg-accent-50 text-accent-700 font-heading font-extrabold text-xs px-3.5 py-1.5 rounded-pill border border-accent-100 flex items-center gap-1.5 shadow-sm">
               <span className="text-sm">⭐</span>
               Rated 4.9/5 by 25,000+ UK Students
@@ -134,12 +144,17 @@ export default function Home() {
                 </Button>
               </a>
             </div>
-          </div>
+          </motion.div>
 
           {/* Hero Form Right */}
-          <div className="lg:col-span-5 w-full">
+          <motion.div 
+            className="lg:col-span-5 w-full"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
             <QuoteForm variant="compact" title="Get Instant Quote" />
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -188,7 +203,7 @@ export default function Home() {
                 Expert support available in 150+ academic fields and research modules.
               </Text>
             </div>
-            <a href="/samples" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors">
+            <a href="/samples" className="text-sm font-bold text-primary-700 link-slide-hover">
               View All Subjects →
             </a>
           </div>
@@ -257,7 +272,7 @@ export default function Home() {
                 </Heading>
                 <p className="text-xs text-text-muted mt-0.5">PhD & Master&apos;s qualified UK academic writing experts.</p>
               </div>
-              <Link href="/writers" className="text-xs font-bold text-primary-700 hover:text-primary-600 transition-colors">
+              <Link href="/writers" className="text-xs font-bold text-primary-700 link-slide-hover">
                 View All Experts →
               </Link>
             </div>
@@ -313,7 +328,7 @@ export default function Home() {
             />
           </div>
           
-          <a href="/about" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors text-center mt-2">
+          <a href="/about" className="text-sm font-bold text-primary-700 text-center mt-2 link-slide-hover">
             View More Success Stories →
           </a>
         </div>
@@ -355,7 +370,7 @@ export default function Home() {
             />
           </div>
           
-          <a href="/samples" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors text-center mt-2">
+          <a href="/samples" className="text-sm font-bold text-primary-700 text-center mt-2 link-slide-hover">
             Explore All Tools →
           </a>
         </div>
@@ -386,7 +401,7 @@ export default function Home() {
                 Inspect past high-scoring model answers compiled by our Ph.D specialists.
               </Text>
             </div>
-            <a href="/samples" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors">
+            <a href="/samples" className="text-sm font-bold text-primary-700 link-slide-hover">
               View All Samples →
             </a>
           </div>

@@ -14,10 +14,13 @@ const config: Config = {
           100: '#EDE9FE',
           500: '#7C3AED',
           600: '#6D28D9',
+          650: '#6325C8',
           700: '#5B21B6',   // main purple (buttons, links, headings accent)
+          800: '#4C1D95',
           900: '#2E1065',
         },
         accent: {
+          400: '#FDBA74',
           500: '#FB923C',
           600: '#F97316',   // orange CTA ("Get Free Quote", "Get Price Now")
           700: '#EA580C',

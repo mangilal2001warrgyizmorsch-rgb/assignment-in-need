@@ -112,9 +112,9 @@ export default function SamplesPage() {
       <section className="bg-surface-lavender py-8 border-b border-primary-50">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col gap-4 text-left">
           <div className="flex items-center justify-between">
-            <h3 className="font-heading font-extrabold text-sm sm:text-base text-text-heading uppercase tracking-wider">
+            <Heading level={3} className="text-sm sm:text-base uppercase tracking-wider">
               Popular Categories
-            </h3>
+            </Heading>
             
             {/* Scroll Controls */}
             <div className="flex items-center gap-1.5 shrink-0">
@@ -185,7 +185,7 @@ export default function SamplesPage() {
             ))}
           </div>
           
-          <a href="#browse-samples" className="text-sm font-bold text-primary-700 hover:text-primary-600 transition-colors text-center mt-2">
+          <a href="#browse-samples" className="text-sm font-bold text-primary-700 text-center mt-2 link-slide-hover">
             View All Subjects →
           </a>
         </div>
@@ -218,8 +218,8 @@ export default function SamplesPage() {
                   <CheckCircle2 className="w-4.5 h-4.5" />
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <h4 className="font-heading font-bold text-sm sm:text-base text-text-heading">{item.title}</h4>
-                  <p className="text-xs text-text-body leading-relaxed">{item.desc}</p>
+                  <Heading level={4} className="text-sm sm:text-base">{item.title}</Heading>
+                  <Text className="text-xs text-text-body leading-relaxed">{item.desc}</Text>
                 </div>
               </div>
             ))}

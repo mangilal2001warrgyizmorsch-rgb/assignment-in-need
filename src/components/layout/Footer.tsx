@@ -1,6 +1,10 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Mail, MapPin, MessageCircle, PhoneCall } from "lucide-react";
+import { Heading } from "../ui/Heading";
+import { motion } from "framer-motion";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -8,7 +12,13 @@ export const Footer = () => {
   return (
     <footer className="bg-navy-900 text-white pt-16 pb-8 border-t border-navy-800">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           {/* Column 1: Brand Info & Socials */}
           <div className="flex flex-col gap-4">
             <Link href="/" className="flex items-center gap-2 select-none">
@@ -75,40 +85,40 @@ export const Footer = () => {
 
           {/* Column 2: Services Links */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-heading font-bold text-base text-white">Services</h4>
+            <Heading level={4} className="text-base text-white">Services</Heading>
             <ul className="flex flex-col gap-2.5 text-sm text-primary-100/70">
               <li>
-                <Link href="/services/essay-writing" className="hover:text-accent-500 transition-colors">
+                <Link href="/services/essay-writing" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Essay Writing
                 </Link>
               </li>
               <li>
-                <Link href="/services/dissertation-help" className="hover:text-accent-500 transition-colors">
+                <Link href="/services/dissertation-help" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Dissertation Help
                 </Link>
               </li>
               <li>
-                <Link href="/services/assignment-writing" className="hover:text-accent-500 transition-colors">
+                <Link href="/services/assignment-writing" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Assignment Help
                 </Link>
               </li>
               <li>
-                <Link href="/services/case-study-help" className="hover:text-accent-500 transition-colors">
+                <Link href="/services/case-study-help" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Case Study Help
                 </Link>
               </li>
               <li>
-                <Link href="/services/report-writing" className="hover:text-accent-500 transition-colors">
+                <Link href="/services/report-writing" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Report Writing
                 </Link>
               </li>
               <li>
-                <Link href="/services/coursework-help" className="hover:text-accent-500 transition-colors">
+                <Link href="/services/coursework-help" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Coursework Help
                 </Link>
               </li>
               <li>
-                <Link href="/services/proofreading-editing" className="hover:text-accent-500 transition-colors">
+                <Link href="/services/proofreading-editing" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Proofreading & Editing
                 </Link>
               </li>
@@ -117,40 +127,40 @@ export const Footer = () => {
 
           {/* Column 3: Subjects Links */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-heading font-bold text-base text-white">Subjects</h4>
+            <Heading level={4} className="text-base text-white">Subjects</Heading>
             <ul className="flex flex-col gap-2.5 text-sm text-primary-100/70">
               <li>
-                <Link href="/subjects/accounting" className="hover:text-accent-500 transition-colors">
+                <Link href="/subjects/accounting" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Accounting
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/nursing" className="hover:text-accent-500 transition-colors">
+                <Link href="/subjects/nursing" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Nursing
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/law" className="hover:text-accent-500 transition-colors">
+                <Link href="/subjects/law" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Law
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/business" className="hover:text-accent-500 transition-colors">
+                <Link href="/subjects/business" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Business Management
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/engineering" className="hover:text-accent-500 transition-colors">
+                <Link href="/subjects/engineering" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Engineering
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/computer-science" className="hover:text-accent-500 transition-colors">
+                <Link href="/subjects/computer-science" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Computer Science
                 </Link>
               </li>
               <li>
-                <Link href="/subjects/psychology" className="hover:text-accent-500 transition-colors">
+                <Link href="/subjects/psychology" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Psychology
                 </Link>
               </li>
@@ -159,30 +169,30 @@ export const Footer = () => {
 
           {/* Column 4: Resources Links */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-heading font-bold text-base text-white">Resources</h4>
+            <Heading level={4} className="text-base text-white">Resources</Heading>
             <ul className="flex flex-col gap-2.5 text-sm text-primary-100/70">
               <li>
-                <Link href="/samples" className="hover:text-accent-500 transition-colors">
+                <Link href="/samples" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Referencing Guides
                 </Link>
               </li>
               <li>
-                <Link href="/samples" className="hover:text-accent-500 transition-colors">
+                <Link href="/samples" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Writing Tips
                 </Link>
               </li>
               <li>
-                <Link href="/samples" className="hover:text-accent-500 transition-colors">
+                <Link href="/samples" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Samples
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-accent-500 transition-colors">
+                <Link href="/about" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-accent-500 transition-colors">
+                <Link href="/about" className="hover:text-accent-500 hover:translate-x-1.5 transition-all duration-300 inline-block">
                   Student Resources
                 </Link>
               </li>
@@ -191,7 +201,7 @@ export const Footer = () => {
 
           {/* Column 5: Company & Contact */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-heading font-bold text-base text-white">Contact Us</h4>
+            <Heading level={4} className="text-base text-white">Contact Us</Heading>
             <ul className="flex flex-col gap-3.5 text-sm text-primary-100/70">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-5 h-5 text-accent-500 shrink-0 mt-0.5" />
@@ -199,7 +209,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-5 h-5 text-accent-500 shrink-0" />
-                <a href="mailto:support@assignmentinneed.com" className="hover:text-accent-500 transition-colors truncate">
+                <a href="mailto:support@assignmentinneed.com" className="hover:text-accent-500 transition-colors break-all">
                   support@assignmentinneed.com
                 </a>
               </li>
@@ -217,11 +227,17 @@ export const Footer = () => {
               </li>
             </ul>
           </div>
-        </div>
+        </motion.div>
 
         {/* Bottom copyright bar */}
-        <div className="border-t border-navy-800 pt-8 mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-primary-100/40">
-          <p>© {currentYear} Assignment In Need. All rights reserved. Registered in England & Wales.</p>
+        <motion.div 
+          className="border-t border-navy-800 pt-8 mt-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-primary-100/40"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <p suppressHydrationWarning>© {currentYear} Assignment In Need. All rights reserved. Registered in England & Wales.</p>
           <div className="flex gap-4">
             <Link href="/about" className="hover:text-accent-500 transition-colors">
               Privacy Policy
@@ -233,7 +249,7 @@ export const Footer = () => {
               Cookie Policy
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );

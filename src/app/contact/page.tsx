@@ -111,9 +111,9 @@ export default function ContactPage() {
           {/* Left Column: Contact cards & Socials */}
           <div className="lg:col-span-5 flex flex-col gap-8 text-left">
             <div className="flex flex-col gap-4">
-              <h3 className="font-heading font-extrabold text-lg text-text-heading border-b border-primary-50 pb-2">
+              <Heading level={3} className="text-lg border-b border-primary-50 pb-2">
                 In Case of Enquiry, Reach Us On
-              </h3>
+              </Heading>
               
               {/* WhatsApp card */}
               <div className="bg-primary-50/15 border border-primary-100 p-4 rounded-xl flex gap-4 items-start group hover:border-success/20 transition-all duration-300">
@@ -121,8 +121,8 @@ export default function ContactPage() {
                   <MessageCircle className="w-5 h-5 fill-success/10" />
                 </div>
                 <div className="flex flex-col gap-2 flex-1 min-w-0">
-                  <h4 className="font-heading font-bold text-sm sm:text-base text-text-heading">WhatsApp Support</h4>
-                  <p className="text-xs text-text-body leading-relaxed">Chat with us on WhatsApp for instant assistance 24/7.</p>
+                  <Heading level={4} className="text-sm sm:text-base">WhatsApp Support</Heading>
+                  <Text className="text-xs text-text-body leading-relaxed">Chat with us on WhatsApp for instant assistance 24/7.</Text>
                   <a
                     href="https://wa.me/447300640066"
                     target="_blank"
@@ -140,8 +140,8 @@ export default function ContactPage() {
                   <PhoneCall className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col gap-2 flex-1 min-w-0">
-                  <h4 className="font-heading font-bold text-sm sm:text-base text-text-heading">Phone Support</h4>
-                  <p className="text-xs text-text-body leading-relaxed">Speak to our experts anytime. We&apos;re here to help!</p>
+                  <Heading level={4} className="text-sm sm:text-base">Phone Support</Heading>
+                  <Text className="text-xs text-text-body leading-relaxed">Speak to our experts anytime. We&apos;re here to help!</Text>
                   <a
                     href="tel:+447300640066"
                     className="inline-flex items-center justify-center border border-primary-700 text-primary-700 hover:bg-primary-50 font-heading font-bold text-[10px] px-3.5 py-1.5 rounded-lg w-fit transition-all shadow-sm"
@@ -157,11 +157,11 @@ export default function ContactPage() {
                   <Mail className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col gap-2 flex-1 min-w-0">
-                  <h4 className="font-heading font-bold text-sm sm:text-base text-text-heading">Email Support</h4>
-                  <p className="text-xs text-text-body leading-relaxed">Drop us an email and we&apos;ll get back to you soon.</p>
+                  <Heading level={4} className="text-sm sm:text-base">Email Support</Heading>
+                  <Text className="text-xs text-text-body leading-relaxed">Drop us an email and we&apos;ll get back to you soon.</Text>
                   <a
                     href="mailto:support@assignmentinneed.com"
-                    className="inline-flex items-center justify-center border border-accent-600 text-accent-600 hover:bg-orange-50 font-heading font-bold text-[10px] px-3.5 py-1.5 rounded-lg w-fit transition-all shadow-sm truncate max-w-full"
+                    className="inline-flex items-center justify-center border border-accent-600 text-accent-600 hover:bg-orange-50 font-heading font-bold text-[10px] px-3.5 py-1.5 rounded-lg w-fit transition-all shadow-sm break-all max-w-full"
                   >
                     support@assignmentinneed.com
                   </a>
@@ -171,9 +171,9 @@ export default function ContactPage() {
 
             {/* Socials Connection */}
             <div className="flex flex-col gap-3">
-              <h3 className="font-heading font-extrabold text-sm text-text-heading border-b border-primary-50 pb-2">
+              <Heading level={3} className="text-sm border-b border-primary-50 pb-2">
                 Connect With Us
-              </h3>
+              </Heading>
               <div className="flex items-center gap-4 mt-1">
                 {[
                   { name: "Facebook", bg: "bg-[#1877F2] text-white", icon: "F" },
@@ -201,7 +201,7 @@ export default function ContactPage() {
                 <div className="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center text-success mb-2 animate-bounce">
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
-                <h3 className="font-heading font-extrabold text-2xl text-text-heading">Enquiry Sent!</h3>
+                <Heading level={3} className="text-2xl">Enquiry Sent!</Heading>
                 <p className="text-text-body text-sm max-w-sm">
                   Thank you, <span className="font-semibold text-primary-700">{name}</span>. Your request has been logged successfully. Our student helpline desk will call or email you shortly.
                 </p>
@@ -225,9 +225,9 @@ export default function ContactPage() {
             ) : (
               <Card className="p-6 md:p-8 flex flex-col gap-6 shadow-md">
                 <div>
-                  <h3 className="font-heading font-extrabold text-xl text-text-heading leading-tight">
+                  <Heading level={3} className="text-xl leading-tight">
                     Send Us an Enquiry
-                  </h3>
+                  </Heading>
                   <div className="w-12 h-1 bg-gradient-logo rounded-full mt-2" />
                 </div>
 

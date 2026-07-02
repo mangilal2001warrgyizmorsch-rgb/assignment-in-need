@@ -3,6 +3,7 @@
 import React from "react";
 import { Card } from "./Card";
 import { ArrowRight, GraduationCap } from "lucide-react";
+import { Heading } from "./Heading";
 import { cn } from "@/lib/utils";
 
 interface ResultCardProps {
@@ -49,9 +50,9 @@ export const ResultCard: React.FC<ResultCardProps> = ({
       </div>
 
       <div className="flex flex-col gap-3">
-        <h4 className="font-heading font-bold text-sm md:text-base text-text-heading leading-snug line-clamp-2">
+        <Heading level={4} className="text-sm md:text-base leading-snug line-clamp-2">
           {title}
-        </h4>
+        </Heading>
         
         <div className="flex items-center gap-2 text-xs text-text-muted font-medium border-t border-primary-50 pt-3">
           <GraduationCap className="w-4 h-4 text-primary-500 shrink-0" />
