@@ -48,12 +48,12 @@ export default function Header() {
                 </a>
             </div>
 
-            {/*  <div className="offer-section">
+                {/*  <div className="offer-section">
                 <div className="offers">
-                    <a href="Offers" className="offer-button">Offer</a>
+                    <Link href="/Offers" className="offer-button">Offer</Link>
                 </div>
-                <div style={{ fontSize: '14px', fontWeight: 600 }}><a href="/upload-your-assignment" style={{ color: 'white' }}>40%
-                        Off On Your Every Order</a></div>
+                <div style={{ fontSize: '14px', fontWeight: 600 }}><Link href="/upload-your-assignment" style={{ color: 'white' }}>40%
+                        Off On Your Every Order</Link></div>
             </div>  */}
             <div className="top-offer-bar">
                 <div className="offer-badge">OFFER</div>
@@ -76,8 +76,8 @@ export default function Header() {
                 <div className="inner-container" style={{ display: 'flex', alignItems: 'center' }}>
 
                     <div className="logo-box">
-                        <div className="logo"><a href="/"><img src="/images/icons/Assignment-in-need.png"
-                                    alt="assignment help services assignnmentinneed.com" title="" width="80px" /></a>
+                        <div className="logo"><Link href="/"><img src="/images/icons/Assignment-in-need.png"
+                                        alt="assignment help services assignnmentinneed.com" title="" width="80px" /></Link>
                         </div>
                     </div>
 
@@ -96,7 +96,7 @@ export default function Header() {
                                         <a>Services</a>
                                         <ul>
 
-                                            <li className="dropdown"><a href="assignment-writing-uk">Assignment</a>
+                                            <li className="dropdown"><Link href="/assignment-writing-uk">Assignment</Link>
                                                 <ul>
                                                     <li>
                                                         <a href="/english-assignment-writing-help">English</a>
@@ -229,7 +229,7 @@ export default function Header() {
                                                 </ul>
                                             </li>
 
-                                            <li className="dropdown"><a href="dissertation-writing-help-services">Dissertation</a>
+                                            <li className="dropdown"><Link href="/dissertation-writing-help-services">Dissertation</Link>
                                                 <ul>
                                                     <li>
                                                         <a href="/dissertation-literature-review-help-uk">Literature Review Dissertation Writing</a>
@@ -260,7 +260,7 @@ export default function Header() {
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li className="dropdown"><a href="essay-writing-help-services">Essay Writing</a>
+                                            <li className="dropdown"><Link href="/essay-writing-help-services">Essay Writing</Link>
                                                 <ul>
                                                     <li>
                                                         <a href="/argumentative-essay-help-uk">Argumentative Essay Writing</a>
@@ -299,7 +299,7 @@ export default function Header() {
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li className="dropdown"><a href="research-paper-writing-services">Research Paper Writing</a>
+                                            <li className="dropdown"><Link href="/research-paper-writing-services">Research Paper Writing</Link>
                                                 <ul>
                                                     <li>
                                                         <a href="/custom-research-paper-help-uk">Custom Research Paper Writing</a>
@@ -314,7 +314,7 @@ export default function Header() {
                                             </li>
 
                                             <li>
-                                                <a href="homework-writing-help-services">Homework Writing</a>
+                                                <Link href="/homework-writing-help-services">Homework Writing</Link>
                                             </li>
 
                                             <li>
@@ -542,16 +542,16 @@ export default function Header() {
                                         </ul>
                                     </li>
 
-                                    <li><a href="pricing">Pricing</a></li>
-                                    <li><a href="review">Reviews</a></li>
-                                    <li><a href="writers">Writer</a></li>
+                                    <li><Link href="/pricing">Pricing</Link></li>
+                                    <li><Link href="/review">Reviews</Link></li>
+                                    <li><Link href="/writers">Writer</Link></li>
 
-                                    <li><a href="what-we-are">About Us</a></li>
+                                    <li><Link href="/what-we-are">About Us</Link></li>
 
-                                    <li><a href="contact-us">Contact Us</a></li>
+                                    <li><Link href="/contact-us">Contact Us</Link></li>
 
                                     <li className="header-order">
-                                        <a href="upload-your-assignment">Order Now</a>
+                                        <Link href="/upload-your-assignment">Order Now</Link>
                                     </li>
                                 </ul>
                             </div>

@@ -30,9 +30,9 @@ const CITIES = [
 ];
 
 const RESOURCES = [
-  { name: "Blog", path: "#" },
+  { name: "Blog", path: "/blog" },
   { name: "Pricing", path: "/pricing" },
-  { name: "Reviews", path: "#" },
+  { name: "Reviews", path: "/review" },
 ];
 
 export const Navbar = () => {
