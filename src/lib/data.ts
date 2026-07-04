@@ -47,6 +47,14 @@ export interface Subject {
   sampleCount: number;
   letterBadge: string;
   letterColorClass: string;
+  assignmentsDelivered: string;
+  expertsCount: string;
+  rating: string;
+  onTimeDelivery: string;
+  roleName: string;
+  professionalsWord: string;
+  standardsWord: string;
+  analyticalWord: string;
 }
 
 export interface Testimonial {
@@ -358,7 +366,15 @@ export const SUBJECTS: Subject[] = [
     orderCount: "7,400+",
     sampleCount: 152,
     letterBadge: "A",
-    letterColorClass: "bg-purple-100 text-purple-700"
+    letterColorClass: "bg-purple-100 text-purple-700",
+    assignmentsDelivered: "25,000+",
+    expertsCount: "150+",
+    rating: "4.9/5",
+    onTimeDelivery: "98%",
+    roleName: "Accounting Expert",
+    professionalsWord: "accounting professionals",
+    standardsWord: "accounting standards",
+    analyticalWord: "precision and analytical thinking"
   },
   {
     slug: "business",
@@ -367,7 +383,15 @@ export const SUBJECTS: Subject[] = [
     orderCount: "12,500+",
     sampleCount: 87,
     letterBadge: "B",
-    letterColorClass: "bg-indigo-100 text-indigo-700"
+    letterColorClass: "bg-indigo-100 text-indigo-700",
+    assignmentsDelivered: "45,000+",
+    expertsCount: "320+",
+    rating: "4.9/5",
+    onTimeDelivery: "99%",
+    roleName: "Business Expert",
+    professionalsWord: "business professionals",
+    standardsWord: "management standards",
+    analyticalWord: "strategic vision and critical analysis"
   },
   {
     slug: "economics",
@@ -376,7 +400,15 @@ export const SUBJECTS: Subject[] = [
     orderCount: "4,200+",
     sampleCount: 45,
     letterBadge: "E",
-    letterColorClass: "bg-green-100 text-green-700"
+    letterColorClass: "bg-green-100 text-green-700",
+    assignmentsDelivered: "18,000+",
+    expertsCount: "110+",
+    rating: "4.8/5",
+    onTimeDelivery: "97%",
+    roleName: "Economics Expert",
+    professionalsWord: "economics professionals",
+    standardsWord: "economic research standards",
+    analyticalWord: "quantitative research and data analysis"
   },
   {
     slug: "law",
@@ -385,7 +417,15 @@ export const SUBJECTS: Subject[] = [
     orderCount: "8,600+",
     sampleCount: 60,
     letterBadge: "L",
-    letterColorClass: "bg-blue-100 text-blue-700"
+    letterColorClass: "bg-blue-100 text-blue-700",
+    assignmentsDelivered: "32,000+",
+    expertsCount: "240+",
+    rating: "4.9/5",
+    onTimeDelivery: "98%",
+    roleName: "Law Expert",
+    professionalsWord: "legal professionals",
+    standardsWord: "OSCOLA and UK legal standards",
+    analyticalWord: "critical legal reasoning and statutory interpretation"
   },
   {
     slug: "marketing",
@@ -394,7 +434,15 @@ export const SUBJECTS: Subject[] = [
     orderCount: "5,800+",
     sampleCount: 65,
     letterBadge: "M",
-    letterColorClass: "bg-pink-100 text-pink-700"
+    letterColorClass: "bg-pink-100 text-pink-700",
+    assignmentsDelivered: "22,000+",
+    expertsCount: "140+",
+    rating: "4.8/5",
+    onTimeDelivery: "98%",
+    roleName: "Marketing Expert",
+    professionalsWord: "marketing professionals",
+    standardsWord: "industry marketing frameworks",
+    analyticalWord: "market research and consumer insights"
   },
   {
     slug: "nursing",
@@ -403,7 +451,15 @@ export const SUBJECTS: Subject[] = [
     orderCount: "9,800+",
     sampleCount: 74,
     letterBadge: "N",
-    letterColorClass: "bg-teal-100 text-teal-700"
+    letterColorClass: "bg-teal-100 text-teal-700",
+    assignmentsDelivered: "29,000+",
+    expertsCount: "180+",
+    rating: "4.9/5",
+    onTimeDelivery: "99%",
+    roleName: "Nursing Expert",
+    professionalsWord: "healthcare and nursing professionals",
+    standardsWord: "NMC and clinical guidelines",
+    analyticalWord: "evidence-based practice and clinical safety"
   },
   {
     slug: "psychology",
@@ -412,7 +468,15 @@ export const SUBJECTS: Subject[] = [
     orderCount: "6,300+",
     sampleCount: 81,
     letterBadge: "P",
-    letterColorClass: "bg-rose-100 text-rose-700"
+    letterColorClass: "bg-rose-100 text-rose-700",
+    assignmentsDelivered: "15,000+",
+    expertsCount: "95+",
+    rating: "4.8/5",
+    onTimeDelivery: "98%",
+    roleName: "Psychology Expert",
+    professionalsWord: "psychology professionals",
+    standardsWord: "APA formatting and ethical guidelines",
+    analyticalWord: "empirical research and behavioral analysis"
   },
   {
     slug: "history",
@@ -421,7 +485,15 @@ export const SUBJECTS: Subject[] = [
     orderCount: "3,100+",
     sampleCount: 30,
     letterBadge: "H",
-    letterColorClass: "bg-amber-100 text-amber-700"
+    letterColorClass: "bg-amber-100 text-amber-700",
+    assignmentsDelivered: "12,000+",
+    expertsCount: "75+",
+    rating: "4.7/5",
+    onTimeDelivery: "97%",
+    roleName: "History Expert",
+    professionalsWord: "historians and researchers",
+    standardsWord: "historiographical methodologies",
+    analyticalWord: "critical source evaluation and archival research"
   }
 ];
 

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import './Header.css';
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -76,8 +77,8 @@ export default function Header() {
                 <div className="inner-container" style={{ display: 'flex', alignItems: 'center' }}>
 
                     <div className="logo-box">
-                        <div className="logo"><Link href="/"><img src="/images/icons/Assignment-in-need.png"
-                                        alt="assignment help services assignnmentinneed.com" title="" width="80px" /></Link>
+                        <div className="logo"><Link href="/"><Image src="/images/icons/assignment_logo2.png"
+                                        alt="assignment help services assignnmentinneed.com" title="" width={80} height={40} /></Link>
                         </div>
                     </div>
 
@@ -572,9 +573,11 @@ export default function Header() {
                                                 <div className="cart-product">
                                                     <div className="inner">
                                                         <div className="image">
-                                                            <img
+                                                            <Image
                                                                 src="/assets/media/avatars/blank.png"
                                                                 alt="User Profile"
+                                                                width={40}
+                                                                height={40}
                                                             />
                                                         </div>
                                                         <h3>John Doe</h3>
@@ -617,8 +620,8 @@ export default function Header() {
                                                     <h4>Welcome!</h4>
                                                     <p>Please login or sign up to continue.</p>
                                                     <div className="auth-buttons">
-                                                        <a href="/login" className="btn-login">Login</a>
-                                                        <a href="/register" className="btn-signup">Sign Up</a>
+                                                        <Link href="/login" className="btn-login">Login</Link>
+                                                        <Link href="/signup" className="btn-signup">Sign Up</Link>
                                                     </div>
                                                 </div>
                                             </>
@@ -645,9 +648,9 @@ export default function Header() {
                     style={{ maxHeight: '1013px' }}>
                     <div id="mCSB_1_container" className="mCSB_container mCS_y_hidden mCS_no_scrollbar_y"
                         style={{ position: 'relative', top: 0, left: 0 }} dir="ltr">
-                        <div className="nav-logo" style={{ height: '50px', textAlign: 'center' }}><a href="/"><img
+                        <div className="nav-logo" style={{ height: '50px', textAlign: 'center' }}><a href="/"><Image
                                     src="/images/icons/Assignment-in-need.png"
-                                    alt="assingment help assignnmentinneed.com" title="" className="mCS_img_loaded" width="60" /></a></div>
+                                    alt="assingment help assignnmentinneed.com" title="" width={60} height={30} /></a></div>
                         <div className="menu-outer">
                             {/* Here Menu Will Come Automatically Via Javascript / Same Menu as in Header */}
 
@@ -666,9 +669,9 @@ export default function Header() {
                                     {isLoggedIn ? (<>
                                     <li className="mobile-auth-user" style={{ padding: '12px 15px' }}>
                                         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                                            <img style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
-                                                src="{{ Auth::user()- />photo ? asset(Auth::user()->photo) : asset('assets/media/avatars/blank.png') }}"
-                                                alt="User Profile" />
+                                            <Image style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
+                                                src="/assets/media/avatars/blank.png"
+                                                alt="User Profile" width={40} height={40} />
                                             <div>
                                                 <div style={{ fontWeight: 600, fontSize: '14px', lineHeight: 1.2 }}>
                                                     John Doe

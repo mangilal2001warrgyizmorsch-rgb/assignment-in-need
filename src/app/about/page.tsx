@@ -2,331 +2,589 @@
 
 import React from "react";
 import Link from "next/link";
-import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { ExpertCard } from "@/components/ui/ExpertCard";
-import { ProcessSteps } from "@/components/ui/ProcessSteps";
-import { SectionContainer } from "@/components/ui/SectionContainer";
-import { Badge } from "@/components/ui/Badge";
-import { Heading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
-import { Button } from "@/components/ui/Button";
+import Image from "next/image";
 import {
-  UploadCloud,
-  UserCheck,
-  Cpu,
-  FileCheck2,
+  GraduationCap,
+  Users,
+  Clock,
+  ChevronRight,
   CheckCircle2,
   ShieldCheck,
+  RefreshCw,
+  Headset,
+  Lock,
+  Star,
   BookOpen,
-  Brain,
-  Award,
-  Users
+  Mail,
+  ArrowRight,
+  MessageSquare,
+  FolderOpen,
 } from "lucide-react";
-import { WRITERS } from "@/lib/data";
+import { Button } from "@/components/ui/Button";
 
 export default function AboutPage() {
-  const breadcrumbItems = [{ label: "About Us" }];
-
   const steps = [
     {
       number: 1,
-      icon: <UploadCloud className="w-6 h-6" />,
       title: "Submit Requirements",
       description: "Share your assignment details with us.",
     },
     {
       number: 2,
-      icon: <UserCheck className="w-6 h-6" />,
       title: "Choose Expert",
       description: "We match you with the best expert for your topic.",
     },
     {
       number: 3,
-      icon: <Cpu className="w-6 h-6" />,
       title: "Track Progress",
       description: "Track progress and stay updated at every step.",
     },
     {
       number: 4,
-      icon: <FileCheck2 className="w-6 h-6" />,
       title: "Receive Assignment",
       description: "Get your assignment on time, every time.",
     },
     {
       number: 5,
-      icon: <CheckCircle2 className="w-6 h-6" />,
       title: "Achieve Better Grades",
       description: "Submit with confidence and achieve success.",
     },
   ];
 
+  const platformFeatures = [
+    {
+      title: "Academic Guidance",
+      desc: "Get expert help for assignments, essays, dissertations and more tailored to your needs.",
+      icon: <BookOpen className="w-5 h-5 text-purple-600" />,
+      bg: "bg-purple-100",
+    },
+    {
+      title: "Referencing Assistance",
+      desc: "Accurate referencing in APA, Harvard, MLA, OSCOLA and other major styles.",
+      icon: <MessageSquare className="w-5 h-5 text-orange-600" />,
+      bg: "bg-orange-100",
+    },
+    {
+      title: "Expert Consultation",
+      desc: "Connect with subject specialists for clarification and in-depth understanding.",
+      icon: <Users className="w-5 h-5 text-green-600" />,
+      bg: "bg-green-100",
+    },
+    {
+      title: "Student Resources",
+      desc: "Access samples, guides, writing tips and tools to improve your academic skills.",
+      icon: <FolderOpen className="w-5 h-5 text-blue-600" />,
+      bg: "bg-blue-100",
+    },
+  ];
+
+  const trustBadges = [
+    { label: "100% Original Work", icon: <ShieldCheck className="w-4.5 h-4.5 text-[#3f159a]" /> },
+    { label: "Unlimited Revisions", icon: <RefreshCw className="w-4.5 h-4.5 text-[#3f159a]" /> },
+    { label: "24/7 Support", icon: <Headset className="w-4.5 h-4.5 text-[#3f159a]" /> },
+    { label: "Confidential Service", icon: <Lock className="w-4.5 h-4.5 text-[#3f159a]" /> },
+    { label: "Subject Experts", icon: <Users className="w-4.5 h-4.5 text-[#3f159a]" /> },
+    { label: "On-Time Delivery", icon: <Clock className="w-4.5 h-4.5 text-[#3f159a]" /> },
+  ];
+
+  const experts = [
+    {
+      name: "Sophia Adams",
+      role: "Marketing Expert",
+      rating: 4.9,
+      img: "/images/resource/team-1.jpg",
+    },
+    {
+      name: "Dr. James Wilson",
+      role: "Finance Expert",
+      rating: 4.8,
+      img: "/images/resource/team-2.jpg",
+    },
+    {
+      name: "Olivia Bennett",
+      role: "Management Expert",
+      rating: 4.9,
+      img: "/images/resource/team-3.jpg",
+    },
+    {
+      name: "Dr. Daniel Harris",
+      role: "Economics Expert",
+      rating: 4.7,
+      img: "/images/resource/team-4.jpg",
+    },
+  ];
+
   return (
-    <div className="bg-white">
-      {/* 1. Hero Section */}
-      <section className="bg-white border-b border-primary-50 py-10 md:py-16">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <Breadcrumb items={breadcrumbItems} />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mt-6">
-            <div className="lg:col-span-8 flex flex-col gap-5 text-left">
-              <Badge variant="soft-purple" className="w-fit text-xs px-3 py-1 font-bold">
+    <div className="font-sans text-[#111827] bg-white overflow-hidden">
+      {/* 3.1 BREADCRUMB + HEADER */}
+      <section className="bg-white border-b border-gray-150 py-6 px-4 md:px-6 lg:px-8">
+        <div className="max-w-[1250px] mx-auto text-left">
+          {/* Breadcrumbs */}
+          <div className="flex items-center gap-1.5 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-6">
+            <Link href="/" className="hover:text-[#3f159a] transition-colors">
+              Home
+            </Link>
+            <ChevronRight className="w-3.5 h-3.5" />
+            <span className="text-[#3f159a]">About Us</span>
+          </div>
+
+          {/* 3.2 HERO */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mt-6">
+            {/* Left Column Content */}
+            <div className="lg:col-span-7 flex flex-col gap-6 text-left">
+              {/* Badge */}
+              <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#f3f0ff] text-[#3f159a] text-[10px] font-extrabold uppercase tracking-widest w-fit mb-1 shadow-sm">
                 ABOUT ASSIGNMENT IN NEED
-              </Badge>
-              
-              <Heading level={1} className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-text-heading leading-tight">
-                Empowering Students Through Expert{" "}
-                <span className="gradient-text bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600 font-black block mt-2">
+              </div>
+
+              {/* H1 */}
+              <h1 className="text-[34px] sm:text-[42px] lg:text-[45px] font-[900] leading-[1.1] text-[#0f1b3d] tracking-tight">
+                Empowering Students Through Expert
+                <span className="bg-gradient-to-r from-[#ea580c] to-[#3f159a] bg-clip-text text-transparent block mt-2">
                   Academic Support & Guidance
                 </span>
-              </Heading>
+              </h1>
 
-              <Text className="text-sm md:text-base text-text-body leading-relaxed max-w-2xl">
-                We are a dedicated UK academic support platform helping international students achieve top marks through customized model answers, peer-reviewed study research, and citation formatting guidance.
-              </Text>
+              {/* Subtext */}
+              <p className="text-[13px] sm:text-[14px] text-gray-500 font-bold leading-relaxed max-w-[500px]">
+                We connect students with professional academic experts who help them achieve their goals with confidence, quality and integrity.
+              </p>
 
-              {/* Stats Row */}
-              <div className="grid grid-cols-3 gap-4 max-w-md mt-2">
-                <div className="flex flex-col bg-primary-50/40 p-3 rounded-xl border border-primary-100/50">
-                  <span className="font-heading font-extrabold text-lg text-primary-700">25,000+</span>
-                  <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider">Students Helped</span>
+              {/* 3 Stats Row */}
+              <div className="grid grid-cols-3 gap-3 w-full max-w-[480px]">
+                <div className="flex flex-col bg-[#fbfaff] border border-purple-50 p-3 rounded-2xl shadow-sm">
+                  <div className="w-8 h-8 rounded-full bg-[#f4f2ff] flex items-center justify-center text-[#3f159a] mb-2 shrink-0">
+                    <GraduationCap className="w-4.5 h-4.5" />
+                  </div>
+                  <span className="font-extrabold text-[15px] text-[#0f1b3d] leading-none mb-1">25,000+</span>
+                  <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider leading-tight">Students Supported</span>
                 </div>
-                <div className="flex flex-col bg-primary-50/40 p-3 rounded-xl border border-primary-100/50">
-                  <span className="font-heading font-extrabold text-lg text-primary-700">150+</span>
-                  <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider">Scholarly Tutors</span>
+
+                <div className="flex flex-col bg-[#fbfaff] border border-purple-50 p-3 rounded-2xl shadow-sm">
+                  <div className="w-8 h-8 rounded-full bg-[#f4f2ff] flex items-center justify-center text-[#3f159a] mb-2 shrink-0">
+                    <Users className="w-4.5 h-4.5" />
+                  </div>
+                  <span className="font-extrabold text-[15px] text-[#0f1b3d] leading-none mb-1">150+</span>
+                  <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider leading-tight">Subject Experts</span>
                 </div>
-                <div className="flex flex-col bg-primary-50/40 p-3 rounded-xl border border-primary-100/50">
-                  <span className="font-heading font-extrabold text-lg text-primary-700">98%</span>
-                  <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider">Success Rate</span>
+
+                <div className="flex flex-col bg-[#fbfaff] border border-purple-50 p-3 rounded-2xl shadow-sm">
+                  <div className="w-8 h-8 rounded-full bg-[#f4f2ff] flex items-center justify-center text-[#3f159a] mb-2 shrink-0">
+                    <Clock className="w-4.5 h-4.5" />
+                  </div>
+                  <span className="font-extrabold text-[15px] text-[#0f1b3d] leading-none mb-1">98%</span>
+                  <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider leading-tight">On-Time Delivery</span>
                 </div>
               </div>
 
+              {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 mt-2">
-                <Link href="/writers">
-                  <Button variant="primary" size="md">
-                    Meet Our Experts
+                <Link href="#experts-section">
+                  <Button variant="primary" size="md" className="bg-[#3f159a] hover:bg-[#2b0c61] text-white font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider transition duration-200 shadow-md">
+                    Meet Our Experts &rarr;
                   </Button>
                 </Link>
                 <Link href="/pricing">
-                  <Button variant="cta" size="md">
-                    Get Free Quote
+                  <Button variant="outline" size="md" className="bg-white hover:bg-gray-50 text-[#3f159a] border border-[#3f159a] font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider transition duration-200 shadow-sm">
+                    Get Free Quote &rarr;
                   </Button>
                 </Link>
               </div>
             </div>
 
-            {/* Right Side Laptop Illustration */}
-            <div className="hidden lg:col-span-4 lg:flex items-center justify-end">
-              <div className="w-48 h-48 rounded-3xl bg-primary-50/40 border border-primary-100 flex items-center justify-center relative animate-pulse">
-                <span className="text-6xl">💻</span>
-                <div className="absolute -top-2 -right-2 bg-success text-white font-heading font-bold text-[10px] px-2.5 py-1 rounded-lg shadow">
-                  Verified UK Platform
-                </div>
-              </div>
+            {/* Right Column Illustration */}
+            <div className="lg:col-span-5 flex items-center justify-center relative w-full h-[320px] md:h-[480px]">
+              <Image
+                src="/new-about-us-img/hero1.png"
+                alt="Empowering Students illustration"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. Who We Are */}
-      <SectionContainer className="bg-surface-lavender">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Photo on Left */}
-          <div className="lg:col-span-5 w-full flex items-center justify-center">
-            <div className="w-full aspect-[4/3] rounded-2xl bg-primary-100/50 border border-primary-100 flex items-center justify-center text-5xl">
-              👥
+      {/* 3.3 "WHO WE ARE" SPLIT SECTION */}
+      <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white border-b border-gray-150">
+        <div className="max-w-[1250px] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left Column Student photo */}
+            <div className="lg:col-span-5 relative w-full h-[260px] md:h-[320px] shrink-0">
+              <Image
+                src="/new-about-us-img/test1.png"
+                alt="About Assignment In Need"
+                fill
+                className="object-contain"
+              />
+            </div>
+
+            {/* Right Column Content */}
+            <div className="lg:col-span-7 flex flex-col gap-5 text-left">
+              <span className="text-[10px] font-extrabold text-[#3f159a] uppercase tracking-widest">
+                WHO WE ARE
+              </span>
+              <h2 className="text-[28px] sm:text-[34px] font-[900] text-[#0f1b3d] tracking-tight">
+                About Assignment In Need
+              </h2>
+              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed max-w-[620px]">
+                Assignment In Need was founded with a simple goal – to provide students with accessible, reliable and high-quality academic support. We understand the challenges students face, which is why we've built a platform that connects you with the best academic experts who deliver top-notch assistance tailored to your needs.
+              </p>
+
+              {/* Checklist */}
+              <ul className="flex flex-col gap-3 mt-2">
+                <li className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#f4f2ff] text-[#3f159a] flex items-center justify-center shrink-0 border border-purple-50 shadow-sm">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">Trusted by students across the UK and worldwide</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#f4f2ff] text-[#3f159a] flex items-center justify-center shrink-0 border border-purple-50 shadow-sm">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">A team of qualified academic experts</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-5 h-5 rounded-full bg-[#f4f2ff] text-[#3f159a] flex items-center justify-center shrink-0 border border-purple-50 shadow-sm">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">Commitment to quality, originality and confidentiality</span>
+                </li>
+              </ul>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Text on Right */}
-          <div className="lg:col-span-7 flex flex-col gap-4 text-left">
-            <Badge variant="soft-purple" className="w-fit text-xs px-3 py-1 font-bold">Who We Are</Badge>
-            <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
-              About Assignment In Need
-            </Heading>
-            <Text className="text-text-body text-sm leading-relaxed">
-              Assignment In Need was founded with a simple goal – to provide students with accessible, reliable, and high-quality academic support. We understand the challenges students face, which is why we&apos;ve built a platform that connects you with the best academic experts who deliver top-notch assistance tailored to your needs.
-            </Text>
-            
-            <ul className="flex flex-col gap-3 mt-2">
-              <li className="flex items-center gap-2.5 text-xs font-semibold text-text-heading">
-                <CheckCircle2 className="w-4.5 h-4.5 text-success shrink-0" />
-                <span>Trusted by students across the UK and worldwide</span>
-              </li>
-              <li className="flex items-center gap-2.5 text-xs font-semibold text-text-heading">
-                <CheckCircle2 className="w-4.5 h-4.5 text-success shrink-0" />
-                <span>A team of highly qualified academic experts</span>
-              </li>
-              <li className="flex items-center gap-2.5 text-xs font-semibold text-text-heading">
-                <CheckCircle2 className="w-4.5 h-4.5 text-success shrink-0" />
-                <span>Commitment to quality, originality, and confidentiality</span>
-              </li>
-            </ul>
+      {/* 3.4 STATS BANNER — "Numbers Speak of Our Success Story" */}
+      <section className="py-12 bg-white border-b border-gray-50">
+        <div className="max-w-[1250px] mx-auto px-4">
+          <div 
+            className="rounded-3xl overflow-hidden relative shadow-xl p-8 md:p-10 text-white text-center"
+            style={{
+              background: "linear-gradient(135deg, #120b3c 0%, #2b0e6c 60%, #4c119e 100%)"
+            }}
+          >
+            {/* Subtle sparkle overlay pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent pointer-events-none" />
+
+            <h2 className="text-[20px] sm:text-[24px] font-[900] text-white tracking-tight mb-8 relative z-10 font-heading">
+              Numbers Speak of Our Success Story
+            </h2>
+
+            {/* 4 Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
+              {[
+                { val: "182,532+", lbl: "Orders Delivered", icon: <CheckCircle2 className="w-4 h-4" /> },
+                { val: "30,000+", lbl: "Happy Clients", icon: <Users className="w-4 h-4" /> },
+                { val: "4.8/5", lbl: "Client Rating", icon: <Star className="w-4 h-4" /> },
+                { val: "4,500+", lbl: "PhD Experts", icon: <GraduationCap className="w-4 h-4" /> },
+              ].map((stat, idx) => (
+                <div key={idx} className="flex flex-col items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-white text-[#3f159a] flex items-center justify-center shadow-md">
+                    {stat.icon}
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="font-heading font-[950] text-2xl text-white">{stat.val}</span>
+                    <span className="text-[9px] text-purple-200/90 font-extrabold uppercase tracking-widest">{stat.lbl}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </SectionContainer>
+      </section>
 
-      {/* 3. Numbers Speak Inline Stats strip */}
-      <SectionContainer className="bg-white py-0 md:py-0">
-        <div className="bg-gradient-to-br from-primary-800 to-indigo-900 rounded-card p-8 text-white text-center shadow-lg relative overflow-hidden flex flex-col gap-4">
-          <Heading level={3} className="text-lg text-white">Numbers Speak of Our Success Story</Heading>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-2">
-            {[
-              { val: "182,532+", lbl: "Orders Delivered" },
-              { val: "30,000+", lbl: "Happy Clients" },
-              { val: "4.8/5", lbl: "Client Rating" },
-              { val: "4,500+", lbl: "PHD Experts" },
-            ].map((stat, idx) => (
-              <div key={idx} className="flex flex-col gap-1">
-                <span className="font-heading font-black text-2xl text-accent-400">{stat.val}</span>
-                <span className="text-[10px] text-primary-200/80 font-bold uppercase tracking-wider">{stat.lbl}</span>
-              </div>
+      {/* 3.5 "HOW IT WORKS" — 5-step process */}
+      <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white border-b border-gray-150">
+        <div className="max-w-[1250px] mx-auto text-center">
+          <h2 className="text-[26px] sm:text-[32px] font-[900] text-[#0f1b3d] tracking-tight mb-3 font-heading">
+            How It Works
+          </h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full mx-auto mb-12" />
+
+          {/* Desktop flow (horizontal) */}
+          <div className="hidden md:flex items-start justify-center gap-0 w-full max-w-[1100px] mx-auto">
+            {steps.map((step, idx) => (
+              <React.Fragment key={step.number}>
+                <div className="flex flex-col items-center text-center gap-3 flex-1">
+                  <div className="relative">
+                    <div className="w-16 h-16 rounded-full bg-[#f4f2ff] border border-purple-100 flex items-center justify-center shadow-sm">
+                      <span className="text-[20px] font-extrabold text-[#3f159a] font-heading">{step.number}</span>
+                    </div>
+                  </div>
+                  <h3 className="text-xs sm:text-sm font-extrabold text-[#0f1b3d] leading-snug mt-1 font-heading">
+                    {step.title}
+                  </h3>
+                  <p className="text-[11px] text-gray-500 font-bold max-w-[150px] leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
+
+                {/* Arrow Connector */}
+                {idx < steps.length - 1 && (
+                  <div className="flex items-center pt-6 px-1 shrink-0">
+                    <span className="text-[20px] font-extrabold text-[#3f159a]">&rarr;</span>
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+
+          {/* Mobile flow (vertical list) */}
+          <div className="flex md:hidden flex-col items-center gap-4 w-full max-w-[320px] mx-auto">
+            {steps.map((step, idx) => (
+              <React.Fragment key={step.number}>
+                <div className="w-full bg-[#fbfaff] border border-gray-150 p-5 rounded-2xl flex flex-col items-center text-center gap-2 shadow-sm">
+                  <div className="w-10 h-10 rounded-full bg-[#f4f2ff] flex items-center justify-center border border-purple-50">
+                    <span className="text-[14px] font-extrabold text-[#3f159a] font-heading">{step.number}</span>
+                  </div>
+                  <h3 className="text-xs font-extrabold text-[#0f1b3d] font-heading">
+                    {step.title}
+                  </h3>
+                  <p className="text-[10px] text-gray-500 font-bold leading-normal">
+                    {step.description}
+                  </p>
+                </div>
+
+                {/* Vertical down arrow */}
+                {idx < steps.length - 1 && (
+                  <div className="text-[20px] font-extrabold text-[#3f159a] py-1">
+                    &darr;
+                  </div>
+                )}
+              </React.Fragment>
             ))}
           </div>
         </div>
-      </SectionContainer>
+      </section>
 
-      {/* 4. How It Works Timeline */}
-      <SectionContainer className="bg-white">
-        <ProcessSteps
-          steps={steps}
-          title="How It Works"
-          subtitle="Our structured delivery timeline ensures your document is prepared, reviewed, and formatted accurately."
-        />
-      </SectionContainer>
+      {/* 3.6 "OUR MISSION" SPLIT SECTION */}
+      <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white border-b border-gray-150">
+        <div className="max-w-[1250px] mx-auto">
+          <div className="bg-[#faf9fe] rounded-3xl border border-purple-50/50 p-8 md:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Column Mission content */}
+            <div className="lg:col-span-7 flex flex-col gap-4 text-left">
+              <span className="text-[10px] font-extrabold text-[#3f159a] uppercase tracking-widest">
+                OUR MISSION
+              </span>
+              <h2 className="text-[26px] sm:text-[32px] font-[900] text-[#0f1b3d] tracking-tight leading-tight">
+                We're On A Mission To Make A Difference
+              </h2>
+              <div className="w-12 h-0.5 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full mb-3" />
+              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">
+                Our mission is to empower students by providing expert academic support that enhances learning, builds confidence, and helps them achieve their full potential.
+              </p>
+              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed mt-1">
+                We believe every student deserves the right guidance to succeed.
+              </p>
+            </div>
 
-      {/* 5. Our Mission */}
-      <SectionContainer className="bg-surface-lavender">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Content Left */}
-          <div className="lg:col-span-7 flex flex-col gap-4 text-left">
-            <Badge variant="soft-purple" className="w-fit text-xs px-3 py-1 font-bold">Our Mission</Badge>
-            <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading leading-tight">
-              We&apos;re On A Mission To Make A Difference
-            </Heading>
-            <Text className="text-text-body text-sm leading-relaxed">
-              Our mission is to empower students by providing expert academic support that enhances learning, builds confidence, and helps them achieve their full potential. We believe every student deserves the right guidance to succeed.
-            </Text>
-          </div>
-
-          {/* Right target illustration */}
-          <div className="lg:col-span-5 w-full flex items-center justify-center">
-            <div className="w-40 h-40 rounded-3xl bg-white border border-primary-100 flex items-center justify-center text-6xl shadow-card">
-              🎯
+            {/* Right Column Target image graphic */}
+            <div className="lg:col-span-5 relative w-full h-[280px] md:h-[350px] rounded-3xl overflow-hidden shadow-md shrink-0">
+              <Image
+                src="/new-about-us-img/replace1.png"
+                alt="Our Mission"
+                fill
+                className="object-cover"
+              />
             </div>
           </div>
         </div>
-      </SectionContainer>
+      </section>
 
-      {/* 6. More Than A Writing Platform */}
-      <SectionContainer className="bg-white">
-        <div className="flex flex-col gap-8">
-          <div className="text-center max-w-2xl mx-auto flex flex-col gap-2">
-            <Badge variant="soft-purple" className="w-fit mx-auto text-xs px-3 py-1 font-bold">Extra Assistance</Badge>
-            <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
-              More Than A Writing Platform
-            </Heading>
-            <Text className="text-text-muted text-sm">
-              We provide additional services to ensure your academic journey is fully supported.
-            </Text>
-          </div>
+      {/* 3.7 "MORE THAN A WRITING PLATFORM" — 4 feature cards */}
+      <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white border-b border-gray-150">
+        <div className="max-w-[1250px] mx-auto text-center">
+          <h2 className="text-[26px] sm:text-[32px] font-[900] text-[#0f1b3d] tracking-tight mb-3 font-heading">
+            More Than A Writing Platform
+          </h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full mx-auto mb-12" />
 
+          {/* Cards container: row on desktop, stacked on mobile */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: "Academic Guidance", desc: "Get expert help for assignments, essays, dissertations, and more tailored to your needs.", icon: <Brain className="text-purple-700 w-5 h-5" /> },
-              { title: "Referencing Assistance", desc: "Accurate referencing in APA, Harvard, MLA, OSCOLA and other major style parameters.", icon: <Award className="text-red-700 w-5 h-5" /> },
-              { title: "Expert Consultation", desc: "Connect with subject specialists for clarification and in-depth understanding.", icon: <Users className="text-green-700 w-5 h-5" /> },
-              { title: "Student Resources", desc: "Access free samples, formatting guides, and vocabulary tips to improve academic skills.", icon: <BookOpen className="text-blue-700 w-5 h-5" /> },
-            ].map((item, idx) => (
-              <div key={idx} className="bg-primary-50/10 border border-primary-150/40 p-5 rounded-xl text-left flex flex-col gap-3 group hover:border-primary-200 transition-colors">
-                <div className="w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center shrink-0">
+            {platformFeatures.map((item, idx) => (
+              <div 
+                key={idx} 
+                className="bg-white border border-gray-150 p-6 rounded-2xl text-left flex flex-col gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-md hover:translate-y-[-4px] transition-all duration-300 group"
+              >
+                <div className={`w-10 h-10 rounded-xl ${item.bg} flex items-center justify-center shadow-sm shrink-0`}>
                   {item.icon}
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <Heading level={4} className="text-sm sm:text-base">{item.title}</Heading>
-                  <Text className="text-xs text-text-body leading-relaxed">{item.desc}</Text>
+                  <h3 className="text-xs sm:text-sm font-extrabold text-[#0f1b3d] font-heading group-hover:text-[#3f159a] transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-[11px] text-gray-500 font-bold leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </SectionContainer>
+      </section>
 
-      {/* 7. Why Students Trust Us (6 badge grid) */}
-      <SectionContainer className="bg-surface-lavender">
-        <div className="flex flex-col gap-6">
-          <div className="text-center max-w-2xl mx-auto flex flex-col gap-2 mb-2">
-            <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
-              Why Students Trust Us
-            </Heading>
-          </div>
+      {/* 3.8 "WHY STUDENTS TRUST US" — 6 icon items */}
+      <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white border-b border-gray-150">
+        <div className="max-w-[1250px] mx-auto text-center">
+          <h2 className="text-[26px] sm:text-[32px] font-[900] text-[#0f1b3d] tracking-tight mb-3 font-heading">
+            Why Students Trust Us
+          </h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full mx-auto mb-12" />
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            {[
-              { label: "100% Original Work", icon: <ShieldCheck className="w-5 h-5 text-primary-500" /> },
-              { label: "Unlimited Revisions", icon: <CheckCircle2 className="w-5 h-5 text-primary-500" /> },
-              { label: "24/7 Support", icon: <Users className="w-5 h-5 text-primary-500" /> },
-              { label: "Confidential Service", icon: <ShieldCheck className="w-5 h-5 text-primary-500" /> },
-              { label: "Subject Experts", icon: <Award className="w-5 h-5 text-primary-500" /> },
-              { label: "On-Time Delivery", icon: <CheckCircle2 className="w-5 h-5 text-primary-500" /> },
-            ].map((b, idx) => (
-              <div key={idx} className="bg-white border border-primary-100 p-4 rounded-xl flex flex-col items-center justify-center text-center gap-2">
-                <div className="w-9 h-9 rounded-full bg-primary-50 flex items-center justify-center shrink-0">
+          {/* 6 Grid items */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {trustBadges.map((b, idx) => (
+              <div 
+                key={idx} 
+                className="bg-[#f5f3ff] border border-purple-50 p-5 rounded-2xl flex flex-col items-center justify-center text-center gap-3 shadow-[0_2px_8px_rgba(63,21,154,0.01)] hover:scale-[1.03] transition-transform duration-200"
+              >
+                <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm shrink-0 text-[#3f159a]">
                   {b.icon}
                 </div>
-                <span className="text-xs font-bold text-text-heading leading-tight">{b.label}</span>
+                <span className="text-[11px] sm:text-xs font-black text-[#0f1b3d] leading-snug">
+                  {b.label}
+                </span>
               </div>
             ))}
           </div>
         </div>
-      </SectionContainer>
+      </section>
 
-      {/* 8. Meet Our Academic Experts (4 cards) */}
-      <SectionContainer className="bg-white">
-        <div className="flex flex-col gap-8">
-          <div className="flex items-center justify-between border-b border-primary-50 pb-2">
-            <div className="flex flex-col gap-1 text-left">
-              <Badge variant="soft-purple" className="w-fit text-xs px-2.5 py-0.5 font-bold">Experts</Badge>
-              <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
+      {/* 3.9 "MEET OUR ACADEMIC EXPERTS" */}
+      <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white border-b border-gray-150" id="experts-section">
+        <div className="max-w-[1250px] mx-auto">
+          {/* Header Row: Title left, link right on desktop */}
+          <div className="flex flex-row items-end justify-between mb-8 border-b border-gray-100 pb-3">
+            <div className="text-left flex-1 min-w-0 pr-2">
+              <h2 className="text-[22px] sm:text-[28px] font-[900] text-[#0f1b3d] tracking-tight font-heading leading-tight">
                 Meet Our Academic Experts
-              </Heading>
+              </h2>
+              <p className="text-[11px] sm:text-xs text-gray-400 font-bold uppercase tracking-wider leading-relaxed mt-1">
+                Learn from the best. Our experts are here to help you achieve top grades.
+              </p>
             </div>
-            <Link href="/writers" className="text-sm font-bold text-primary-700 link-slide-hover">
-              View All Experts →
+            {/* Desktop link only */}
+            <Link
+              href="/writers"
+              className="hidden md:flex text-[11px] font-extrabold text-[#3f159a] items-center hover:underline uppercase tracking-widest gap-0.5 shrink-0"
+            >
+              View All Experts <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {WRITERS.slice(0, 4).map((writer) => (
-              <ExpertCard
-                key={writer.id}
-                variant="subject"
-                name={writer.name}
-                role={writer.role}
-                rating={writer.rating}
-                ordersCount={writer.ordersCompleted}
-                avatar={writer.avatar}
-                experience={writer.experience}
-                qualifications={writer.qualifications}
-                onHire={() => {
-                  window.location.href = `/writers/${writer.id}`;
-                }}
-              />
+          {/* Experts cards: row on desktop, stacked list on mobile */}
+          <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {experts.map((expert, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col justify-between hover:translate-y-[-5px] duration-300 w-full"
+              >
+                {/* Mobile View layout (row format) */}
+                <div className="flex flex-row items-center p-4 gap-4 md:hidden">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 relative shrink-0">
+                    <Image
+                      src={expert.img}
+                      alt={expert.name}
+                      fill
+                      className="object-cover object-top"
+                    />
+                  </div>
+                  <div className="flex flex-col text-left justify-center min-w-0 flex-1">
+                    <h3 className="font-extrabold text-[#0f1b3d] text-[13px] mb-0.5 leading-snug">
+                      {expert.name}
+                    </h3>
+                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wide mb-1">
+                      {expert.role}
+                    </p>
+                    <div className="flex items-center gap-0.5 text-yellow-400 text-[10px]">
+                      ★★★★★ <span className="text-[#0f1b3d] font-bold ml-1">{expert.rating}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Desktop View layout (top image format) */}
+                <div className="hidden md:flex flex-col">
+                  <div className="h-44 bg-gray-100 relative w-full">
+                    <Image
+                      src={expert.img}
+                      alt={expert.name}
+                      fill
+                      className="object-cover object-top"
+                    />
+                  </div>
+                  <div className="p-4 flex flex-col text-left">
+                    <h3 className="font-extrabold text-[#0f1b3d] text-[13px] mb-0.5">
+                      {expert.name}
+                    </h3>
+                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wide mb-2">
+                      {expert.role}
+                    </p>
+                    <div className="flex items-center gap-0.5 text-yellow-400 text-xs">
+                      ★★★★★ <span className="text-[#0f1b3d] font-bold ml-1">{expert.rating}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
-        </div>
-      </SectionContainer>
 
-      {/* Bottom CTA strip */}
-      <section className="bg-navy-900 py-10 text-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-left">
-          <Heading level={3} className="text-xl md:text-2xl text-white">
-            Need Expert Academic Support?
-          </Heading>
-          <Link href="/pricing" className="shrink-0">
-            <Button variant="cta" size="md">
-              Get Free Quote Now →
-            </Button>
-          </Link>
+          {/* Mobile view only "View All Experts" button */}
+          <div className="flex md:hidden w-full mt-6">
+            <Link href="/writers" className="w-full">
+              <Button 
+                variant="outline" 
+                size="md" 
+                className="w-full border-[#3f159a] text-[#3f159a] hover:bg-[#f4f2ff] font-extrabold text-[11px] uppercase tracking-wider py-3.5 rounded-lg text-center"
+              >
+                View All Experts &rarr;
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 3.10 BOTTOM CTA — "Need Expert Academic Support?" */}
+      <section className="py-8 bg-white border-b border-gray-50">
+        <div className="max-w-[1100px] mx-auto px-4">
+          <div 
+            className="border border-purple-100 shadow-[0_8px_30px_rgba(63,21,154,0.04)] rounded-3xl p-6 pt-12 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-white relative"
+            style={{
+              background: "linear-gradient(110deg, #24105f 0%, #3c168b 58%, #6a23b6 100%)"
+            }}
+          >
+            <div className="flex flex-col md:flex-row items-center gap-5 text-center md:text-left w-full md:w-auto">
+              {/* Overflowing image wrapper */}
+              <div className="relative w-28 h-28 md:w-36 md:h-36 -mt-20 md:-my-12 md:-ml-6 shrink-0 z-10">
+                <Image
+                  src="/assets/media/avatars/books-with-graduation-cap-digital-art-style-education-day-removebg-preview.png"
+                  alt="Graduation Cap Books"
+                  fill
+                  className="object-contain animate-pulse"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <p className="text-white text-[15px] sm:text-[18px] font-black tracking-tight leading-snug m-0">
+                  Need Expert Academic Support?
+                </p>
+                <p className="text-purple-200 text-xs font-bold leading-normal m-0">
+                  Join 25,000+ students who trust Assignment In Need for quality, reliability and academic success.
+                </p>
+              </div>
+            </div>
+            <Link href="/pricing" className="w-full md:w-auto shrink-0 z-10">
+              <Button
+                variant="primary"
+                size="md"
+                className="bg-[#ff6a12] hover:bg-[#ea580c] text-white font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider shadow-md transition duration-200 w-full md:w-auto text-center"
+              >
+                Get Free Quote &rarr;
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </div>
