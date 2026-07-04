@@ -27,10 +27,10 @@ export const BlogCard: React.FC<BlogCardProps> = ({ title, excerpt, date, image,
       </div>
       <div className="p-6">
         <h3 className="text-xl font-semibold text-text-heading mb-3 leading-tight">{title}</h3>
-        <p className="text-sm text-text-muted leading-relaxed line-clamp-3">{excerpt}</p>
+        <p className="text-sm text-text-muted leading-relaxed line-clamp-3 blog-description">{excerpt}</p>
         <div className="mt-6">
-          <Link href={href} className="inline-flex items-center gap-2 rounded-full bg-primary-700 px-5 py-2 text-sm font-bold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-primary-800">
-            Read More
+          <Link href={href} className="btn-learn-more inline-flex items-center gap-2 text-sm font-bold">
+            Learn More
           </Link>
         </div>
       </div>

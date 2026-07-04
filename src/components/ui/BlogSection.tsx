@@ -37,7 +37,9 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
-            <BlogCard key={post.title} title={post.title} excerpt={post.excerpt} image={post.image} date={post.date} href={post.href} />
+            <div className="animated-border-wrapper" key={post.title}>
+              <BlogCard title={post.title} excerpt={post.excerpt} image={post.image} date={post.date} href={post.href} />
+            </div>
           ))}
         </div>
       </div>

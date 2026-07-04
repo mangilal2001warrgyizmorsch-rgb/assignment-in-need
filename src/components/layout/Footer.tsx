@@ -75,12 +75,12 @@ export const Footer = () => {
           <div className="znh-footer-col">
             <h3>Resources</h3>
             <ul>
-              <li><Link href="#">Referencing Guides</Link></li>
-              <li><Link href="#">Writing Tips</Link></li>
+              <li><Link href="/resources/referencing-guides">Referencing Guides</Link></li>
+              <li><Link href="/resources/writing-tips">Writing Tips</Link></li>
               <li><Link href="/samples">Samples</Link></li>
-              <li><Link href="#">Blog</Link></li>
-              <li><Link href="#">Student Resources</Link></li>
-              <li className="znh-view-all"><Link href="#">View All Resources</Link></li>
+              <li><Link href="/blog">Blog</Link></li>
+              <li><Link href="/resources/student-resources">Student Resources</Link></li>
+              <li className="znh-view-all"><Link href="/resources">View All Resources</Link></li>
             </ul>
           </div>
           <div className="znh-footer-col">

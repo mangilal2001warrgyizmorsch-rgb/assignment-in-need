@@ -4,6 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import Header from "@/components/Header";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
+// import "./blog/blog.css";
 
 const inter = Inter({
   variable: "--font-inter",

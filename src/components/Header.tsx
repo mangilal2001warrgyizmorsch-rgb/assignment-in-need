@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import './Header.css';
 
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import './Header.css';
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -531,11 +532,11 @@ export default function Header() {
                                         <a>Resources </a>
                                         <ul>
                                             <li>
-                                                <a href="free-samples">Samples</a>
+                                                <Link href="/samples">Samples</Link>
                                             </li>
 
                                             <li>
-                                                <a href="blog">Blog</a>
+                                                <Link href="/blog">Blog</Link>
 
                                             </li>
                                         </ul>
