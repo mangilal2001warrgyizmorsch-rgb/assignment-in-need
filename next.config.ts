@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
-    const backendUrl = process.env.BACKEND_INTERNAL_URL || "http://localhost:8000";
+    const backendUrl = process.env.BACKEND_INTERNAL_URL || "https://admin.assignnmentinneed.com";
     return [
       {
         source: "/api/:path*",
