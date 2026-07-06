@@ -6,6 +6,7 @@ import Link from "next/link";
 import { BlogCard } from "@/components/ui/BlogCard";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { CheckCircle2, User, Mail, Calendar, Phone, BookOpen, PenTool, Minus, Plus, Loader2 } from "lucide-react";
+import { getBaseUrl, getImageUrl } from "@/lib/api";
 
 export default function BlogPage() {
   const [blogs, setBlogs] = useState<any[]>([]);
@@ -29,19 +30,7 @@ export default function BlogPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getBaseUrl = () => {
-    if (typeof window === "undefined") {
-      return process.env.BACKEND_INTERNAL_URL || "http://localhost:8000";
-    }
-    return ""; // client-side uses relative path for proxying
-  };
 
-  const getImageUrl = (imagePath: string) => {
-    if (!imagePath) return "/assets/bg/blog-bg.png";
-    if (imagePath.startsWith("http")) return imagePath;
-    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
-    return `${baseUrl}/${imagePath}`;
-  };
 
   const fetchBlogs = async (page: number = 1) => {
     try {
@@ -153,9 +142,43 @@ export default function BlogPage() {
             <main className="lg:col-span-8 flex flex-col gap-10">
               
               {loading && blogs.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-24 gap-4">
-                  <Loader2 className="w-10 h-10 animate-spin text-primary-700" />
-                  <p className="text-text-muted text-sm font-medium">Loading blogs from server...</p>
+                <div className="flex flex-col gap-10">
+                  {/* Featured Blog Card Skeleton */}
+                  <div className="flex flex-col">
+                    <div className="w-full h-[240px] sm:h-[400px] rounded-3xl bg-slate-200 animate-pulse mb-6" />
+                    
+                    <div className="flex items-center gap-6 mb-4">
+                      <div className="w-16 h-4 bg-slate-200 rounded animate-pulse" />
+                      <div className="w-24 h-4 bg-slate-200 rounded animate-pulse" />
+                    </div>
+
+                    <div className="w-3/4 h-8 bg-slate-200 rounded-md animate-pulse mb-4" />
+                    
+                    <div className="bg-slate-100/50 border border-slate-100 rounded-3xl p-5 md:p-6 mb-6 flex flex-col gap-2.5 animate-pulse">
+                      <div className="w-full h-4 bg-slate-200 rounded" />
+                      <div className="w-11/12 h-4 bg-slate-200 rounded" />
+                      <div className="w-4/5 h-4 bg-slate-200 rounded" />
+                    </div>
+
+                    <div className="w-36 h-12 bg-slate-200 rounded-full animate-pulse" />
+                  </div>
+
+                  <div className="w-full border-t border-slate-100 my-4" />
+
+                  {/* Standard Blog Cards Grid Skeleton */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {[...Array(4)].map((_, i) => (
+                      <div key={i} className="border border-slate-100 rounded-[2rem] p-5 bg-white shadow-sm flex flex-col gap-4 animate-pulse">
+                        <div className="w-full h-48 bg-slate-200 rounded-2xl" />
+                        <div className="w-1/4 h-4 bg-slate-200 rounded" />
+                        <div className="w-5/6 h-5 bg-slate-200 rounded" />
+                        <div className="space-y-2">
+                          <div className="w-full h-3.5 bg-slate-200 rounded" />
+                          <div className="w-2/3 h-3.5 bg-slate-200 rounded" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ) : blogs.length === 0 ? (
                 <div className="text-center py-24 text-text-heading font-semibold">

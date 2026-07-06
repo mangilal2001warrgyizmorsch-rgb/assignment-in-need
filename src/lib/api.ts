@@ -2,9 +2,17 @@ import { Writer } from "./data";
 
 export const getBaseUrl = () => {
   if (typeof window === "undefined") {
-    return process.env.BACKEND_INTERNAL_URL || "http://localhost:8000";
+    return process.env.BACKEND_INTERNAL_URL || "https://admin.assignnmentinneed.com";
   }
-  return ""; // client-side uses relative path for proxy
+  return ""; // client-side uses relative path for proxying to avoid CORS errors
+};
+
+export const getImageUrl = (imagePath: string) => {
+  if (!imagePath) return "/assets/bg/blog-bg.png";
+  if (imagePath.startsWith("http")) return imagePath;
+  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://admin.assignnmentinneed.com";
+  const cleanPath = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
+  return `${baseUrl}${cleanPath}`;
 };
 
 export const mapExpertToWriter = (expert: any): Writer => {
@@ -86,12 +94,7 @@ export const mapExpertToWriter = (expert: any): Writer => {
   // Fallback avatar initials or full image URL
   let avatarUrl = "";
   if (expert.image) {
-    if (expert.image.startsWith("http://") || expert.image.startsWith("https://")) {
-      avatarUrl = expert.image;
-    } else {
-      // Relative path: prepend backend URL
-      avatarUrl = `http://localhost:8000/${expert.image.replace(/^\//, "")}`;
-    }
+    avatarUrl = getImageUrl(expert.image);
   } else {
     avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=f3e8ff&color=6b21a8`;
   }

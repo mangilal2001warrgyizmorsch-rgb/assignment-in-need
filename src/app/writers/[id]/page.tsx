@@ -65,9 +65,94 @@ export default function WriterProfile() {
 
   if (loading || !writer) {
     return (
-      <div className="bg-white min-h-[60vh] flex flex-col items-center justify-center gap-3">
-        <Loader2 className="w-12 h-12 text-primary-600 animate-spin" />
-        <p className="text-sm font-semibold text-text-muted font-heading">Loading expert profile...</p>
+      <div className="bg-white min-h-[80vh]">
+        <SectionContainer className="bg-white py-6 md:py-10">
+          {/* Breadcrumb Skeleton */}
+          <div className="w-1/4 h-4 bg-slate-200 rounded animate-pulse mb-6" />
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-2">
+            
+            {/* LEFT COLUMN: Main profile details (65%) */}
+            <div className="lg:col-span-8 flex flex-col gap-6 text-left animate-pulse">
+              
+              {/* Header Card Skeleton */}
+              <div className="bg-gradient-to-br from-primary-50/20 to-white rounded-[2rem] border border-primary-100/50 p-6 flex flex-col sm:flex-row gap-5 items-center sm:items-start relative overflow-hidden">
+                <div className="w-24 h-24 rounded-full bg-slate-200 shrink-0" />
+                <div className="flex flex-col items-center sm:items-start gap-3 flex-1">
+                  <div className="w-48 h-7 bg-slate-200 rounded-md" />
+                  <div className="w-24 h-5 bg-slate-200 rounded-full" />
+                  <div className="w-32 h-4 bg-slate-200 rounded" />
+                </div>
+              </div>
+
+              {/* 3x2 Stats Grid Skeleton */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="bg-slate-50 border border-slate-100 rounded-xl p-3.5 flex flex-col justify-center items-center gap-2">
+                    <div className="w-16 h-6 bg-slate-200 rounded" />
+                    <div className="w-12 h-3.5 bg-slate-200 rounded" />
+                  </div>
+                ))}
+              </div>
+
+              {/* Skills Section Skeleton */}
+              <div className="flex flex-col gap-3">
+                <div className="w-32 h-5 bg-slate-200 rounded" />
+                <div className="flex flex-wrap gap-2">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="w-20 h-6 bg-slate-200 rounded-full" />
+                  ))}
+                </div>
+              </div>
+
+              {/* Helps With Section Skeleton */}
+              <div className="flex flex-col gap-3">
+                <div className="w-28 h-5 bg-slate-200 rounded" />
+                <div className="flex flex-wrap gap-2">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="w-24 h-6 bg-slate-200 rounded-full" />
+                  ))}
+                </div>
+              </div>
+
+              {/* Biography Skeleton */}
+              <div className="flex flex-col gap-3">
+                <div className="w-36 h-5 bg-slate-200 rounded" />
+                <div className="space-y-2">
+                  <div className="w-full h-4 bg-slate-200 rounded" />
+                  <div className="w-full h-4 bg-slate-200 rounded" />
+                  <div className="w-11/12 h-4 bg-slate-200 rounded" />
+                  <div className="w-5/6 h-4 bg-slate-200 rounded" />
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN: Sidebar layout (35%) */}
+            <div className="lg:col-span-4 flex flex-col gap-6 animate-pulse">
+              {/* Hire Card Skeleton */}
+              <div className="p-6 border border-slate-150 rounded-2xl bg-white flex flex-col gap-4">
+                <div className="w-2/3 h-5 bg-slate-200 rounded" />
+                <div className="space-y-3 py-2">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <div className="w-4 h-4 bg-slate-200 rounded-full shrink-0" />
+                      <div className="w-full h-4 bg-slate-200 rounded" />
+                    </div>
+                  ))}
+                </div>
+                <div className="w-full h-11 bg-slate-200 rounded-lg" />
+              </div>
+
+              {/* Promo Offer Card Skeleton */}
+              <div className="p-5 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col gap-4">
+                <div className="w-1/3 h-4 bg-slate-200 rounded" />
+                <div className="w-full h-10 bg-slate-200 rounded" />
+                <div className="w-1/2 h-4 bg-slate-200 rounded" />
+              </div>
+            </div>
+
+          </div>
+        </SectionContainer>
       </div>
     );
   }

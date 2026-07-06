@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SUBJECTS } from "@/lib/data";
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { getBaseUrl, getImageUrl } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
@@ -10,19 +11,12 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const getImageUrl = (imagePath: string) => {
-  if (!imagePath) return "/assets/bg/blog-bg.png";
-  if (imagePath.startsWith("http")) return imagePath;
-  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
-  return `${baseUrl}/${imagePath}`;
-};
-
 export default async function BlogDetailPage({ params }: Props) {
   const { slug } = await params;
 
   let post = null;
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+    const baseUrl = getBaseUrl();
     const res = await fetch(`${baseUrl}/api/blogs/${slug}`);
     if (res.ok) {
       const result = await res.json();

@@ -261,9 +261,33 @@ export default function WritersDirectory() {
 
           {/* Expert Grid */}
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-20 gap-3">
-              <Loader2 className="w-10 h-10 text-primary-600 animate-spin" />
-              <p className="text-sm font-semibold text-gray-500">Loading expert writers...</p>
+            <div className="znw-experts-grid">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="znw-expert-card animate-pulse">
+                  <div className="znw-card-header">
+                    <div className="znw-avatar-wrapper bg-slate-200" />
+                    <div className="znw-header-info flex flex-col gap-2">
+                      <div className="w-28 h-5 bg-slate-200 rounded" />
+                      <div className="w-20 h-3.5 bg-slate-200 rounded" />
+                      <div className="w-24 h-3.5 bg-slate-200 rounded" />
+                    </div>
+                  </div>
+                  <div className="znw-card-body flex flex-col gap-3">
+                    <div className="w-2/3 h-4 bg-slate-200 rounded" />
+                    <div className="space-y-1">
+                      <div className="w-full h-3 bg-slate-200 rounded" />
+                      <div className="w-5/6 h-3 bg-slate-200 rounded" />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="w-full h-3 bg-slate-200 rounded" />
+                      <div className="w-4/5 h-3 bg-slate-200 rounded" />
+                    </div>
+                  </div>
+                  <div className="znw-card-footer mt-4">
+                    <div className="w-full h-10 bg-slate-200 rounded-lg" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : currentWriters.length > 0 ? (
             <div>
