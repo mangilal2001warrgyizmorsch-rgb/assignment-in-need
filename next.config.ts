@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         hostname: "admin.assignnmentinneed.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
     ],
   },
   async rewrites() {
@@ -23,11 +28,6 @@ const nextConfig: NextConfig = {
         destination: "http://localhost:8000/api/:path*",
       },
     ];
-  },
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-    ],
   },
 };
 
