@@ -35,6 +35,9 @@ export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Simulate auth state
   const [dynamicServices, setDynamicServices] = useState<any[]>([]);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileSubjectsOpen, setMobileSubjectsOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -159,16 +162,15 @@ export const Navbar = () => {
           
           {/* Logo matching Laravel */}
           <Link href="/" className="flex items-center shrink-0">
-            <img src="/images/icons/Assignment-in-need.png" alt="assignment help services" className="w-[125px] lg:w-[155px] h-auto object-contain" />
+            <img src="/images/icons/assignment_logo2.png" alt="assignment help services" className="w-[100px] lg:w-[120px] h-auto object-contain" />
           </Link>
 
           {/* Desktop Navigation - Exact Laravel Links */}
-          <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
-            <Link href="/" className="text-[17px] font-medium text-gray-800 hover:text-[#3F159A] transition-colors py-2 px-1">Home</Link>
+          <nav className="hidden lg:flex items-center gap-3 xl:gap-5 shrink-0">
             
             {/* Services Dropdown */}
             <div className="relative group py-2">
-              <button className="flex items-center gap-1 text-[17px] font-medium text-gray-800 group-hover:text-[#3F159A] transition-colors px-1">
+              <button className="flex items-center gap-1 text-[15px] xl:text-[16px] font-medium text-gray-800 group-hover:text-[#3F159A] transition-colors px-1 whitespace-nowrap">
                 Services <ChevronDown className="w-4 h-4 opacity-70" />
               </button>
               <div className="absolute top-full left-0 mt-0 w-64 bg-white border border-gray-100 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-2 flex flex-col gap-1 z-50">
@@ -201,7 +203,7 @@ export const Navbar = () => {
 
             {/* Subjects Dropdown */}
             <div className="relative group py-2">
-              <button className="flex items-center gap-1 text-[17px] font-medium text-gray-800 group-hover:text-[#3F159A] transition-colors px-1">
+              <button className="flex items-center gap-1 text-[15px] xl:text-[16px] font-medium text-gray-800 group-hover:text-[#3F159A] transition-colors px-1 whitespace-nowrap">
                 Subjects <ChevronDown className="w-4 h-4 opacity-70" />
               </button>
               <div className="absolute top-full left-0 mt-0 w-56 bg-white border border-gray-100 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-2 flex flex-col gap-1 z-50">
@@ -214,14 +216,14 @@ export const Navbar = () => {
             </div>
 
             {/* Experts */}
-            <Link href="/writers" className="text-[17px] font-medium text-gray-800 hover:text-[#3F159A] transition-colors py-2 px-1">Experts</Link>
+            <Link href="/writers" className="text-[15px] xl:text-[16px] font-medium text-gray-800 hover:text-[#3F159A] transition-colors py-2 px-1 whitespace-nowrap">Experts</Link>
 
             {/* Samples */}
-            <Link href="/samples" className="text-[17px] font-medium text-gray-800 hover:text-[#3F159A] transition-colors py-2 px-1">Samples</Link>
+            <Link href="/samples" className="text-[15px] xl:text-[16px] font-medium text-gray-800 hover:text-[#3F159A] transition-colors py-2 px-1 whitespace-nowrap">Samples</Link>
 
             {/* Resources Dropdown */}
             <div className="relative group py-2">
-              <button className="flex items-center gap-1 text-[17px] font-medium text-gray-800 group-hover:text-[#3F159A] transition-colors px-1">
+              <button className="flex items-center gap-1 text-[15px] xl:text-[16px] font-medium text-gray-800 group-hover:text-[#3F159A] transition-colors px-1 whitespace-nowrap">
                 Resources <ChevronDown className="w-4 h-4 opacity-70" />
               </button>
               <div className="absolute top-full left-0 mt-0 w-40 bg-white border border-gray-100 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 p-2 flex flex-col gap-1 z-50">
@@ -234,64 +236,38 @@ export const Navbar = () => {
             </div>
 
             {/* About Us */}
-            <Link href="/about" className="text-[17px] font-medium text-gray-800 hover:text-[#3F159A] transition-colors py-2 px-1">About Us</Link>
+            <Link href="/about" className="text-[15px] xl:text-[16px] font-medium text-gray-800 hover:text-[#3F159A] transition-colors py-2 px-1 whitespace-nowrap">About Us</Link>
 
             {/* Contact */}
-            <Link href="/contact" className="text-[17px] font-medium text-gray-800 hover:text-[#3F159A] transition-colors py-2 px-1">Contact</Link>
-
-            {/* Order Now Button - Laravel Style */}
-            <Link 
-              href="/order" 
-              className="animate-micro-slide ml-2 inline-flex items-center justify-center px-5 py-2 h-[38px] text-[14px] font-semibold text-white bg-gradient-to-br from-[#5b22c6] to-[#4a17a3] hover:from-[#4a17a3] hover:to-[#3d1288] rounded-[10px] shadow-[0_6px_14px_rgba(74,23,163,0.3)] transition-all duration-250 min-w-[120px]"
-            >
-              Order Now
-            </Link>
+            <Link href="/contact" className="text-[15px] xl:text-[16px] font-medium text-gray-800 hover:text-[#3F159A] transition-colors py-2 px-1 whitespace-nowrap">Contact</Link>
           </nav>
 
           {/* Right Side Icons */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 xl:gap-6">
             
-            {/* User Dropdown */}
-            <div className="relative group">
-              <button className="text-gray-700 hover:text-[#3F159A] transition-colors p-2">
-                <User className="w-[26px] h-[26px]" />
-              </button>
-              <div className="absolute top-full right-0 mt-2 w-[280px] bg-white border border-gray-100 rounded-[12px] shadow-[0_10px_24px_rgba(0,0,0,0.1)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 p-5 z-50">
-                {isLoggedIn ? (
-                  <div className="text-center">
-                    <img src="/assets/media/avatars/blank.png" alt="User Profile" className="w-[60px] h-[60px] rounded-full mx-auto object-cover mb-3 shadow-sm" />
-                    <h3 className="text-[16px] font-semibold text-gray-800 mb-1">John Doe</h3>
-                    <div className="text-[13px] text-gray-500 mb-1">john@example.com</div>
-                    <div className="text-[13px] text-gray-500 mb-4">+1234567890</div>
-                    
-                    <div className="flex flex-col gap-2.5">
-                      <Link href="/myProfile" className="block text-center px-5 py-3 rounded-[10px] text-[15px] font-semibold text-white bg-gradient-to-r from-[#3F159A] to-[#0E8FCE] shadow-md hover:-translate-y-0.5 transition-transform">
-                        View Profile
-                      </Link>
-                      <Link href="/MyOrders" className="block text-center px-5 py-3 rounded-[10px] text-[15px] font-semibold text-white bg-gradient-to-r from-[#3F159A] to-[#0E8FCE] shadow-md hover:-translate-y-0.5 transition-transform">
-                        My Orders
-                      </Link>
-                      <button onClick={() => setIsLoggedIn(false)} className="block w-full text-center px-5 py-3 rounded-[10px] text-[15px] font-semibold text-white bg-gradient-to-r from-red-600 to-red-500 shadow-md hover:-translate-y-0.5 transition-transform">
-                        Sign Out
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    <h4 className="text-xl font-bold text-gray-800 mb-2">Welcome!</h4>
-                    <p className="text-[15px] text-gray-600 mb-5">Please login or sign up to continue.</p>
-                    <div className="flex justify-center gap-3">
-                      <button onClick={() => setIsLoggedIn(true)} className="flex-1 py-2.5 rounded-lg text-[15px] font-semibold text-[#3F159A] border-2 border-[#3F159A] hover:bg-[#3F159A] hover:text-white transition-colors">
-                        Login
-                      </button>
-                      <Link href="/register" className="flex-1 py-2.5 rounded-lg text-[15px] font-semibold text-white bg-gradient-to-r from-[#3F159A] to-[#0E8FCE] hover:shadow-lg transition-shadow text-center">
-                        Sign Up
-                      </Link>
-                    </div>
-                  </div>
-                )}
+            {/* Phone support section (visible on desktop md/lg and up) */}
+            <a href="tel:+447300640066" className="hidden lg:flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+              <div className="w-10 h-10 rounded-full bg-[#f4f2ff] flex items-center justify-center text-[#3f159a] shrink-0">
+                <Phone className="w-[18px] h-[18px] fill-[#3f159a] text-[#3f159a]" />
               </div>
-            </div>
+              <div className="flex flex-col text-left">
+                <span className="font-extrabold text-[15px] text-gray-900 leading-none mb-0.5 whitespace-nowrap">
+                  +44 7300 640066
+                </span>
+                <span className="text-[10px] text-gray-400 font-semibold tracking-wide leading-none">
+                  24/7 Support
+                </span>
+              </div>
+            </a>
+
+            {/* Get Free Quote Button */}
+            <Link 
+              href="/order" 
+              className="inline-flex items-center justify-center px-5 py-2.5 h-[42px] text-[15px] font-bold text-white bg-[#f26522] hover:bg-[#e05413] rounded-xl shadow-[0_4px_12px_rgba(242,101,34,0.2)] transition-colors duration-200 shrink-0"
+            >
+              Get Free Quote
+            </Link>
+
 
             {/* Mobile Menu Toggle */}
             <button 
@@ -303,62 +279,176 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <div className={cn(
-          "lg:hidden fixed inset-0 top-[110px] bg-white z-40 overflow-y-auto transition-all duration-300",
-          isOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
-        )}>
-          <div className="p-4 flex flex-col gap-4">
-            <Link href="/" className="font-semibold text-gray-800 py-2 border-b">Home</Link>
-             <div className="flex flex-col border-b py-2">
-               <span className="font-semibold text-gray-800 mb-2">Services</span>
-               <div className="pl-2 flex flex-col gap-2">
-                 {menuItems.map(cat => (
-                   <div key={cat.path || cat.name} className="flex flex-col gap-1">
-                     {cat.subItems.length > 0 ? (
-                       <>
-                         <div className="flex items-center justify-between text-sm font-semibold text-gray-800 py-1 px-2 bg-gray-50/50 rounded-md">
-                           <span>{cat.name}</span>
-                         </div>
-                         <div className="pl-4 flex flex-col gap-1.5 border-l border-gray-150 ml-3 mt-1">
-                           {cat.subItems.map(sub => (
-                             <Link key={sub.path} href={sub.path} className="text-sm text-gray-600 py-0.5">
-                               {sub.name}
-                             </Link>
-                           ))}
-                         </div>
-                       </>
-                     ) : (
-                       <Link href={cat.path || "#"} className="text-sm text-gray-600 py-1 px-2 hover:bg-gray-50 rounded-md">
-                         {cat.name}
-                       </Link>
-                     )}
-                   </div>
-                 ))}
-               </div>
-             </div>
-            <div className="flex flex-col border-b py-2">
-              <span className="font-semibold text-gray-800 mb-2">Subjects</span>
-              <div className="pl-4 flex flex-col gap-2">
-                {SUBJECTS.map(s => <Link key={s.path} href={s.path} className="text-sm text-gray-600">{s.name}</Link>)}
-              </div>
-            </div>
-            <Link href="/writers" className="font-semibold text-gray-800 py-2 border-b">Experts</Link>
-            <Link href="/samples" className="font-semibold text-gray-800 py-2 border-b">Samples</Link>
-            <div className="flex flex-col border-b py-2">
-              <span className="font-semibold text-gray-800 mb-2">Resources</span>
-              <div className="pl-4 flex flex-col gap-2">
-                {RESOURCES.map(s => <Link key={s.path} href={s.path} className="text-sm text-gray-600">{s.name}</Link>)}
-              </div>
-            </div>
-            <Link href="/about" className="font-semibold text-gray-800 py-2 border-b">About Us</Link>
-            <Link href="/contact" className="font-semibold text-gray-800 py-2 border-b">Contact</Link>
+        {/* Mobile Menu Overlay Drawer */}
+        <div 
+          className={cn(
+            "lg:hidden fixed inset-0 bg-[#0f1b3d] z-50 overflow-y-auto transition-all duration-300 p-6 flex flex-col justify-between",
+            isOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
+          )}
+        >
+          {/* Top Close Row */}
+          <div className="flex items-center justify-end w-full">
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="p-2 text-white hover:opacity-85 transition-opacity"
+            >
+              <X className="w-8 h-8" />
+            </button>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="flex flex-col flex-1 mt-4">
             
+            {/* Services Dropdown Link */}
+            <div className="border-b border-white/10 py-3.5 flex flex-col">
+              <button 
+                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+                className="flex items-center justify-between w-full text-[17px] font-semibold text-white focus:outline-none"
+              >
+                <span>Services</span>
+                <ChevronDown className={cn("w-4 h-4 text-white/70 transition-transform duration-250", mobileServicesOpen && "rotate-180")} />
+              </button>
+              
+              {/* Services Submenu */}
+              <div className={cn(
+                "pl-3 flex flex-col gap-2 overflow-hidden transition-all duration-350",
+                mobileServicesOpen ? "max-h-[350px] mt-3" : "max-h-0"
+              )}>
+                <div className="max-h-[320px] overflow-y-auto flex flex-col gap-2 pr-1" style={{ scrollbarWidth: "none" }}>
+                  {menuItems.map((cat) => (
+                    <div key={cat.path || cat.name} className="flex flex-col gap-1">
+                      {cat.subItems.length > 0 ? (
+                        <>
+                          <span className="text-[13px] font-bold text-white/40 uppercase tracking-wider">{cat.name}</span>
+                          <div className="pl-3.5 flex flex-col gap-2 border-l border-white/10 ml-1.5 mb-1.5">
+                            {cat.subItems.map((sub) => (
+                              <Link 
+                                key={sub.path} 
+                                href={sub.path} 
+                                onClick={() => setIsOpen(false)}
+                                className="text-[14px] text-white/80 hover:text-white"
+                              >
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        <Link 
+                          href={cat.path || "#"} 
+                          onClick={() => setIsOpen(false)}
+                          className="text-[14px] text-white/80 hover:text-white"
+                        >
+                          {cat.name}
+                        </Link>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Subjects Dropdown Link */}
+            <div className="border-b border-white/10 py-3.5 flex flex-col">
+              <button 
+                onClick={() => setMobileSubjectsOpen(!mobileSubjectsOpen)}
+                className="flex items-center justify-between w-full text-[17px] font-semibold text-white focus:outline-none"
+              >
+                <span>Subjects</span>
+                <ChevronDown className={cn("w-4 h-4 text-white/70 transition-transform duration-250", mobileSubjectsOpen && "rotate-180")} />
+              </button>
+              
+              {/* Subjects Submenu */}
+              <div className={cn(
+                "pl-4 flex flex-col gap-2.5 overflow-hidden transition-all duration-300",
+                mobileSubjectsOpen ? "max-h-[220px] mt-3" : "max-h-0"
+              )}>
+                {SUBJECTS.map((s) => (
+                  <Link 
+                    key={s.path} 
+                    href={s.path}
+                    onClick={() => setIsOpen(false)}
+                    className="text-[14px] text-white/80 hover:text-white"
+                  >
+                    {s.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Experts */}
+            <Link 
+              href="/writers" 
+              onClick={() => setIsOpen(false)}
+              className="border-b border-white/10 py-3.5 text-[17px] font-semibold text-white block text-left"
+            >
+              Experts
+            </Link>
+
+            {/* Samples */}
+            <Link 
+              href="/samples" 
+              onClick={() => setIsOpen(false)}
+              className="border-b border-white/10 py-3.5 text-[17px] font-semibold text-white block text-left"
+            >
+              Samples
+            </Link>
+
+            {/* Resources Dropdown Link */}
+            <div className="border-b border-white/10 py-3.5 flex flex-col">
+              <button 
+                onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+                className="flex items-center justify-between w-full text-[17px] font-semibold text-white focus:outline-none"
+              >
+                <span>Resources</span>
+                <ChevronDown className={cn("w-4 h-4 text-white/70 transition-transform duration-250", mobileResourcesOpen && "rotate-180")} />
+              </button>
+              
+              {/* Resources Submenu */}
+              <div className={cn(
+                "pl-4 flex flex-col gap-2.5 overflow-hidden transition-all duration-300",
+                mobileResourcesOpen ? "max-h-[150px] mt-3" : "max-h-0"
+              )}>
+                {RESOURCES.map((s) => (
+                  <Link 
+                    key={s.path} 
+                    href={s.path}
+                    onClick={() => setIsOpen(false)}
+                    className="text-[14px] text-white/80 hover:text-white"
+                  >
+                    {s.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* About Us */}
+            <Link 
+              href="/about" 
+              onClick={() => setIsOpen(false)}
+              className="border-b border-white/10 py-3.5 text-[17px] font-semibold text-white block text-left"
+            >
+              About Us
+            </Link>
+
+            {/* Contact */}
+            <Link 
+              href="/contact" 
+              onClick={() => setIsOpen(false)}
+              className="border-b border-white/10 py-3.5 text-[17px] font-semibold text-white block text-left"
+            >
+              Contact
+            </Link>
+          </div>
+
+          {/* Bottom Orange Button */}
+          <div className="mt-8 pb-4">
             <Link 
               href="/order" 
-              className="mt-4 text-center py-3 text-[15px] font-semibold text-white bg-gradient-to-br from-[#5b22c6] to-[#4a17a3] rounded-[10px]"
+              onClick={() => setIsOpen(false)}
+              className="w-full text-center py-3.5 inline-block text-[15px] font-bold text-white bg-[#f26522] hover:bg-[#e05413] rounded-xl shadow-[0_4px_12px_rgba(242,101,34,0.3)] transition-colors"
             >
-              Order Now
+              Get Free Quote
             </Link>
           </div>
         </div>
