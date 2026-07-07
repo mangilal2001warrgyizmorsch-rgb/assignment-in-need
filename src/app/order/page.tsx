@@ -8,17 +8,19 @@ import {
   FileText, 
   ShieldCheck, 
   CheckCircle2, 
-  Phone, 
-  Mail, 
   Calendar, 
-  Upload, 
   ArrowRight, 
   Lock,
   User,
-  Calculator,
   HelpCircle,
   FileUp,
-  Trash2
+  Trash2,
+  Headset,
+  BookOpen,
+  Briefcase,
+  Clock,
+  Award,
+  ChevronDown
 } from "lucide-react";
 
 import { Heading } from "@/components/ui/Heading";
@@ -26,10 +28,7 @@ import { cn } from "@/lib/utils";
 import { Text } from "@/components/ui/Text";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Input, TextArea } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
 import { SectionContainer } from "@/components/ui/SectionContainer";
-import { Badge } from "@/components/ui/Badge";
 import { SUBJECTS } from "@/lib/data";
 import { getBaseUrl } from "@/lib/api";
 
@@ -70,11 +69,11 @@ const WORD_COUNTS = [
 ];
 
 const COUNTRY_CODES = [
-  { label: "🇬🇧 +44 (UK)", value: "+44" },
-  { label: "🇺🇸 +1 (US)", value: "+1" },
-  { label: "🇦🇺 +61 (AUS)", value: "+61" },
-  { label: "🇨🇦 +1 (CAN)", value: "+1-CA" },
-  { label: "🇳🇿 +64 (NZ)", value: "+64" },
+  { label: "🇬🇧 +44", value: "+44" },
+  { label: "🇺🇸 +1", value: "+1" },
+  { label: "🇦🇺 +61", value: "+61" },
+  { label: "🇨🇦 +1", value: "+1-CA" },
+  { label: "🇳🇿 +64", value: "+64" },
 ];
 
 export default function OrderPage() {
@@ -122,17 +121,6 @@ export default function OrderPage() {
   // Step 5: Upload Files (Simulated)
   const [attachedFiles, setAttachedFiles] = useState<string[]>([]);
   const [isSuccess, setIsSuccess] = useState(false);
-
-  // Map subjects/services for Radix Select Options
-  const subjectOptions = useMemo(() => 
-    SUBJECTS.map((sub) => ({ label: sub.name, value: sub.slug })),
-    []
-  );
-
-  const serviceOptions = useMemo(() => 
-    dynamicServices.map((s) => ({ label: s.hero_heading || s.meta_title || "Service", value: s.slug })),
-    [dynamicServices]
-  );
 
   // File Upload Handlers
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,7 +173,7 @@ export default function OrderPage() {
   }, [subtotal, discount]);
 
   const pagesCount = useMemo(() => {
-    return parseInt(selectedWordCount, 10) / 250;
+    return Math.ceil(parseInt(selectedWordCount, 10) / 250);
   }, [selectedWordCount]);
 
   const activeServiceLabel = useMemo(() => {
@@ -205,7 +193,7 @@ export default function OrderPage() {
 
   if (isSuccess) {
     return (
-      <div className="bg-surface-lavender min-h-screen py-16 flex items-center justify-center">
+      <div className="bg-[#fbfcff] min-h-screen py-8 flex items-center justify-center">
         <SectionContainer className="max-w-xl text-center">
           <Card className="p-8 md:p-12 flex flex-col items-center justify-center gap-6 shadow-xl border border-primary-100">
             <div className="w-20 h-20 rounded-full bg-success/15 flex items-center justify-center text-success animate-bounce">
@@ -228,59 +216,72 @@ export default function OrderPage() {
   }
 
   return (
-    <div className="bg-surface-lavender min-h-screen">
+    <div className="bg-[#f8fafc] min-h-screen pb-8">
       {/* 1. Hero Title Header Block */}
-      <section className="bg-gradient-to-br from-primary-50/50 via-white to-primary-50/20 py-10 md:py-14 border-b border-primary-100/50">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Column Text Info */}
-          <div className="lg:col-span-7 flex flex-col gap-4 text-left">
-            <Badge variant="soft-purple" className="w-fit font-bold px-3 py-1">Order Process</Badge>
-            <Heading level={1} className="text-3xl md:text-4xl lg:text-5xl leading-tight">
-              Need Assignment Help?
-              <span className="gradient-text bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600 block mt-1">
-                Get Expert Assistance in 3 Simple Steps
-              </span>
-            </Heading>
-            <Text className="text-sm md:text-base text-text-body leading-relaxed max-w-xl">
-              High-quality, plagiarism-free assignments delivered on time, every time. Fill in your requirements below and check your summary price in real-time.
-            </Text>
+      <section className="relative w-full bg-gradient-to-r from-white via-purple-50/20 to-purple-50/40 py-3 md:py-5 pb-2 md:pb-3 overflow-hidden">
+        {/* Soft background shape */}
+        <div 
+          className="absolute inset-y-0 right-0 w-1/2 z-0 opacity-10 pointer-events-none" 
+          style={{
+            backgroundImage: "url('/new-pricingimg/hero.png')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center right",
+            backgroundSize: "contain"
+          }}
+        />
 
-            {/* Micro Stats Strip */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white/75 p-3 rounded-xl border border-primary-100/50 shadow-sm mt-3">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-warning/10 text-warning flex items-center justify-center shrink-0">
-                  <Star className="w-4 h-4 fill-current" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+          {/* Left Column Text Info */}
+          <div className="lg:col-span-7 flex flex-col gap-5 text-left">
+            <h1 className="text-[36px] md:text-[44px] font-black text-gray-950 leading-tight">
+              Need Assignment Help?
+            </h1>
+            <h2 className="text-[20px] md:text-[24px] font-extrabold text-[#3f159a] leading-tight -mt-3">
+              Get Expert Assistance in 3 Simple Steps
+            </h2>
+            <p className="text-sm md:text-base text-gray-500 leading-relaxed max-w-xl font-medium">
+              High-quality, plagiarism-free assignments delivered on time, every time.
+            </p>
+
+            {/* Micro Stats Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-1">
+              <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center shrink-0">
+                  <Star className="w-5 h-5 fill-current" />
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-heading font-extrabold text-xs text-text-heading">4.9</span>
-                  <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider">Rating</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-primary-50 text-primary-700 flex items-center justify-center shrink-0">
-                  <Users className="w-4 h-4" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-heading font-extrabold text-xs text-text-heading">5500+</span>
-                  <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider">Reviews</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-success/10 text-success flex items-center justify-center shrink-0">
-                  <FileText className="w-4 h-4" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-heading font-extrabold text-xs text-text-heading">15000+</span>
-                  <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider">Completed</span>
+                <div className="flex flex-col text-left">
+                  <span className="font-extrabold text-sm text-gray-900 leading-none">4.9</span>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">Rating</span>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-primary-50 text-primary-700 flex items-center justify-center shrink-0">
-                  <ShieldCheck className="w-4 h-4" />
+
+              <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                  <Users className="w-5 h-5" />
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-heading font-extrabold text-xs text-text-heading">100%</span>
-                  <span className="text-[9px] text-text-muted font-bold uppercase tracking-wider">Confidential</span>
+                <div className="flex flex-col text-left">
+                  <span className="font-extrabold text-sm text-gray-900 leading-none">5500+</span>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">Reviews</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center shrink-0">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="font-extrabold text-sm text-gray-900 leading-none">15000+</span>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">Delivered</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="font-extrabold text-sm text-gray-900 leading-none">100%</span>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">Confidential</span>
                 </div>
               </div>
             </div>
@@ -288,23 +289,22 @@ export default function OrderPage() {
 
           {/* Right Column Graphic */}
           <div className="lg:col-span-5 flex justify-center items-center relative">
-            <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-3xl bg-gradient-to-tr from-primary-100 to-primary-50 overflow-hidden border-2 border-white shadow-lg">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+            <div className="relative w-full max-w-[340px] aspect-square">
               <img 
-                src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80" 
+                src="/order-page/order-hero.png" 
                 alt="Student assignment help assistance" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
-            </div>
-            
-            {/* Support Float Bubble */}
-            <div className="absolute bottom-4 right-8 bg-white border border-primary-100 shadow-md rounded-xl p-3 flex items-center gap-3 animate-pulse">
-              <div className="w-8 h-8 rounded-full bg-primary-50 text-primary-700 flex items-center justify-center">
-                <Phone className="w-4.5 h-4.5" />
-              </div>
-              <div className="flex flex-col text-left leading-none">
-                <span className="text-xs font-bold text-text-heading">24/7</span>
-                <span className="text-[9px] text-text-muted uppercase font-semibold">Active Support</span>
+
+              {/* Floating 24/7 support badge */}
+              <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-white border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.06)] rounded-2xl p-3.5 flex items-center gap-3 shrink-0">
+                <div className="w-9 h-9 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center">
+                  <Headset className="w-5 h-5 text-purple-700" />
+                </div>
+                <div className="flex flex-col text-left leading-none">
+                  <span className="text-[13px] font-extrabold text-gray-900">24/7</span>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1">Support</span>
+                </div>
               </div>
             </div>
           </div>
@@ -312,56 +312,87 @@ export default function OrderPage() {
       </section>
 
       {/* 2. Order Form Main Section */}
-      <SectionContainer className="py-12">
-        <form onSubmit={handleOrderSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <SectionContainer className="pt-2 pb-5">
+        <form onSubmit={handleOrderSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* LEFT COLUMN: Input details (65%) */}
           <div className="lg:col-span-8 flex flex-col gap-6">
-            <Card className="p-6 md:p-8 flex flex-col gap-8 text-left shadow-md bg-white border border-primary-100/50">
-              <div className="flex items-center gap-2 border-b border-primary-50 pb-3">
-                <Calculator className="w-5.5 h-5.5 text-primary-700" />
-                <Heading level={2} className="text-lg md:text-xl text-text-heading">Submit Your Assignment</Heading>
+            <Card className="p-6 md:p-8 flex flex-col gap-8 text-left shadow-[0_10px_40px_rgba(0,0,0,0.02)] bg-white border border-gray-150/70 rounded-3xl">
+              <div className="flex items-center gap-2.5 border-b border-gray-100 pb-4">
+                <FileText className="w-6 h-6 text-[#3f159a]" />
+                <Heading level={2} className="text-[18px] md:text-[20px] font-extrabold text-gray-900">Submit Your Assignment</Heading>
               </div>
 
               {/* STEP 1: Personal Info */}
-              <div className="flex flex-col gap-4">
-                <span className="text-sm font-heading font-extrabold text-primary-700 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-primary-700 text-white flex items-center justify-center text-xs">1</span>
+              <div className="flex flex-col gap-5">
+                <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
+                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">1</span>
                   Personal Information
                 </span>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Input 
-                    label="Full Name *"
-                    placeholder="Enter your full name"
-                    icon={<User />}
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    required
-                  />
-                  <Input 
-                    label="Email Address *"
-                    placeholder="Enter your email address"
-                    icon={<Mail />}
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                  <div className="flex flex-col gap-1.5 w-full">
-                    <span className="text-sm font-heading font-semibold text-text-heading">Phone Number *</span>
-                    <div className="grid grid-cols-[110px_1fr] gap-2 items-center">
-                      <Select 
-                        options={COUNTRY_CODES}
-                        value={countryCode}
-                        onValueChange={setCountryCode}
-                        className="h-12 border-primary-100/50"
+                  {/* Full Name */}
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[13px] font-bold text-gray-700">Full Name <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                        <User className="w-[18px] h-[18px] text-gray-400" />
+                      </div>
+                      <input 
+                        type="text" 
+                        placeholder="Enter your full name"
+                        className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        required
                       />
-                      <Input 
-                        placeholder="Phone number"
+                    </div>
+                  </div>
+
+                  {/* Email Address */}
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[13px] font-bold text-gray-700">Email Address <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                        <FileText className="w-[18px] h-[18px] text-gray-400" />
+                      </div>
+                      <input 
+                        type="email" 
+                        placeholder="Enter your email address"
+                        className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* Phone Number */}
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[13px] font-bold text-gray-700">Phone Number <span className="text-red-500">*</span></label>
+                    <div className="flex border border-gray-200 bg-white rounded-xl overflow-hidden focus-within:border-purple-600 transition-colors shadow-sm h-[46px]">
+                      {/* Country Selector Dropdown */}
+                      <div className="relative flex items-center bg-gray-50/50 border-r border-gray-200 shrink-0">
+                        <select 
+                          className="pl-3 pr-8 h-full bg-transparent text-[14px] font-bold text-gray-800 focus:outline-none appearance-none cursor-pointer"
+                          value={countryCode}
+                          onChange={(e) => setCountryCode(e.target.value)}
+                        >
+                          {COUNTRY_CODES.map((c) => (
+                            <option key={c.value} value={c.value}>{c.label}</option>
+                          ))}
+                        </select>
+                        <div className="absolute right-2.5 pointer-events-none text-gray-400">
+                          <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+                        </div>
+                      </div>
+                      {/* Input number */}
+                      <input 
+                        type="tel" 
+                        placeholder="Enter phone number"
+                        className="flex-1 pl-4 pr-4 h-full bg-transparent text-[14px] text-gray-800 focus:outline-none font-medium"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         required
-                        className="py-3 px-4 h-12"
                       />
                     </div>
                   </div>
@@ -369,72 +400,163 @@ export default function OrderPage() {
               </div>
 
               {/* STEP 2: Assignment Details */}
-              <div className="flex flex-col gap-4 border-t border-primary-50/50 pt-6">
-                <span className="text-sm font-heading font-extrabold text-primary-700 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-primary-700 text-white flex items-center justify-center text-xs">2</span>
+              <div className="flex flex-col gap-5 border-t border-gray-100 pt-6">
+                <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
+                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">2</span>
                   Assignment Details
                 </span>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Select 
-                    label="Subject *"
-                    options={subjectOptions}
-                    placeholder="Select Subject"
-                    value={selectedSubject}
-                    onValueChange={setSelectedSubject}
-                  />
-                  <Select 
-                    label="Service *"
-                    options={serviceOptions}
-                    placeholder="Select Service"
-                    value={selectedService}
-                    onValueChange={setSelectedService}
-                  />
-                  <Select 
-                    label="Work Type *"
-                    options={WORK_TYPES}
-                    placeholder="Select Work Type"
-                    value={selectedWorkType}
-                    onValueChange={setSelectedWorkType}
-                  />
+                  {/* Subject Dropdown */}
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[13px] font-bold text-gray-700">Subject <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                        <BookOpen className="w-[18px] h-[18px] text-gray-400" />
+                      </div>
+                      <select 
+                        className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
+                        value={selectedSubject}
+                        onChange={(e) => setSelectedSubject(e.target.value)}
+                        required
+                      >
+                        <option value="" disabled>Select Subject</option>
+                        {SUBJECTS.map((sub) => (
+                          <option key={sub.slug} value={sub.slug}>{sub.name}</option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Service Dropdown */}
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[13px] font-bold text-gray-700">Service <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                        <FileText className="w-[18px] h-[18px] text-gray-400" />
+                      </div>
+                      <select 
+                        className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
+                        value={selectedService}
+                        onChange={(e) => setSelectedService(e.target.value)}
+                        required
+                      >
+                        <option value="" disabled>Select Service</option>
+                        {dynamicServices.map((s) => (
+                          <option key={s.slug} value={s.slug}>{s.hero_heading || s.meta_title || "Service"}</option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Work Type Dropdown */}
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[13px] font-bold text-gray-700">Work Type <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                        <Briefcase className="w-[18px] h-[18px] text-gray-400" />
+                      </div>
+                      <select 
+                        className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
+                        value={selectedWorkType}
+                        onChange={(e) => setSelectedWorkType(e.target.value)}
+                        required
+                      >
+                        <option value="" disabled>Select Work Type</option>
+                        {WORK_TYPES.map((wt) => (
+                          <option key={wt.value} value={wt.value}>{wt.label}</option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* STEP 3: Delivery Details */}
-              <div className="flex flex-col gap-4 border-t border-primary-50/50 pt-6">
-                <span className="text-sm font-heading font-extrabold text-primary-700 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-primary-700 text-white flex items-center justify-center text-xs">3</span>
+              <div className="flex flex-col gap-5 border-t border-gray-100 pt-6">
+                <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
+                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">3</span>
                   Delivery Details
                 </span>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Select 
-                    label="Deadline / Urgency *"
-                    options={DEADLINES}
-                    placeholder="Select Deadline"
-                    value={selectedDeadline}
-                    onValueChange={setSelectedDeadline}
-                    labelIcon={<Calendar className="w-4 h-4" />}
-                  />
-                  <Select 
-                    label="Word Count *"
-                    options={WORD_COUNTS}
-                    placeholder="Select Word Count"
-                    value={selectedWordCount}
-                    onValueChange={setSelectedWordCount}
-                  />
-                  <Input 
-                    label="Pages"
-                    value={`${pagesCount} Page${pagesCount > 1 ? "s" : ""}`}
-                    disabled
-                    readOnly
-                    className="bg-primary-50/15 border-dashed cursor-not-allowed select-none text-text-muted"
-                  />
+                  {/* Deadline Dropdown */}
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[13px] font-bold text-gray-700">Deadline / Urgency <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                        <Calendar className="w-[18px] h-[18px] text-gray-400" />
+                      </div>
+                      <select 
+                        className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
+                        value={selectedDeadline}
+                        onChange={(e) => setSelectedDeadline(e.target.value)}
+                        required
+                      >
+                        <option value="" disabled>Select Deadline</option>
+                        {DEADLINES.map((dl) => (
+                          <option key={dl.value} value={dl.value}>{dl.label}</option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Word Count */}
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[13px] font-bold text-gray-700">Word Count <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                        <span className="font-black text-[11px] text-gray-400 select-none">123</span>
+                      </div>
+                      <select 
+                        className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
+                        value={selectedWordCount}
+                        onChange={(e) => setSelectedWordCount(e.target.value)}
+                        required
+                      >
+                        <option value="" disabled>Select Word Count</option>
+                        {WORD_COUNTS.map((wc) => (
+                          <option key={wc.value} value={wc.value}>{wc.label}</option>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Calculated Pages */}
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[13px] font-bold text-gray-700">Pages</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                        <BookOpen className="w-[18px] h-[18px] text-gray-400" />
+                      </div>
+                      <input 
+                        type="text" 
+                        disabled
+                        className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-gray-50/50 rounded-xl text-[14px] text-gray-500 font-bold select-none cursor-not-allowed"
+                        value={pagesCount > 0 ? `${pagesCount}` : "-"}
+                      />
+                    </div>
+                  </div>
                 </div>
                 
                 {/* Academic Level */}
-                <div className="flex flex-col gap-2 mt-2">
-                  <span className="text-xs font-semibold text-text-heading">Academic Level:</span>
+                <div className="flex flex-col gap-2.5 mt-2">
+                  <span className="text-xs font-bold text-gray-700">Academic Level:</span>
                   <div className="flex flex-wrap gap-2.5">
                     {ACADEMIC_LEVELS.map((lvl) => (
                       <button
@@ -444,8 +566,8 @@ export default function OrderPage() {
                         className={cn(
                           "px-4 py-2 rounded-xl text-xs font-bold transition-all border",
                           academicLevel === lvl.value
-                            ? "bg-primary-700 border-primary-700 text-white shadow-sm"
-                            : "bg-white border-primary-100 hover:bg-primary-50/40 text-text-body"
+                            ? "bg-[#3f159a] border-[#3f159a] text-white shadow-sm"
+                            : "bg-white border-gray-200 hover:bg-gray-50 text-gray-600"
                         )}
                       >
                         {lvl.label}
@@ -456,56 +578,62 @@ export default function OrderPage() {
               </div>
 
               {/* STEP 4: Additional Instructions */}
-              <div className="flex flex-col gap-4 border-t border-primary-50/50 pt-6">
-                <span className="text-sm font-heading font-extrabold text-primary-700 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-primary-700 text-white flex items-center justify-center text-xs">4</span>
+              <div className="flex flex-col gap-5 border-t border-gray-100 pt-6">
+                <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
+                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">4</span>
                   Additional Instructions
                 </span>
-                <TextArea 
+                <textarea 
                   placeholder="Enter your instructions here..."
+                  className="w-full p-4 border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
+                  rows={4}
                   value={instructions}
                   onChange={(e) => setInstructions(e.target.value)}
-                  rows={4}
                 />
               </div>
 
               {/* STEP 5: Upload Files */}
-              <div className="flex flex-col gap-4 border-t border-primary-50/50 pt-6">
-                <span className="text-sm font-heading font-extrabold text-primary-700 flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-primary-700 text-white flex items-center justify-center text-xs">5</span>
+              <div className="flex flex-col gap-5 border-t border-gray-100 pt-6">
+                <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
+                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">5</span>
                   Upload Files (Optional)
                 </span>
                 
                 {/* Drag and Drop Box */}
-                <div className="relative border-2 border-dashed border-primary-200 hover:border-primary-400 bg-primary-50/5 rounded-2xl p-6 transition-all text-center flex flex-col items-center justify-center gap-3">
+                <div className="relative border-2 border-dashed border-purple-200 hover:border-purple-400 bg-purple-50/5 rounded-2xl p-6 transition-all flex flex-col sm:flex-row items-center justify-between gap-4">
                   <input 
                     type="file" 
                     id="file-upload" 
                     multiple 
-                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
                     onChange={handleFileChange}
                   />
-                  <div className="w-12 h-12 rounded-full bg-primary-50 text-primary-700 flex items-center justify-center shadow-inner">
-                    <Upload className="w-6 h-6" />
+                  <div className="flex items-center gap-4 text-left">
+                    <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                      <FileUp className="w-6 h-6 text-purple-600" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-extrabold text-purple-800">Drag & Drop your files here</span>
+                      <span className="text-xs text-gray-400 font-semibold mt-0.5">or click to browse local folders (Max file size: 20MB)</span>
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <span className="text-sm font-semibold text-text-heading">Drag & Drop your files here</span>
-                    <span className="text-xs text-text-muted">or click to browse local folders (Max file size: 20MB)</span>
-                  </div>
-                  <label htmlFor="file-upload" className="bg-primary-700 hover:bg-primary-600 text-white font-heading font-bold text-xs px-4 py-2 rounded-xl cursor-pointer shadow-sm relative z-10 transition-colors">
+                  <button 
+                    type="button"
+                    className="bg-[#3f159a] hover:bg-[#341180] text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-sm transition-colors cursor-pointer relative z-20 shrink-0"
+                  >
                     Choose Files
-                  </label>
+                  </button>
                 </div>
 
                 {/* Attached Files List */}
                 {attachedFiles.length > 0 && (
-                  <div className="flex flex-col gap-2 mt-2">
-                    <span className="text-xs font-bold text-text-heading">Attached Files ({attachedFiles.length}):</span>
+                  <div className="flex flex-col gap-2 mt-2 text-left">
+                    <span className="text-xs font-bold text-gray-900">Attached Files ({attachedFiles.length}):</span>
                     <div className="flex flex-col gap-1.5">
                       {attachedFiles.map((filename, index) => (
-                        <div key={index} className="flex items-center justify-between bg-primary-50/20 p-2.5 rounded-lg border border-primary-100/30 text-xs text-text-heading font-medium">
+                        <div key={index} className="flex items-center justify-between bg-purple-50/20 p-2.5 rounded-lg border border-purple-100/30 text-xs text-gray-800 font-medium">
                           <div className="flex items-center gap-2 min-w-0">
-                            <FileUp className="w-4 h-4 text-primary-500 shrink-0" />
+                            <FileUp className="w-4 h-4 text-purple-500 shrink-0" />
                             <span className="truncate">{filename}</span>
                           </div>
                           <button
@@ -525,107 +653,115 @@ export default function OrderPage() {
             </Card>
 
             {/* Bottom Benefits Strips */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {[
-                { title: "Plagiarism Free", desc: "100% original content guaranteed" },
-                { title: "On-Time Delivery", desc: "We deliver before the deadline" },
-                { title: "Expert Writers", desc: "PhD qualified writers in your subject" },
-                { title: "24/7 Support", desc: "Always here to help you succeed" },
-              ].map((b, idx) => (
-                <div key={idx} className="bg-white border border-primary-100/50 p-4 rounded-xl text-left flex flex-col gap-1 items-start shadow-sm">
-                  <div className="w-7 h-7 rounded-lg bg-primary-50 text-primary-700 flex items-center justify-center shrink-0 mb-1">
-                    <CheckCircle2 className="w-4 h-4" />
+            <div className="bg-white border border-gray-150/80 rounded-3xl p-6 shadow-sm mt-4 w-full">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {[
+                  { icon: <FileText className="w-5 h-5 text-purple-700" />, title: "Plagiarism Free", desc: "100% original content guaranteed" },
+                  { icon: <Clock className="w-5 h-5 text-purple-700" />, title: "On-Time Delivery", desc: "We deliver before the deadline" },
+                  { icon: <Award className="w-5 h-5 text-purple-700" />, title: "Expert Writers", desc: "PhD qualified writers in your subject" },
+                  { icon: <Headset className="w-5 h-5 text-purple-700" />, title: "24/7 Support", desc: "Always here to help you succeed" },
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-4 text-left">
+                    <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <h4 className="font-extrabold text-gray-900 text-sm leading-none">{item.title}</h4>
+                      <p className="text-[11px] text-gray-400 font-semibold mt-1.5 leading-tight">{item.desc}</p>
+                    </div>
                   </div>
-                  <span className="text-xs font-bold text-text-heading">{b.title}</span>
-                  <span className="text-[10px] text-text-muted leading-tight">{b.desc}</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
           {/* RIGHT COLUMN: Sidebar dynamic values (35%) */}
           <div className="lg:col-span-4 flex flex-col gap-6 sticky top-24">
             {/* 1. Order Summary Card */}
-            <Card className="p-6 border-t-4 border-t-primary-700 shadow-md text-left flex flex-col gap-4 bg-white border border-primary-100/50">
-              <div className="flex items-center gap-2 border-b border-primary-50 pb-3">
-                <FileText className="w-4.5 h-4.5 text-primary-700" />
-                <Heading level={3} className="text-base text-text-heading">Order Summary</Heading>
+            <Card className="p-6 shadow-[0_10px_40px_rgba(0,0,0,0.02)] text-left flex flex-col gap-5 bg-white border border-gray-150/70 rounded-3xl">
+              <div className="flex items-center gap-2 border-b border-gray-100 pb-3">
+                <FileText className="w-5 h-5 text-purple-700" />
+                <Heading level={3} className="text-base font-extrabold text-gray-900">Order Summary</Heading>
               </div>
 
               {/* Active Selection Details list */}
-              <div className="flex flex-col gap-3.5 py-1 text-xs font-medium text-text-body">
+              <div className="flex flex-col gap-3.5 py-1 text-xs font-bold text-gray-700">
                 <div className="flex justify-between items-center">
-                  <span className="text-text-muted">Service</span>
-                  <span className="text-text-heading font-semibold">{activeServiceLabel}</span>
+                  <span className="text-gray-400 font-semibold">Service</span>
+                  <span className="text-gray-900">{activeServiceLabel}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-text-muted">Work Type</span>
-                  <span className="text-text-heading font-semibold uppercase">{selectedWorkType}</span>
+                  <span className="text-gray-400 font-semibold">Work Type</span>
+                  <span className="text-gray-900 uppercase">{selectedWorkType}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-text-muted">Deadline</span>
-                  <span className="text-text-heading font-semibold">{activeDeadlineLabel}</span>
+                  <span className="text-gray-400 font-semibold">Deadline</span>
+                  <span className="text-gray-900">{activeDeadlineLabel}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-text-muted">Word Count</span>
-                  <span className="text-text-heading font-semibold">{selectedWordCount} Words</span>
+                  <span className="text-gray-400 font-semibold">Word Count</span>
+                  <span className="text-gray-900">{selectedWordCount} Words</span>
                 </div>
               </div>
 
               {/* Price Details breakdown */}
-              <div className="border-t border-primary-50/50 pt-4 flex flex-col gap-2.5">
-                <div className="flex justify-between text-xs font-semibold text-text-body">
+              <div className="border-t border-gray-100 pt-4 flex flex-col gap-3">
+                <div className="flex justify-between text-xs font-bold text-gray-700">
                   <span>Subtotal</span>
-                  <span className="text-text-heading">£{subtotal.toFixed(2)}</span>
+                  <span className="text-gray-950">£{subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-xs font-bold text-success bg-success/5 p-2.5 rounded-lg border border-success/15">
+                <div className="flex justify-between text-xs font-bold text-emerald-600 bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100">
                   <span>Discount (40%)</span>
                   <span>- £{discount.toFixed(2)}</span>
                 </div>
               </div>
 
               {/* Total Row price */}
-              <div className="border-t border-dashed border-primary-100 pt-4 flex items-center justify-between">
-                <span className="text-sm font-bold text-text-heading">Total Price</span>
-                <span className="font-heading font-black text-2xl md:text-3xl text-primary-700 leading-none">
+              <div className="border-t border-gray-100 pt-4 bg-[#f8f6ff] border border-purple-100/50 rounded-2xl p-4 flex items-center justify-between">
+                <span className="text-sm font-bold text-[#3f159a]">Total Price</span>
+                <span className="font-heading font-black text-2xl md:text-3xl text-[#3f159a] leading-none">
                   £{total.toFixed(2)}
                 </span>
               </div>
 
               {/* Submit CTA button */}
-              <Button 
-                variant="primary" 
-                size="lg" 
-                fullWidth 
+              <button 
                 type="submit"
-                className="mt-2 text-base font-bold shadow-md flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all"
+                className="w-full bg-[#3f159a] hover:bg-[#341180] text-white font-bold py-3.5 rounded-2xl flex items-center justify-center gap-2 mt-2 shadow-[0_4px_12px_rgba(63,21,154,0.15)] transition-all duration-200"
               >
                 <span>Continue to Order</span>
                 <ArrowRight className="w-5 h-5" />
-              </Button>
+              </button>
 
               {/* Payment Safe Safeguard */}
-              <div className="flex items-center justify-center gap-1.5 text-[10px] text-text-muted font-bold mt-1 uppercase tracking-wide">
-                <Lock className="w-3.5 h-3.5 text-success" />
+              <div className="flex items-center justify-center gap-1.5 text-[10px] text-gray-400 font-bold mt-1 uppercase tracking-wide">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
                 <span>Secure & Safe Payment</span>
               </div>
             </Card>
 
             {/* 2. Need Help support Card */}
-            <Card className="p-6 text-left flex flex-col gap-3.5 bg-white border border-primary-100/50 shadow-md">
-              <Heading level={4} className="text-sm flex items-center gap-1.5">
-                <HelpCircle className="w-4.5 h-4.5 text-primary-500" />
-                Need Help?
-              </Heading>
-              <Text className="text-xs text-text-body leading-relaxed">
+            <div className="bg-white border border-gray-150/70 rounded-3xl p-6 text-left flex flex-col gap-4 shadow-[0_10px_40px_rgba(0,0,0,0.02)]">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+                  <Headset className="w-5 h-5" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-extrabold text-gray-900 text-sm">Need Help?</span>
+                </div>
+              </div>
+              <p className="text-xs text-gray-500 leading-relaxed">
                 Our support team is available 24/7 to assist you with any questions.
-              </Text>
+              </p>
               <Link href="/contact" className="w-full">
-                <Button variant="outline" size="sm" className="w-full font-bold">
+                <button 
+                  type="button"
+                  className="w-full border border-purple-200 text-[#3f159a] bg-[#fcfbff] hover:bg-purple-50 transition font-bold py-2.5 rounded-xl text-center text-xs"
+                >
                   Contact Support
-                </Button>
+                </button>
               </Link>
-            </Card>
+            </div>
           </div>
         </form>
       </SectionContainer>
