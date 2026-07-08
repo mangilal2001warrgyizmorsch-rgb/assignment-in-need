@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { QuoteForm } from "@/components/ui/QuoteForm";
+import { Button } from "@/components/ui/Button";
 import {
   Award,
   Clock,
@@ -20,10 +20,91 @@ import {
   ShoppingCart,
   Zap,
   Coins,
+  CheckCircle2,
 } from "lucide-react";
 
 export default function PricingPage() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [subject, setSubject] = useState("");
+  const [inquiryType, setInquiryType] = useState("");
+  const [message, setMessage] = useState("");
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const SUBJECT_OPTIONS = [
+    { label: "Accounting", value: "accounting" },
+    { label: "Business Management", value: "business" },
+    { label: "Law", value: "law" },
+    { label: "Nursing", value: "nursing" },
+    { label: "Engineering", value: "engineering" },
+    { label: "Other", value: "other" },
+  ];
+
+  const INQUIRY_OPTIONS = [
+    { label: "General Enquiry", value: "general" },
+    { label: "Assignment Pricing", value: "pricing" },
+    { label: "Writer Matching", value: "matching" },
+    { label: "Revision Request", value: "revision" },
+    { label: "Refund / Guarantee Check", value: "refund" },
+  ];
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+    setName(val);
+    if (errors.name) setErrors((prev) => ({ ...prev, name: "" }));
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, "");
+    setEmail(val);
+    if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^0-9]/g, "");
+    setPhone(val);
+  };
+
+  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value.replace(/[<>\/?[\]{}|\\;:'"`~^+=*]/g, "");
+    setMessage(val);
+    if (errors.message) setErrors((prev) => ({ ...prev, message: "" }));
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!name.trim()) newErrors.name = "Full Name is required";
+
+    if (!email.trim()) {
+      newErrors.email = "Email Address is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (!subject) newErrors.subject = "Subject is required";
+    if (!inquiryType) newErrors.inquiryType = "Inquiry type is required";
+    if (!message.trim()) newErrors.message = "Message details are required";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }, 1200);
+  };
 
   const trustBadges = [
     {
@@ -193,7 +274,7 @@ export default function PricingPage() {
             Get Instant Quote
           </div>
 
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-4">
             Get The Perfect Help <br />
             <span className="text-purple-700">For Your Assignments</span>
           </h1>
@@ -222,7 +303,7 @@ export default function PricingPage() {
           </div>
 
           {/* 3D Illustration asset */}
-          <div className="hidden lg:block relative w-full max-w-2xl lg:w-[115%] lg:max-w-none mt-6 lg:mt-0 lg:-ml-8">
+          <div className="hidden lg:block relative w-[75%] max-w-md mt-4 lg:-ml-4">
             <img
               src="/new-pricingimg/hero.png"
               alt="Pricing Assets"
@@ -232,21 +313,177 @@ export default function PricingPage() {
         </div>
 
         {/* Hero Right Column Quote Form */}
-        <div className="lg:w-1/2 w-full relative z-10">
-          <QuoteForm variant="extended" title="Get Your Personalized Quote" />
+        <div id="quote-form" className="lg:w-1/2 w-full relative z-10 flex justify-center lg:justify-end items-start">
+          {isSubmitted ? (
+            <div className="w-full max-w-[620px] p-8 md:p-10 rounded-[24px] border border-gray-150 bg-white shadow-[0_12px_42px_rgba(0,0,0,0.06)] text-center flex flex-col items-center justify-center gap-5 min-h-[450px]">
+              <div className="w-16 h-16 rounded-full bg-[#e6fbf0] text-[#22c55e] flex items-center justify-center border border-green-50 shadow-sm mb-2 animate-bounce">
+                <CheckCircle2 className="w-10 h-10" />
+              </div>
+              <h3 className="text-2xl font-[900] text-[#0f1b3d] tracking-tight">Enquiry Sent!</h3>
+              <p className="text-gray-500 text-xs md:text-sm font-bold max-w-sm leading-relaxed">
+                Thank you, <span className="text-[#3f159a]">{name}</span>. Your enquiry request has been sent successfully. Our support desk will reach out to you shortly.
+              </p>
+              <Button
+                onClick={() => {
+                  setIsSubmitted(false);
+                  setName("");
+                  setEmail("");
+                  setPhone("");
+                  setSubject("");
+                  setInquiryType("");
+                  setMessage("");
+                }}
+                variant="blueOpen"
+                size="sm"
+                className="mt-4 text-white"
+              >
+                Send Another Enquiry
+              </Button>
+            </div>
+          ) : (
+            <div className="w-full max-w-[620px] p-6 md:p-8 rounded-[24px] border border-white bg-white shadow-[0_12px_42px_rgba(0,0,0,0.06)] relative flex flex-col justify-between">
+              <div className="mb-6 text-left">
+                <h3 className="text-[20px] text-[#0f1b3d] font-bold mb-2 tracking-tight font-heading">
+                  Send Us an Enquiry
+                </h3>
+                <div className="w-16 h-1 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full" />
+              </div>
 
-          {/* Checklist underneath form */}
-          <div className="mt-4 flex items-center justify-center gap-6 text-[13px] text-gray-500 font-semibold">
-            <span className="flex items-center gap-1.5 text-emerald-600">
-              <span className="text-[15px] font-bold">✓</span> It&apos;s free
-            </span>
-            <span className="flex items-center gap-1.5 text-emerald-600">
-              <span className="text-[15px] font-bold">✓</span> No obligation
-            </span>
-            <span className="flex items-center gap-1.5 text-emerald-600">
-              <span className="text-[15px] font-bold">✓</span> Quick response
-            </span>
-          </div>
+              <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 text-left" id="placeOrder">
+                {/* Full Name */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-[#0f1b3d] uppercase tracking-wider block">
+                    Full Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter your full name"
+                    value={name}
+                    onChange={handleNameChange}
+                    className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium focus:ring-0 focus-visible:ring-0 focus-visible:outline-none"
+                  />
+                  {errors.name && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.name}</span>}
+                </div>
+
+                {/* Email Address */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-[#0f1b3d] uppercase tracking-wider block">
+                    Email Address <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter your email address"
+                    value={email}
+                    onChange={handleEmailChange}
+                    className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium focus:ring-0 focus-visible:ring-0 focus-visible:outline-none"
+                  />
+                  {errors.email && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.email}</span>}
+                </div>
+
+                {/* Phone Number */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-[#0f1b3d] uppercase tracking-wider block">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="Enter your phone number"
+                    value={phone}
+                    onChange={handlePhoneChange}
+                    className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium focus:ring-0 focus-visible:ring-0 focus-visible:outline-none"
+                  />
+                </div>
+
+                {/* Subject + Inquiry Type Row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Subject */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-semibold text-[#0f1b3d] uppercase tracking-wider block">
+                      Subject <span className="text-red-500">*</span>
+                    </label>
+                    <div className="hero-select-box relative w-full h-11 bg-gray-50 border border-gray-200 rounded-xl px-3.5 flex items-center shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:bg-white focus-within:border-[#3f159a] transition-colors">
+                      <select
+                        required
+                        value={subject}
+                        onChange={(e) => {
+                          setSubject(e.target.value);
+                          if (errors.subject) setErrors((prev) => ({ ...prev, subject: "" }));
+                        }}
+                        className="w-full border-none bg-transparent outline-none text-xs text-slate-800 py-2 cursor-pointer appearance-none font-medium focus:outline-none focus:ring-0 focus-visible:ring-0"
+                      >
+                        <option value="">Select a subject</option>
+                        {SUBJECT_OPTIONS.map((opt) => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    {errors.subject && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.subject}</span>}
+                  </div>
+
+                  {/* Inquiry Type */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-semibold text-[#0f1b3d] uppercase tracking-wider block">
+                      Inquiry Type <span className="text-red-500">*</span>
+                    </label>
+                    <div className="hero-select-box relative w-full h-11 bg-gray-50 border border-gray-200 rounded-xl px-3.5 flex items-center shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:bg-white focus-within:border-[#3f159a] transition-colors">
+                      <select
+                        required
+                        value={inquiryType}
+                        onChange={(e) => {
+                          setInquiryType(e.target.value);
+                          if (errors.inquiryType) setErrors((prev) => ({ ...prev, inquiryType: "" }));
+                        }}
+                        className="w-full border-none bg-transparent outline-none text-xs text-slate-800 py-2 cursor-pointer appearance-none font-medium focus:outline-none focus:ring-0 focus-visible:ring-0"
+                      >
+                        <option value="">Select inquiry type</option>
+                        {INQUIRY_OPTIONS.map((opt) => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    {errors.inquiryType && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.inquiryType}</span>}
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-semibold text-[#0f1b3d] uppercase tracking-wider block">
+                    Message <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    required
+                    rows={4}
+                    placeholder="Type your message here..."
+                    value={message}
+                    onChange={handleMessageChange}
+                    className="w-full p-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium resize-none focus:ring-0 focus-visible:ring-0"
+                  />
+                  {errors.message && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.message}</span>}
+                </div>
+
+                {/* Submit Button */}
+                <Button
+                  type="submit"
+                  variant="blueOpen"
+                  size="lg"
+                  fullWidth
+                  isLoading={isSubmitting}
+                  className="mt-2 text-white"
+                  icon={true}
+                >
+                  Send Message
+                </Button>
+
+                {/* Reassurance text */}
+                <span className="flex items-center gap-1.5 justify-center text-[10px] font-bold text-gray-400 mt-2">
+                  <ShieldCheck className="w-4 h-4 text-green-500 shrink-0" />
+                  Your information is 100% secure and confidential.
+                </span>
+              </form>
+            </div>
+          )}
         </div>
       </section>
 
@@ -257,7 +494,7 @@ export default function PricingPage() {
             <Award className="w-4 h-4 text-purple-700" />
             What&apos;s Included
           </div>
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-10 max-w-xl leading-snug">
+          <h2 className="text-3xl lg:text-4xl text-gray-900 mb-10 max-w-xl leading-snug">
             Everything You Get With Assignment In Need
           </h2>
 
@@ -294,7 +531,7 @@ export default function PricingPage() {
               <Award className="w-4 h-4 text-purple-700" />
               Why Students Choose Us
             </div>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4 leading-snug">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-snug">
               Why Students <br />
               <span className="text-purple-700">Choose</span> <br />
               <span className="text-orange-500">Assignment In Need?</span>
@@ -336,11 +573,11 @@ export default function PricingPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wide mb-4">
               Student Success Stories
             </div>
-            <h2 className="text-3xl font-extrabold text-gray-900 mb-6 leading-snug">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 leading-snug">
               See What Our Students Have To Say
             </h2>
             <div className="flex items-end gap-3 mb-2">
-              <span className="text-4xl font-black text-purple-800">4.8/5</span>
+              <span className="text-4xl font-bold text-purple-800">4.8/5</span>
               <span className="text-yellow-400 text-xl mb-1">★★★★★</span>
             </div>
             <p className="text-sm text-gray-500 font-medium">
@@ -400,7 +637,7 @@ export default function PricingPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-purple-100 text-purple-700 text-xs font-bold uppercase tracking-wide mb-4">
               Frequently Asked Questions
             </div>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4 leading-snug">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-snug">
               Find Answers To{" "}
               <span className="text-purple-700">Common Questions</span>
             </h2>
@@ -483,6 +720,29 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
+
+      {/* Custom Stylesheet for Select Box arrows and custom focus styles matching HeroSection.tsx */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .hero-select-box select {
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234b5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+          background-repeat: no-repeat;
+          background-position: right center;
+          background-size: 14px;
+          padding-right: 16px;
+        }
+        #placeOrder input:focus,
+        #placeOrder select:focus,
+        #placeOrder textarea:focus,
+        #placeOrder input:focus-visible,
+        #placeOrder select:focus-visible,
+        #placeOrder textarea:focus-visible,
+        #placeOrder input:active,
+        #placeOrder select:active {
+          outline: none !important;
+          border-color: transparent !important;
+          box-shadow: none !important;
+        }
+      `}} />
     </main>
   );
 }
