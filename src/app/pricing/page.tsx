@@ -19,7 +19,7 @@ import {
   BadgeCheck,
   ShoppingCart,
   Zap,
-  Coins
+  Coins,
 } from "lucide-react";
 
 export default function PricingPage() {
@@ -28,152 +28,161 @@ export default function PricingPage() {
   const trustBadges = [
     {
       icon: <Award className="w-5 h-5 lg:w-6 lg:h-6" />,
-      label: "100% Original\nWork"
+      label: "100% Original\nWork",
     },
     {
       icon: <Clock className="w-5 h-5 lg:w-6 lg:h-6" />,
-      label: "On-Time\nDelivery"
+      label: "On-Time\nDelivery",
     },
     {
       icon: <GraduationCap className="w-5 h-5 lg:w-6 lg:h-6" />,
-      label: "Expert\nWriters"
+      label: "Expert\nWriters",
     },
     {
       icon: <Headset className="w-5 h-5 lg:w-6 lg:h-6" />,
-      label: "24/7\nSupport"
+      label: "24/7\nSupport",
     },
     {
       icon: <ShieldCheck className="w-5 h-5 lg:w-6 lg:h-6" />,
-      label: "Money Back\nGuarantee"
-    }
+      label: "Money Back\nGuarantee",
+    },
   ];
 
   const whatsIncluded = [
     {
       icon: <FileText className="w-5 h-5 lg:w-6 lg:h-6" />,
       title: "100% Original Content",
-      desc: "Plagiarism-free content that is 100% original and authentic."
+      desc: "Plagiarism-free content that is 100% original and authentic.",
     },
     {
       icon: <UserCheck className="w-5 h-5 lg:w-6 lg:h-6" />,
       title: "Expert Writers",
-      desc: "Top 1% academic writers with advanced degrees."
+      desc: "Top 1% academic writers with advanced degrees.",
     },
     {
       icon: <Clock className="w-5 h-5 lg:w-6 lg:h-6" />,
       title: "On-Time Delivery",
-      desc: "Timely delivery before your deadline, every time."
+      desc: "Timely delivery before your deadline, every time.",
     },
     {
       icon: <RotateCw className="w-5 h-5 lg:w-6 lg:h-6" />,
       title: "Unlimited Revisions",
-      desc: "Unlimited revisions until you are completely satisfied."
+      desc: "Unlimited revisions until you are completely satisfied.",
     },
     {
       icon: <Headset className="w-5 h-5 lg:w-6 lg:h-6" />,
       title: "24/7 Customer Support",
-      desc: "Our support team is available 24/7 to assist you."
+      desc: "Our support team is available 24/7 to assist you.",
     },
     {
       icon: <ShieldCheck className="w-5 h-5 lg:w-6 lg:h-6" />,
       title: "Money Back Guarantee",
-      desc: "100% money back guarantee if you're not satisfied."
-    }
+      desc: "100% money back guarantee if you're not satisfied.",
+    },
   ];
 
   const whyChooseUs = [
     {
       icon: <ShieldCheck className="w-5 h-5" />,
       title: "Trusted by Thousands",
-      desc: "Thousands of students across the UK and worldwide trust us for their academic needs."
+      desc: "Thousands of students across the UK and worldwide trust us for their academic needs.",
     },
     {
       icon: <Tag className="w-5 h-5" />,
       title: "Affordable Pricing",
-      desc: "Get premium quality help at prices that fit your budget."
+      desc: "Get premium quality help at prices that fit your budget.",
     },
     {
       icon: <Award className="w-5 h-5" />,
       title: "Quality You Can Rely On",
-      desc: "We follow strict quality control to deliver the best results."
+      desc: "We follow strict quality control to deliver the best results.",
     },
     {
       icon: <Lock className="w-5 h-5" />,
       title: "Confidential & Secure",
-      desc: "Your privacy and information are 100% protected with us."
-    }
+      desc: "Your privacy and information are 100% protected with us.",
+    },
   ];
 
   const testimonials = [
     {
-      quote: "The assignment was well-researched, perfectly written, and delivered on time. It helped me score an A+. Highly recommend!",
+      quote:
+        "The assignment was well-researched, perfectly written, and delivered on time. It helped me score an A+. Highly recommend!",
       avatar: "https://randomuser.me/api/portraits/women/44.jpg",
       name: "Emma Taylor",
       university: "University of Manchester",
-      stars: 5
+      stars: 5,
     },
     {
-      quote: "Excellent work! The writer followed all instructions and provided original content. Will definitely use your services again.",
+      quote:
+        "Excellent work! The writer followed all instructions and provided original content. Will definitely use your services again.",
       avatar: "https://randomuser.me/api/portraits/men/32.jpg",
       name: "Liam O'Connor",
       university: "University of Leeds",
-      stars: 5
+      stars: 5,
     },
     {
-      quote: "Amazing experience from start to finish. Support team was helpful and the quality of the work was outstanding!",
+      quote:
+        "Amazing experience from start to finish. Support team was helpful and the quality of the work was outstanding!",
       avatar: "https://randomuser.me/api/portraits/women/68.jpg",
       name: "Olivia Bennett",
       university: "King's College London",
-      stars: 5
-    }
+      stars: 5,
+    },
   ];
 
   const faqs = [
     {
       icon: <BadgeCheck className="w-5 h-5" />,
       question: "Is the work you provide 100% original?",
-      answer: "Yes, all assignments we deliver are 100% original and written from scratch by our experts. We also provide a free plagiarism report to guarantee uniqueness."
+      answer:
+        "Yes, all assignments we deliver are 100% original and written from scratch by our experts. We also provide a free plagiarism report to guarantee uniqueness.",
     },
     {
       icon: <ShoppingCart className="w-5 h-5" />,
       question: "How do I place an order?",
-      answer: "You can place an order by filling out our quick order/quote form, specifying your requirements, academic level, and deadline, or you can directly chat with us for assistance."
+      answer:
+        "You can place an order by filling out our quick order/quote form, specifying your requirements, academic level, and deadline, or you can directly chat with us for assistance.",
     },
     {
       icon: <RotateCw className="w-5 h-5" />,
       question: "Can I request revisions?",
-      answer: "Absolutely! We offer unlimited free revisions within 14-30 days of delivery if the final document does not meet your initial requirements."
+      answer:
+        "Absolutely! We offer unlimited free revisions within 14-30 days of delivery if the final document does not meet your initial requirements.",
     },
     {
       icon: <Zap className="w-5 h-5" />,
       question: "What if I need my order urgently?",
-      answer: "No problem! We have express experts who can tackle urgent tasks and deliver high-quality assignments in as little as 3 to 6 hours."
+      answer:
+        "No problem! We have express experts who can tackle urgent tasks and deliver high-quality assignments in as little as 3 to 6 hours.",
     },
     {
       icon: <Coins className="w-5 h-5" />,
       question: "Do you offer refunds?",
-      answer: "Yes, we have a clear refund policy. If we fail to deliver within the deadline or if the work fails to meet acceptable academic standards, you can request a refund."
-    }
+      answer:
+        "Yes, we have a clear refund policy. If we fail to deliver within the deadline or if the work fails to meet acceptable academic standards, you can request a refund.",
+    },
   ];
 
   return (
     <main className="w-full font-sans text-gray-800 bg-[#fbfcff]">
       {/* Breadcrumb row */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-sm text-gray-500">
-        Home <span className="mx-2">&gt;</span> <span className="text-gray-900">Pricing</span>
+        Home <span className="mx-2">&gt;</span>{" "}
+        <span className="text-gray-900">Pricing</span>
       </div>
 
       {/* Hero Section */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5 flex flex-col lg:flex-row gap-12 items-start justify-between">
         {/* Faded Background Image for Mobile */}
-        <div 
-          className="absolute inset-0 z-0 lg:hidden pointer-events-none" 
+        <div
+          className="absolute inset-0 z-0 lg:hidden pointer-events-none"
           style={{
             backgroundImage: "url('/new-pricingimg/hero.png')",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundSize: "cover",
-            opacity: 0.15
+            opacity: 0.15,
           }}
         />
 
@@ -183,20 +192,25 @@ export default function PricingPage() {
             <FileText className="w-4 h-4 text-purple-700" />
             Get Instant Quote
           </div>
-          
+
           <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
             Get The Perfect Help <br />
             <span className="text-purple-700">For Your Assignments</span>
           </h1>
-          
+
           <p className="text-gray-600 text-base mb-8 max-w-lg">
-            Fill out the form with your requirements and our academic experts will provide you with a tailored solution and price. No hidden charges, 100% transparency.
+            Fill out the form with your requirements and our academic experts
+            will provide you with a tailored solution and price. No hidden
+            charges, 100% transparency.
           </p>
-          
+
           {/* Trust Badges */}
           <div className="grid grid-cols-5 gap-2 lg:flex lg:flex-wrap lg:gap-8 mb-10">
             {trustBadges.map((badge, idx) => (
-              <div key={idx} className="flex flex-col items-center text-center group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
+              <div
+                key={idx}
+                className="flex flex-col items-center text-center group cursor-pointer hover:-translate-y-2 transition-transform duration-300"
+              >
                 <div className="w-10 h-10 lg:w-14 lg:h-14 bg-white rounded-full flex items-center justify-center text-purple-600 shadow-sm border border-gray-100 mb-1 lg:mb-2 text-base lg:text-2xl group-hover:bg-[#3F159A] group-hover:text-white group-hover:scale-110 group-hover:shadow-purple-200 transition-all duration-300">
                   {badge.icon}
                 </div>
@@ -209,9 +223,9 @@ export default function PricingPage() {
 
           {/* 3D Illustration asset */}
           <div className="hidden lg:block relative w-full max-w-2xl lg:w-[115%] lg:max-w-none mt-6 lg:mt-0 lg:-ml-8">
-            <img 
-              src="/new-pricingimg/hero.png" 
-              alt="Pricing Assets" 
+            <img
+              src="/new-pricingimg/hero.png"
+              alt="Pricing Assets"
               className="w-full h-auto drop-shadow-2xl"
             />
           </div>
@@ -220,7 +234,7 @@ export default function PricingPage() {
         {/* Hero Right Column Quote Form */}
         <div className="lg:w-1/2 w-full relative z-10">
           <QuoteForm variant="extended" title="Get Your Personalized Quote" />
-          
+
           {/* Checklist underneath form */}
           <div className="mt-4 flex items-center justify-center gap-6 text-[13px] text-gray-500 font-semibold">
             <span className="flex items-center gap-1.5 text-emerald-600">
@@ -246,10 +260,13 @@ export default function PricingPage() {
           <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-10 max-w-xl leading-snug">
             Everything You Get With Assignment In Need
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 lg:gap-6 w-full">
             {whatsIncluded.map((card, idx) => (
-              <div key={idx} className="bg-[#fbfcff] p-4 lg:p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group lg:col-span-1">
+              <div
+                key={idx}
+                className="bg-[#fbfcff] p-4 lg:p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group lg:col-span-1"
+              >
                 <div className="flex items-center gap-3 mb-1 lg:mb-3">
                   <div className="w-12 h-12 flex-shrink-0 bg-purple-50 text-purple-700 rounded-lg flex items-center justify-center text-xl lg:text-2xl group-hover:bg-purple-700 group-hover:text-white transition-colors duration-300 group-hover:rotate-6">
                     {card.icon}
@@ -283,13 +300,18 @@ export default function PricingPage() {
               <span className="text-orange-500">Assignment In Need?</span>
             </h2>
             <p className="text-gray-500 text-sm leading-relaxed">
-              We are committed to helping students achieve academic excellence by providing reliable, high-quality, and affordable assignment help.
+              We are committed to helping students achieve academic excellence
+              by providing reliable, high-quality, and affordable assignment
+              help.
             </p>
           </div>
-          
+
           <div className="lg:w-7/12 grid grid-cols-1 md:grid-cols-2 gap-4 lg:pl-1">
             {whyChooseUs.map((item, idx) => (
-              <div key={idx} className="flex gap-4 group p-3 rounded-xl hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+              <div
+                key={idx}
+                className="flex gap-4 group p-3 rounded-xl hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+              >
                 <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 shadow-sm text-xl group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
                   {item.icon}
                 </div>
@@ -321,13 +343,18 @@ export default function PricingPage() {
               <span className="text-4xl font-black text-purple-800">4.8/5</span>
               <span className="text-yellow-400 text-xl mb-1">★★★★★</span>
             </div>
-            <p className="text-sm text-gray-500 font-medium">Based on 2,500+ Reviews</p>
+            <p className="text-sm text-gray-500 font-medium">
+              Based on 2,500+ Reviews
+            </p>
           </div>
 
           <div className="lg:w-3/4 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 xl:gap-6 w-full">
               {testimonials.map((t, idx) => (
-                <div key={idx} className="w-full bg-[#fbfcff] p-4 xl:p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer">
+                <div
+                  key={idx}
+                  className="w-full bg-[#fbfcff] p-4 xl:p-4 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer"
+                >
                   <div>
                     <div className="text-purple-600 text-3xl mb-4 opacity-80 group-hover:text-purple-800 transition-colors duration-300 group-hover:scale-110 transform origin-left">
                       <Quote className="w-8 h-8 fill-current rotate-180" />
@@ -337,15 +364,21 @@ export default function PricingPage() {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <img 
-                      src={t.avatar} 
-                      alt={t.name} 
+                    <img
+                      src={t.avatar}
+                      alt={t.name}
                       className="w-10 h-10 rounded-full object-cover bg-gray-200 group-hover:ring-2 ring-purple-400 transition-all"
                     />
                     <div>
-                      <h5 className="font-bold text-gray-900 text-sm">{t.name}</h5>
-                      <p className="text-[10px] text-gray-500">{t.university}</p>
-                      <div className="text-yellow-400 text-[10px] mt-0.5">★★★★★</div>
+                      <h5 className="font-bold text-gray-900 text-sm">
+                        {t.name}
+                      </h5>
+                      <p className="text-[10px] text-gray-500">
+                        {t.university}
+                      </p>
+                      <div className="text-yellow-400 text-[10px] mt-0.5">
+                        ★★★★★
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -368,13 +401,15 @@ export default function PricingPage() {
               Frequently Asked Questions
             </div>
             <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4 leading-snug">
-              Find Answers To <span className="text-purple-700">Common Questions</span>
+              Find Answers To{" "}
+              <span className="text-purple-700">Common Questions</span>
             </h2>
             <p className="text-gray-500 text-sm leading-relaxed mb-6">
-              If you have any other questions, feel free to contact our support team.
+              If you have any other questions, feel free to contact our support
+              team.
             </p>
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="inline-flex items-center justify-center bg-white border-2 border-purple-200 text-purple-700 font-bold px-6 py-3 rounded-lg hover:bg-purple-50 transition"
             >
               Contact Us &rarr;
@@ -385,8 +420,11 @@ export default function PricingPage() {
             {faqs.map((faq, idx) => {
               const isOpen = openFaqIndex === idx;
               return (
-                <div key={idx} className="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md hover:border-purple-200 transition-all duration-300 group hover:-translate-y-1">
-                  <div 
+                <div
+                  key={idx}
+                  className="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md hover:border-purple-200 transition-all duration-300 group hover:-translate-y-1"
+                >
+                  <div
                     onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
                     className="flex items-center justify-between p-3 cursor-pointer"
                   >
@@ -398,9 +436,13 @@ export default function PricingPage() {
                         {faq.question}
                       </span>
                     </div>
-                    <ChevronDown className={`w-5 h-5 text-gray-400 group-hover:text-purple-600 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-400 group-hover:text-purple-600 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                    />
                   </div>
-                  <div className={`px-4 pb-4 pt-1 border-t border-gray-50 transition-all duration-300 ${isOpen ? "block" : "hidden"}`}>
+                  <div
+                    className={`px-4 pb-4 pt-1 border-t border-gray-50 transition-all duration-300 ${isOpen ? "block" : "hidden"}`}
+                  >
                     <p className="text-xs text-gray-500 leading-relaxed">
                       {faq.answer}
                     </p>
@@ -416,9 +458,9 @@ export default function PricingPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 md:pb-16">
         <div className="bg-[#240e60] rounded-xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between shadow-lg">
           <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-            <img 
-              src="/new-pricingimg/barimg.png" 
-              alt="Graduation Cap on Books" 
+            <img
+              src="/new-pricingimg/barimg.png"
+              alt="Graduation Cap on Books"
               className="w-20 md:w-24 h-auto object-contain drop-shadow-md"
             />
             <div>
@@ -426,13 +468,14 @@ export default function PricingPage() {
                 Ready To Get Started?
               </h2>
               <p className="text-purple-200 text-xs md:text-sm">
-                Fill out the form above and get a customized quote for your assignment.
+                Fill out the form above and get a customized quote for your
+                assignment.
               </p>
             </div>
           </div>
           <div className="mt-6 md:mt-0 flex-shrink-0">
-            <a 
-              href="#quote-form" 
+            <a
+              href="#quote-form"
               className="bg-[#ff6b00] hover:bg-[#e66000] text-white font-bold py-2.5 px-6 rounded text-sm inline-flex items-center gap-2 transition-colors shadow-md"
             >
               Get Instant Quote &rarr;

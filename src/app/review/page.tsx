@@ -380,8 +380,8 @@ export default function ReviewsAndFaq() {
           {/* Card 2: AIN Review */}
           <div className="bg-white border border-gray-100 shadow-md rounded-2xl p-4 flex items-center justify-between hover:shadow-lg transition">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center shrink-0 border border-purple-100">
-                <span className="text-xs font-black text-purple-700">AIN</span>
+              <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center shrink-0 border border-purple-100 overflow-hidden p-1">
+                <img src="/images/icons/assignment_logo2.png" alt="AIN" className="w-full h-full object-contain" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-extrabold text-gray-900 text-sm">AIN Review</span>

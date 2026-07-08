@@ -162,7 +162,7 @@ export const Navbar = () => {
           
           {/* Logo matching Laravel */}
           <Link href="/" className="flex items-center shrink-0">
-            <img src="/images/icons/assignment_logo2.png" alt="assignment help services" className="w-[100px] lg:w-[120px] h-auto object-contain" />
+            <img src="/images/icons/assignment_logo2.png" alt="assignment help services" className="w-[60px] lg:w-[80px] h-auto object-contain" />
           </Link>
 
           {/* Desktop Navigation - Exact Laravel Links */}

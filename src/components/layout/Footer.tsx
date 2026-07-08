@@ -11,8 +11,8 @@ export const Footer = () => {
         
         {/* Column 1: Brand */}
         <div className="flex flex-col items-start text-left">
-          <div className="max-h-[70px] bg-transparent object-contain">
-            <img src="/assets/media/layout/assignment_logo.webp" alt="Assignment IN NEED" className="max-h-[70px] object-contain" />
+          <div className="max-h-[70px] bg-transparent object-contain bg-white p-1 rounded-lg">
+            <img src="/images/icons/assignment_logo2.png" alt="Assignment IN NEED" className="max-h-[70px] object-contain" />
           </div>
           <p className="text-[0.85rem] leading-relaxed text-[#9ca3af] mt-4 mb-6 max-w-[250px]">
             Helping students in the UK achieve academic success with expert support and guidance.

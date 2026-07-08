@@ -18,7 +18,7 @@ const REVIEWS = [
     title: "AIN Review",
     description: "Verified internal rating from students who received expert writing support.",
     href: "/review",
-    logo: "/assets/media/layout/assignment_logo.webp",
+    logo: "/images/icons/assignment_logo2.png",
     rating: "4.6/5",
   },
   {
