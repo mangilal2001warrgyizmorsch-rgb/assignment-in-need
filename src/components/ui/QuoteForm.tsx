@@ -1,391 +1,401 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
-import { Select } from "./Select";
-import { Input, TextArea } from "./Input";
-import { Button } from "./Button";
-import { Heading } from "./Heading";
-import { CheckCircle2 } from "lucide-react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export interface QuoteFormProps {
-  className?: string;
-  variant?: "compact" | "extended";
-  prefilledSubject?: string;
-  onSuccess?: (data: Record<string, string>) => void;
   title?: string;
+  projectTypeOptions?: { label: string; value: string }[];
+  timePeriodOptions?: { label: string; value: string }[];
+  onSubmit?: (values: {
+    name: string;
+    email: string;
+    mobileNo: string;
+    projectType: string;
+    timePeriod: string;
+    wordCount: number;
+    description: string;
+  }) => void;
+  className?: string;
+  variant?: string;
+  prefilledSubject?: string;
 }
 
-const PROJECT_TYPES = [
-  { label: "Assignment Writing", value: "assignment" },
-  { label: "Essay Writing", value: "essay" },
-  { label: "Dissertation Writing", value: "dissertation" },
-  { label: "Case Study Writing", value: "case-study" },
-  { label: "Report Writing", value: "report" },
-  { label: "Coursework Writing", value: "coursework" },
-  { label: "Proofreading", value: "proofreading" },
-  { label: "Editing & Formatting", value: "editing" },
+const DEFAULT_PROJECT_TYPES = [
+  { label: "Assignment", value: "Assignment" },
+  { label: "Essay", value: "Essay" },
+  { label: "Dissertation", value: "Dissertation" },
+  { label: "Thesis", value: "Thesis" },
+  { label: "Research Project", value: "Research Project" },
+  { label: "Case Study", value: "Case Study" },
+  { label: "Report", value: "Report" },
+  { label: "Coursework", value: "Coursework" },
+  { label: "Proofreading", value: "Proofreading" },
+  { label: "Editing & Formatting", value: "Editing & Formatting" },
 ];
 
-const TIME_PERIODS = [
-  { label: "6 Hours", value: "6h" },
-  { label: "12 Hours", value: "12h" },
-  { label: "24 Hours", value: "24h" },
-  { label: "2 Days", value: "2d" },
-  { label: "3 Days", value: "3d" },
-  { label: "5 Days", value: "5d" },
-  { label: "7 Days", value: "7d" },
-  { label: "10+ Days", value: "10d" },
-];
-
-const WORD_COUNTS = [
-  { label: "250 Words (1 Page)", value: "250" },
-  { label: "500 Words (2 Pages)", value: "500" },
-  { label: "1000 Words (4 Pages)", value: "1000" },
-  { label: "1500 Words (6 Pages)", value: "1500" },
-  { label: "2000 Words (8 Pages)", value: "2000" },
-  { label: "3000 Words (12 Pages)", value: "3000" },
-  { label: "5000 Words (20 Pages)", value: "5000" },
-  { label: "10000+ Words", value: "10000" },
+const DEFAULT_TIME_PERIODS = [
+  { label: "6 Hours", value: "6 Hours" },
+  { label: "12 Hours", value: "12 Hours" },
+  { label: "24 Hours", value: "24 Hours" },
+  { label: "2 Days", value: "2 Days" },
+  { label: "3 Days", value: "3 Days" },
+  { label: "5 Days", value: "5 Days" },
+  { label: "7 Days", value: "7 Days" },
+  { label: "10+ Days", value: "10+ Days" },
 ];
 
 export const QuoteForm: React.FC<QuoteFormProps> = ({
-  className,
-  variant = "compact",
-  prefilledSubject,
-  onSuccess,
   title = "Get Instant Quote",
+  projectTypeOptions = DEFAULT_PROJECT_TYPES,
+  timePeriodOptions = DEFAULT_TIME_PERIODS,
+  onSubmit,
+  className,
 }) => {
+  const router = useRouter();
+
+  // Controlled field states
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [projectType, setProjectType] = useState("");
-  const [wordCount, setWordCount] = useState("");
   const [timePeriod, setTimePeriod] = useState("");
-  const [requirements, setRequirements] = useState("");
-  const [subject, setSubject] = useState(prefilledSubject || "");
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [wordCount, setWordCount] = useState(1000);
+  const [description, setDescription] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (prefilledSubject) {
-      setSubject(prefilledSubject);
-    }
-  }, [prefilledSubject]);
-
-  const validate = () => {
-    const newErrors: Record<string, string> = {};
-    if (!name.trim()) newErrors.name = "Name is required";
-    if (!email) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = "Invalid email format";
-    }
-    if (!mobileNo.trim()) newErrors.mobileNo = "Mobile number is required";
-    if (!projectType) newErrors.projectType = "Project type is required";
-    if (!wordCount) newErrors.wordCount = "Word count is required";
-    if (!timePeriod) newErrors.timePeriod = "Time period is required";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  // Stepper handlers
+  const handleIncrement = () => {
+    setWordCount((prev) => Math.min(20000, prev + 250));
   };
 
+  const handleDecrement = () => {
+    setWordCount((prev) => Math.max(250, prev - 250));
+  };
+
+  // Form submit handler
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+
+    const formValues = {
+      name,
+      email,
+      mobileNo,
+      projectType,
+      timePeriod,
+      wordCount,
+      description,
+    };
 
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+
+    if (onSubmit) {
+      onSubmit(formValues);
       setIsLoading(false);
-      setIsSubmitted(true);
-      if (onSuccess) {
-        onSuccess({ name, email, mobileNo, projectType, wordCount, timePeriod, requirements, subject });
-      }
-    }, 1500);
+    } else {
+      // Default fallback redirect behavior to order page
+      const pages = Math.ceil(wordCount / 250);
+      const searchParams = new URLSearchParams({
+        name,
+        email,
+        phone: mobileNo,
+        service: projectType,
+        pages: String(pages),
+        deadline: timePeriod,
+        description,
+      });
+      router.push(`/order?${searchParams.toString()}`);
+      setIsLoading(false);
+    }
   };
 
-  if (isSubmitted) {
-    return (
-      <div className={cn("bg-white rounded-card shadow-card border border-primary-100/50 p-6 md:p-8 text-center flex flex-col items-center justify-center gap-4 min-h-[400px]", className)}>
-        <div className="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center text-success mb-2 animate-bounce">
-          <CheckCircle2 className="w-10 h-10" />
-        </div>
-        <Heading level={3} className="text-2xl">Quote Request Sent!</Heading>
-        <p className="text-text-body text-sm max-w-sm">
-          We have received your requirements. One of our expert academic writers will contact you shortly at <span className="font-semibold text-primary-700">{email}</span> with a custom quote.
-        </p>
-        <Button
-          variant="cta"
-          size="sm"
-          className="mt-4"
-          onClick={() => {
-            setIsSubmitted(false);
-            setName("");
-            setEmail("");
-            setMobileNo("");
-            setProjectType("");
-            setWordCount("");
-            setTimePeriod("");
-            setRequirements("");
-            setErrors({});
-          }}
-        >
-          Request Another Quote
-        </Button>
-      </div>
-    );
-  }
-
-  const defaultSubjectOptions = [
-    { label: "Business", value: "business" },
-    { label: "Law", value: "law" },
-    { label: "Nursing", value: "nursing" },
-    { label: "Engineering", value: "engineering" },
-    { label: "Psychology", value: "psychology" },
-    { label: "Marketing", value: "marketing" },
-    { label: "Finance", value: "finance" },
-    { label: "Other", value: "other" },
-  ];
-
-  const subjectOptions = [...defaultSubjectOptions];
-  if (subject && !defaultSubjectOptions.some(opt => opt.value === subject)) {
-    const formattedLabel = subject
-      .split(/[-/]/)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-    subjectOptions.push({ label: formattedLabel, value: subject });
-  }
-
   return (
-    <div className={cn("bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-7 flex flex-col gap-5", className)} id="quote-form">
-      {/* Title */}
-      <div className="flex items-center justify-center gap-2">
-        <Heading level={3} className="text-[18px] md:text-[20px] font-extrabold text-gray-900 leading-tight">
+    <div
+      className={`w-full max-w-[390px] bg-white rounded-2xl p-[1rem] md:p-[1.2rem_1.4rem] border border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.08)] relative flex flex-col gap-3 font-sans ${className || ""}`}
+      id="quote-form-card"
+    >
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        #quote-form-card input:focus,
+        #quote-form-card select:focus,
+        #quote-form-card textarea:focus,
+        #quote-form-card button:focus,
+        #quote-form-card input:focus-visible,
+        #quote-form-card select:focus-visible,
+        #quote-form-card textarea:focus-visible,
+        #quote-form-card button:focus-visible {
+          outline: none !important;
+          outline-style: none !important;
+          box-shadow: none !important;
+          border-color: transparent !important;
+          border-width: 0px !important;
+          --tw-ring-color: transparent !important;
+          --tw-ring-width: 0px !important;
+          --tw-ring-offset-width: 0px !important;
+        }
+      `,
+        }}
+      />
+      {/* Sparkle Header with Colored Sparkles */}
+      <div className="flex items-center justify-center gap-2 mb-0.5">
+        <svg
+          className="w-[14px] h-[14px] text-amber-500 shrink-0"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 2a1 1 0 0 1 .93.64l1.6 3.86 3.86 1.6a1 1 0 0 1 0 1.86l-3.86 1.6-1.6 3.86a1 1 0 0 1-1.86 0l-1.6-3.86-3.86-1.6a1 1 0 0 1 0-1.86l3.86-1.6 1.6-3.86A1 1 0 0 1 12 2z" />
+        </svg>
+        <h3 className="text-[0.95rem] font-bold text-gray-900 m-0 mx-2 capitalize leading-snug whitespace-nowrap">
           {title}
-        </Heading>
-        <span className="text-orange-500">✦</span>
+        </h3>
+        <svg
+          className="w-[14px] h-[14px] text-purple-500 shrink-0"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 2a1 1 0 0 1 .93.64l1.6 3.86 3.86 1.6a1 1 0 0 1 0 1.86l-3.86 1.6-1.6 3.86a1 1 0 0 1-1.86 0l-1.6-3.86-3.86-1.6a1 1 0 0 1 0-1.86l3.86-1.6 1.6-3.86A1 1 0 0 1 12 2z" />
+        </svg>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {variant === "compact" ? (
-          <>
-            {/* Academic Level */}
-            <div className="flex items-center gap-3">
-              <label className="text-[13px] font-bold text-gray-700 whitespace-nowrap min-w-[110px]">Academic Level</label>
-              <Select
-                placeholder="Select Level"
-                options={[
-                  { label: "Undergraduate", value: "undergraduate" },
-                  { label: "Masters", value: "masters" },
-                  { label: "PhD", value: "phd" },
-                  { label: "A-Level", value: "a-level" },
-                  { label: "GCSE", value: "gcse" },
-                ]}
-                value={projectType}
-                onValueChange={(val) => {
-                  setProjectType(val);
-                  if (errors.projectType) setErrors((prev) => ({ ...prev, projectType: "" }));
-                }}
-                error={errors.projectType}
-              />
-            </div>
-
-            {/* Subject */}
-            <div className="flex items-center gap-3">
-              <label className="text-[13px] font-bold text-gray-700 whitespace-nowrap min-w-[110px]">Subject</label>
-              <Select
-                placeholder="Select Subject"
-                options={subjectOptions}
-                value={subject}
-                onValueChange={(val) => setSubject(val)}
-              />
-            </div>
-
-            {/* Assignment Type */}
-            <div className="flex items-center gap-3">
-              <label className="text-[13px] font-bold text-gray-700 whitespace-nowrap min-w-[110px]">Assignment Type</label>
-              <Select
-                placeholder="Select Type"
-                options={PROJECT_TYPES}
-                value={wordCount}
-                onValueChange={(val) => {
-                  setWordCount(val);
-                  if (errors.wordCount) setErrors((prev) => ({ ...prev, wordCount: "" }));
-                }}
-                error={errors.wordCount}
-              />
-            </div>
-
-            {/* Deadline + Word Count / Pages - side by side */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex flex-col gap-1">
-                <label className="text-[13px] font-bold text-gray-700">Deadline</label>
-                <Select
-                  placeholder="Select Deadline"
-                  options={TIME_PERIODS}
-                  value={timePeriod}
-                  onValueChange={(val) => {
-                    setTimePeriod(val);
-                    if (errors.timePeriod) setErrors((prev) => ({ ...prev, timePeriod: "" }));
-                  }}
-                  error={errors.timePeriod}
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-[13px] font-bold text-gray-700">Word Count / Pages</label>
-                <Select
-                  placeholder="1000 Words"
-                  options={WORD_COUNTS}
-                  value={wordCount}
-                  onValueChange={(val) => {
-                    setWordCount(val);
-                    if (errors.wordCount) setErrors((prev) => ({ ...prev, wordCount: "" }));
-                  }}
-                  error={errors.wordCount}
-                />
-              </div>
-            </div>
-
-            {/* Email Address */}
-            <div className="flex flex-col gap-1">
-              <label className="text-[13px] font-bold text-gray-700">Email Address</label>
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
-                }}
-                error={errors.email}
-              />
-            </div>
-          </>
-        ) : (
-          <>
-            {/* Extended variant: original layout */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input
-                label="Full Name *"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                  if (errors.name) setErrors((prev) => ({ ...prev, name: "" }));
-                }}
-                error={errors.name}
-              />
-              <Input
-                type="email"
-                label="Email Address *"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
-                }}
-                error={errors.email}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input
-                type="tel"
-                label="Mobile No *"
-                placeholder="Enter mobile number"
-                value={mobileNo}
-                onChange={(e) => {
-                  setMobileNo(e.target.value);
-                  if (errors.mobileNo) setErrors((prev) => ({ ...prev, mobileNo: "" }));
-                }}
-                error={errors.mobileNo}
-              />
-              <Select
-                label="Project Type *"
-                placeholder="Select Project Type"
-                options={PROJECT_TYPES}
-                value={projectType}
-                onValueChange={(val) => {
-                  setProjectType(val);
-                  if (errors.projectType) setErrors((prev) => ({ ...prev, projectType: "" }));
-                }}
-                error={errors.projectType}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Select
-                label="Word Count *"
-                placeholder="Select Word Count"
-                options={WORD_COUNTS}
-                value={wordCount}
-                onValueChange={(val) => {
-                  setWordCount(val);
-                  if (errors.wordCount) setErrors((prev) => ({ ...prev, wordCount: "" }));
-                }}
-                error={errors.wordCount}
-              />
-              <Select
-                label="Time Period *"
-                placeholder="Select Time Period"
-                options={TIME_PERIODS}
-                value={timePeriod}
-                onValueChange={(val) => {
-                  setTimePeriod(val);
-                  if (errors.timePeriod) setErrors((prev) => ({ ...prev, timePeriod: "" }));
-                }}
-                error={errors.timePeriod}
-              />
-            </div>
-
-            <TextArea
-              label="Additional Requirements"
-              placeholder="Type your specific assignment instructions or specifications here..."
-              value={requirements}
-              onChange={(e) => setRequirements(e.target.value)}
-              rows={3}
+      {/* Form Fields */}
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        {/* Name Row */}
+        <div className="flex items-center justify-between gap-3">
+          <label className="text-[0.78rem] font-medium text-slate-700 m-0 whitespace-nowrap w-[90px] text-left">
+            Name
+          </label>
+          <div className="flex-1 bg-white border border-gray-200 rounded-lg py-1 px-2.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-gray-300">
+            <input
+              type="text"
+              required
+              placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full border-none bg-transparent text-[0.72rem] text-slate-800 outline-none font-medium py-0.5 box-border placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-none focus:shadow-none focus-visible:ring-0 focus-visible:outline-none"
             />
-          </>
-        )}
+          </div>
+        </div>
 
-        {/* CTA Button — Orange gradient */}
+        {/* Email Row */}
+        <div className="flex items-center justify-between gap-3">
+          <label className="text-[0.78rem] font-medium text-slate-700 m-0 whitespace-nowrap w-[90px] text-left">
+            Email
+          </label>
+          <div className="flex-1 bg-white border border-gray-200 rounded-lg py-1 px-2.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-gray-300">
+            <input
+              type="email"
+              required
+              placeholder="Enter Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full border-none bg-transparent text-[0.72rem] text-slate-800 outline-none font-medium py-0.5 box-border placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-none focus:shadow-none focus-visible:ring-0 focus-visible:outline-none"
+            />
+          </div>
+        </div>
+
+        {/* Mobile No Row */}
+        <div className="flex items-center justify-between gap-3">
+          <label className="text-[0.78rem] font-medium text-slate-700 m-0 whitespace-nowrap w-[90px] text-left">
+            Mobile No
+          </label>
+          <div className="flex-1 bg-white border border-gray-200 rounded-lg py-1 px-2.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-gray-300">
+            <input
+              type="tel"
+              required
+              placeholder="Enter Mobile"
+              value={mobileNo}
+              onChange={(e) => setMobileNo(e.target.value)}
+              className="w-full border-none bg-transparent text-[0.72rem] text-slate-800 outline-none font-medium py-0.5 box-border placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-none focus:shadow-none focus-visible:ring-0 focus-visible:outline-none"
+            />
+          </div>
+        </div>
+
+        {/* Project Type Row */}
+        <div className="flex items-center justify-between gap-3">
+          <label className="text-[0.78rem] font-medium text-slate-700 m-0 whitespace-nowrap w-[90px] text-left">
+            Project Type
+          </label>
+          <div className="flex-1 bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)] relative flex items-center h-[30px] focus-within:border-gray-300">
+            <select
+              required
+              value={projectType}
+              onChange={(e) => setProjectType(e.target.value)}
+              className="w-full border-none bg-transparent text-[0.72rem] text-slate-800 outline-none cursor-pointer font-medium py-0.5 appearance-none focus:outline-none focus:ring-0 focus:border-none focus:shadow-none focus-visible:ring-0 focus-visible:outline-none max-md:text-ellipsis max-md:overflow-hidden max-md:whitespace-nowrap pr-5"
+            >
+              <option value="" disabled hidden>
+                Select Project Type
+              </option>
+              {projectTypeOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+              <svg
+                className="w-3 h-3"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth="2.5"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Time Period + Word Count side-by-side columns */}
+        <div className="grid grid-cols-2 gap-3 mt-0.5">
+          {/* Time Period Column */}
+          <div className="flex flex-col gap-1">
+            <label className="text-[0.78rem] font-medium text-slate-700 text-left">
+              Time Period
+            </label>
+            <div className="bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)] relative flex items-center h-[34px] focus-within:border-gray-300">
+              <select
+                required
+                value={timePeriod}
+                onChange={(e) => setTimePeriod(e.target.value)}
+                className="w-full border-none bg-transparent text-[0.72rem] text-slate-800 outline-none cursor-pointer font-medium appearance-none focus:outline-none focus:ring-0 focus:border-none focus:shadow-none focus-visible:ring-0 focus-visible:outline-none pr-4"
+              >
+                <option value="" disabled hidden>
+                  Select Deadline
+                </option>
+                {timePeriodOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                <svg
+                  className="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2.5"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Word Count Column */}
+          <div className="flex flex-col gap-1">
+            <label className="text-[0.78rem] font-medium text-slate-700 text-left">
+              Word Count
+            </label>
+            <div className="bg-white border border-gray-200 rounded-lg flex items-center justify-between px-1.5 w-full h-[34px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+              {/* Decrement Button */}
+              <button
+                type="button"
+                onClick={handleDecrement}
+                className="text-gray-500 font-extrabold text-[14px] w-5 h-5 flex items-center justify-center hover:text-gray-800 cursor-pointer active:scale-90 select-none outline-none border-none bg-transparent focus:outline-none focus:ring-0"
+              >
+                −
+              </button>
+              {/* Counter Display */}
+              <span className="text-[0.72rem] font-medium text-gray-800 select-none whitespace-nowrap">
+                {wordCount} Words
+              </span>
+              {/* Increment Button */}
+              <button
+                type="button"
+                onClick={handleIncrement}
+                className="text-gray-500 font-extrabold text-[14px] w-5 h-5 flex items-center justify-center hover:text-gray-800 cursor-pointer active:scale-90 select-none outline-none border-none bg-transparent focus:outline-none focus:ring-0"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Description Field */}
+        <div className="flex flex-col gap-1">
+          <label className="text-[0.78rem] font-medium text-slate-700 text-left">
+            Description
+          </label>
+          <textarea
+            placeholder="Type your requirements here..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={2}
+            className="w-full bg-white border border-gray-200 rounded-lg py-1.5 px-2.5 text-[0.72rem] text-slate-800 outline-none font-medium placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-gray-300 focus-visible:ring-0 focus-visible:outline-none resize-none"
+          />
+        </div>
+
+        {/* Orange Submit Button */}
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-3.5 bg-gradient-to-r from-[#E8590C] to-[#FF6B2B] hover:from-[#D94500] hover:to-[#E8590C] text-white text-[15px] font-bold rounded-lg shadow-lg shadow-orange-500/25 transition-all duration-200 hover:-translate-y-0.5 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed mt-1"
+          className="w-full py-2.5 btn-shutter-orange-open text-white text-[0.78rem] font-bold rounded-lg shadow-[0_4px_14px_rgba(249,115,22,0.25)] flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed mt-1"
         >
           {isLoading ? (
-            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg
+              className="animate-spin h-4 w-4 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
           ) : (
-            <>
-              Get Price Now
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </>
+            <>Get Price Now &rarr;</>
           )}
         </button>
       </form>
 
-      {/* Trust row */}
-      <div className="flex items-center justify-between gap-x-2 flex-nowrap pt-2 px-1">
-        <span className="flex items-center gap-1 text-[9.5px] sm:text-[10px] font-bold text-gray-500 uppercase tracking-wide shrink-0">
-          <svg className="w-3 h-3 text-[#22c55e]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+      {/* Trust Row */}
+      <div className="flex justify-between items-center text-[0.65rem] text-gray-500 font-medium tracking-wide pt-0.5 px-0.5">
+        <span className="flex items-center gap-1 shrink-0">
+          <svg
+            className="w-3.5 h-3.5 text-[#22c55e] shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth="3.5"
+          >
+            <polyline points="20 6 9 17 4 12" />
           </svg>
-          It&apos;s free
+          It's free
         </span>
-        <span className="flex items-center gap-1 text-[9.5px] sm:text-[10px] font-bold text-gray-500 uppercase tracking-wide shrink-0">
-          <svg className="w-3 h-3 text-[#22c55e]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        <span className="flex items-center gap-1 shrink-0">
+          <svg
+            className="w-3.5 h-3.5 text-[#22c55e] shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth="3.5"
+          >
+            <polyline points="20 6 9 17 4 12" />
           </svg>
           No obligation
         </span>
-        <span className="flex items-center gap-1 text-[9.5px] sm:text-[10px] font-bold text-gray-500 uppercase tracking-wide shrink-0">
-          <svg className="w-3 h-3 text-[#22c55e]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        <span className="flex items-center gap-1 shrink-0">
+          <svg
+            className="w-3.5 h-3.5 text-[#22c55e] shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth="3.5"
+          >
+            <polyline points="20 6 9 17 4 12" />
           </svg>
           Quick response
         </span>
@@ -394,4 +404,3 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
   );
 };
 QuoteForm.displayName = "QuoteForm";
-

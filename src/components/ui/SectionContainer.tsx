@@ -33,7 +33,7 @@ export const SectionContainer: React.FC<SectionContainerProps> = ({
 }) => {
   return (
     <section id={id} className={cn(containerVariants({ background }), className)} {...props}>
-      <div className="max-w-7xl mx-auto px-4 md:px-8 w-full">
+      <div className="max-w-[1200px] mx-auto px-4 md:px-8 w-full">
         {children}
       </div>
     </section>

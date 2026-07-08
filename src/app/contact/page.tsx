@@ -181,9 +181,9 @@ export default function ContactPage() {
                     </div>
                     <Link href="tel:+447300640066" className="w-full sm:w-auto mt-2 sm:mt-0 shrink-0">
                       <Button
-                        variant="outline"
+                        variant="blueClose"
                         size="sm"
-                        className="border-[#3f159a] text-[#3f159a] hover:bg-[#f4f2ff] font-extrabold text-[10px] uppercase tracking-wider h-[38px] w-full sm:w-auto whitespace-nowrap shrink-0"
+                        className="font-extrabold text-[10px] uppercase tracking-wider h-[38px] w-full sm:w-auto whitespace-nowrap shrink-0"
                       >
                         +44 7300 640066
                       </Button>
@@ -203,9 +203,9 @@ export default function ContactPage() {
                     </div>
                     <Link href="mailto:support@assignmentinneed.com" className="w-full sm:w-auto mt-2 sm:mt-0 shrink-0">
                       <Button
-                        variant="outline"
+                        variant="orangeClose"
                         size="sm"
-                        className="border-[#ea580c] text-[#ea580c] hover:bg-[#fff2ea] font-extrabold text-[10px] lowercase tracking-wider h-[38px] w-full sm:w-auto whitespace-nowrap shrink-0"
+                        className="font-extrabold text-[10px] lowercase tracking-wider h-[38px] w-full sm:w-auto whitespace-nowrap shrink-0"
                       >
                         support@assignmentinneed.com
                       </Button>
@@ -280,7 +280,7 @@ export default function ContactPage() {
                       setInquiryType("");
                       setMessage("");
                     }}
-                    variant="primary"
+                    variant="blueOpen"
                     size="sm"
                     className="mt-4"
                   >
@@ -413,7 +413,7 @@ export default function ContactPage() {
                     {/* Submit Button */}
                     <Button
                       type="submit"
-                      variant="gradient"
+                      variant="blueOpen"
                       size="lg"
                       fullWidth
                       isLoading={isSubmitting}

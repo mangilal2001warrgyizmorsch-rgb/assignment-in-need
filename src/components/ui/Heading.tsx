@@ -7,10 +7,10 @@ const headingVariants = cva(
   {
     variants: {
       level: {
-        1: "text-3xl md:text-4xl lg:text-5xl leading-tight",
-        2: "text-2xl md:text-3xl leading-snug",
-        3: "text-xl md:text-2xl leading-snug",
-        4: "text-lg md:text-xl leading-normal",
+        1: "text-3xl md:text-[44px] lg:text-[55px] leading-tight",
+        2: "text-2xl md:text-[32px] lg:text-[40px] leading-snug",
+        3: "text-xl md:text-[24px] lg:text-[30px] leading-snug",
+        4: "text-lg md:text-[20px] lg:text-[24px] leading-normal",
       },
     },
     defaultVariants: {
@@ -24,6 +24,7 @@ export interface HeadingProps
     VariantProps<typeof headingVariants> {
   highlight?: string;
   highlightVariant?: "purple" | "orange" | "gradient";
+  underline?: boolean;
 }
 
 export const Heading: React.FC<HeadingProps> = ({
@@ -31,6 +32,7 @@ export const Heading: React.FC<HeadingProps> = ({
   level = 2,
   highlight,
   highlightVariant = "purple",
+  underline = false,
   children,
   ...props
 }) => {
@@ -69,7 +71,11 @@ export const Heading: React.FC<HeadingProps> = ({
 
   return (
     <Component
-      className={cn(headingVariants({ level }), className)}
+      className={cn(
+        headingVariants({ level }), 
+        underline && "laravel-section-title",
+        className
+      )}
       {...props}
     >
       {renderContent()}

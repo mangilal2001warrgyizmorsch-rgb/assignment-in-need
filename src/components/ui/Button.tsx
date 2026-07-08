@@ -13,6 +13,10 @@ const buttonVariants = cva(
         outline: "bg-white border border-primary-700 text-primary-700 hover:bg-primary-50",
         ghost: "text-primary-700 hover:bg-primary-50",
         gradient: "bg-gradient-primary text-white hover:opacity-95 shadow-md shadow-primary-900/10 hover:shadow-lg hover:shadow-primary-900/20",
+        orangeOpen: "btn-shutter-orange-open shadow-md shadow-orange-500/10 hover:shadow-lg",
+        orangeClose: "btn-shutter-orange-close shadow-sm hover:shadow-md",
+        blueOpen: "btn-shutter-blue-open shadow-md shadow-blue-900/10 hover:shadow-lg",
+        blueClose: "btn-shutter-blue-close shadow-sm hover:shadow-md",
       },
       size: {
         sm: "px-4 py-2 text-sm",

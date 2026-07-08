@@ -10,19 +10,19 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          50: '#F5F3FF',
-          100: '#EDE9FE',
-          500: '#7C3AED',
-          600: '#6D28D9',
-          650: '#6325C8',
-          700: '#5B21B6',   // main purple (buttons, links, headings accent)
-          800: '#4C1D95',
-          900: '#2E1065',
+          50: '#F4F0FF',
+          100: '#EAE2FE',
+          500: '#6E38ED',
+          600: '#5E2CED',   // accent purple
+          650: '#5223D8',
+          700: '#4a17a3',   // main brand purple
+          800: '#3D128B',
+          900: '#2B0C61',
         },
         accent: {
           400: '#FDBA74',
           500: '#FB923C',
-          600: '#F97316',   // orange CTA ("Get Free Quote", "Get Price Now")
+          600: '#F97316',   // orange CTA
           700: '#EA580C',
         },
         navy: {
@@ -30,33 +30,33 @@ const config: Config = {
           800: '#1B1440',
         },
         surface: {
-          lavender: '#F7F5FF', // soft section backgrounds
+          lavender: '#fbf2fe', // pink-lavender section backgrounds matching Laravel
           white: '#FFFFFF',
         },
-        success: '#22C55E',
-        warning: '#FBBF24',   // star ratings
+        success: '#44bb7f',
+        warning: '#fbb039',   // star ratings
         text: {
-          heading: '#181245',
-          body: '#5B5675',
-          muted: '#8C87A3',
+          heading: '#06092d',
+          body: '#2f2f2f',
+          muted: '#78787c',
         },
       },
       borderRadius: {
-        card: '1rem',      // rounded-2xl cards
+        card: '0.375rem',      // sharper card corners matching Laravel style
         pill: '9999px',
-        btn: '0.75rem',
+        btn: '3px',            // sharp button corners
       },
       boxShadow: {
-        card: '0 4px 20px rgba(91, 33, 182, 0.06)',
-        cardHover: '0 8px 30px rgba(91, 33, 182, 0.12)',
+        card: '0 4px 15px rgba(74, 23, 163, 0.05)',
+        cardHover: '0 8px 25px rgba(74, 23, 163, 0.1)',
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(135deg, #6D28D9 0%, #4C1D95 100%)',
-        'gradient-promo': 'linear-gradient(135deg, #4C1D95 0%, #7C3AED 50%, #DB2777 100%)',
-        'gradient-logo': 'linear-gradient(135deg, #7C3AED 0%, #F97316 100%)',
+        'gradient-primary': 'linear-gradient(135deg, #5e2ced 0%, #4821c3 100%)',
+        'gradient-promo': 'linear-gradient(135deg, #4821c3 0%, #5e2ced 50%, #fe6b8d 100%)',
+        'gradient-logo': 'linear-gradient(135deg, #4a17a3 0%, #F97316 100%)',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'sans-serif'],
+        sans: ['var(--font-poppins)', 'sans-serif'], // Poppins body font to match Laravel
         heading: ['var(--font-poppins)', 'sans-serif'],
       },
       keyframes: {

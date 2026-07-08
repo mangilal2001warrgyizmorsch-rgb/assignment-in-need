@@ -180,12 +180,12 @@ export default function AboutPage() {
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 mt-2">
                 <Link href="#experts-section">
-                  <Button variant="primary" size="md" className="bg-[#3f159a] hover:bg-[#2b0c61] text-white font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider transition duration-200 shadow-md">
+                  <Button variant="blueOpen" size="md" className="font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider transition duration-200 shadow-md">
                     Meet Our Experts &rarr;
                   </Button>
                 </Link>
                 <Link href="/pricing">
-                  <Button variant="outline" size="md" className="bg-white hover:bg-gray-50 text-[#3f159a] border border-[#3f159a] font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider transition duration-200 shadow-sm">
+                  <Button variant="blueClose" size="md" className="font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider transition duration-200 shadow-sm">
                     Get Free Quote &rarr;
                   </Button>
                 </Link>
@@ -536,9 +536,9 @@ export default function AboutPage() {
           <div className="flex md:hidden w-full mt-6">
             <Link href="/writers" className="w-full">
               <Button 
-                variant="outline" 
+                variant="blueClose" 
                 size="md" 
-                className="w-full border-[#3f159a] text-[#3f159a] hover:bg-[#f4f2ff] font-extrabold text-[11px] uppercase tracking-wider py-3.5 rounded-lg text-center"
+                className="w-full font-extrabold text-[11px] uppercase tracking-wider py-3.5 rounded-lg text-center"
               >
                 View All Experts &rarr;
               </Button>
@@ -577,9 +577,9 @@ export default function AboutPage() {
             </div>
             <Link href="/pricing" className="w-full md:w-auto shrink-0 z-10">
               <Button
-                variant="primary"
+                variant="orangeOpen"
                 size="md"
-                className="bg-[#ff6a12] hover:bg-[#ea580c] text-white font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider shadow-md transition duration-200 w-full md:w-auto text-center"
+                className="font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider shadow-md transition duration-200 w-full md:w-auto text-center"
               >
                 Get Free Quote &rarr;
               </Button>
