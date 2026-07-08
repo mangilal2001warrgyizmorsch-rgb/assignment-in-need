@@ -324,15 +324,15 @@ export default function PricingPage() {
                 Thank you, <span className="text-[#3f159a]">{name}</span>. Your enquiry request has been sent successfully. Our support desk will reach out to you shortly.
               </p>
               <Button
-                onClick={() => {
-                  setIsSubmitted(false);
-                  setName("");
-                  setEmail("");
-                  setPhone("");
-                  setSubject("");
-                  setInquiryType("");
-                  setMessage("");
-                }}
+                  onClick={() => {
+                    setIsSubmitted(false);
+                    setName("");
+                    setEmail("");
+                    setPhone("");
+                    setSubject("");
+                    setInquiryType("");
+                    setMessage("");
+                  }}
                 variant="blueOpen"
                 size="sm"
                 className="mt-4 text-white"

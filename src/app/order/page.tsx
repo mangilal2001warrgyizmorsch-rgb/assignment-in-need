@@ -122,6 +122,27 @@ export default function OrderPage() {
   const [attachedFiles, setAttachedFiles] = useState<string[]>([]);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // Input Sanitization Handlers (prevent special characters)
+  const handleFullNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+    setFullName(val);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, "");
+    setEmail(val);
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^0-9]/g, "");
+    setPhoneNumber(val);
+  };
+
+  const handleInstructionsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value.replace(/[<>\/?[\]{}|\\;:'"`~^+=*]/g, "");
+    setInstructions(val);
+  };
+
   // File Upload Handlers
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -312,7 +333,7 @@ export default function OrderPage() {
       </section>
 
       {/* 2. Order Form Main Section */}
-      <SectionContainer className="pt-2 pb-5">
+      <SectionContainer className="pt-8 pb-16 md:pt-8 md:pb-20 lg:pt-8 lg:pb-24">
         <form onSubmit={handleOrderSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* LEFT COLUMN: Input details (65%) */}
           <div className="lg:col-span-8 flex flex-col gap-6">
@@ -342,7 +363,7 @@ export default function OrderPage() {
                         placeholder="Enter your full name"
                         className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
                         value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
+                        onChange={handleFullNameChange}
                         required
                       />
                     </div>
@@ -360,7 +381,7 @@ export default function OrderPage() {
                         placeholder="Enter your email address"
                         className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleEmailChange}
                         required
                       />
                     </div>
@@ -391,7 +412,7 @@ export default function OrderPage() {
                         placeholder="Enter phone number"
                         className="flex-1 pl-4 pr-4 h-full bg-transparent text-[14px] text-gray-800 focus:outline-none font-medium"
                         value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        onChange={handlePhoneChange}
                         required
                       />
                     </div>
@@ -588,18 +609,17 @@ export default function OrderPage() {
                   className="w-full p-4 border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
                   rows={4}
                   value={instructions}
-                  onChange={(e) => setInstructions(e.target.value)}
+                  onChange={handleInstructionsChange}
                 />
               </div>
 
               {/* STEP 5: Upload Files */}
-              <div className="flex flex-col gap-5 border-t border-gray-100 pt-6">
+              {/* <div className="flex flex-col gap-5 border-t border-gray-100 pt-6">
                 <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
                   <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">5</span>
                   Upload Files (Optional)
                 </span>
                 
-                {/* Drag and Drop Box */}
                 <div className="relative border-2 border-dashed border-purple-200 hover:border-purple-400 bg-purple-50/5 rounded-2xl p-6 transition-all flex flex-col sm:flex-row items-center justify-between gap-4">
                   <input 
                     type="file" 
@@ -625,7 +645,6 @@ export default function OrderPage() {
                   </button>
                 </div>
 
-                {/* Attached Files List */}
                 {attachedFiles.length > 0 && (
                   <div className="flex flex-col gap-2 mt-2 text-left">
                     <span className="text-xs font-bold text-gray-900">Attached Files ({attachedFiles.length}):</span>
@@ -649,7 +668,7 @@ export default function OrderPage() {
                     </div>
                   </div>
                 )}
-              </div>
+              </div> */}
             </Card>
 
             {/* Bottom Benefits Strips */}

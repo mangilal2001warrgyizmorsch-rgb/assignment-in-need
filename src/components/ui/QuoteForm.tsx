@@ -65,6 +65,27 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
 
   const [isLoading, setIsLoading] = useState(false);
 
+  // Input Sanitization Handlers (prevent special characters)
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+    setName(val);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, "");
+    setEmail(val);
+  };
+
+  const handleMobileNoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.replace(/[^0-9]/g, "");
+    setMobileNo(val);
+  };
+
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value.replace(/[<>\/?[\]{}|\\;:'"`~^+=*]/g, "");
+    setDescription(val);
+  };
+
   // Stepper handlers
   const handleIncrement = () => {
     setWordCount((prev) => Math.min(20000, prev + 250));
@@ -172,7 +193,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               required
               placeholder="Enter Name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleNameChange}
               className="w-full border-none bg-transparent text-[0.72rem] text-slate-800 outline-none font-medium py-0.5 box-border placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-none focus:shadow-none focus-visible:ring-0 focus-visible:outline-none"
             />
           </div>
@@ -189,7 +210,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               required
               placeholder="Enter Email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
               className="w-full border-none bg-transparent text-[0.72rem] text-slate-800 outline-none font-medium py-0.5 box-border placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-none focus:shadow-none focus-visible:ring-0 focus-visible:outline-none"
             />
           </div>
@@ -206,7 +227,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               required
               placeholder="Enter Mobile"
               value={mobileNo}
-              onChange={(e) => setMobileNo(e.target.value)}
+              onChange={handleMobileNoChange}
               className="w-full border-none bg-transparent text-[0.72rem] text-slate-800 outline-none font-medium py-0.5 box-border placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-none focus:shadow-none focus-visible:ring-0 focus-visible:outline-none"
             />
           </div>
@@ -322,7 +343,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           <textarea
             placeholder="Type your requirements here..."
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={handleDescriptionChange}
             rows={2}
             className="w-full bg-white border border-gray-200 rounded-lg py-1.5 px-2.5 text-[0.72rem] text-slate-800 outline-none font-medium placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-gray-300 focus-visible:ring-0 focus-visible:outline-none resize-none"
           />
