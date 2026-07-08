@@ -14,28 +14,34 @@ if (backendUrl) {
   }
 }
 
+const remotePatterns: any[] = [
+  {
+    protocol: "http",
+    hostname: "localhost",
+    port: "8000",
+    pathname: "/**",
+  },
+  {
+    protocol: "https",
+    hostname: "images.unsplash.com",
+    pathname: "/**",
+  },
+];
+
+if (backendHostname) {
+  remotePatterns.push({
+    protocol: backendProtocol,
+    hostname: backendHostname,
+    pathname: "/**",
+  });
+}
+
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "8000",
-        pathname: "/**",
-      },
-      {
-        protocol: backendProtocol,
-        hostname: backendHostname,
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        pathname: "/**",
-      },
-    ],
+    remotePatterns,
   },
   async rewrites() {
+    if (!backendUrl) return [];
     return [
       {
         source: "/api/:path*",
