@@ -86,7 +86,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="bg-white">
+    <div className="bg-white home-page">
       {/* 1. Hero Section */}
       <HeroSection />
 

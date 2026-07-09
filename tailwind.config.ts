@@ -56,8 +56,8 @@ const config: Config = {
         'gradient-logo': 'linear-gradient(135deg, #4a17a3 0%, #F97316 100%)',
       },
       fontFamily: {
-        sans: ['var(--font-poppins)', 'sans-serif'], // Poppins body font to match Laravel
-        heading: ['var(--font-poppins)', 'sans-serif'],
+        sans: ['var(--font-nunito)', 'sans-serif'],
+        heading: ['var(--font-roboto)', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {

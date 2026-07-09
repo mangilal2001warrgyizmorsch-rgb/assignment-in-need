@@ -72,14 +72,14 @@ export const Footer = () => {
           <div className="flex flex-col">
             <h3 className="text-white text-[1.05rem] font-bold mb-6 mt-0">Services</h3>
             <ul className="list-none p-0 m-0 flex flex-col gap-3.5">
-              <li><Link href="/services/essay-writing" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Essay Writing</Link></li>
-              <li><Link href="/services/dissertation-help" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Dissertation Help</Link></li>
-              <li><Link href="/services/assignment-writing" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Assignment Help</Link></li>
-              <li><Link href="/services/case-study-help" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Case Study Help</Link></li>
-              <li><Link href="/services/report-writing" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Report Writing</Link></li>
-              <li><Link href="/services/proofreading-editing" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Proofreading</Link></li>
-              <li><Link href="/services/editing-formatting" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Editing & Formatting</Link></li>
-              <li className="font-semibold"><Link href="/services/assignment-writing" className="text-[#3b82f6] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">View All Services</Link></li>
+              <li><Link href="/essay-writing-help-services" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Essay Writing</Link></li>
+              <li><Link href="/dissertation-writing-help-services" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Dissertation Help</Link></li>
+              <li><Link href="/assignment-writing-help-services" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Assignment Help</Link></li>
+              <li><Link href="/case-study-dissertation-help-uk" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Case Study Help</Link></li>
+              <li><Link href="/report-writing" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Report Writing</Link></li>
+              <li><Link href="/proofreading-and-editing-writing-help" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Proofreading</Link></li>
+              <li><Link href="/dissertation-editing-and-proofreading-help-uk" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Editing & Formatting</Link></li>
+              <li className="font-semibold"><Link href="/assignment-writing-help-services" className="text-[#3b82f6] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">View All Services</Link></li>
             </ul>
           </div>
           <div className="flex flex-col">

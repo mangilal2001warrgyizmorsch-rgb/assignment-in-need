@@ -1,6 +1,6 @@
 /* Zudio New Writers (znw) Styles */
 .znw-page-wrapper {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: var(--font-nunito), sans-serif;
     background-color: #fdfcff;
     padding: 0;
     margin: 0;

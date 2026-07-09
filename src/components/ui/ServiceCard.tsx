@@ -63,7 +63,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
             <span className="text-[10px] text-text-muted font-semibold uppercase tracking-wider">Starting From</span>
             <span className="font-heading font-extrabold text-lg text-primary-700">£{price}</span>
           </div>
-          <Link href={`/services/${slug}`}>
+          <Link href={`/${slug}`}>
             <Button
               variant="ghost"
               size="sm"

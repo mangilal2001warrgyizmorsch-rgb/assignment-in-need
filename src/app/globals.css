@@ -200,10 +200,12 @@
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .btn-shutter-orange-open::before {
-    transform: translateY(-100%);
+    transform: translateY(-110%);
+    will-change: transform;
   }
   .btn-shutter-orange-open::after {
-    transform: translateY(100%);
+    transform: translateY(110%);
+    will-change: transform;
   }
   .btn-shutter-orange-open:hover {
     color: #ff5722 !important;
@@ -239,10 +241,12 @@
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .btn-shutter-orange-close::before {
-    transform: translateY(-100%);
+    transform: translateY(-110%);
+    will-change: transform;
   }
   .btn-shutter-orange-close::after {
-    transform: translateY(100%);
+    transform: translateY(110%);
+    will-change: transform;
   }
   .btn-shutter-orange-close:hover {
     color: #ffffff !important;
@@ -278,10 +282,12 @@
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .btn-shutter-blue-open::before {
-    transform: translateY(-100%);
+    transform: translateY(-110%);
+    will-change: transform;
   }
   .btn-shutter-blue-open::after {
-    transform: translateY(100%);
+    transform: translateY(110%);
+    will-change: transform;
   }
   .btn-shutter-blue-open:hover {
     color: #3f159a !important;
@@ -317,10 +323,12 @@
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .btn-shutter-blue-close::before {
-    transform: translateY(-100%);
+    transform: translateY(-110%);
+    will-change: transform;
   }
   .btn-shutter-blue-close::after {
-    transform: translateY(100%);
+    transform: translateY(110%);
+    will-change: transform;
   }
   .btn-shutter-blue-close:hover {
     color: #ffffff !important;

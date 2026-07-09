@@ -16,7 +16,7 @@ import { Heading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
 import { Button } from "@/components/ui/Button";
 import { WRITERS, TESTIMONIALS } from "@/lib/data";
-import { getBaseUrl, mapExpertToWriter } from "@/lib/api";
+import { mapExpertToWriter } from "@/lib/api";
 import ServicePageLoading from "./loading";
 import {
   ShieldCheck,
@@ -34,6 +34,56 @@ import {
   Heart,
 } from "lucide-react";
 
+const fallbackWhyItems = [
+  {
+    title: "100% Original Work",
+    desc: "Plagiarism-free and authentic content.",
+  },
+  {
+    title: "AI-Free Writing",
+    desc: "Human-written assignments, no AI tools.",
+  },
+  {
+    title: "UK Academic Standards",
+    desc: "Followed by experts as per UK university guidelines.",
+  },
+  {
+    title: "Unlimited Revisions",
+    desc: "We work until you are 100% satisfied with the result.",
+  },
+  {
+    title: "On-Time Delivery",
+    desc: "Always delivered before the deadline.",
+  },
+  {
+    title: "Confidential Service",
+    desc: "Your privacy and information are 100% safe.",
+  },
+];
+
+const normalizeArray = (value: any) => {
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+};
+
+const mapReviewToTestimonial = (review: any) => ({
+  name: review?.name || "Verified Student",
+  institution:
+    [review?.location, review?.services_type].filter(Boolean).join(" • ") ||
+    "Verified Student",
+  quote: review?.description || "",
+  rating: Number.parseFloat(review?.customer_rating) || 5,
+  avatar: review?.name?.charAt(0) || "S",
+});
+
 export default function ServiceLanding() {
   const params = useParams();
   const slugArray = params?.slug;
@@ -43,6 +93,7 @@ export default function ServiceLanding() {
 
   const [pageData, setPageData] = useState<any>(null);
   const [experts, setExperts] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
   const [allServicePages, setAllServicePages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -54,8 +105,7 @@ export default function ServiceLanding() {
       if (!fullSlug) return;
       try {
         setLoading(true);
-        const baseUrl = getBaseUrl();
-        const pageRes = await fetch(`${baseUrl}/api/service-pages/${fullSlug}`);
+        const pageRes = await fetch(`/api/admin/service-pages/${fullSlug}`);
         let pageResult: any = null;
 
         if (pageRes.ok) {
@@ -67,11 +117,14 @@ export default function ServiceLanding() {
                 pageResult.data.experts.map((item: any) => mapExpertToWriter(item)),
               );
             }
+            if (Array.isArray(pageResult.data.reviews)) {
+              setReviews(pageResult.data.reviews.map(mapReviewToTestimonial));
+            }
           }
         }
 
         if (!pageResult || !pageResult.success || !pageResult.data || !pageResult.data.page) {
-          const listRes = await fetch(`${baseUrl}/api/service-pages`);
+          const listRes = await fetch("/api/admin/service-pages");
           if (listRes.ok) {
             const listResult = await listRes.json();
             if (listResult.success && Array.isArray(listResult.data)) {
@@ -101,7 +154,7 @@ export default function ServiceLanding() {
 
   useEffect(() => {
     if (!loading && !pageData && childServicePages.length === 1) {
-      router.replace(`/services/${childServicePages[0].slug}`);
+      router.replace(`/${childServicePages[0].slug}`);
     }
   }, [loading, pageData, childServicePages, router]);
 
@@ -129,7 +182,7 @@ export default function ServiceLanding() {
             {childServicePages.map((service) => (
               <Link
                 key={service.slug}
-                href={`/services/${service.slug}`}
+                href={`/${service.slug}`}
                 className="group block rounded-3xl border border-gray-200 p-6 hover:border-primary-500 hover:bg-primary-50 transition-all duration-200"
               >
                 <h2 className="text-xl font-semibold text-gray-900 group-hover:text-primary-700">
@@ -182,35 +235,17 @@ export default function ServiceLanding() {
   const whySubheading =
     pageData.why_subheading ||
     "We design custom academic support frameworks with rigorous quality control measures.";
-  const whyItems = [
-    {
-      title: "100% Original Work",
-      desc: "Plagiarism-free and authentic content.",
-    },
-    {
-      title: "AI-Free Writing",
-      desc: "Human-written assignments, no AI tools.",
-    },
-    {
-      title: "UK Academic Standards",
-      desc: "Followed by experts as per UK university guidelines.",
-    },
-    {
-      title: "Unlimited Revisions",
-      desc: "We work until you are 100% satisfied with the result.",
-    },
-    {
-      title: "On-Time Delivery",
-      desc: "Always delivered before the deadline.",
-    },
-    {
-      title: "Confidential Service",
-      desc: "Your privacy and information are 100% safe.",
-    },
-  ];
+  const dynamicWhyItems = normalizeArray(pageData.why_items)
+    .map((item: any) => ({
+      title: item?.heading || item?.title,
+      desc: item?.content || item?.desc,
+    }))
+    .filter((item: any) => item.title || item.desc);
+  const whyItems = dynamicWhyItems.length > 0 ? dynamicWhyItems : fallbackWhyItems;
 
   // Experts list
   const expertsToShow = experts.length > 0 ? experts : WRITERS.slice(0, 4);
+  const testimonialsToShow = reviews.length > 0 ? reviews : TESTIMONIALS;
 
   const steps = [
     {
@@ -708,11 +743,13 @@ export default function ServiceLanding() {
           {/* Header */}
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-[22px] md:text-[28px] text-[#0f1b3d] tracking-tight">
-              Why Students Choose{" "}
-              <span className="font-extrabold">
-                Our Assignment Writing Service?
-              </span>
+              {whyHeading}
             </h2>
+            {whySubheading ? (
+              <p className="mt-3 text-sm md:text-base text-gray-500 font-semibold leading-relaxed">
+                {whySubheading}
+              </p>
+            ) : null}
           </div>
 
           {/* 6 Columns Grid */}
@@ -1065,7 +1102,7 @@ export default function ServiceLanding() {
             </p>
           </div>
 
-          <TestimonialCarousel testimonials={TESTIMONIALS} />
+          <TestimonialCarousel testimonials={testimonialsToShow} />
         </div>
       </SectionContainer>
 

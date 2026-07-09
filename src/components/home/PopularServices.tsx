@@ -57,7 +57,7 @@ const FALLBACK_SERVICES: HomeService[] = [
     id: "assignment-help",
     title: "Assignment Help",
     description: "All types of assignments on any subject",
-    href: "/services/assignment-writing-uk",
+    href: "/assignment-writing-uk",
     price: "From £12",
     orders: "12,500+ Orders",
     image: SERVICE_STYLES[0].image,
@@ -67,7 +67,7 @@ const FALLBACK_SERVICES: HomeService[] = [
     id: "essay-writing",
     title: "Essay Writing",
     description: "Well-researched, plagiarism-free essays",
-    href: "/services/essay-writing-help-services",
+    href: "/essay-writing-help-services",
     price: "From £12",
     orders: "18,600+ Orders",
     image: SERVICE_STYLES[1].image,
@@ -77,7 +77,7 @@ const FALLBACK_SERVICES: HomeService[] = [
     id: "dissertation-help",
     title: "Dissertation Help",
     description: "Expert assistance for Master's & PhD",
-    href: "/services/dissertation-writing-help-services",
+    href: "/dissertation-writing-help-services",
     price: "From £25",
     orders: "8,900+ Orders",
     image: SERVICE_STYLES[2].image,
@@ -87,7 +87,7 @@ const FALLBACK_SERVICES: HomeService[] = [
     id: "case-study-help",
     title: "Case Study Help",
     description: "In-depth case analysis and solutions",
-    href: "/services/case-study-dissertation-help-uk",
+    href: "/case-study-dissertation-help-uk",
     price: "From £15",
     orders: "6,200+ Orders",
     image: SERVICE_STYLES[3].image,
@@ -97,7 +97,7 @@ const FALLBACK_SERVICES: HomeService[] = [
     id: "report-writing",
     title: "Report Writing",
     description: "Detailed and structured reports",
-    href: "/services/report-writing",
+    href: "/report-writing",
     price: "From £15",
     orders: "7,800+ Orders",
     image: SERVICE_STYLES[4].image,
@@ -107,7 +107,7 @@ const FALLBACK_SERVICES: HomeService[] = [
     id: "coursework-help",
     title: "Coursework Help",
     description: "Error-free coursework done on time",
-    href: "/services/coursework-writing-help",
+    href: "/coursework-writing-help",
     price: "From £12",
     orders: "9,100+ Orders",
     image: SERVICE_STYLES[5].image,
@@ -117,7 +117,7 @@ const FALLBACK_SERVICES: HomeService[] = [
     id: "proofreading",
     title: "Proofreading",
     description: "Perfect grammar, zero errors",
-    href: "/services/proofreading-and-editing-writing-help",
+    href: "/proofreading-and-editing-writing-help",
     price: "From £8",
     orders: "11,200+ Orders",
     image: SERVICE_STYLES[6].image,
@@ -127,7 +127,7 @@ const FALLBACK_SERVICES: HomeService[] = [
     id: "editing-formatting",
     title: "Editing & Formatting",
     description: "References, citations and formatting",
-    href: "/services/dissertation-editing-and-proofreading-help-uk",
+    href: "/dissertation-editing-and-proofreading-help-uk",
     price: "From £10",
     orders: "5,600+ Orders",
     image: SERVICE_STYLES[7].image,
@@ -163,7 +163,7 @@ const mapService = (service: ApiRecord, index: number): HomeService => {
     id: asString(service.id) || slug || `${title}-${index}`,
     title,
     description,
-    href: slug ? `/services/${slug}` : "/services",
+    href: slug ? `/${slug}` : "/",
     price: asString(service.starting_price) ? `From £${asString(service.starting_price)}` : FALLBACK_SERVICES[index % FALLBACK_SERVICES.length].price,
     orders: orderCount ? `${orderCount}+ Orders` : FALLBACK_SERVICES[index % FALLBACK_SERVICES.length].orders,
     image: asString(service.image) || asString(service.thumbnail) || style.image,
@@ -181,14 +181,14 @@ function ServiceTile({
   isFeature?: boolean;
 }) {
   const imageSize = isFeature
-    ? "absolute bottom-[-5%] right-[-5%] w-[110%] max-h-[75%]"
-    : "absolute bottom-[-15px] right-[-15px] w-[65%] max-h-[85%]";
-  const minHeight = isFeature ? "min-h-[380px] md:min-h-[464px]" : "min-h-[180px] md:min-h-[220px]";
+    ? "absolute bottom-[-5%] right-[-5%] w-[100%] max-h-[70%]"
+    : "absolute bottom-[-10px] right-[-10px] w-[62%] max-h-[80%]";
+  const minHeight = isFeature ? "min-h-[320px] md:min-h-[380px]" : "min-h-[150px] md:min-h-[180px]";
 
   return (
     <Link
       href={service.href}
-      className={`group relative overflow-hidden rounded-[20px] p-6 bg-gradient-to-br ${service.gradient} shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-gray-100/50 hover:-translate-y-1 hover:shadow-[0_12px_25px_rgba(0,0,0,0.07)] transition-all duration-300 flex flex-col justify-between h-full ${minHeight}`}
+      className={`group relative overflow-hidden rounded-[20px] p-5 bg-gradient-to-br ${service.gradient} shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-gray-100/50 hover:-translate-y-1 hover:shadow-[0_12px_25px_rgba(0,0,0,0.07)] transition-all duration-300 flex flex-col justify-between h-full ${minHeight}`}
     >
       <div className="flex flex-col justify-between h-full w-full relative z-[2] items-start text-left">
         <div>
@@ -201,8 +201,10 @@ function ServiceTile({
         </div>
         <div className="flex flex-col gap-0.5 items-start mt-auto">
           <span className="text-xs text-gray-400 font-medium">{service.orders}</span>
-          <span className="mt-2 inline-flex items-center justify-center rounded-lg bg-white/85 border border-indigo-100 px-3 py-1.5 text-[0.72rem] font-extrabold text-[#3f159a] shadow-[0_4px_10px_rgba(63,21,154,0.08)] transition-all duration-300 group-hover:bg-[#3f159a] group-hover:text-white group-hover:border-[#3f159a]">
-            Explore More &rarr;
+          <span className="mt-2">
+            <span className="text-sm font-semibold text-[#3f159a] hover:text-[#EE662F] transition-colors duration-200">
+              Explore More &rarr;
+            </span>
           </span>
         </div>
       </div>
@@ -251,7 +253,7 @@ export default function PopularServices() {
   return (
     <section className="py-12 md:py-16 bg-white font-sans w-full flex justify-center">
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 w-full">
-        <h2 className="text-center text-2xl md:text-[2.2rem] font-black text-gray-900 m-0 mb-8 md:mb-12">
+        <h2 className="text-center text-xl md:text-[1.75rem] font-black text-gray-900 m-0 mb-8 md:mb-12">
           Our Most Popular Services
         </h2>
 

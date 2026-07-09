@@ -1,20 +1,29 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Montserrat, Nunito, Roboto } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 // import "./blog/blog.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900", "1000"],
+  display: "swap",
+});
+
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -29,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+    <html lang="en" className={`${montserrat.variable} ${nunito.variable} ${roboto.variable}`}>
       <body className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-grow">{children}</main>

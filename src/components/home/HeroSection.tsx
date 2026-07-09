@@ -129,7 +129,7 @@ export default function HeroSection() {
                 </span>
               </div>
 
-              <h1 className="text-[1.95rem] max-md:text-[2.1rem] max-[480px]:text-[1.8rem] font-extrabold leading-[1.3] text-gray-900 mb-3 line-clamp-3 max-md:text-left">
+              <h1 className="text-[2.75rem] max-md:text-[2.1rem] max-[480px]:text-[1.8rem] font-extrabold leading-[1.3] text-gray-900 mb-3 line-clamp-3 max-md:text-left">
                 Assignment Help UK That Helps You
                 <br />
                 <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent block mt-1 whitespace-nowrap overflow-hidden text-ellipsis">
