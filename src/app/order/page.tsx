@@ -20,7 +20,7 @@ import {
   Briefcase,
   Clock,
   Award,
-  ChevronDown
+  ChevronDown,
 } from "lucide-react";
 
 import { Heading } from "@/components/ui/Heading";
@@ -138,7 +138,9 @@ export default function OrderPage() {
     setPhoneNumber(val);
   };
 
-  const handleInstructionsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleInstructionsChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
     const val = e.target.value.replace(/[<>\/?[\]{}|\\;:'"`~^+=*]/g, "");
     setInstructions(val);
   };
@@ -146,13 +148,13 @@ export default function OrderPage() {
   // File Upload Handlers
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const names = Array.from(e.target.files).map(file => file.name);
-      setAttachedFiles(prev => [...prev, ...names]);
+      const names = Array.from(e.target.files).map((file) => file.name);
+      setAttachedFiles((prev) => [...prev, ...names]);
     }
   };
 
   const removeFile = (indexToRemove: number) => {
-    setAttachedFiles(prev => prev.filter((_, idx) => idx !== indexToRemove));
+    setAttachedFiles((prev) => prev.filter((_, idx) => idx !== indexToRemove));
   };
 
   // Live Price Calculation Details
@@ -182,11 +184,19 @@ export default function OrderPage() {
     if (selectedWorkType === "editing") workTypeMult = 0.5;
     else if (selectedWorkType === "rewriting") workTypeMult = 0.8;
 
-    return Number((pages * basePricePerPage * deadlineMult * levelMult * workTypeMult).toFixed(2));
+    return Number(
+      (
+        pages *
+        basePricePerPage *
+        deadlineMult *
+        levelMult *
+        workTypeMult
+      ).toFixed(2),
+    );
   }, [selectedWordCount, selectedDeadline, academicLevel, selectedWorkType]);
 
   const discount = useMemo(() => {
-    return Number((subtotal * 0.40).toFixed(2));
+    return Number((subtotal * 0.4).toFixed(2));
   }, [subtotal]);
 
   const total = useMemo(() => {
@@ -198,12 +208,12 @@ export default function OrderPage() {
   }, [selectedWordCount]);
 
   const activeServiceLabel = useMemo(() => {
-    const match = dynamicServices.find(s => s.slug === selectedService);
-    return match ? (match.hero_heading || "Service") : "Academic Writing";
+    const match = dynamicServices.find((s) => s.slug === selectedService);
+    return match ? match.hero_heading || "Service" : "Academic Writing";
   }, [selectedService, dynamicServices]);
 
   const activeDeadlineLabel = useMemo(() => {
-    const match = DEADLINES.find(d => d.value === selectedDeadline);
+    const match = DEADLINES.find((d) => d.value === selectedDeadline);
     return match ? match.label : "3 Days";
   }, [selectedDeadline]);
 
@@ -220,15 +230,37 @@ export default function OrderPage() {
             <div className="w-20 h-20 rounded-full bg-success/15 flex items-center justify-center text-success animate-bounce">
               <CheckCircle2 className="w-12 h-12" />
             </div>
-            <Heading level={2} className="text-2xl md:text-3xl text-text-heading">Order Placed Successfully!</Heading>
+            <Heading
+              level={2}
+              className="text-2xl md:text-3xl text-text-heading"
+            >
+              Order Placed Successfully!
+            </Heading>
             <Text className="text-text-body text-base max-w-sm">
-              Thank you, <span className="font-bold text-primary-700">{fullName || "Student"}</span>. Your academic order is registered. Our coordinator will email you at <span className="font-semibold text-primary-700">{email || "your address"}</span> to assign your PhD subject specialist.
+              Thank you,{" "}
+              <span className="font-bold text-primary-700">
+                {fullName || "Student"}
+              </span>
+              . Your academic order is registered. Our coordinator will email
+              you at{" "}
+              <span className="font-semibold text-primary-700">
+                {email || "your address"}
+              </span>{" "}
+              to assign your PhD subject specialist.
             </Text>
             <div className="flex gap-4 w-full mt-4">
               <Link href="/" className="w-full">
-                <Button variant="blueClose" className="w-full">Return Home</Button>
+                <Button variant="blueClose" className="w-full">
+                  Return Home
+                </Button>
               </Link>
-              <Button variant="orangeOpen" className="w-full" onClick={() => setIsSuccess(false)}>New Order</Button>
+              <Button
+                variant="orangeOpen"
+                className="w-full"
+                onClick={() => setIsSuccess(false)}
+              >
+                New Order
+              </Button>
             </div>
           </Card>
         </SectionContainer>
@@ -247,7 +279,7 @@ export default function OrderPage() {
             backgroundImage: "url('/new-pricingimg/hero.png')",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center right",
-            backgroundSize: "contain"
+            backgroundSize: "contain",
           }}
         />
 
@@ -261,7 +293,8 @@ export default function OrderPage() {
               Get Expert Assistance in 3 Simple Steps
             </h2>
             <p className="text-sm md:text-base text-gray-500 leading-relaxed max-w-xl font-medium">
-              High-quality, plagiarism-free assignments delivered on time, every time.
+              High-quality, plagiarism-free assignments delivered on time, every
+              time.
             </p>
 
             {/* Micro Stats Grid */}
@@ -271,8 +304,12 @@ export default function OrderPage() {
                   <Star className="w-5 h-5 fill-current" />
                 </div>
                 <div className="flex flex-col text-left">
-                  <span className="font-extrabold text-sm text-gray-900 leading-none">4.9</span>
-                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">Rating</span>
+                  <span className="font-extrabold text-sm text-gray-900 leading-none">
+                    4.9
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">
+                    Rating
+                  </span>
                 </div>
               </div>
 
@@ -281,8 +318,12 @@ export default function OrderPage() {
                   <Users className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col text-left">
-                  <span className="font-extrabold text-sm text-gray-900 leading-none">5500+</span>
-                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">Reviews</span>
+                  <span className="font-extrabold text-sm text-gray-900 leading-none">
+                    5500+
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">
+                    Reviews
+                  </span>
                 </div>
               </div>
 
@@ -291,8 +332,12 @@ export default function OrderPage() {
                   <FileText className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col text-left">
-                  <span className="font-extrabold text-sm text-gray-900 leading-none">15000+</span>
-                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">Delivered</span>
+                  <span className="font-extrabold text-sm text-gray-900 leading-none">
+                    15000+
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">
+                    Delivered
+                  </span>
                 </div>
               </div>
 
@@ -301,8 +346,12 @@ export default function OrderPage() {
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col text-left">
-                  <span className="font-extrabold text-sm text-gray-900 leading-none">100%</span>
-                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">Confidential</span>
+                  <span className="font-extrabold text-sm text-gray-900 leading-none">
+                    100%
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1.5">
+                    Confidential
+                  </span>
                 </div>
               </div>
             </div>
@@ -323,8 +372,12 @@ export default function OrderPage() {
                   <Headset className="w-5 h-5 text-purple-700" />
                 </div>
                 <div className="flex flex-col text-left leading-none">
-                  <span className="text-[13px] font-extrabold text-gray-900">24/7</span>
-                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1">Support</span>
+                  <span className="text-[13px] font-extrabold text-gray-900">
+                    24/7
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-1">
+                    Support
+                  </span>
                 </div>
               </div>
             </div>
@@ -334,26 +387,38 @@ export default function OrderPage() {
 
       {/* 2. Order Form Main Section */}
       <SectionContainer className="!py-10 !pb-2">
-        <form onSubmit={handleOrderSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <form
+          onSubmit={handleOrderSubmit}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
+        >
           {/* LEFT COLUMN: Input details (65%) */}
           <div className="lg:col-span-8 flex flex-col gap-6">
             <Card className="p-6 md:p-8 flex flex-col gap-8 text-left shadow-[0_10px_40px_rgba(0,0,0,0.02)] bg-white border border-gray-150/70 rounded-3xl">
               <div className="flex items-center gap-2.5 border-b border-gray-100 pb-4">
                 <FileText className="w-6 h-6 text-[#3f159a]" />
-                <Heading level={2} className="text-[18px] md:text-[20px] font-extrabold text-gray-900">Submit Your Assignment</Heading>
+                <Heading
+                  level={2}
+                  className="text-[18px] md:text-[20px] font-extrabold text-gray-900"
+                >
+                  Submit Your Assignment
+                </Heading>
               </div>
 
               {/* STEP 1: Personal Info */}
               <div className="flex flex-col gap-5">
                 <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
-                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">1</span>
+                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">
+                    1
+                  </span>
                   Personal Information
                 </span>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {/* Full Name */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">Full Name <span className="text-red-500">*</span></label>
+                    <label className="text-[13px] font-bold text-gray-700">
+                      Full Name <span className="text-red-500">*</span>
+                    </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <User className="w-[18px] h-[18px] text-gray-400" />
@@ -371,7 +436,9 @@ export default function OrderPage() {
 
                   {/* Email Address */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">Email Address <span className="text-red-500">*</span></label>
+                    <label className="text-[13px] font-bold text-gray-700">
+                      Email Address <span className="text-red-500">*</span>
+                    </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <FileText className="w-[18px] h-[18px] text-gray-400" />
@@ -389,7 +456,9 @@ export default function OrderPage() {
 
                   {/* Phone Number */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">Phone Number <span className="text-red-500">*</span></label>
+                    <label className="text-[13px] font-bold text-gray-700">
+                      Phone Number <span className="text-red-500">*</span>
+                    </label>
                     <div className="flex border border-gray-200 bg-white rounded-xl overflow-hidden focus-within:border-purple-600 transition-colors shadow-sm h-[46px]">
                       {/* Country Selector Dropdown */}
                       <div className="relative flex items-center bg-gray-50/50 border-r border-gray-200 shrink-0">
@@ -399,7 +468,9 @@ export default function OrderPage() {
                           onChange={(e) => setCountryCode(e.target.value)}
                         >
                           {COUNTRY_CODES.map((c) => (
-                            <option key={c.value} value={c.value}>{c.label}</option>
+                            <option key={c.value} value={c.value}>
+                              {c.label}
+                            </option>
                           ))}
                         </select>
                         <div className="absolute right-2.5 pointer-events-none text-gray-400">
@@ -423,14 +494,18 @@ export default function OrderPage() {
               {/* STEP 2: Assignment Details */}
               <div className="flex flex-col gap-5 border-t border-gray-100 pt-6">
                 <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
-                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">2</span>
+                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">
+                    2
+                  </span>
                   Assignment Details
                 </span>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {/* Subject Dropdown */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">Subject <span className="text-red-500">*</span></label>
+                    <label className="text-[13px] font-bold text-gray-700">
+                      Subject <span className="text-red-500">*</span>
+                    </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <BookOpen className="w-[18px] h-[18px] text-gray-400" />
@@ -441,9 +516,13 @@ export default function OrderPage() {
                         onChange={(e) => setSelectedSubject(e.target.value)}
                         required
                       >
-                        <option value="" disabled>Select Subject</option>
+                        <option value="" disabled>
+                          Select Subject
+                        </option>
                         {SUBJECTS.map((sub) => (
-                          <option key={sub.slug} value={sub.slug}>{sub.name}</option>
+                          <option key={sub.slug} value={sub.slug}>
+                            {sub.name}
+                          </option>
                         ))}
                       </select>
                       <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
@@ -454,7 +533,9 @@ export default function OrderPage() {
 
                   {/* Service Dropdown */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">Service <span className="text-red-500">*</span></label>
+                    <label className="text-[13px] font-bold text-gray-700">
+                      Service <span className="text-red-500">*</span>
+                    </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <FileText className="w-[18px] h-[18px] text-gray-400" />
@@ -465,9 +546,13 @@ export default function OrderPage() {
                         onChange={(e) => setSelectedService(e.target.value)}
                         required
                       >
-                        <option value="" disabled>Select Service</option>
+                        <option value="" disabled>
+                          Select Service
+                        </option>
                         {dynamicServices.map((s) => (
-                          <option key={s.slug} value={s.slug}>{s.hero_heading || s.meta_title || "Service"}</option>
+                          <option key={s.slug} value={s.slug}>
+                            {s.hero_heading || s.meta_title || "Service"}
+                          </option>
                         ))}
                       </select>
                       <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
@@ -478,7 +563,9 @@ export default function OrderPage() {
 
                   {/* Work Type Dropdown */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">Work Type <span className="text-red-500">*</span></label>
+                    <label className="text-[13px] font-bold text-gray-700">
+                      Work Type <span className="text-red-500">*</span>
+                    </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <Briefcase className="w-[18px] h-[18px] text-gray-400" />
@@ -489,9 +576,13 @@ export default function OrderPage() {
                         onChange={(e) => setSelectedWorkType(e.target.value)}
                         required
                       >
-                        <option value="" disabled>Select Work Type</option>
+                        <option value="" disabled>
+                          Select Work Type
+                        </option>
                         {WORK_TYPES.map((wt) => (
-                          <option key={wt.value} value={wt.value}>{wt.label}</option>
+                          <option key={wt.value} value={wt.value}>
+                            {wt.label}
+                          </option>
                         ))}
                       </select>
                       <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
@@ -505,14 +596,18 @@ export default function OrderPage() {
               {/* STEP 3: Delivery Details */}
               <div className="flex flex-col gap-5 border-t border-gray-100 pt-6">
                 <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
-                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">3</span>
+                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">
+                    3
+                  </span>
                   Delivery Details
                 </span>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {/* Deadline Dropdown */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">Deadline / Urgency <span className="text-red-500">*</span></label>
+                    <label className="text-[13px] font-bold text-gray-700">
+                      Deadline / Urgency <span className="text-red-500">*</span>
+                    </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <Calendar className="w-[18px] h-[18px] text-gray-400" />
@@ -523,9 +618,13 @@ export default function OrderPage() {
                         onChange={(e) => setSelectedDeadline(e.target.value)}
                         required
                       >
-                        <option value="" disabled>Select Deadline</option>
+                        <option value="" disabled>
+                          Select Deadline
+                        </option>
                         {DEADLINES.map((dl) => (
-                          <option key={dl.value} value={dl.value}>{dl.label}</option>
+                          <option key={dl.value} value={dl.value}>
+                            {dl.label}
+                          </option>
                         ))}
                       </select>
                       <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
@@ -536,10 +635,14 @@ export default function OrderPage() {
 
                   {/* Word Count */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">Word Count <span className="text-red-500">*</span></label>
+                    <label className="text-[13px] font-bold text-gray-700">
+                      Word Count <span className="text-red-500">*</span>
+                    </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
-                        <span className="font-black text-[11px] text-gray-400 select-none">123</span>
+                        <span className="font-black text-[11px] text-gray-400 select-none">
+                          123
+                        </span>
                       </div>
                       <select
                         className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
@@ -547,9 +650,13 @@ export default function OrderPage() {
                         onChange={(e) => setSelectedWordCount(e.target.value)}
                         required
                       >
-                        <option value="" disabled>Select Word Count</option>
+                        <option value="" disabled>
+                          Select Word Count
+                        </option>
                         {WORD_COUNTS.map((wc) => (
-                          <option key={wc.value} value={wc.value}>{wc.label}</option>
+                          <option key={wc.value} value={wc.value}>
+                            {wc.label}
+                          </option>
                         ))}
                       </select>
                       <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-gray-400">
@@ -560,7 +667,9 @@ export default function OrderPage() {
 
                   {/* Calculated Pages */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">Pages</label>
+                    <label className="text-[13px] font-bold text-gray-700">
+                      Pages
+                    </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <BookOpen className="w-[18px] h-[18px] text-gray-400" />
@@ -577,7 +686,9 @@ export default function OrderPage() {
 
                 {/* Academic Level */}
                 <div className="flex flex-col gap-2.5 mt-2">
-                  <span className="text-xs font-bold text-gray-700">Academic Level:</span>
+                  <span className="text-xs font-bold text-gray-700">
+                    Academic Level:
+                  </span>
                   <div className="flex flex-wrap gap-2.5">
                     {ACADEMIC_LEVELS.map((lvl) => (
                       <button
@@ -588,7 +699,7 @@ export default function OrderPage() {
                           "px-4 py-2 rounded-xl text-xs font-bold transition-all border",
                           academicLevel === lvl.value
                             ? "bg-[#3f159a] border-[#3f159a] text-white shadow-sm"
-                            : "bg-white border-gray-200 hover:bg-gray-50 text-gray-600"
+                            : "bg-white border-gray-200 hover:bg-gray-50 text-gray-600",
                         )}
                       >
                         {lvl.label}
@@ -601,7 +712,9 @@ export default function OrderPage() {
               {/* STEP 4: Additional Instructions */}
               <div className="flex flex-col gap-5 border-t border-gray-100 pt-6">
                 <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
-                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">4</span>
+                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">
+                    4
+                  </span>
                   Additional Instructions
                 </span>
                 <textarea
@@ -637,12 +750,14 @@ export default function OrderPage() {
                       <span className="text-xs text-gray-400 font-semibold mt-0.5">or click to browse local folders (Max file size: 20MB)</span>
                     </div>
                   </div>
-                  <button 
+                  <Button 
                     type="button"
-                    className="bg-[#3f159a] hover:bg-[#341180] text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-sm transition-colors cursor-pointer relative z-20 shrink-0"
+                    variant="blueOpen"
+                    size="sm"
+                    className="relative z-20 shrink-0"
                   >
                     Choose Files
-                  </button>
+                  </Button>
                 </div>
 
                 {attachedFiles.length > 0 && (
@@ -675,18 +790,38 @@ export default function OrderPage() {
             <div className="bg-white border border-gray-150/80 rounded-3xl p-6 shadow-sm mt-4 w-full">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 {[
-                  { icon: <FileText className="w-5 h-5 text-purple-700" />, title: "Plagiarism Free", desc: "100% original content guaranteed" },
-                  { icon: <Clock className="w-5 h-5 text-purple-700" />, title: "On-Time Delivery", desc: "We deliver before the deadline" },
-                  { icon: <Award className="w-5 h-5 text-purple-700" />, title: "Expert Writers", desc: "PhD qualified writers in your subject" },
-                  { icon: <Headset className="w-5 h-5 text-purple-700" />, title: "24/7 Support", desc: "Always here to help you succeed" },
+                  {
+                    icon: <FileText className="w-5 h-5 text-purple-700" />,
+                    title: "Plagiarism Free",
+                    desc: "100% original content guaranteed",
+                  },
+                  {
+                    icon: <Clock className="w-5 h-5 text-purple-700" />,
+                    title: "On-Time Delivery",
+                    desc: "We deliver before the deadline",
+                  },
+                  {
+                    icon: <Award className="w-5 h-5 text-purple-700" />,
+                    title: "Expert Writers",
+                    desc: "PhD qualified writers in your subject",
+                  },
+                  {
+                    icon: <Headset className="w-5 h-5 text-purple-700" />,
+                    title: "24/7 Support",
+                    desc: "Always here to help you succeed",
+                  },
                 ].map((item, idx) => (
                   <div key={idx} className="flex items-center gap-4 text-left">
                     <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
                       {item.icon}
                     </div>
                     <div>
-                      <h4 className="font-extrabold text-gray-900 text-sm leading-none">{item.title}</h4>
-                      <p className="text-[11px] text-gray-400 font-semibold mt-1.5 leading-tight">{item.desc}</p>
+                      <h4 className="font-extrabold text-gray-900 text-sm leading-none">
+                        {item.title}
+                      </h4>
+                      <p className="text-[11px] text-gray-400 font-semibold mt-1.5 leading-tight">
+                        {item.desc}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -700,7 +835,12 @@ export default function OrderPage() {
             <Card className="p-6 shadow-[0_10px_40px_rgba(0,0,0,0.02)] text-left flex flex-col gap-5 bg-white border border-gray-150/70 rounded-3xl">
               <div className="flex items-center gap-2 border-b border-gray-100 pb-3">
                 <FileText className="w-5 h-5 text-purple-700" />
-                <Heading level={3} className="text-base font-extrabold text-gray-900">Order Summary</Heading>
+                <Heading
+                  level={3}
+                  className="text-base font-extrabold text-gray-900"
+                >
+                  Order Summary
+                </Heading>
               </div>
 
               {/* Active Selection Details list */}
@@ -711,15 +851,21 @@ export default function OrderPage() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-400 font-semibold">Work Type</span>
-                  <span className="text-gray-900 uppercase">{selectedWorkType}</span>
+                  <span className="text-gray-900 uppercase">
+                    {selectedWorkType}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-400 font-semibold">Deadline</span>
                   <span className="text-gray-900">{activeDeadlineLabel}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-400 font-semibold">Word Count</span>
-                  <span className="text-gray-900">{selectedWordCount} Words</span>
+                  <span className="text-gray-400 font-semibold">
+                    Word Count
+                  </span>
+                  <span className="text-gray-900">
+                    {selectedWordCount} Words
+                  </span>
                 </div>
               </div>
 
@@ -737,20 +883,25 @@ export default function OrderPage() {
 
               {/* Total Row price */}
               <div className="border-t border-gray-100 pt-4 bg-[#f8f6ff] border border-purple-100/50 rounded-2xl p-4 flex items-center justify-between">
-                <span className="text-sm font-bold text-[#3f159a]">Total Price</span>
+                <span className="text-sm font-bold text-[#3f159a]">
+                  Total Price
+                </span>
                 <span className="font-heading font-black text-2xl md:text-3xl text-[#3f159a] leading-none">
                   £{total.toFixed(2)}
                 </span>
               </div>
 
               {/* Submit CTA button */}
-              <button
+              <Button
                 type="submit"
-                className="w-full bg-[#3f159a] hover:bg-[#341180] text-white font-bold py-3.5 rounded-2xl flex items-center justify-center gap-2 mt-2 shadow-[0_4px_12px_rgba(63,21,154,0.15)] transition-all duration-200"
+                variant="blueOpen"
+                size="lg"
+                fullWidth
+                className="mt-2"
+                icon={<ArrowRight className="w-5 h-5" />}
               >
-                <span>Continue to Order</span>
-                <ArrowRight className="w-5 h-5" />
-              </button>
+                Continue to Order
+              </Button>
 
               {/* Payment Safe Safeguard */}
               <div className="flex items-center justify-center gap-1.5 text-[10px] text-gray-400 font-bold mt-1 uppercase tracking-wide">
@@ -766,19 +917,24 @@ export default function OrderPage() {
                   <Headset className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-extrabold text-gray-900 text-sm">Need Help?</span>
+                  <span className="font-extrabold text-gray-900 text-sm">
+                    Need Help?
+                  </span>
                 </div>
               </div>
               <p className="text-xs text-gray-500 leading-relaxed">
-                Our support team is available 24/7 to assist you with any questions.
+                Our support team is available 24/7 to assist you with any
+                questions.
               </p>
               <Link href="/contact" className="w-full">
-                <button
+                <Button
                   type="button"
-                  className="w-full border border-purple-200 text-[#3f159a] bg-[#fcfbff] hover:bg-purple-50 transition font-bold py-2.5 rounded-xl text-center text-xs"
+                  variant="blueClose"
+                  size="sm"
+                  fullWidth
                 >
                   Contact Support
-                </button>
+                </Button>
               </Link>
             </div>
           </div>

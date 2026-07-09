@@ -79,12 +79,30 @@ export default function AboutPage() {
   ];
 
   const trustBadges = [
-    { label: "100% Original Work", icon: <ShieldCheck className="w-4.5 h-4.5 text-[#3f159a]" /> },
-    { label: "Unlimited Revisions", icon: <RefreshCw className="w-4.5 h-4.5 text-[#3f159a]" /> },
-    { label: "24/7 Support", icon: <Headset className="w-4.5 h-4.5 text-[#3f159a]" /> },
-    { label: "Confidential Service", icon: <Lock className="w-4.5 h-4.5 text-[#3f159a]" /> },
-    { label: "Subject Experts", icon: <Users className="w-4.5 h-4.5 text-[#3f159a]" /> },
-    { label: "On-Time Delivery", icon: <Clock className="w-4.5 h-4.5 text-[#3f159a]" /> },
+    {
+      label: "100% Original Work",
+      icon: <ShieldCheck className="w-4.5 h-4.5 text-[#3f159a]" />,
+    },
+    {
+      label: "Unlimited Revisions",
+      icon: <RefreshCw className="w-4.5 h-4.5 text-[#3f159a]" />,
+    },
+    {
+      label: "24/7 Support",
+      icon: <Headset className="w-4.5 h-4.5 text-[#3f159a]" />,
+    },
+    {
+      label: "Confidential Service",
+      icon: <Lock className="w-4.5 h-4.5 text-[#3f159a]" />,
+    },
+    {
+      label: "Subject Experts",
+      icon: <Users className="w-4.5 h-4.5 text-[#3f159a]" />,
+    },
+    {
+      label: "On-Time Delivery",
+      icon: <Clock className="w-4.5 h-4.5 text-[#3f159a]" />,
+    },
   ];
 
   const experts = [
@@ -147,7 +165,8 @@ export default function AboutPage() {
 
               {/* Subtext */}
               <p className="text-[13px] sm:text-[14px] text-gray-500 font-bold leading-relaxed max-w-[500px]">
-                We connect students with professional academic experts who help them achieve their goals with confidence, quality and integrity.
+                We connect students with professional academic experts who help
+                them achieve their goals with confidence, quality and integrity.
               </p>
 
               {/* 3 Stats Row */}
@@ -156,36 +175,56 @@ export default function AboutPage() {
                   <div className="w-8 h-8 rounded-full bg-[#f4f2ff] flex items-center justify-center text-[#3f159a] mb-2 shrink-0">
                     <GraduationCap className="w-4.5 h-4.5" />
                   </div>
-                  <span className="font-extrabold text-[15px] text-[#0f1b3d] leading-none mb-1">25,000+</span>
-                  <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider leading-tight">Students Supported</span>
+                  <span className="font-extrabold text-[15px] text-[#0f1b3d] leading-none mb-1">
+                    25,000+
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider leading-tight">
+                    Students Supported
+                  </span>
                 </div>
 
                 <div className="flex flex-col bg-[#fbfaff] border border-purple-50 p-3 rounded-2xl shadow-sm">
                   <div className="w-8 h-8 rounded-full bg-[#f4f2ff] flex items-center justify-center text-[#3f159a] mb-2 shrink-0">
                     <Users className="w-4.5 h-4.5" />
                   </div>
-                  <span className="font-extrabold text-[15px] text-[#0f1b3d] leading-none mb-1">150+</span>
-                  <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider leading-tight">Subject Experts</span>
+                  <span className="font-extrabold text-[15px] text-[#0f1b3d] leading-none mb-1">
+                    150+
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider leading-tight">
+                    Subject Experts
+                  </span>
                 </div>
 
                 <div className="flex flex-col bg-[#fbfaff] border border-purple-50 p-3 rounded-2xl shadow-sm">
                   <div className="w-8 h-8 rounded-full bg-[#f4f2ff] flex items-center justify-center text-[#3f159a] mb-2 shrink-0">
                     <Clock className="w-4.5 h-4.5" />
                   </div>
-                  <span className="font-extrabold text-[15px] text-[#0f1b3d] leading-none mb-1">98%</span>
-                  <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider leading-tight">On-Time Delivery</span>
+                  <span className="font-extrabold text-[15px] text-[#0f1b3d] leading-none mb-1">
+                    98%
+                  </span>
+                  <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider leading-tight">
+                    On-Time Delivery
+                  </span>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 mt-2">
                 <Link href="#experts-section">
-                  <Button variant="blueOpen" size="md" className="font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider transition duration-200 shadow-md">
+                  <Button
+                    variant="blueOpen"
+                    size="md"
+                    className="font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider transition duration-200 shadow-md"
+                  >
                     Meet Our Experts &rarr;
                   </Button>
                 </Link>
                 <Link href="/pricing">
-                  <Button variant="blueClose" size="md" className="font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider transition duration-200 shadow-sm">
+                  <Button
+                    variant="blueClose"
+                    size="md"
+                    className="font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider transition duration-200 shadow-sm"
+                  >
                     Get Free Quote &rarr;
                   </Button>
                 </Link>
@@ -229,7 +268,12 @@ export default function AboutPage() {
                 About Assignment In Need
               </h2>
               <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed max-w-[620px]">
-                Assignment In Need was founded with a simple goal – to provide students with accessible, reliable and high-quality academic support. We understand the challenges students face, which is why we've built a platform that connects you with the best academic experts who deliver top-notch assistance tailored to your needs.
+                Assignment In Need was founded with a simple goal – to provide
+                students with accessible, reliable and high-quality academic
+                support. We understand the challenges students face, which is
+                why we've built a platform that connects you with the best
+                academic experts who deliver top-notch assistance tailored to
+                your needs.
               </p>
 
               {/* Checklist */}
@@ -238,19 +282,25 @@ export default function AboutPage() {
                   <div className="w-5 h-5 rounded-full bg-[#f4f2ff] text-[#3f159a] flex items-center justify-center shrink-0 border border-purple-50 shadow-sm">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                   </div>
-                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">Trusted by students across the UK and worldwide</span>
+                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">
+                    Trusted by students across the UK and worldwide
+                  </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <div className="w-5 h-5 rounded-full bg-[#f4f2ff] text-[#3f159a] flex items-center justify-center shrink-0 border border-purple-50 shadow-sm">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                   </div>
-                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">A team of qualified academic experts</span>
+                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">
+                    A team of qualified academic experts
+                  </span>
                 </li>
                 <li className="flex items-center gap-3">
                   <div className="w-5 h-5 rounded-full bg-[#f4f2ff] text-[#3f159a] flex items-center justify-center shrink-0 border border-purple-50 shadow-sm">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                   </div>
-                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">Commitment to quality, originality and confidentiality</span>
+                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">
+                    Commitment to quality, originality and confidentiality
+                  </span>
                 </li>
               </ul>
             </div>
@@ -261,10 +311,11 @@ export default function AboutPage() {
       {/* 3.4 STATS BANNER — "Numbers Speak of Our Success Story" */}
       <section className="py-12 bg-white border-b border-gray-50">
         <div className="max-w-[1250px] mx-auto px-4">
-          <div 
+          <div
             className="rounded-3xl overflow-hidden relative shadow-xl p-8 md:p-10 text-white text-center"
             style={{
-              background: "linear-gradient(135deg, #120b3c 0%, #2b0e6c 60%, #4c119e 100%)"
+              background:
+                "linear-gradient(135deg, #120b3c 0%, #2b0e6c 60%, #4c119e 100%)",
             }}
           >
             {/* Subtle sparkle overlay pattern */}
@@ -277,18 +328,38 @@ export default function AboutPage() {
             {/* 4 Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
               {[
-                { val: "182,532+", lbl: "Orders Delivered", icon: <CheckCircle2 className="w-4 h-4" /> },
-                { val: "30,000+", lbl: "Happy Clients", icon: <Users className="w-4 h-4" /> },
-                { val: "4.8/5", lbl: "Client Rating", icon: <Star className="w-4 h-4" /> },
-                { val: "4,500+", lbl: "PhD Experts", icon: <GraduationCap className="w-4 h-4" /> },
+                {
+                  val: "182,532+",
+                  lbl: "Orders Delivered",
+                  icon: <CheckCircle2 className="w-4 h-4" />,
+                },
+                {
+                  val: "30,000+",
+                  lbl: "Happy Clients",
+                  icon: <Users className="w-4 h-4" />,
+                },
+                {
+                  val: "4.8/5",
+                  lbl: "Client Rating",
+                  icon: <Star className="w-4 h-4" />,
+                },
+                {
+                  val: "4,500+",
+                  lbl: "PhD Experts",
+                  icon: <GraduationCap className="w-4 h-4" />,
+                },
               ].map((stat, idx) => (
                 <div key={idx} className="flex flex-col items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-white text-[#3f159a] flex items-center justify-center shadow-md">
                     {stat.icon}
                   </div>
                   <div className="flex flex-col gap-0.5">
-                    <span className="font-heading font-[950] text-2xl text-white">{stat.val}</span>
-                    <span className="text-[9px] text-purple-200/90 font-extrabold uppercase tracking-widest">{stat.lbl}</span>
+                    <span className="font-heading font-[950] text-2xl text-white">
+                      {stat.val}
+                    </span>
+                    <span className="text-[9px] text-purple-200/90 font-extrabold uppercase tracking-widest">
+                      {stat.lbl}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -312,7 +383,9 @@ export default function AboutPage() {
                 <div className="flex flex-col items-center text-center gap-3 flex-1">
                   <div className="relative">
                     <div className="w-16 h-16 rounded-full bg-[#f4f2ff] border border-purple-100 flex items-center justify-center shadow-sm">
-                      <span className="text-[20px] font-extrabold text-[#3f159a] font-heading">{step.number}</span>
+                      <span className="text-[20px] font-extrabold text-[#3f159a] font-heading">
+                        {step.number}
+                      </span>
                     </div>
                   </div>
                   <h3 className="text-xs sm:text-sm font-extrabold text-[#0f1b3d] leading-snug mt-1 font-heading">
@@ -326,7 +399,9 @@ export default function AboutPage() {
                 {/* Arrow Connector */}
                 {idx < steps.length - 1 && (
                   <div className="flex items-center pt-6 px-1 shrink-0">
-                    <span className="text-[20px] font-extrabold text-[#3f159a]">&rarr;</span>
+                    <span className="text-[20px] font-extrabold text-[#3f159a]">
+                      &rarr;
+                    </span>
                   </div>
                 )}
               </React.Fragment>
@@ -339,7 +414,9 @@ export default function AboutPage() {
               <React.Fragment key={step.number}>
                 <div className="w-full bg-[#fbfaff] border border-gray-150 p-5 rounded-2xl flex flex-col items-center text-center gap-2 shadow-sm">
                   <div className="w-10 h-10 rounded-full bg-[#f4f2ff] flex items-center justify-center border border-purple-50">
-                    <span className="text-[14px] font-extrabold text-[#3f159a] font-heading">{step.number}</span>
+                    <span className="text-[14px] font-extrabold text-[#3f159a] font-heading">
+                      {step.number}
+                    </span>
                   </div>
                   <h3 className="text-xs font-extrabold text-[#0f1b3d] font-heading">
                     {step.title}
@@ -375,7 +452,9 @@ export default function AboutPage() {
               </h2>
               <div className="w-12 h-0.5 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full mb-3" />
               <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">
-                Our mission is to empower students by providing expert academic support that enhances learning, builds confidence, and helps them achieve their full potential.
+                Our mission is to empower students by providing expert academic
+                support that enhances learning, builds confidence, and helps
+                them achieve their full potential.
               </p>
               <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed mt-1">
                 We believe every student deserves the right guidance to succeed.
@@ -406,11 +485,13 @@ export default function AboutPage() {
           {/* Cards container: row on desktop, stacked on mobile */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {platformFeatures.map((item, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className="bg-white border border-gray-150 p-6 rounded-2xl text-left flex flex-col gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-md hover:translate-y-[-4px] transition-all duration-300 group"
               >
-                <div className={`w-10 h-10 rounded-xl ${item.bg} flex items-center justify-center shadow-sm shrink-0`}>
+                <div
+                  className={`w-10 h-10 rounded-xl ${item.bg} flex items-center justify-center shadow-sm shrink-0`}
+                >
                   {item.icon}
                 </div>
                 <div className="flex flex-col gap-1.5">
@@ -438,8 +519,8 @@ export default function AboutPage() {
           {/* 6 Grid items */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {trustBadges.map((b, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className="bg-[#f5f3ff] border border-purple-50 p-5 rounded-2xl flex flex-col items-center justify-center text-center gap-3 shadow-[0_2px_8px_rgba(63,21,154,0.01)] hover:scale-[1.03] transition-transform duration-200"
               >
                 <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm shrink-0 text-[#3f159a]">
@@ -455,7 +536,10 @@ export default function AboutPage() {
       </section>
 
       {/* 3.9 "MEET OUR ACADEMIC EXPERTS" */}
-      <section className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white border-b border-gray-150" id="experts-section">
+      <section
+        className="py-12 md:py-16 px-4 md:px-6 lg:px-8 bg-white border-b border-gray-150"
+        id="experts-section"
+      >
         <div className="max-w-[1250px] mx-auto">
           {/* Header Row: Title left, link right on desktop */}
           <div className="flex flex-row items-end justify-between mb-8 border-b border-gray-100 pb-3">
@@ -464,7 +548,8 @@ export default function AboutPage() {
                 Meet Our Academic Experts
               </h2>
               <p className="text-[11px] sm:text-xs text-gray-400 font-bold uppercase tracking-wider leading-relaxed mt-1">
-                Learn from the best. Our experts are here to help you achieve top grades.
+                Learn from the best. Our experts are here to help you achieve
+                top grades.
               </p>
             </div>
             {/* Desktop link only */}
@@ -501,7 +586,10 @@ export default function AboutPage() {
                       {expert.role}
                     </p>
                     <div className="flex items-center gap-0.5 text-yellow-400 text-[10px]">
-                      ★★★★★ <span className="text-[#0f1b3d] font-bold ml-1">{expert.rating}</span>
+                      ★★★★★{" "}
+                      <span className="text-[#0f1b3d] font-bold ml-1">
+                        {expert.rating}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -524,7 +612,10 @@ export default function AboutPage() {
                       {expert.role}
                     </p>
                     <div className="flex items-center gap-0.5 text-yellow-400 text-xs">
-                      ★★★★★ <span className="text-[#0f1b3d] font-bold ml-1">{expert.rating}</span>
+                      ★★★★★{" "}
+                      <span className="text-[#0f1b3d] font-bold ml-1">
+                        {expert.rating}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -535,9 +626,9 @@ export default function AboutPage() {
           {/* Mobile view only "View All Experts" button */}
           <div className="flex md:hidden w-full mt-6">
             <Link href="/writers" className="w-full">
-              <Button 
-                variant="blueClose" 
-                size="md" 
+              <Button
+                variant="blueClose"
+                size="md"
                 className="w-full font-extrabold text-[11px] uppercase tracking-wider py-3.5 rounded-lg text-center"
               >
                 View All Experts &rarr;
@@ -550,10 +641,11 @@ export default function AboutPage() {
       {/* 3.10 BOTTOM CTA — "Need Expert Academic Support?" */}
       <section className="py-8 bg-white border-b border-gray-50">
         <div className="max-w-[1100px] mx-auto px-4">
-          <div 
+          <div
             className="border border-purple-100 shadow-[0_8px_30px_rgba(63,21,154,0.04)] rounded-3xl p-6 pt-12 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 text-white relative"
             style={{
-              background: "linear-gradient(110deg, #24105f 0%, #3c168b 58%, #6a23b6 100%)"
+              background:
+                "linear-gradient(110deg, #24105f 0%, #3c168b 58%, #6a23b6 100%)",
             }}
           >
             <div className="flex flex-col md:flex-row items-center gap-5 text-center md:text-left w-full md:w-auto">
@@ -571,7 +663,8 @@ export default function AboutPage() {
                   Need Expert Academic Support?
                 </p>
                 <p className="text-purple-200 text-xs font-bold leading-normal m-0">
-                  Join 25,000+ students who trust Assignment In Need for quality, reliability and academic success.
+                  Join 25,000+ students who trust Assignment In Need for
+                  quality, reliability and academic success.
                 </p>
               </div>
             </div>

@@ -185,7 +185,9 @@
     color: #ffffff !important;
     border: 1px solid #ff5722 !important;
     z-index: 1;
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
+    transition:
+      color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s ease;
   }
   .btn-shutter-orange-open::before,
   .btn-shutter-orange-open::after {
@@ -226,7 +228,9 @@
     color: #ff5722 !important;
     border: 1px solid #ff5722 !important;
     z-index: 1;
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
+    transition:
+      color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s ease;
   }
   .btn-shutter-orange-close::before,
   .btn-shutter-orange-close::after {
@@ -267,7 +271,9 @@
     color: #ffffff !important;
     border: 1px solid #3f159a !important;
     z-index: 1;
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
+    transition:
+      color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s ease;
   }
   .btn-shutter-blue-open::before,
   .btn-shutter-blue-open::after {
@@ -308,7 +314,9 @@
     color: #3f159a !important;
     border: 1px solid #3f159a !important;
     z-index: 1;
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
+    transition:
+      color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s ease;
   }
   .btn-shutter-blue-close::before,
   .btn-shutter-blue-close::after {

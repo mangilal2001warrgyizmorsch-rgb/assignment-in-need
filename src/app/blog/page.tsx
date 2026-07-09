@@ -5,7 +5,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { BlogCard } from "@/components/ui/BlogCard";
 import { SectionContainer } from "@/components/ui/SectionContainer";
-import { CheckCircle2, User, Mail, Calendar, Phone, BookOpen, PenTool, Minus, Plus, Loader2 } from "lucide-react";
+import {
+  CheckCircle2,
+  User,
+  Mail,
+  Calendar,
+  Phone,
+  BookOpen,
+  PenTool,
+  Minus,
+  Plus,
+  Loader2,
+} from "lucide-react";
 import { getBaseUrl, getImageUrl } from "@/lib/api";
 
 export default function BlogPage() {
@@ -25,12 +36,10 @@ export default function BlogPage() {
   const [subject, setSubject] = useState("");
   const [pages, setPages] = useState(1);
   const [agree, setAgree] = useState(false);
-  
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-
 
   const fetchBlogs = async (page: number = 1) => {
     try {
@@ -83,7 +92,7 @@ export default function BlogPage() {
     if (!service) newErrors.service = "Service is required";
     if (!deadline) newErrors.deadline = "Deadline is required";
     if (!agree) newErrors.agree = "You must agree to the terms";
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -91,7 +100,7 @@ export default function BlogPage() {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
     // Simulate submission
     setTimeout(() => {
@@ -137,23 +146,21 @@ export default function BlogPage() {
       <div className="max-w-7xl mx-auto px-4 md:px-8 -mt-8 relative z-20 pb-24">
         <div className="bg-white rounded-[2rem] shadow-[0_15px_40px_rgba(0,0,0,0.04)] border border-slate-100 p-6 md:p-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            
             {/* Left Column: Blog Feed (lg:col-span-8) */}
             <main className="lg:col-span-8 flex flex-col gap-10">
-              
               {loading && blogs.length === 0 ? (
                 <div className="flex flex-col gap-10">
                   {/* Featured Blog Card Skeleton */}
                   <div className="flex flex-col">
                     <div className="w-full h-[240px] sm:h-[400px] rounded-3xl bg-slate-200 animate-pulse mb-6" />
-                    
+
                     <div className="flex items-center gap-6 mb-4">
                       <div className="w-16 h-4 bg-slate-200 rounded animate-pulse" />
                       <div className="w-24 h-4 bg-slate-200 rounded animate-pulse" />
                     </div>
 
                     <div className="w-3/4 h-8 bg-slate-200 rounded-md animate-pulse mb-4" />
-                    
+
                     <div className="bg-slate-100/50 border border-slate-100 rounded-3xl p-5 md:p-6 mb-6 flex flex-col gap-2.5 animate-pulse">
                       <div className="w-full h-4 bg-slate-200 rounded" />
                       <div className="w-11/12 h-4 bg-slate-200 rounded" />
@@ -168,7 +175,10 @@ export default function BlogPage() {
                   {/* Standard Blog Cards Grid Skeleton */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {[...Array(4)].map((_, i) => (
-                      <div key={i} className="border border-slate-100 rounded-[2rem] p-5 bg-white shadow-sm flex flex-col gap-4 animate-pulse">
+                      <div
+                        key={i}
+                        className="border border-slate-100 rounded-[2rem] p-5 bg-white shadow-sm flex flex-col gap-4 animate-pulse"
+                      >
                         <div className="w-full h-48 bg-slate-200 rounded-2xl" />
                         <div className="w-1/4 h-4 bg-slate-200 rounded" />
                         <div className="w-5/6 h-5 bg-slate-200 rounded" />
@@ -203,22 +213,47 @@ export default function BlogPage() {
                       {/* Featured Meta Info */}
                       <div className="flex items-center gap-6 text-xs sm:text-sm text-text-muted mb-4 font-semibold">
                         <span className="flex items-center gap-2">
-                          <svg className="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h5l2 2h9a2 2 0 012 2v8a2 2 0 01-2 2H5z" />
+                          <svg
+                            className="w-4 h-4 text-primary-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2.5"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h5l2 2h9a2 2 0 012 2v8a2 2 0 01-2 2H5z"
+                            />
                           </svg>
                           Blog
                         </span>
                         <span className="flex items-center gap-2">
-                          <svg className="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          <svg
+                            className="w-4 h-4 text-primary-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2.5"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
                           </svg>
-                          {new Date(latestPost.created_at).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
+                          {new Date(latestPost.created_at).toLocaleDateString(
+                            "en-GB",
+                            { day: "2-digit", month: "short", year: "numeric" },
+                          )}
                         </span>
                       </div>
 
                       {/* Featured Title */}
                       <h2 className="text-2xl sm:text-3.5xl font-extrabold text-text-heading hover:text-primary-700 transition-colors leading-tight mb-4">
-                        <Link href={`/blog/${latestPost.slug}`}>{latestPost.tittle}</Link>
+                        <Link href={`/blog/${latestPost.slug}`}>
+                          {latestPost.tittle}
+                        </Link>
                       </h2>
 
                       {/* Featured Excerpt Box */}
@@ -232,7 +267,10 @@ export default function BlogPage() {
 
                       {/* Featured Learn More Button */}
                       <div>
-                        <Link href={`/blog/${latestPost.slug}`} className="btn-shutter-blue-open font-bold rounded-full px-8 py-3.5 cursor-pointer inline-flex items-center justify-center">
+                        <Link
+                          href={`/blog/${latestPost.slug}`}
+                          className="btn-shutter-blue-open font-bold rounded-full px-8 py-3.5 cursor-pointer inline-flex items-center justify-center"
+                        >
                           Learn More
                         </Link>
                       </div>
@@ -249,7 +287,10 @@ export default function BlogPage() {
                         key={post.id}
                         title={post.tittle}
                         excerpt={post.meta_discribtion}
-                        date={new Date(post.created_at).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
+                        date={new Date(post.created_at).toLocaleDateString(
+                          "en-GB",
+                          { day: "2-digit", month: "short", year: "numeric" },
+                        )}
                         image={getImageUrl(post.images)}
                         href={`/blog/${post.slug}`}
                       />
@@ -264,20 +305,20 @@ export default function BlogPage() {
                         disabled={loadingMore}
                         className="btn-shutter-blue-close inline-flex items-center justify-center font-bold rounded-full px-8 py-3 transition duration-300 disabled:opacity-50 gap-2 cursor-pointer"
                       >
-                        {loadingMore && <Loader2 className="w-4 h-4 animate-spin" />}
+                        {loadingMore && (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        )}
                         Show More
                       </button>
                     </div>
                   )}
                 </>
               )}
-
             </main>
 
             {/* Right Column: Sidebar (lg:col-span-4) */}
             <aside className="lg:col-span-4 flex flex-col gap-8">
               <div className="space-y-8 lg:sticky lg:top-24">
-                
                 {/* 1. Get Free Assignment Quote Instantly Form */}
                 <div className="bg-white rounded-3xl border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)] p-6 md:p-7">
                   <div className="text-center mb-6">
@@ -292,9 +333,13 @@ export default function BlogPage() {
                       <div className="w-14 h-14 rounded-full bg-success/10 flex items-center justify-center text-success mb-2 animate-bounce">
                         <CheckCircle2 className="w-8 h-8" />
                       </div>
-                      <h4 className="text-lg font-bold text-text-heading">Quote Request Sent!</h4>
+                      <h4 className="text-lg font-bold text-text-heading">
+                        Quote Request Sent!
+                      </h4>
                       <p className="text-xs text-text-body max-w-xs leading-relaxed">
-                        We have received your requirements. One of our academic writers will contact you shortly with a custom price estimation.
+                        We have received your requirements. One of our academic
+                        writers will contact you shortly with a custom price
+                        estimation.
                       </p>
                       <button
                         onClick={handleResetForm}
@@ -305,42 +350,66 @@ export default function BlogPage() {
                     </div>
                   ) : (
                     <form onSubmit={handleFormSubmit} className="space-y-4">
-                      
                       {/* Name */}
                       <div className="relative">
-                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">Name</label>
+                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">
+                          Name
+                        </label>
                         <div className="relative">
                           <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                           <input
                             type="text"
                             placeholder="Your name"
                             value={name}
-                            onChange={(e) => setName(e.target.value.replace(/[^a-zA-Z\s]/g, ""))}
+                            onChange={(e) =>
+                              setName(
+                                e.target.value.replace(/[^a-zA-Z\s]/g, ""),
+                              )
+                            }
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-text-heading outline-none focus:border-primary-500 focus:bg-white transition-all placeholder:text-slate-400"
                           />
                         </div>
-                        {errors.name && <span className="text-[10px] text-red-500 mt-1 block">{errors.name}</span>}
+                        {errors.name && (
+                          <span className="text-[10px] text-red-500 mt-1 block">
+                            {errors.name}
+                          </span>
+                        )}
                       </div>
 
                       {/* Email */}
                       <div className="relative">
-                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">Email</label>
+                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">
+                          Email
+                        </label>
                         <div className="relative">
                           <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                           <input
                             type="email"
                             placeholder="you@example.com"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, ""))}
+                            onChange={(e) =>
+                              setEmail(
+                                e.target.value.replace(
+                                  /[^a-zA-Z0-9@._+-]/g,
+                                  "",
+                                ),
+                              )
+                            }
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-text-heading outline-none focus:border-primary-500 focus:bg-white transition-all placeholder:text-slate-400"
                           />
                         </div>
-                        {errors.email && <span className="text-[10px] text-red-500 mt-1 block">{errors.email}</span>}
+                        {errors.email && (
+                          <span className="text-[10px] text-red-500 mt-1 block">
+                            {errors.email}
+                          </span>
+                        )}
                       </div>
 
                       {/* Deadline */}
                       <div className="relative">
-                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">Deadline</label>
+                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">
+                          Deadline
+                        </label>
                         <div className="relative">
                           <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                           <select
@@ -359,17 +428,33 @@ export default function BlogPage() {
                             <option value="10d">10+ Days</option>
                           </select>
                           <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            <svg
+                              className="w-3 h-3 text-slate-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M19 9l-7 7-7-7"
+                              />
                             </svg>
                           </div>
                         </div>
-                        {errors.deadline && <span className="text-[10px] text-red-500 mt-1 block">{errors.deadline}</span>}
+                        {errors.deadline && (
+                          <span className="text-[10px] text-red-500 mt-1 block">
+                            {errors.deadline}
+                          </span>
+                        )}
                       </div>
 
                       {/* Phone Number */}
                       <div className="relative">
-                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">Phone number</label>
+                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">
+                          Phone number
+                        </label>
                         <div className="flex gap-2">
                           <select
                             value={countryCode}
@@ -387,17 +472,25 @@ export default function BlogPage() {
                               type="tel"
                               placeholder="Phone number"
                               value={phone}
-                              onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, ""))}
+                              onChange={(e) =>
+                                setPhone(e.target.value.replace(/[^0-9]/g, ""))
+                              }
                               className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-9 pr-3 text-xs text-text-heading outline-none focus:border-primary-500 focus:bg-white transition-all placeholder:text-slate-400"
                             />
                           </div>
                         </div>
-                        {errors.phone && <span className="text-[10px] text-red-500 mt-1 block">{errors.phone}</span>}
+                        {errors.phone && (
+                          <span className="text-[10px] text-red-500 mt-1 block">
+                            {errors.phone}
+                          </span>
+                        )}
                       </div>
 
                       {/* Service */}
                       <div className="relative">
-                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">Service</label>
+                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">
+                          Service
+                        </label>
                         <div className="relative">
                           <BookOpen className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                           <select
@@ -406,32 +499,60 @@ export default function BlogPage() {
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-8 text-xs text-text-heading outline-none focus:border-primary-500 focus:bg-white transition-all appearance-none cursor-pointer"
                           >
                             <option value="">Select service</option>
-                            <option value="assignment">Assignment Writing</option>
+                            <option value="assignment">
+                              Assignment Writing
+                            </option>
                             <option value="essay">Essay Writing</option>
-                            <option value="dissertation">Dissertation Writing</option>
-                            <option value="coursework">Coursework Writing</option>
-                            <option value="case-study">Case Study Writing</option>
+                            <option value="dissertation">
+                              Dissertation Writing
+                            </option>
+                            <option value="coursework">
+                              Coursework Writing
+                            </option>
+                            <option value="case-study">
+                              Case Study Writing
+                            </option>
                             <option value="report">Report Writing</option>
                           </select>
                           <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                            <svg className="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            <svg
+                              className="w-3 h-3 text-slate-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M19 9l-7 7-7-7"
+                              />
                             </svg>
                           </div>
                         </div>
-                        {errors.service && <span className="text-[10px] text-red-500 mt-1 block">{errors.service}</span>}
+                        {errors.service && (
+                          <span className="text-[10px] text-red-500 mt-1 block">
+                            {errors.service}
+                          </span>
+                        )}
                       </div>
 
                       {/* Subject */}
                       <div className="relative">
-                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">Subject</label>
+                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">
+                          Subject
+                        </label>
                         <div className="relative">
                           <PenTool className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                           <input
                             type="text"
                             placeholder="e.g., IT"
                             value={subject}
-                            onChange={(e) => setSubject(e.target.value.replace(/[^a-zA-Z0-9\s]/g, ""))}
+                            onChange={(e) =>
+                              setSubject(
+                                e.target.value.replace(/[^a-zA-Z0-9\s]/g, ""),
+                              )
+                            }
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-xs text-text-heading outline-none focus:border-primary-500 focus:bg-white transition-all placeholder:text-slate-400"
                           />
                         </div>
@@ -439,7 +560,9 @@ export default function BlogPage() {
 
                       {/* Pages Counter */}
                       <div className="relative">
-                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">Pages</label>
+                        <label className="text-[11px] font-bold text-gray-600 mb-1 block">
+                          Pages
+                        </label>
                         <div className="flex items-center justify-between border border-slate-200 rounded-xl px-2 py-1 bg-slate-50 select-none">
                           <button
                             type="button"
@@ -449,7 +572,10 @@ export default function BlogPage() {
                             <Minus className="w-3 h-3" />
                           </button>
                           <span className="text-xs font-semibold text-text-heading">
-                            {pages} Pages <span className="text-[10px] text-text-muted font-medium">({pages * 250} words)</span>
+                            {pages} Pages{" "}
+                            <span className="text-[10px] text-text-muted font-medium">
+                              ({pages * 250} words)
+                            </span>
                           </span>
                           <button
                             type="button"
@@ -470,19 +596,32 @@ export default function BlogPage() {
                           onChange={(e) => setAgree(e.target.checked)}
                           className="mt-0.5 rounded border-slate-300 text-primary-700 focus:ring-primary-500 w-3.5 h-3.5 cursor-pointer"
                         />
-                        <label htmlFor="agree" className="text-[10px] text-text-body leading-tight select-none cursor-pointer">
+                        <label
+                          htmlFor="agree"
+                          className="text-[10px] text-text-body leading-tight select-none cursor-pointer"
+                        >
                           I agree with{" "}
-                          <Link href="/privacy-policy" className="text-primary-700 hover:underline">
+                          <Link
+                            href="/privacy-policy"
+                            className="text-primary-700 hover:underline"
+                          >
                             Privacy Policy
                           </Link>{" "}
                           &{" "}
-                          <Link href="/terms" className="text-primary-700 hover:underline">
+                          <Link
+                            href="/terms"
+                            className="text-primary-700 hover:underline"
+                          >
                             T&C
                           </Link>
                           .
                         </label>
                       </div>
-                      {errors.agree && <span className="text-[10px] text-red-500 block">{errors.agree}</span>}
+                      {errors.agree && (
+                        <span className="text-[10px] text-red-500 block">
+                          {errors.agree}
+                        </span>
+                      )}
 
                       {/* Submit Button */}
                       <button
@@ -505,7 +644,11 @@ export default function BlogPage() {
 
                 {/* 2. WhatsApp Order Banner */}
                 <div className="rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:scale-[1.01] transition-transform duration-300">
-                  <Link href="https://wa.me/447575757575" target="_blank" rel="noopener noreferrer">
+                  <Link
+                    href="https://wa.me/447575757575"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Image
                       src="/images/whatsapp-order-now.webp"
                       alt="Order on WhatsApp with 10% discount"
@@ -516,10 +659,8 @@ export default function BlogPage() {
                     />
                   </Link>
                 </div>
-
               </div>
             </aside>
-
           </div>
         </div>
       </div>

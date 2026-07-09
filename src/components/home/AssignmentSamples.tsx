@@ -55,7 +55,10 @@ const mapSample = (sample: ApiRecord, index: number): HomeSample => {
     asString(sample.type_name) ||
     "";
   const sampleSlug = asString(sample.slug);
-  const title = asString(sample.title) || asString(sample.meta_title) || "Assignment Sample";
+  const title =
+    asString(sample.title) ||
+    asString(sample.meta_title) ||
+    "Assignment Sample";
   const categorySlug = slugify(category);
   const href =
     sampleSlug && categorySlug
@@ -70,7 +73,10 @@ const mapSample = (sample: ApiRecord, index: number): HomeSample => {
       asString(sample.category_name) ||
       asString(sample.category) ||
       "Assignment",
-    image: asString(sample.image) || asString(sample.thumbnail) || FALLBACK_IMAGES[index % FALLBACK_IMAGES.length],
+    image:
+      asString(sample.image) ||
+      asString(sample.thumbnail) ||
+      FALLBACK_IMAGES[index % FALLBACK_IMAGES.length],
     href,
     type: asString(sample.file_type) || asString(sample.type) || "PDF",
   };
@@ -164,7 +170,8 @@ export default function AssignmentSamples() {
                       alt={sample.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
                       onError={(event) => {
-                        event.currentTarget.src = FALLBACK_IMAGES[index % FALLBACK_IMAGES.length];
+                        event.currentTarget.src =
+                          FALLBACK_IMAGES[index % FALLBACK_IMAGES.length];
                       }}
                     />
                   </div>

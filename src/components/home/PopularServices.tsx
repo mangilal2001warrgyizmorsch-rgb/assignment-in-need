@@ -135,7 +135,8 @@ const FALLBACK_SERVICES: HomeService[] = [
   },
 ];
 
-const stripHtml = (value?: string) => (value || "").replace(/<[^>]*>/g, "").trim();
+const stripHtml = (value?: string) =>
+  (value || "").replace(/<[^>]*>/g, "").trim();
 
 const isApiRecord = (value: unknown): value is ApiRecord =>
   value !== null && typeof value === "object";
@@ -153,10 +154,16 @@ const formatTitle = (slug: string) =>
 const mapService = (service: ApiRecord, index: number): HomeService => {
   const style = SERVICE_STYLES[index % SERVICE_STYLES.length];
   const slug = asString(service.slug);
-  const title = asString(service.hero_heading) || asString(service.meta_title) || formatTitle(slug);
+  const title =
+    asString(service.hero_heading) ||
+    asString(service.meta_title) ||
+    formatTitle(slug);
   const description =
-    stripHtml(asString(service.hero_content) || asString(service.meta_description) || asString(service.why_subheading)) ||
-    FALLBACK_SERVICES[index % FALLBACK_SERVICES.length].description;
+    stripHtml(
+      asString(service.hero_content) ||
+        asString(service.meta_description) ||
+        asString(service.why_subheading),
+    ) || FALLBACK_SERVICES[index % FALLBACK_SERVICES.length].description;
   const orderCount = asString(service.order_count) || asString(service.orders);
 
   return {
@@ -164,9 +171,14 @@ const mapService = (service: ApiRecord, index: number): HomeService => {
     title,
     description,
     href: slug ? `/${slug}` : "/",
-    price: asString(service.starting_price) ? `From £${asString(service.starting_price)}` : FALLBACK_SERVICES[index % FALLBACK_SERVICES.length].price,
-    orders: orderCount ? `${orderCount}+ Orders` : FALLBACK_SERVICES[index % FALLBACK_SERVICES.length].orders,
-    image: asString(service.image) || asString(service.thumbnail) || style.image,
+    price: asString(service.starting_price)
+      ? `From £${asString(service.starting_price)}`
+      : FALLBACK_SERVICES[index % FALLBACK_SERVICES.length].price,
+    orders: orderCount
+      ? `${orderCount}+ Orders`
+      : FALLBACK_SERVICES[index % FALLBACK_SERVICES.length].orders,
+    image:
+      asString(service.image) || asString(service.thumbnail) || style.image,
     gradient: style.gradient,
   };
 };
@@ -183,7 +195,9 @@ function ServiceTile({
   const imageSize = isFeature
     ? "absolute bottom-[-5%] right-[-5%] w-[100%] max-h-[70%]"
     : "absolute bottom-[-10px] right-[-10px] w-[62%] max-h-[80%]";
-  const minHeight = isFeature ? "min-h-[320px] md:min-h-[380px]" : "min-h-[150px] md:min-h-[180px]";
+  const minHeight = isFeature
+    ? "min-h-[320px] md:min-h-[380px]"
+    : "min-h-[150px] md:min-h-[180px]";
 
   return (
     <Link
@@ -192,15 +206,21 @@ function ServiceTile({
     >
       <div className="flex flex-col justify-between h-full w-full relative z-[2] items-start text-left">
         <div>
-          <h3 className={`${isFeature ? "text-[1.2rem]" : "text-[1.1rem]"} font-bold text-gray-900 m-0 mb-1 leading-tight line-clamp-2`}>
+          <h3
+            className={`${isFeature ? "text-[1.2rem]" : "text-[1.1rem]"} font-bold text-gray-900 m-0 mb-1 leading-tight line-clamp-2`}
+          >
             {service.title}
           </h3>
-          <p className={`hidden md:block text-[0.82rem] text-gray-600 m-0 mt-2 leading-relaxed ${isFeature ? "max-w-[90%]" : "max-w-[65%]"} line-clamp-2`}>
+          <p
+            className={`hidden md:block text-[0.82rem] text-gray-600 m-0 mt-2 leading-relaxed ${isFeature ? "max-w-[90%]" : "max-w-[65%]"} line-clamp-2`}
+          >
             {service.description}
           </p>
         </div>
         <div className="flex flex-col gap-0.5 items-start mt-auto">
-          <span className="text-xs text-gray-400 font-medium">{service.orders}</span>
+          <span className="text-xs text-gray-400 font-medium">
+            {service.orders}
+          </span>
           <span className="mt-2">
             <span className="text-sm font-semibold text-[#3f159a] hover:text-[#EE662F] transition-colors duration-200">
               Explore More &rarr;
@@ -213,7 +233,8 @@ function ServiceTile({
         alt={service.title}
         className={`${imageSize} object-contain pointer-events-none transition-transform duration-300 group-hover:scale-105`}
         onError={(event) => {
-          event.currentTarget.src = SERVICE_STYLES[index % SERVICE_STYLES.length].image;
+          event.currentTarget.src =
+            SERVICE_STYLES[index % SERVICE_STYLES.length].image;
         }}
       />
     </Link>
@@ -232,7 +253,9 @@ export default function PopularServices() {
 
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
-          setApiServices(result.data.filter(isApiRecord).slice(0, 8).map(mapService));
+          setApiServices(
+            result.data.filter(isApiRecord).slice(0, 8).map(mapService),
+          );
         }
       } catch (err) {
         console.error("Error fetching homepage services:", err);
@@ -265,13 +288,21 @@ export default function PopularServices() {
           <div className="flex flex-col gap-6 flex-1 w-full">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full flex-1">
               {services.slice(1, 4).map((service, index) => (
-                <ServiceTile key={service.id} service={service} index={index + 1} />
+                <ServiceTile
+                  key={service.id}
+                  service={service}
+                  index={index + 1}
+                />
               ))}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full flex-1">
               {services.slice(4, 8).map((service, index) => (
-                <ServiceTile key={service.id} service={service} index={index + 4} />
+                <ServiceTile
+                  key={service.id}
+                  service={service}
+                  index={index + 4}
+                />
               ))}
             </div>
           </div>

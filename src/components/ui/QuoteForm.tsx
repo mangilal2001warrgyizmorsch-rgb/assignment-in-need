@@ -60,7 +60,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
   const [mobileNo, setMobileNo] = useState("");
   const [projectType, setProjectType] = useState("");
   const [timePeriod, setTimePeriod] = useState("");
-  const [wordCount, setWordCount] = useState(1000);
+  const [wordCount, setWordCount] = useState(250);
   const [description, setDescription] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +81,9 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
     setMobileNo(val);
   };
 
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
     const val = e.target.value.replace(/[<>\/?[\]{}|\\;:'"`~^+=*]/g, "");
     setDescription(val);
   };

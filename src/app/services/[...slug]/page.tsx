@@ -114,7 +114,9 @@ export default function ServiceLanding() {
             setPageData(pageResult.data.page);
             if (Array.isArray(pageResult.data.experts)) {
               setExperts(
-                pageResult.data.experts.map((item: any) => mapExpertToWriter(item)),
+                pageResult.data.experts.map((item: any) =>
+                  mapExpertToWriter(item),
+                ),
               );
             }
             if (Array.isArray(pageResult.data.reviews)) {
@@ -123,7 +125,12 @@ export default function ServiceLanding() {
           }
         }
 
-        if (!pageResult || !pageResult.success || !pageResult.data || !pageResult.data.page) {
+        if (
+          !pageResult ||
+          !pageResult.success ||
+          !pageResult.data ||
+          !pageResult.data.page
+        ) {
           const listRes = await fetch("/api/admin/service-pages");
           if (listRes.ok) {
             const listResult = await listRes.json();
@@ -172,10 +179,13 @@ export default function ServiceLanding() {
         <div className="bg-white min-h-[60vh] px-4 py-16 mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-extrabold text-gray-900 capitalize">
-              {fullSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+              {fullSlug
+                .replace(/-/g, " ")
+                .replace(/\b\w/g, (c) => c.toUpperCase())}
             </h1>
             <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
-              This category contains several related service pages. Select one below to continue.
+              This category contains several related service pages. Select one
+              below to continue.
             </p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -241,7 +251,8 @@ export default function ServiceLanding() {
       desc: item?.content || item?.desc,
     }))
     .filter((item: any) => item.title || item.desc);
-  const whyItems = dynamicWhyItems.length > 0 ? dynamicWhyItems : fallbackWhyItems;
+  const whyItems =
+    dynamicWhyItems.length > 0 ? dynamicWhyItems : fallbackWhyItems;
 
   // Experts list
   const expertsToShow = experts.length > 0 ? experts : WRITERS.slice(0, 4);
@@ -604,7 +615,7 @@ export default function ServiceLanding() {
 
           {/* Cards Grid with Decorative Next Arrow */}
           <div className="relative">
-            <div 
+            <div
               className="flex overflow-x-auto pb-4 lg:pb-0 -mx-4 px-4 snap-x snap-mandatory lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible lg:mx-0 lg:px-0 gap-4 scroll-smooth"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >

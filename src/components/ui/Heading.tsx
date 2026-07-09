@@ -16,11 +16,12 @@ const headingVariants = cva(
     defaultVariants: {
       level: 2,
     },
-  }
+  },
 );
 
 export interface HeadingProps
-  extends React.HTMLAttributes<HTMLHeadingElement>,
+  extends
+    React.HTMLAttributes<HTMLHeadingElement>,
     VariantProps<typeof headingVariants> {
   highlight?: string;
   highlightVariant?: "purple" | "orange" | "gradient";
@@ -45,7 +46,7 @@ export const Heading: React.FC<HeadingProps> = ({
 
     const text = children;
     const index = text.toLowerCase().indexOf(highlight.toLowerCase());
-    
+
     if (index === -1) {
       return children;
     }
@@ -57,7 +58,7 @@ export const Heading: React.FC<HeadingProps> = ({
     const highlightClass = cn(
       highlightVariant === "purple" && "text-primary-600",
       highlightVariant === "orange" && "text-accent-600",
-      highlightVariant === "gradient" && "gradient-text font-extrabold"
+      highlightVariant === "gradient" && "gradient-text font-extrabold",
     );
 
     return (
@@ -72,9 +73,9 @@ export const Heading: React.FC<HeadingProps> = ({
   return (
     <Component
       className={cn(
-        headingVariants({ level }), 
+        headingVariants({ level }),
         underline && "laravel-section-title",
-        className
+        className,
       )}
       {...props}
     >

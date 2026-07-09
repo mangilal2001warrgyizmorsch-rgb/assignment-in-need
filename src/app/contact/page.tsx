@@ -19,7 +19,7 @@ export default function ContactPage() {
   const [subject, setSubject] = useState("");
   const [inquiryType, setInquiryType] = useState("");
   const [message, setMessage] = useState("");
-  
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -68,17 +68,17 @@ export default function ContactPage() {
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!name.trim()) newErrors.name = "Full Name is required";
-    
+
     if (!email.trim()) {
       newErrors.email = "Email Address is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = "Invalid email format";
     }
-    
+
     if (!subject) newErrors.subject = "Subject is required";
     if (!inquiryType) newErrors.inquiryType = "Inquiry type is required";
     if (!message.trim()) newErrors.message = "Message details are required";
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -96,7 +96,11 @@ export default function ContactPage() {
   };
 
   const whatsappSvg = (
-    <svg viewBox="0 0 24 24" className="fill-current text-[#25d366]" style={{ width: "13px", height: "13px" }}>
+    <svg
+      viewBox="0 0 24 24"
+      className="fill-current text-[#25d366]"
+      style={{ width: "13px", height: "13px" }}
+    >
       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
     </svg>
   );
@@ -133,7 +137,9 @@ export default function ContactPage() {
 
               {/* Subtext */}
               <p className="text-[13px] text-gray-500 font-bold leading-relaxed max-w-[480px]">
-                Have a question or need assistance with your assignment? Fill out the form, and our support team will get back to you as soon as possible.
+                Have a question or need assistance with your assignment? Fill
+                out the form, and our support team will get back to you as soon
+                as possible.
               </p>
 
               {/* Section Header */}
@@ -147,16 +153,28 @@ export default function ContactPage() {
                   <div className="bg-white border border-gray-150 p-5 rounded-2xl flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.01)] hover:shadow-md transition-shadow duration-300">
                     <div className="flex items-start gap-4 flex-1 min-w-0">
                       <div className="w-[48px] h-[48px] rounded-[14px] bg-[#e6fbf0] flex items-center justify-center shrink-0 border border-green-50 shadow-sm">
-                        <svg viewBox="0 0 24 24" className="w-[28px] h-[28px] fill-current text-[#25d366]">
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="w-[28px] h-[28px] fill-current text-[#25d366]"
+                        >
                           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
                         </svg>
                       </div>
                       <div className="flex flex-col text-left flex-1 min-w-0">
-                        <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">WhatsApp Support</h3>
-                        <p className="text-xs text-gray-500 leading-relaxed font-bold">Chat with us on WhatsApp for instant assistance 24/7.</p>
+                        <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">
+                          WhatsApp Support
+                        </h3>
+                        <p className="text-xs text-gray-500 leading-relaxed font-bold">
+                          Chat with us on WhatsApp for instant assistance 24/7.
+                        </p>
                       </div>
                     </div>
-                    <Link href="https://wa.me/447300640066" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto mt-2 sm:mt-0 shrink-0">
+                    <Link
+                      href="https://wa.me/447300640066"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto mt-2 sm:mt-0 shrink-0"
+                    >
                       <Button
                         variant="blueClose"
                         size="sm"
@@ -175,11 +193,18 @@ export default function ContactPage() {
                         <PhoneCall className="w-5 h-5 text-[#3f159a]" />
                       </div>
                       <div className="flex flex-col text-left flex-1 min-w-0">
-                        <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">Phone Support</h3>
-                        <p className="text-xs text-gray-500 leading-relaxed font-bold">Speak to our experts anytime. We're here to help!</p>
+                        <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">
+                          Phone Support
+                        </h3>
+                        <p className="text-xs text-gray-500 leading-relaxed font-bold">
+                          Speak to our experts anytime. We're here to help!
+                        </p>
                       </div>
                     </div>
-                    <Link href="tel:+447300640066" className="w-full sm:w-auto mt-2 sm:mt-0 shrink-0">
+                    <Link
+                      href="tel:+447300640066"
+                      className="w-full sm:w-auto mt-2 sm:mt-0 shrink-0"
+                    >
                       <Button
                         variant="blueClose"
                         size="sm"
@@ -197,11 +222,18 @@ export default function ContactPage() {
                         <Mail className="w-5 h-5 text-[#ea580c]" />
                       </div>
                       <div className="flex flex-col text-left flex-1 min-w-0">
-                        <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">Email Support</h3>
-                        <p className="text-xs text-gray-500 leading-relaxed font-bold">Drop us an email and we'll get back to you soon.</p>
+                        <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">
+                          Email Support
+                        </h3>
+                        <p className="text-xs text-gray-500 leading-relaxed font-bold">
+                          Drop us an email and we'll get back to you soon.
+                        </p>
                       </div>
                     </div>
-                    <Link href="mailto:support@assignmentinneed.com" className="w-full sm:w-auto mt-2 sm:mt-0 shrink-0">
+                    <Link
+                      href="mailto:support@assignmentinneed.com"
+                      className="w-full sm:w-auto mt-2 sm:mt-0 shrink-0"
+                    >
                       <Button
                         variant="orangeClose"
                         size="sm"
@@ -221,28 +253,69 @@ export default function ContactPage() {
                 </h2>
                 <div className="flex items-center gap-3">
                   {[
-                    { name: "Facebook", bg: "bg-[#1877F2] text-white", icon: (
-                      <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] fill-current text-white">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                      </svg>
-                    ), url: "https://facebook.com/assignmentinneed" },
-                    { name: "Twitter", bg: "bg-black text-white", icon: (
-                      <svg viewBox="0 0 24 24" className="w-[14px] h-[14px] fill-current text-white">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                      </svg>
-                    ), url: "https://twitter.com/assignmentinneed" },
-                    { name: "LinkedIn", bg: "bg-[#0A66C2] text-white", icon: (
-                      <svg viewBox="0 0 24 24" className="w-[16px] h-[16px] fill-current text-white">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                      </svg>
-                    ), url: "https://linkedin.com/company/assignmentinneed" },
-                    { name: "Instagram", bg: "bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white", icon: (
-                      <svg viewBox="0 0 24 24" className="w-[18px] h-[18px] fill-none stroke-current stroke-2 text-white" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                      </svg>
-                    ), url: "https://instagram.com/assignmentinneed" }
+                    {
+                      name: "Facebook",
+                      bg: "bg-[#1877F2] text-white",
+                      icon: (
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="w-[18px] h-[18px] fill-current text-white"
+                        >
+                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                      ),
+                      url: "https://facebook.com/assignmentinneed",
+                    },
+                    {
+                      name: "Twitter",
+                      bg: "bg-black text-white",
+                      icon: (
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="w-[14px] h-[14px] fill-current text-white"
+                        >
+                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                      ),
+                      url: "https://twitter.com/assignmentinneed",
+                    },
+                    {
+                      name: "LinkedIn",
+                      bg: "bg-[#0A66C2] text-white",
+                      icon: (
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="w-[16px] h-[16px] fill-current text-white"
+                        >
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                      ),
+                      url: "https://linkedin.com/company/assignmentinneed",
+                    },
+                    {
+                      name: "Instagram",
+                      bg: "bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] text-white",
+                      icon: (
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="w-[18px] h-[18px] fill-none stroke-current stroke-2 text-white"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <rect
+                            x="2"
+                            y="2"
+                            width="20"
+                            height="20"
+                            rx="5"
+                            ry="5"
+                          />
+                          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                        </svg>
+                      ),
+                      url: "https://instagram.com/assignmentinneed",
+                    },
                   ].map((s) => (
                     <a
                       key={s.name}
@@ -266,9 +339,13 @@ export default function ContactPage() {
                   <div className="w-16 h-16 rounded-full bg-[#e6fbf0] text-[#22c55e] flex items-center justify-center border border-green-50 shadow-sm mb-2 animate-bounce">
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
-                  <h3 className="text-2xl font-[900] text-[#0f1b3d] tracking-tight">Enquiry Sent!</h3>
+                  <h3 className="text-2xl font-[900] text-[#0f1b3d] tracking-tight">
+                    Enquiry Sent!
+                  </h3>
                   <p className="text-gray-500 text-xs md:text-sm font-bold max-w-sm leading-relaxed">
-                    Thank you, <span className="text-[#3f159a]">{name}</span>. Your enquiry request has been sent successfully. Our support desk will reach out to you shortly.
+                    Thank you, <span className="text-[#3f159a]">{name}</span>.
+                    Your enquiry request has been sent successfully. Our support
+                    desk will reach out to you shortly.
                   </p>
                   <Button
                     onClick={() => {
@@ -296,7 +373,11 @@ export default function ContactPage() {
                     <div className="w-16 h-1 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full" />
                   </div>
 
-                  <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 text-left" id="placeOrder">
+                  <form
+                    onSubmit={handleFormSubmit}
+                    className="flex flex-col gap-4 text-left"
+                    id="placeOrder"
+                  >
                     {/* Full Name */}
                     <div className="flex flex-col gap-1.5">
                       <label className="text-xs font-extrabold text-[#0f1b3d] uppercase tracking-wider block">
@@ -310,7 +391,11 @@ export default function ContactPage() {
                         onChange={handleNameChange}
                         className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium"
                       />
-                      {errors.name && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.name}</span>}
+                      {errors.name && (
+                        <span className="text-red-500 text-[10px] font-bold mt-0.5">
+                          {errors.name}
+                        </span>
+                      )}
                     </div>
 
                     {/* Email Address */}
@@ -326,7 +411,11 @@ export default function ContactPage() {
                         onChange={handleEmailChange}
                         className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium"
                       />
-                      {errors.email && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.email}</span>}
+                      {errors.email && (
+                        <span className="text-red-500 text-[10px] font-bold mt-0.5">
+                          {errors.email}
+                        </span>
+                      )}
                     </div>
 
                     {/* Phone Number */}
@@ -356,17 +445,24 @@ export default function ContactPage() {
                             value={subject}
                             onChange={(e) => {
                               setSubject(e.target.value);
-                              if (errors.subject) setErrors((prev) => ({ ...prev, subject: "" }));
+                              if (errors.subject)
+                                setErrors((prev) => ({ ...prev, subject: "" }));
                             }}
                             className="w-full border-none bg-transparent outline-none text-xs text-slate-800 py-2 cursor-pointer appearance-none font-medium focus:outline-none"
                           >
                             <option value="">Select a subject</option>
                             {SUBJECT_OPTIONS.map((opt) => (
-                              <option key={opt.value} value={opt.value}>{opt.label}</option>
+                              <option key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </option>
                             ))}
                           </select>
                         </div>
-                        {errors.subject && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.subject}</span>}
+                        {errors.subject && (
+                          <span className="text-red-500 text-[10px] font-bold mt-0.5">
+                            {errors.subject}
+                          </span>
+                        )}
                       </div>
 
                       {/* Inquiry Type */}
@@ -380,17 +476,27 @@ export default function ContactPage() {
                             value={inquiryType}
                             onChange={(e) => {
                               setInquiryType(e.target.value);
-                              if (errors.inquiryType) setErrors((prev) => ({ ...prev, inquiryType: "" }));
+                              if (errors.inquiryType)
+                                setErrors((prev) => ({
+                                  ...prev,
+                                  inquiryType: "",
+                                }));
                             }}
                             className="w-full border-none bg-transparent outline-none text-xs text-slate-800 py-2 cursor-pointer appearance-none font-medium focus:outline-none"
                           >
                             <option value="">Select inquiry type</option>
                             {INQUIRY_OPTIONS.map((opt) => (
-                              <option key={opt.value} value={opt.value}>{opt.label}</option>
+                              <option key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </option>
                             ))}
                           </select>
                         </div>
-                        {errors.inquiryType && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.inquiryType}</span>}
+                        {errors.inquiryType && (
+                          <span className="text-red-500 text-[10px] font-bold mt-0.5">
+                            {errors.inquiryType}
+                          </span>
+                        )}
                       </div>
                     </div>
 
@@ -407,7 +513,11 @@ export default function ContactPage() {
                         onChange={handleMessageChange}
                         className="w-full p-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium resize-none"
                       />
-                      {errors.message && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.message}</span>}
+                      {errors.message && (
+                        <span className="text-red-500 text-[10px] font-bold mt-0.5">
+                          {errors.message}
+                        </span>
+                      )}
                     </div>
 
                     {/* Submit Button */}
@@ -443,7 +553,7 @@ export default function ContactPage() {
             Our Location
           </h2>
           <div className="w-16 h-1 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full mx-auto mb-8" />
-          
+
           <div className="relative w-full h-[320px] md:h-[450px] rounded-3xl overflow-hidden shadow-lg border border-gray-150">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2482.7214691459424!2d-0.14640108422964645!3d51.51834297963695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1680000000000"
@@ -453,22 +563,29 @@ export default function ContactPage() {
               referrerPolicy="no-referrer-when-downgrade"
               title="Google Map London Office Location"
             />
-            
+
             {/* Custom Marker Pin */}
             <div className="absolute left-[calc(50%-22px)] top-[calc(50%-45px)] pointer-events-auto z-10 animate-bounce">
-              <a 
-                href="https://www.google.com/maps/dir//77+Great+Portland+St,+London+W1W+6PQ,+UK" 
+              <a
+                href="https://www.google.com/maps/dir//77+Great+Portland+St,+London+W1W+6PQ,+UK"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative block"
               >
-                <svg viewBox="0 0 24 24" fill="#3f159a" className="w-[45px] h-[45px]" style={{ filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))" }}>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="#3f159a"
+                  className="w-[45px] h-[45px]"
+                  style={{ filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.3))" }}
+                >
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                 </svg>
                 {/* Pin Tooltip */}
                 <div className="absolute bottom-[48px] left-[50%] -translate-x-[50%] bg-[#0f1b3d] text-white text-[10px] font-bold p-2.5 rounded-lg whitespace-nowrap opacity-95 transition shadow-md pointer-events-none group-hover:opacity-100">
                   Assignment In Need
-                  <span className="block text-[8px] font-medium text-purple-200 mt-0.5">77 Great Portland Street, London, W1W 6PQ, UK</span>
+                  <span className="block text-[8px] font-medium text-purple-200 mt-0.5">
+                    77 Great Portland Street, London, W1W 6PQ, UK
+                  </span>
                 </div>
               </a>
             </div>
@@ -477,7 +594,9 @@ export default function ContactPage() {
             <div className="absolute bottom-4 left-4 right-4 md:right-auto max-w-[340px] bg-white border border-gray-150 p-4 rounded-2xl shadow-xl flex gap-3 items-start z-20 text-left backdrop-blur-sm">
               <MapPin className="w-5 h-5 text-[#3f159a] shrink-0 mt-0.5" />
               <div className="flex flex-col gap-1.5">
-                <span className="font-heading font-extrabold text-xs text-[#0f1b3d]">Assignment In Need</span>
+                <span className="font-heading font-extrabold text-xs text-[#0f1b3d]">
+                  Assignment In Need
+                </span>
                 <span className="text-[11px] text-gray-500 font-bold leading-relaxed">
                   77 Great Portland Street, London, W1W 6PQ, UK
                 </span>

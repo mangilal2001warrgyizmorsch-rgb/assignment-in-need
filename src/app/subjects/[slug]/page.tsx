@@ -32,7 +32,7 @@ import {
 export default function SubjectLanding() {
   const params = useParams();
   const slug = params?.slug as string;
-  
+
   // Find current subject or default to Accounting
   const subject = SUBJECTS.find((s) => s.slug === slug) || SUBJECTS[0];
 
@@ -42,13 +42,16 @@ export default function SubjectLanding() {
   const [projectType, setProjectType] = useState("");
   const [wordCount, setWordCount] = useState("");
   const [timePeriod, setTimePeriod] = useState("");
-  
+
   // Generate subject-specific experts
   const experts = [
     {
       name: "Emma Taylor",
       role: `${subject.name} Expert`,
-      qual: subject.slug === "accounting" ? "MSc Accounting & Finance" : `MSc in ${subject.name}`,
+      qual:
+        subject.slug === "accounting"
+          ? "MSc Accounting & Finance"
+          : `MSc in ${subject.name}`,
       exp: "8+ Years Exp.",
       rating: 4.9,
       orders: "1200+",
@@ -57,7 +60,10 @@ export default function SubjectLanding() {
     {
       name: "Daniel Harris",
       role: `${subject.name} Expert`,
-      qual: subject.slug === "accounting" ? "ACCA, MBA" : `MBA, ${subject.name} Specialist`,
+      qual:
+        subject.slug === "accounting"
+          ? "ACCA, MBA"
+          : `MBA, ${subject.name} Specialist`,
       exp: "10+ Years Exp.",
       rating: 4.9,
       orders: "1900+",
@@ -66,7 +72,10 @@ export default function SubjectLanding() {
     {
       name: "Sophia Martinez",
       role: `${subject.name} Expert`,
-      qual: subject.slug === "accounting" ? "PhD Accounting" : `PhD in ${subject.name}`,
+      qual:
+        subject.slug === "accounting"
+          ? "PhD Accounting"
+          : `PhD in ${subject.name}`,
       exp: "7+ Years Exp.",
       rating: 4.8,
       orders: "980+",
@@ -75,7 +84,8 @@ export default function SubjectLanding() {
     {
       name: "James Anderson",
       role: `${subject.name} Expert`,
-      qual: subject.slug === "accounting" ? "CA, CPA" : `PhD, Chartered Specialist`,
+      qual:
+        subject.slug === "accounting" ? "CA, CPA" : `PhD, Chartered Specialist`,
       exp: "12+ Years Exp.",
       rating: 4.9,
       orders: "1500+",
@@ -84,7 +94,10 @@ export default function SubjectLanding() {
     {
       name: "Olivia Bennett",
       role: `${subject.name} Expert`,
-      qual: subject.slug === "accounting" ? "MSc Finance" : `MSc Applied ${subject.name}`,
+      qual:
+        subject.slug === "accounting"
+          ? "MSc Finance"
+          : `MSc Applied ${subject.name}`,
       exp: "6+ Years Exp.",
       rating: 4.8,
       orders: "860+",
@@ -119,7 +132,10 @@ export default function SubjectLanding() {
     {
       icon: <Users className="w-5 h-5" />,
       title: `Qualified\n${subject.name} Experts`,
-      desc: subject.slug === "accounting" ? "Professional accountants\nand academic writers." : `Professional ${subject.name.toLowerCase()} specialists\nand academic writers.`,
+      desc:
+        subject.slug === "accounting"
+          ? "Professional accountants\nand academic writers."
+          : `Professional ${subject.name.toLowerCase()} specialists\nand academic writers.`,
     },
     {
       icon: <FileCheck2 className="w-5 h-5" />,
@@ -150,13 +166,41 @@ export default function SubjectLanding() {
 
   // Dynamic promo banner inclusions row
   const promoInclusions = [
-    { icon: <FileCheck2 className="w-6 h-6" />, label: "Plagiarism\nReport", visibility: "flex" },
-    { icon: <Network className="w-6 h-6" />, label: "AI Report", visibility: "flex" },
-    { icon: <FileText className="w-6 h-6" />, label: "Title\nPage", visibility: "flex" },
-    { icon: <BookOpen className="w-6 h-6" />, label: "Bibliography", visibility: "hidden sm:flex" },
-    { icon: <RefreshCw className="w-6 h-6" />, label: "Unlimited\nRevisions", visibility: "hidden lg:flex" },
-    { icon: <PaintRoller className="w-6 h-6" />, label: "Formatting", visibility: "hidden lg:flex" },
-    { icon: <Headset className="w-6 h-6" />, label: "24/7\nSupport", visibility: "hidden lg:flex" },
+    {
+      icon: <FileCheck2 className="w-6 h-6" />,
+      label: "Plagiarism\nReport",
+      visibility: "flex",
+    },
+    {
+      icon: <Network className="w-6 h-6" />,
+      label: "AI Report",
+      visibility: "flex",
+    },
+    {
+      icon: <FileText className="w-6 h-6" />,
+      label: "Title\nPage",
+      visibility: "flex",
+    },
+    {
+      icon: <BookOpen className="w-6 h-6" />,
+      label: "Bibliography",
+      visibility: "hidden sm:flex",
+    },
+    {
+      icon: <RefreshCw className="w-6 h-6" />,
+      label: "Unlimited\nRevisions",
+      visibility: "hidden lg:flex",
+    },
+    {
+      icon: <PaintRoller className="w-6 h-6" />,
+      label: "Formatting",
+      visibility: "hidden lg:flex",
+    },
+    {
+      icon: <Headset className="w-6 h-6" />,
+      label: "24/7\nSupport",
+      visibility: "hidden lg:flex",
+    },
   ];
 
   // Dynamic benefits points
@@ -185,13 +229,21 @@ export default function SubjectLanding() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ name, email, mobile, projectType, wordCount, timePeriod, subject: subject.name });
+    console.log({
+      name,
+      email,
+      mobile,
+      projectType,
+      wordCount,
+      timePeriod,
+      subject: subject.name,
+    });
   };
 
   return (
     <div className="font-sans text-[#111827] bg-white overflow-hidden">
       {/* 3.2 HERO SECTION (Incorporates breadcrumbs for seamless backdrop layout) */}
-      <section 
+      <section
         className="relative pt-6 pb-8 px-4 md:px-6 lg:px-8 overflow-hidden border-b border-gray-100"
         style={{ background: "linear-gradient(115deg, #ffffff 48%, #faf8ff)" }}
       >
@@ -202,11 +254,16 @@ export default function SubjectLanding() {
               Home
             </Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <Link href="/subjects" className="hover:text-[#3f159a] transition-colors">
+            <Link
+              href="/subjects"
+              className="hover:text-[#3f159a] transition-colors"
+            >
               Subjects
             </Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-gray-550">{subject.name} Assignment Help</span>
+            <span className="text-gray-550">
+              {subject.name} Assignment Help
+            </span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative min-h-[500px] lg:min-h-[545px]">
@@ -226,12 +283,16 @@ export default function SubjectLanding() {
               <h1 className="text-[34px] sm:text-[40px] lg:text-[42px] font-[900] leading-[1.08] text-[#0f1b3d] tracking-tight mb-3 font-heading">
                 Expert {subject.name} Assignment Help
                 <br />
-                <span className="text-[#ea580c] block mt-1.5">You Can Rely On</span>
+                <span className="text-[#ea580c] block mt-1.5">
+                  You Can Rely On
+                </span>
               </h1>
 
               {/* Description */}
               <p className="text-gray-500 text-xs md:text-sm font-semibold leading-relaxed mb-6 max-w-[500px]">
-                Get accurate, well-researched and plagiarism-free {subject.name.toLowerCase()} assignments helped by qualified experts to achieve top grades.
+                Get accurate, well-researched and plagiarism-free{" "}
+                {subject.name.toLowerCase()} assignments helped by qualified
+                experts to achieve top grades.
               </p>
 
               {/* Mobile Student Image block */}
@@ -249,8 +310,12 @@ export default function SubjectLanding() {
                     <Headset className="w-3.5 h-3.5 text-[#ea580c]" />
                   </div>
                   <div className="flex flex-col text-left pr-1">
-                    <span className="font-extrabold text-[#0f1b3d] text-[10px] leading-tight">24/7</span>
-                    <span className="text-[7px] text-gray-500 font-bold uppercase tracking-wider">Live Support</span>
+                    <span className="font-extrabold text-[#0f1b3d] text-[10px] leading-tight">
+                      24/7
+                    </span>
+                    <span className="text-[7px] text-gray-500 font-bold uppercase tracking-wider">
+                      Live Support
+                    </span>
                   </div>
                 </div>
               </div>
@@ -335,11 +400,13 @@ export default function SubjectLanding() {
               </div>
 
               {/* Absolutely positioned center image, matching Laravel structure for organic overlap */}
-              <div 
+              <div
                 className="absolute right-[-170px] bottom-[-48px] w-[420px] h-[450px] select-none pointer-events-none hidden lg:block z-10"
                 style={{
-                  WebkitMaskImage: "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
-                  maskImage: "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)"
+                  WebkitMaskImage:
+                    "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
+                  maskImage:
+                    "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
                 }}
               >
                 <Image
@@ -357,8 +424,12 @@ export default function SubjectLanding() {
                   <Headset className="w-4 h-4 text-[#ea580c]" />
                 </div>
                 <div className="flex flex-col text-left pr-1">
-                  <span className="font-extrabold text-[#0f1b3d] text-[11px] leading-tight">24/7</span>
-                  <span className="text-[8px] text-gray-500 font-bold uppercase tracking-wider">Live Support</span>
+                  <span className="font-extrabold text-[#0f1b3d] text-[11px] leading-tight">
+                    24/7
+                  </span>
+                  <span className="text-[8px] text-gray-500 font-bold uppercase tracking-wider">
+                    Live Support
+                  </span>
                 </div>
               </div>
             </div>
@@ -367,7 +438,10 @@ export default function SubjectLanding() {
             <div className="lg:col-span-1 hidden lg:block order-2" />
 
             {/* Right Form Card Column */}
-            <div className="lg:col-span-4 flex justify-center lg:justify-end items-center z-20 pt-4 order-3" id="quote-form">
+            <div
+              className="lg:col-span-4 flex justify-center lg:justify-end items-center z-20 pt-4 order-3"
+              id="quote-form"
+            >
               <div className="w-[390px] max-w-full p-[0.8rem_1rem] rounded-2xl border border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.08)] bg-white relative">
                 {/* Offer ribbon banner at top-right */}
                 <div className="absolute top-[-26px] right-0 z-[5] pointer-events-none h-[48px] w-[300px]">
@@ -380,26 +454,44 @@ export default function SubjectLanding() {
                 </div>
 
                 <div className="flex items-center justify-center gap-2 mb-2 pt-4">
-                  <span className="text-[1.2rem] select-none" style={{ filter: "grayscale(100%) opacity(0.6)" }}>✨</span>
-                  <h3 className="text-[0.95rem] font-bold text-gray-900 m-0 mx-2 capitalize leading-snug whitespace-nowrap">Get Instant Quote</h3>
-                  <span className="text-[1.2rem] select-none" style={{ filter: "grayscale(100%) opacity(0.6)" }}>✨</span>
+                  <span
+                    className="text-[1.2rem] select-none"
+                    style={{ filter: "grayscale(100%) opacity(0.6)" }}
+                  >
+                    ✨
+                  </span>
+                  <h3 className="text-[0.95rem] font-bold text-gray-900 m-0 mx-2 capitalize leading-snug whitespace-nowrap">
+                    Get Instant Quote
+                  </h3>
+                  <span
+                    className="text-[1.2rem] select-none"
+                    style={{ filter: "grayscale(100%) opacity(0.6)" }}
+                  >
+                    ✨
+                  </span>
                 </div>
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-[0.15rem]" id="placeOrder">
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex flex-col gap-[0.15rem]"
+                  id="placeOrder"
+                >
                   {/* Name Row */}
                   <div className="flex items-center justify-between mb-1.5 gap-[15px]">
                     <div className="flex items-center gap-3 flex-1">
                       <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-purple-100 text-[#7c3aed]">
                         <Users className="w-3 h-3 text-[#7c3aed]" />
                       </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">Name</label>
+                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                        Name
+                      </label>
                     </div>
                     <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <input 
-                        type="text" 
-                        required 
+                      <input
+                        type="text"
+                        required
                         placeholder="Enter Name"
-                        value={name} 
+                        value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-1 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
                       />
@@ -412,14 +504,16 @@ export default function SubjectLanding() {
                       <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-blue-100 text-blue-500">
                         <FileText className="w-3 h-3 text-blue-500" />
                       </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">Email</label>
+                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                        Email
+                      </label>
                     </div>
                     <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <input 
-                        type="email" 
-                        required 
+                      <input
+                        type="email"
+                        required
                         placeholder="Enter Email"
-                        value={email} 
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-1 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
                       />
@@ -432,14 +526,16 @@ export default function SubjectLanding() {
                       <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-red-100 text-red-500">
                         <Headset className="w-3 h-3 text-red-555" />
                       </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">Mobile No</label>
+                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                        Mobile No
+                      </label>
                     </div>
                     <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <input 
-                        type="tel" 
-                        required 
+                      <input
+                        type="tel"
+                        required
                         placeholder="Enter Mobile"
-                        value={mobile} 
+                        value={mobile}
                         onChange={(e) => setMobile(e.target.value)}
                         className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-1 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
                       />
@@ -452,12 +548,14 @@ export default function SubjectLanding() {
                       <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-green-100 text-green-500">
                         <BookOpen className="w-3 h-3 text-green-600" />
                       </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">Project Type</label>
+                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                        Project Type
+                      </label>
                     </div>
                     <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <select 
-                        required 
-                        value={projectType} 
+                      <select
+                        required
+                        value={projectType}
                         onChange={(e) => setProjectType(e.target.value)}
                         className="w-full border-none bg-transparent outline-none text-[0.75rem] text-slate-800 py-[0.2rem] cursor-pointer appearance-none font-medium whitespace-nowrap focus:outline-none focus:border-none focus:shadow-none"
                       >
@@ -465,7 +563,9 @@ export default function SubjectLanding() {
                         <option value="Assignment">Assignment</option>
                         <option value="Dissertation">Dissertation</option>
                         <option value="Thesis">Thesis</option>
-                        <option value="Research Project">Research Project</option>
+                        <option value="Research Project">
+                          Research Project
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -476,12 +576,14 @@ export default function SubjectLanding() {
                       <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-pink-100 text-pink-500">
                         <AlignLeft className="w-3 h-3 text-pink-500" />
                       </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">Word Count</label>
+                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                        Word Count
+                      </label>
                     </div>
                     <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <select 
-                        required 
-                        value={wordCount} 
+                      <select
+                        required
+                        value={wordCount}
                         onChange={(e) => setWordCount(e.target.value)}
                         className="w-full border-none bg-transparent outline-none text-[0.75rem] text-slate-800 py-[0.2rem] cursor-pointer appearance-none font-medium whitespace-nowrap focus:outline-none focus:border-none focus:shadow-none"
                       >
@@ -505,18 +607,24 @@ export default function SubjectLanding() {
                       <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-yellow-100 text-yellow-600">
                         <Clock className="w-3 h-3 text-yellow-600" />
                       </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">Time Period</label>
+                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                        Time Period
+                      </label>
                     </div>
                     <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <select 
-                        required 
-                        value={timePeriod} 
+                      <select
+                        required
+                        value={timePeriod}
                         onChange={(e) => setTimePeriod(e.target.value)}
                         className="w-full border-none bg-transparent outline-none text-[0.75rem] text-slate-800 py-[0.2rem] cursor-pointer appearance-none font-medium whitespace-nowrap focus:outline-none focus:border-none focus:shadow-none"
                       >
                         <option value="">Select Deadline</option>
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((d) => (
-                          <option key={d} value={d}>{d} Day{d > 1 ? 's' : ''}</option>
+                        {[
+                          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                        ].map((d) => (
+                          <option key={d} value={d}>
+                            {d} Day{d > 1 ? "s" : ""}
+                          </option>
                         ))}
                         <option value="16 to 20">16-20 Days</option>
                         <option value="21+">21+ Days</option>
@@ -524,8 +632,8 @@ export default function SubjectLanding() {
                     </div>
                   </div>
 
-                  <button 
-                    type="submit" 
+                  <button
+                    type="submit"
                     className="btn-shutter-orange-open border-none py-[9px] px-3 rounded-lg text-[0.78rem] font-semibold cursor-pointer w-full mt-3 shadow-[0_4px_14px_rgba(249,115,22,0.3)] whitespace-nowrap"
                   >
                     Get Price Now &rarr;
@@ -533,21 +641,39 @@ export default function SubjectLanding() {
 
                   <div className="flex justify-between mt-2.5 text-[0.65rem] text-gray-500 border-t border-gray-100 pt-2.5">
                     <span className="flex items-center gap-1">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" className="w-3 h-3">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#22c55e"
+                        strokeWidth="3"
+                        className="w-3 h-3"
+                      >
                         <polyline points="20 6 9 17 4 12" />
-                      </svg> 
+                      </svg>
                       It&apos;s free
                     </span>
                     <span className="flex items-center gap-1">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" className="w-3 h-3">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#22c55e"
+                        strokeWidth="3"
+                        className="w-3 h-3"
+                      >
                         <polyline points="20 6 9 17 4 12" />
-                      </svg> 
+                      </svg>
                       No obligation
                     </span>
                     <span className="flex items-center gap-1">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" className="w-3 h-3">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#22c55e"
+                        strokeWidth="3"
+                        className="w-3 h-3"
+                      >
                         <polyline points="20 6 9 17 4 12" />
-                      </svg> 
+                      </svg>
                       Quick response
                     </span>
                   </div>
@@ -566,7 +692,10 @@ export default function SubjectLanding() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-6 md:gap-y-8">
             {choiceFeatures.map((f, i) => (
-              <div key={i} className="flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-0">
+              <div
+                key={i}
+                className="flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-0"
+              >
                 <div className="w-12 h-12 rounded-full bg-[#f4f2ff] flex items-center justify-center text-[#3f159a] mb-3.5 border border-purple-50 shadow-sm transition-transform hover:scale-110 duration-200 shrink-0">
                   {f.icon}
                 </div>
@@ -593,7 +722,8 @@ export default function SubjectLanding() {
                 Our {subject.name} Assignment Experts
               </h2>
               <p className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase tracking-wider leading-relaxed">
-                Learn from the best. Our experts are here to help you achieve top grades.
+                Learn from the best. Our experts are here to help you achieve
+                top grades.
               </p>
             </div>
             <div className="flex justify-end w-full">
@@ -607,7 +737,7 @@ export default function SubjectLanding() {
           </div>
           <div className="relative">
             {/* Carousel track */}
-            <div 
+            <div
               className="flex overflow-x-auto pb-4 lg:pb-0 -mx-4 px-4 snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:gap-5 lg:overflow-visible lg:mx-0 lg:px-0 gap-4 scroll-smooth"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
@@ -676,10 +806,11 @@ export default function SubjectLanding() {
       {/* 3.5 PROMO BANNER */}
       <section className="py-4 bg-white border-b border-gray-50">
         <div className="max-w-[1250px] mx-auto px-4">
-          <div 
+          <div
             className="rounded-[20px] overflow-hidden relative shadow-lg p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 text-white"
             style={{
-              background: "linear-gradient(100deg, #24105f 0%, #3c168b 58%, #6a23b6 100%)"
+              background:
+                "linear-gradient(100deg, #24105f 0%, #3c168b 58%, #6a23b6 100%)",
             }}
           >
             {/* Promo offer left column + gift box next to it on mobile/desktop */}
@@ -689,7 +820,10 @@ export default function SubjectLanding() {
                   UP TO
                 </small>
                 <strong className="block my-1 text-[26px] md:text-[32px] font-extrabold uppercase leading-none">
-                  <b className="text-[#ff6a12] text-[36px] md:text-[45px] font-black mr-1.5">30%</b> OFF
+                  <b className="text-[#ff6a12] text-[36px] md:text-[45px] font-black mr-1.5">
+                    30%
+                  </b>{" "}
+                  OFF
                 </strong>
                 <span className="block text-[10px] font-bold text-white uppercase tracking-wider mb-3">
                   ON YOUR FIRST ORDER
@@ -698,9 +832,9 @@ export default function SubjectLanding() {
                   Use Code: AIN30
                 </em>
               </div>
-              
+
               {/* Rotated gift emoji */}
-              <div 
+              <div
                 className="text-[64px] md:text-[80px] select-none pointer-events-none z-10 shrink-0 leading-none"
                 style={{
                   filter: "drop-shadow(0 8px 12px rgba(0,0,0,0.15))",
@@ -714,12 +848,14 @@ export default function SubjectLanding() {
             {/* Middle benefits column */}
             <div className="lg:flex-1 w-full grid grid-cols-4 lg:grid-cols-7 gap-y-4 gap-x-2 text-center lg:pl-6">
               {promoInclusions.map((item, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className={`min-h-[74px] flex flex-col items-center justify-center gap-2 px-[9px] text-center lg:border-l lg:border-white/13 lg:first:border-l-0 ${item.visibility}`}
                 >
                   <div className="text-white">
-                    {React.cloneElement(item.icon, { className: "w-[23px] h-[23px] text-white stroke-[2]" })}
+                    {React.cloneElement(item.icon, {
+                      className: "w-[23px] h-[23px] text-white stroke-[2]",
+                    })}
                   </div>
                   <span className="text-[9px] font-bold text-white leading-tight whitespace-pre-line">
                     {item.label}
@@ -780,10 +916,14 @@ export default function SubjectLanding() {
                       />
                     </div>
                     <div>
-                      <h4 className={`font-extrabold text-[12px] m-0 ${isFeatured ? "text-white" : "text-[#0f1b3d]"}`}>
+                      <h4
+                        className={`font-extrabold text-[12px] m-0 ${isFeatured ? "text-white" : "text-[#0f1b3d]"}`}
+                      >
                         {review.name}
                       </h4>
-                      <p className={`text-[10px] m-0 font-bold ${isFeatured ? "text-purple-200" : "text-gray-400"}`}>
+                      <p
+                        className={`text-[10px] m-0 font-bold ${isFeatured ? "text-purple-200" : "text-gray-400"}`}
+                      >
                         {review.uni}
                       </p>
                       <div className="flex text-[11px] mt-1 gap-0.5 text-yellow-400">
@@ -812,8 +952,10 @@ export default function SubjectLanding() {
             Why Choose {subject.name} Assignment Help From Us?
           </h2>
           <p className="text-[13px] text-gray-500 font-bold leading-relaxed">
-            Well, the answer to your question is simple! When students seek {subject.name.toLowerCase()} assignment help from us, they get
-            several benefits that add value to their service. So, do you want to know such valuable benefits that explain why seeking our assistance
+            Well, the answer to your question is simple! When students seek{" "}
+            {subject.name.toLowerCase()} assignment help from us, they get
+            several benefits that add value to their service. So, do you want to
+            know such valuable benefits that explain why seeking our assistance
             is the right decision to make? Continue reading to learn about it!
           </p>
         </div>
@@ -851,19 +993,20 @@ export default function SubjectLanding() {
               </div>
               <div>
                 <p className="text-[#0f1b3d] text-[13px] font-extrabold leading-relaxed m-0">
-                  {subject.name} is a crucial subject that requires {subject.analyticalWord}.
+                  {subject.name} is a crucial subject that requires{" "}
+                  {subject.analyticalWord}.
                 </p>
                 <p className="text-gray-400 text-xs font-bold leading-normal m-0 mt-0.5">
                   Our experts are here to help you excel in your assignments!
                 </p>
               </div>
             </div>
-              <Link
-                href="#quote-form"
-                className="btn-shutter-blue-open text-white font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider shadow-md transition duration-200 whitespace-nowrap w-full md:w-auto text-center cursor-pointer border-none"
-              >
-                Order Now &rarr;
-              </Link>
+            <Link
+              href="#quote-form"
+              className="btn-shutter-blue-open text-white font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider shadow-md transition duration-200 whitespace-nowrap w-full md:w-auto text-center cursor-pointer border-none"
+            >
+              Order Now &rarr;
+            </Link>
           </div>
         </div>
       </section>

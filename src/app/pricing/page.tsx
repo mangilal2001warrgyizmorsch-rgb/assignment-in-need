@@ -313,26 +313,33 @@ export default function PricingPage() {
         </div>
 
         {/* Hero Right Column Quote Form */}
-        <div id="quote-form" className="lg:w-1/2 w-full relative z-10 flex justify-center lg:justify-end items-start">
+        <div
+          id="quote-form"
+          className="lg:w-1/2 w-full relative z-10 flex justify-center lg:justify-end items-start"
+        >
           {isSubmitted ? (
             <div className="w-full max-w-[620px] p-8 md:p-10 rounded-[24px] border border-gray-150 bg-white shadow-[0_12px_42px_rgba(0,0,0,0.06)] text-center flex flex-col items-center justify-center gap-5 min-h-[450px]">
               <div className="w-16 h-16 rounded-full bg-[#e6fbf0] text-[#22c55e] flex items-center justify-center border border-green-50 shadow-sm mb-2 animate-bounce">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
-              <h3 className="text-2xl font-[900] text-[#0f1b3d] tracking-tight">Enquiry Sent!</h3>
+              <h3 className="text-2xl font-[900] text-[#0f1b3d] tracking-tight">
+                Enquiry Sent!
+              </h3>
               <p className="text-gray-500 text-xs md:text-sm font-bold max-w-sm leading-relaxed">
-                Thank you, <span className="text-[#3f159a]">{name}</span>. Your enquiry request has been sent successfully. Our support desk will reach out to you shortly.
+                Thank you, <span className="text-[#3f159a]">{name}</span>. Your
+                enquiry request has been sent successfully. Our support desk
+                will reach out to you shortly.
               </p>
               <Button
-                  onClick={() => {
-                    setIsSubmitted(false);
-                    setName("");
-                    setEmail("");
-                    setPhone("");
-                    setSubject("");
-                    setInquiryType("");
-                    setMessage("");
-                  }}
+                onClick={() => {
+                  setIsSubmitted(false);
+                  setName("");
+                  setEmail("");
+                  setPhone("");
+                  setSubject("");
+                  setInquiryType("");
+                  setMessage("");
+                }}
                 variant="blueOpen"
                 size="sm"
                 className="mt-4 text-white"
@@ -349,7 +356,11 @@ export default function PricingPage() {
                 <div className="w-16 h-1 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full" />
               </div>
 
-              <form onSubmit={handleFormSubmit} className="flex flex-col gap-4 text-left" id="placeOrder">
+              <form
+                onSubmit={handleFormSubmit}
+                className="flex flex-col gap-4 text-left"
+                id="placeOrder"
+              >
                 {/* Full Name */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-[#0f1b3d] uppercase tracking-wider block">
@@ -363,7 +374,11 @@ export default function PricingPage() {
                     onChange={handleNameChange}
                     className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium focus:ring-0 focus-visible:ring-0 focus-visible:outline-none"
                   />
-                  {errors.name && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.name}</span>}
+                  {errors.name && (
+                    <span className="text-red-500 text-[10px] font-bold mt-0.5">
+                      {errors.name}
+                    </span>
+                  )}
                 </div>
 
                 {/* Email Address */}
@@ -379,7 +394,11 @@ export default function PricingPage() {
                     onChange={handleEmailChange}
                     className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium focus:ring-0 focus-visible:ring-0 focus-visible:outline-none"
                   />
-                  {errors.email && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.email}</span>}
+                  {errors.email && (
+                    <span className="text-red-500 text-[10px] font-bold mt-0.5">
+                      {errors.email}
+                    </span>
+                  )}
                 </div>
 
                 {/* Phone Number */}
@@ -409,17 +428,24 @@ export default function PricingPage() {
                         value={subject}
                         onChange={(e) => {
                           setSubject(e.target.value);
-                          if (errors.subject) setErrors((prev) => ({ ...prev, subject: "" }));
+                          if (errors.subject)
+                            setErrors((prev) => ({ ...prev, subject: "" }));
                         }}
                         className="w-full border-none bg-transparent outline-none text-xs text-slate-800 py-2 cursor-pointer appearance-none font-medium focus:outline-none focus:ring-0 focus-visible:ring-0"
                       >
                         <option value="">Select a subject</option>
                         {SUBJECT_OPTIONS.map((opt) => (
-                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
                         ))}
                       </select>
                     </div>
-                    {errors.subject && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.subject}</span>}
+                    {errors.subject && (
+                      <span className="text-red-500 text-[10px] font-bold mt-0.5">
+                        {errors.subject}
+                      </span>
+                    )}
                   </div>
 
                   {/* Inquiry Type */}
@@ -433,17 +459,24 @@ export default function PricingPage() {
                         value={inquiryType}
                         onChange={(e) => {
                           setInquiryType(e.target.value);
-                          if (errors.inquiryType) setErrors((prev) => ({ ...prev, inquiryType: "" }));
+                          if (errors.inquiryType)
+                            setErrors((prev) => ({ ...prev, inquiryType: "" }));
                         }}
                         className="w-full border-none bg-transparent outline-none text-xs text-slate-800 py-2 cursor-pointer appearance-none font-medium focus:outline-none focus:ring-0 focus-visible:ring-0"
                       >
                         <option value="">Select inquiry type</option>
                         {INQUIRY_OPTIONS.map((opt) => (
-                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
                         ))}
                       </select>
                     </div>
-                    {errors.inquiryType && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.inquiryType}</span>}
+                    {errors.inquiryType && (
+                      <span className="text-red-500 text-[10px] font-bold mt-0.5">
+                        {errors.inquiryType}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -460,7 +493,11 @@ export default function PricingPage() {
                     onChange={handleMessageChange}
                     className="w-full p-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium resize-none focus:ring-0 focus-visible:ring-0"
                   />
-                  {errors.message && <span className="text-red-500 text-[10px] font-bold mt-0.5">{errors.message}</span>}
+                  {errors.message && (
+                    <span className="text-red-500 text-[10px] font-bold mt-0.5">
+                      {errors.message}
+                    </span>
+                  )}
                 </div>
 
                 {/* Submit Button */}
@@ -722,7 +759,9 @@ export default function PricingPage() {
       </section>
 
       {/* Custom Stylesheet for Select Box arrows and custom focus styles matching HeroSection.tsx */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         .hero-select-box select {
           background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234b5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
           background-repeat: no-repeat;
@@ -742,7 +781,9 @@ export default function PricingPage() {
           border-color: transparent !important;
           box-shadow: none !important;
         }
-      `}} />
+      `,
+        }}
+      />
     </main>
   );
 }
