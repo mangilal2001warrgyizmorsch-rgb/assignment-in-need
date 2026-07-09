@@ -2,14 +2,14 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
-import { 
-  Star, 
-  Users, 
-  FileText, 
-  ShieldCheck, 
-  CheckCircle2, 
-  Calendar, 
-  ArrowRight, 
+import {
+  Star,
+  Users,
+  FileText,
+  ShieldCheck,
+  CheckCircle2,
+  Calendar,
+  ArrowRight,
   Lock,
   User,
   HelpCircle,
@@ -159,7 +159,7 @@ export default function OrderPage() {
   const subtotal = useMemo(() => {
     const pages = parseInt(selectedWordCount, 10) / 250;
     const basePricePerPage = 2.002;
-    
+
     // Deadline Multipliers
     let deadlineMult = 1.0;
     if (selectedDeadline === "12h") deadlineMult = 2.5;
@@ -241,8 +241,8 @@ export default function OrderPage() {
       {/* 1. Hero Title Header Block */}
       <section className="relative w-full bg-gradient-to-r from-white via-purple-50/20 to-purple-50/40 py-3 md:py-5 pb-2 md:pb-3 overflow-hidden">
         {/* Soft background shape */}
-        <div 
-          className="absolute inset-y-0 right-0 w-1/2 z-0 opacity-10 pointer-events-none" 
+        <div
+          className="absolute inset-y-0 right-0 w-1/2 z-0 opacity-10 pointer-events-none"
           style={{
             backgroundImage: "url('/new-pricingimg/hero.png')",
             backgroundRepeat: "no-repeat",
@@ -311,9 +311,9 @@ export default function OrderPage() {
           {/* Right Column Graphic */}
           <div className="lg:col-span-5 flex justify-center items-center relative">
             <div className="relative w-full max-w-[340px] aspect-square">
-              <img 
-                src="/order-page/order-hero.png" 
-                alt="Student assignment help assistance" 
+              <img
+                src="/order-page/order-hero.png"
+                alt="Student assignment help assistance"
                 className="w-full h-full object-contain"
               />
 
@@ -349,7 +349,7 @@ export default function OrderPage() {
                   <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">1</span>
                   Personal Information
                 </span>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {/* Full Name */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
@@ -358,8 +358,8 @@ export default function OrderPage() {
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <User className="w-[18px] h-[18px] text-gray-400" />
                       </div>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         placeholder="Enter your full name"
                         className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
                         value={fullName}
@@ -376,8 +376,8 @@ export default function OrderPage() {
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <FileText className="w-[18px] h-[18px] text-gray-400" />
                       </div>
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         placeholder="Enter your email address"
                         className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
                         value={email}
@@ -393,7 +393,7 @@ export default function OrderPage() {
                     <div className="flex border border-gray-200 bg-white rounded-xl overflow-hidden focus-within:border-purple-600 transition-colors shadow-sm h-[46px]">
                       {/* Country Selector Dropdown */}
                       <div className="relative flex items-center bg-gray-50/50 border-r border-gray-200 shrink-0">
-                        <select 
+                        <select
                           className="pl-3 pr-8 h-full bg-transparent text-[14px] font-bold text-gray-800 focus:outline-none appearance-none cursor-pointer"
                           value={countryCode}
                           onChange={(e) => setCountryCode(e.target.value)}
@@ -407,8 +407,8 @@ export default function OrderPage() {
                         </div>
                       </div>
                       {/* Input number */}
-                      <input 
-                        type="tel" 
+                      <input
+                        type="tel"
                         placeholder="Enter phone number"
                         className="flex-1 pl-4 pr-4 h-full bg-transparent text-[14px] text-gray-800 focus:outline-none font-medium"
                         value={phoneNumber}
@@ -435,7 +435,7 @@ export default function OrderPage() {
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <BookOpen className="w-[18px] h-[18px] text-gray-400" />
                       </div>
-                      <select 
+                      <select
                         className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
                         value={selectedSubject}
                         onChange={(e) => setSelectedSubject(e.target.value)}
@@ -459,7 +459,7 @@ export default function OrderPage() {
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <FileText className="w-[18px] h-[18px] text-gray-400" />
                       </div>
-                      <select 
+                      <select
                         className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
                         value={selectedService}
                         onChange={(e) => setSelectedService(e.target.value)}
@@ -483,7 +483,7 @@ export default function OrderPage() {
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <Briefcase className="w-[18px] h-[18px] text-gray-400" />
                       </div>
-                      <select 
+                      <select
                         className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
                         value={selectedWorkType}
                         onChange={(e) => setSelectedWorkType(e.target.value)}
@@ -517,7 +517,7 @@ export default function OrderPage() {
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <Calendar className="w-[18px] h-[18px] text-gray-400" />
                       </div>
-                      <select 
+                      <select
                         className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
                         value={selectedDeadline}
                         onChange={(e) => setSelectedDeadline(e.target.value)}
@@ -541,7 +541,7 @@ export default function OrderPage() {
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <span className="font-black text-[11px] text-gray-400 select-none">123</span>
                       </div>
-                      <select 
+                      <select
                         className="w-full pl-10 pr-10 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm appearance-none font-medium"
                         value={selectedWordCount}
                         onChange={(e) => setSelectedWordCount(e.target.value)}
@@ -565,8 +565,8 @@ export default function OrderPage() {
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
                         <BookOpen className="w-[18px] h-[18px] text-gray-400" />
                       </div>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         disabled
                         className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-gray-50/50 rounded-xl text-[14px] text-gray-500 font-bold select-none cursor-not-allowed"
                         value={pagesCount > 0 ? `${pagesCount}` : "-"}
@@ -574,7 +574,7 @@ export default function OrderPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Academic Level */}
                 <div className="flex flex-col gap-2.5 mt-2">
                   <span className="text-xs font-bold text-gray-700">Academic Level:</span>
@@ -604,12 +604,12 @@ export default function OrderPage() {
                   <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">4</span>
                   Additional Instructions
                 </span>
-                <textarea 
+                <textarea
                   placeholder="Enter your instructions here..."
                   className="w-full p-4 border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
                   rows={4}
                   value={instructions}
-                  onChange={handleInstructionsChange}
+                  onChange={(e) => setInstructions(e.target.value)}
                 />
               </div>
 
@@ -744,7 +744,7 @@ export default function OrderPage() {
               </div>
 
               {/* Submit CTA button */}
-              <button 
+              <button
                 type="submit"
                 className="w-full bg-[#3f159a] hover:bg-[#341180] text-white font-bold py-3.5 rounded-2xl flex items-center justify-center gap-2 mt-2 shadow-[0_4px_12px_rgba(63,21,154,0.15)] transition-all duration-200"
               >
@@ -773,7 +773,7 @@ export default function OrderPage() {
                 Our support team is available 24/7 to assist you with any questions.
               </p>
               <Link href="/contact" className="w-full">
-                <button 
+                <button
                   type="button"
                   className="w-full border border-purple-200 text-[#3f159a] bg-[#fcfbff] hover:bg-purple-50 transition font-bold py-2.5 rounded-xl text-center text-xs"
                 >
