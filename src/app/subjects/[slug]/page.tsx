@@ -39,6 +39,7 @@ export default function SubjectLanding() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
+  const [countryCode, setCountryCode] = useState("+44");
   const [projectType, setProjectType] = useState("");
   const [wordCount, setWordCount] = useState("");
   const [timePeriod, setTimePeriod] = useState("");
@@ -232,7 +233,7 @@ export default function SubjectLanding() {
     console.log({
       name,
       email,
-      mobile,
+      mobile: `${countryCode} ${mobile}`,
       projectType,
       wordCount,
       timePeriod,
@@ -530,15 +531,36 @@ export default function SubjectLanding() {
                         Mobile No
                       </label>
                     </div>
-                    <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <input
-                        type="tel"
-                        required
-                        placeholder="Enter Mobile"
-                        value={mobile}
-                        onChange={(e) => setMobile(e.target.value)}
-                        className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-1 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
-                      />
+                    <div className="flex-grow flex-1 max-w-[170px] flex gap-1">
+                      <div className="w-[65px] bg-white border border-gray-200 rounded-lg py-1 px-1 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                        <select
+                          value={countryCode}
+                          onChange={(e) => setCountryCode(e.target.value)}
+                          className="w-full bg-transparent border-none outline-none text-[0.7rem] text-slate-800 font-medium py-0.5 cursor-pointer focus:ring-0 appearance-none"
+                        >
+                          <option value="+44">UK (+44)</option>
+                          <option value="+1">US (+1)</option>
+                          <option value="+91">IN (+91)</option>
+                          <option value="+61">AU (+61)</option>
+                          <option value="+1">CA (+1)</option>
+                          <option value="+971">AE (+971)</option>
+                          <option value="+966">SA (+966)</option>
+                          <option value="+353">IE (+353)</option>
+                          <option value="+64">NZ (+64)</option>
+                          <option value="+65">SG (+65)</option>
+                          <option value="+60">MY (+60)</option>
+                        </select>
+                      </div>
+                      <div className="flex-grow bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                        <input
+                          type="tel"
+                          required
+                          placeholder="Enter Mobile"
+                          value={mobile}
+                          onChange={(e) => setMobile(e.target.value)}
+                          className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-0.5 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
+                        />
+                      </div>
                     </div>
                   </div>
 

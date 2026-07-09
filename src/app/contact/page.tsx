@@ -16,6 +16,7 @@ export default function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("+44");
   const [subject, setSubject] = useState("");
   const [inquiryType, setInquiryType] = useState("");
   const [message, setMessage] = useState("");
@@ -423,13 +424,34 @@ export default function ContactPage() {
                       <label className="text-xs font-extrabold text-[#0f1b3d] uppercase tracking-wider block">
                         Phone Number
                       </label>
-                      <input
-                        type="tel"
-                        placeholder="Enter your phone number"
-                        value={phone}
-                        onChange={handlePhoneChange}
-                        className="w-full h-11 px-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium"
-                      />
+                      <div className="flex gap-2">
+                        <div className="relative shrink-0">
+                          <select
+                            value={countryCode}
+                            onChange={(e) => setCountryCode(e.target.value)}
+                            className="h-11 px-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium focus:ring-0 cursor-pointer appearance-none"
+                          >
+                            <option value="+44">UK (+44)</option>
+                            <option value="+1">US (+1)</option>
+                            <option value="+91">IN (+91)</option>
+                            <option value="+61">AU (+61)</option>
+                            <option value="+1">CA (+1)</option>
+                            <option value="+971">AE (+971)</option>
+                            <option value="+966">SA (+966)</option>
+                            <option value="+353">IE (+353)</option>
+                            <option value="+64">NZ (+64)</option>
+                            <option value="+65">SG (+65)</option>
+                            <option value="+60">MY (+60)</option>
+                          </select>
+                        </div>
+                        <input
+                          type="tel"
+                          placeholder="Enter your phone number"
+                          value={phone}
+                          onChange={handlePhoneChange}
+                          className="flex-grow h-11 px-3.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#3f159a] outline-none text-xs text-gray-800 transition-colors font-medium focus:ring-0 focus-visible:ring-0 focus-visible:outline-none"
+                        />
+                      </div>
                     </div>
 
                     {/* Subject + Inquiry Type Row */}

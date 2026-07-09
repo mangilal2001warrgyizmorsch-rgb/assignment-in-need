@@ -449,7 +449,7 @@ export default function SamplesPage() {
               </span>
               <Link
                 href={`/samples/${sub.category}`}
-                className="mt-6 pt-4 border-t border-purple-200 flex items-center justify-between font-bold btn-shutter-blue-close py-2 px-3 rounded-lg w-full text-sm"
+                className="mt-6 pt-4 border-t border-purple-200 flex items-center justify-center gap-1.5 font-bold btn-shutter-blue-close py-2 px-3 rounded-lg w-full text-sm"
                 onClick={(e) => e.stopPropagation()}
               >
                 View Samples{" "}

@@ -66,6 +66,7 @@ export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
     password: "",
     confirm_password: "",
   });
+  const [registerCountryCode, setRegisterCountryCode] = useState("+44");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -139,10 +140,14 @@ export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
     }
 
     try {
+      const payload = {
+        ...registerForm,
+        phone_no: `${registerCountryCode} ${registerForm.phone_no}`
+      };
       const response = await fetch("/api/app/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registerForm),
+        body: JSON.stringify(payload),
       });
       const data = await response.json().catch(() => null);
 
@@ -321,18 +326,39 @@ export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
                 <label className={labelClass} htmlFor="signup-phone">
                   Phone Number
                 </label>
-                <div className="group relative">
-                  <Phone className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#594136] transition-colors duration-200 group-focus-within:text-[#6935db]" />
-                  <input
-                    className={inputClass}
-                    id="signup-phone"
-                    name="phone_no"
-                    placeholder="9876543210"
-                    required
-                    type="tel"
-                    value={registerForm.phone_no}
-                    onChange={(event) => setRegisterForm((prev) => ({ ...prev, phone_no: event.target.value }))}
-                  />
+                <div className="flex gap-2">
+                  <div className="relative w-[100px] shrink-0">
+                    <Phone className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#594136]" />
+                    <select
+                      value={registerCountryCode}
+                      onChange={(e) => setRegisterCountryCode(e.target.value)}
+                      className="w-full rounded-lg border border-[#e1c0b1] bg-white py-3 pl-9 pr-2 text-[14px] text-[#191c1e] outline-none cursor-pointer focus:border-[#6935db] focus:ring-1 focus:ring-[#6935db] appearance-none"
+                    >
+                      <option value="+44">UK (+44)</option>
+                      <option value="+1">US (+1)</option>
+                      <option value="+91">IN (+91)</option>
+                      <option value="+61">AU (+61)</option>
+                      <option value="+1">CA (+1)</option>
+                      <option value="+971">AE (+971)</option>
+                      <option value="+966">SA (+966)</option>
+                      <option value="+353">IE (+353)</option>
+                      <option value="+64">NZ (+64)</option>
+                      <option value="+65">SG (+65)</option>
+                      <option value="+60">MY (+60)</option>
+                    </select>
+                  </div>
+                  <div className="group relative flex-1">
+                    <input
+                      className={inputClass}
+                      id="signup-phone"
+                      name="phone_no"
+                      placeholder="9876543210"
+                      required
+                      type="tel"
+                      value={registerForm.phone_no}
+                      onChange={(event) => setRegisterForm((prev) => ({ ...prev, phone_no: event.target.value }))}
+                    />
+                  </div>
                 </div>
               </div>
 

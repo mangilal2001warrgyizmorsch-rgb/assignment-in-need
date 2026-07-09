@@ -58,6 +58,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNo, setMobileNo] = useState("");
+  const [countryCode, setCountryCode] = useState("+44");
   const [projectType, setProjectType] = useState("");
   const [timePeriod, setTimePeriod] = useState("");
   const [wordCount, setWordCount] = useState(250);
@@ -101,10 +102,11 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    const fullPhone = `${countryCode} ${mobileNo}`;
     const formValues = {
       name,
       email,
-      mobileNo,
+      mobileNo: fullPhone,
       projectType,
       timePeriod,
       wordCount,
@@ -122,7 +124,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
       const searchParams = new URLSearchParams({
         name,
         email,
-        phone: mobileNo,
+        phone: fullPhone,
         service: projectType,
         pages: String(pages),
         deadline: timePeriod,
@@ -200,15 +202,36 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           <label className="text-[0.78rem] font-medium text-slate-700 m-0 whitespace-nowrap w-[90px] text-left">
             Mobile No
           </label>
-          <div className="flex-1 bg-white border border-gray-200 rounded-lg py-1 px-2.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-gray-300">
-            <input
-              type="tel"
-              required
-              placeholder="Enter Mobile"
-              value={mobileNo}
-              onChange={handleMobileNoChange}
-              className="w-full border-none bg-transparent text-[0.72rem] text-slate-800 outline-none font-medium py-0.5 box-border placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-none focus:shadow-none focus-visible:ring-0 focus-visible:outline-none"
-            />
+          <div className="flex-1 flex gap-1.5">
+            <div className="w-[75px] bg-white border border-gray-200 rounded-lg py-1 px-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-gray-300 flex items-center">
+              <select
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
+                className="w-full bg-transparent border-none outline-none text-[0.72rem] text-slate-800 font-medium py-0.5 cursor-pointer focus:ring-0 appearance-none"
+              >
+                <option value="+44">UK (+44)</option>
+                <option value="+1">US (+1)</option>
+                <option value="+91">IN (+91)</option>
+                <option value="+61">AU (+61)</option>
+                <option value="+1">CA (+1)</option>
+                <option value="+971">AE (+971)</option>
+                <option value="+966">SA (+966)</option>
+                <option value="+353">IE (+353)</option>
+                <option value="+64">NZ (+64)</option>
+                <option value="+65">SG (+65)</option>
+                <option value="+60">MY (+60)</option>
+              </select>
+            </div>
+            <div className="flex-1 bg-white border border-gray-200 rounded-lg py-1 px-2.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-gray-300">
+              <input
+                type="tel"
+                required
+                placeholder="Enter Mobile"
+                value={mobileNo}
+                onChange={handleMobileNoChange}
+                className="w-full border-none bg-transparent text-[0.72rem] text-slate-800 outline-none font-medium py-0.5 box-border placeholder:text-gray-400 focus:outline-none focus:ring-0 focus:border-none focus:shadow-none focus-visible:ring-0 focus-visible:outline-none"
+              />
+            </div>
           </div>
         </div>
 
