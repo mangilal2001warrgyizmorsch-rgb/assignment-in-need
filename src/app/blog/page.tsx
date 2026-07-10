@@ -6,6 +6,7 @@ import Link from "next/link";
 import { BlogCard } from "@/components/ui/BlogCard";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { CustomDropdown } from "@/components/ui/CustomDropdown";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 const COUNTRY_CODES = [
   { label: "UK (+44)", value: "+44" },
@@ -316,21 +317,22 @@ export default function BlogPage() {
                   <div className="w-full border-t border-slate-100 my-4" />
 
                   {/* Grid of Other Blog Cards */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {otherPosts.map((post) => (
-                      <BlogCard
-                        key={post.id}
-                        title={post.tittle}
-                        excerpt={post.meta_discribtion}
-                        date={new Date(post.created_at).toLocaleDateString(
-                          "en-GB",
-                          { day: "2-digit", month: "short", year: "numeric" },
-                        )}
-                        image={getImageUrl(post.images)}
-                        href={`/blog/${post.slug}`}
-                      />
+                      <StaggerItem key={post.id}>
+                        <BlogCard
+                          title={post.tittle}
+                          excerpt={post.meta_discribtion}
+                          date={new Date(post.created_at).toLocaleDateString(
+                            "en-GB",
+                            { day: "2-digit", month: "short", year: "numeric" },
+                          )}
+                          image={getImageUrl(post.images)}
+                          href={`/blog/${post.slug}`}
+                        />
+                      </StaggerItem>
                     ))}
-                  </div>
+                  </StaggerContainer>
 
                   {/* Show More Button */}
                   {currentPage < lastPage && (

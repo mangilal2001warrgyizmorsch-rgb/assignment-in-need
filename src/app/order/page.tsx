@@ -2,6 +2,8 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import { toast } from "react-hot-toast";
+import { motion } from "framer-motion";
 import {
   Star,
   Users,
@@ -21,6 +23,9 @@ import {
   Clock,
   Award,
   ChevronDown,
+  Loader2,
+  Mail,
+  Phone,
 } from "lucide-react";
 
 import { Heading } from "@/components/ui/Heading";
@@ -32,6 +37,7 @@ import { Card } from "@/components/ui/Card";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { SUBJECTS } from "@/lib/data";
 import { getBaseUrl } from "@/lib/api";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 const ACADEMIC_LEVELS = [
   { label: "Undergraduate", value: "undergraduate" },
@@ -164,7 +170,7 @@ export default function OrderPage() {
 
   // Step 3: Delivery Details
   const [selectedDeadline, setSelectedDeadline] = useState("3d");
-  const [selectedWordCount, setSelectedWordCount] = useState("2500");
+  const [selectedWordCount, setSelectedWordCount] = useState("250");
 
   // Step 4: Instructions
   const [instructions, setInstructions] = useState("");
@@ -280,52 +286,184 @@ export default function OrderPage() {
     return match ? match.label : "3 Days";
   }, [selectedDeadline]);
 
-  const handleOrderSubmit = (e: React.FormEvent) => {
+  const urgencyValue = useMemo(() => {
+    if (selectedDeadline === "12h" || selectedDeadline === "24h") {
+      return "1";
+    }
+    return selectedDeadline.replace("d", "");
+  }, [selectedDeadline]);
+
+  const activeSubjectLabel = useMemo(() => {
+    const match = subjectOptions.find((s) => s.value === selectedSubject);
+    return match ? match.label : selectedSubject || "Academic Subject";
+  }, [selectedSubject, subjectOptions]);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [orderId, setOrderId] = useState("");
+
+  const getCountryName = (code: string) => {
+    switch (code) {
+      case "+44": return "United Kingdom";
+      case "+1": return "United States";
+      case "+61": return "Australia";
+      case "+1-CA": return "Canada";
+      case "+64": return "New Zealand";
+      default: return "United Kingdom";
+    }
+  };
+
+  const handleOrderSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSuccess(true);
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const cleanCountryCode = countryCode.replace("-CA", "");
+      const payload = {
+        name: fullName,
+        email: email,
+        countrycode: cleanCountryCode,
+        phone: phoneNumber,
+        service: activeServiceLabel,
+        workType: selectedWorkType === "writing" ? "Writing" : selectedWorkType === "editing" ? "Editing" : "Rewriting",
+        country: getCountryName(countryCode),
+        subject: activeSubjectLabel,
+        urgency: urgencyValue,
+        wordCount: parseInt(selectedWordCount, 10) || 250,
+        pages: pagesCount || 1,
+        topic: "Academic Assignment Help",
+        requirements: instructions || "No requirements specified.",
+        finalPrice: total,
+        source_page: typeof window !== "undefined" ? window.location.href : "https://assignmentinneed.com/order"
+      };
+
+      const response = await fetch("/api/web-place-order", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setOrderId(data.order_id || "");
+        toast.success(data.message || "Order placed successfully!");
+        if (typeof window !== "undefined") {
+          window.scrollTo(0, 0);
+        }
+        setIsSuccess(true);
+      } else {
+        let errMsg = data.message || "Failed to place order. Please try again.";
+        if (data.errors && typeof data.errors === "object") {
+          const details = Object.values(data.errors).flat().join(" ");
+          if (details) {
+            errMsg = `${errMsg} Details: ${details}`;
+          }
+        }
+        setSubmitError(errMsg);
+        toast.error(errMsg);
+      }
+    } catch (err) {
+      console.error("Order submission failed:", err);
+      const errMsg = "Network error. Please check your internet connection.";
+      setSubmitError(errMsg);
+      toast.error(errMsg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSuccess) {
     return (
-      <div className="bg-[#fbfcff] min-h-screen py-8 flex items-center justify-center">
-        <SectionContainer className="max-w-xl text-center">
-          <Card className="p-8 md:p-12 flex flex-col items-center justify-center gap-6 shadow-xl border border-primary-100">
-            <div className="w-20 h-20 rounded-full bg-success/15 flex items-center justify-center text-success animate-bounce">
-              <CheckCircle2 className="w-12 h-12" />
-            </div>
-            <Heading
-              level={2}
-              className="text-2xl md:text-3xl text-text-heading"
-            >
-              Order Placed Successfully!
-            </Heading>
-            <Text className="text-text-body text-base max-w-sm">
-              Thank you,{" "}
-              <span className="font-bold text-primary-700">
-                {fullName || "Student"}
-              </span>
-              . Your academic order is registered. Our coordinator will email
-              you at{" "}
-              <span className="font-semibold text-primary-700">
-                {email || "your address"}
-              </span>{" "}
-              to assign your PhD subject specialist.
-            </Text>
-            <div className="flex gap-4 w-full mt-4">
-              <Link href="/" className="w-full">
-                <Button variant="blueClose" className="w-full">
-                  Return Home
-                </Button>
-              </Link>
-              <Button
-                variant="orangeOpen"
-                className="w-full"
-                onClick={() => setIsSuccess(false)}
+      <div className="bg-[#fbfcff] min-h-screen py-12 flex items-center justify-center">
+        <SectionContainer className="max-w-xl text-center px-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            <Card className="p-8 md:p-12 flex flex-col items-center justify-center gap-6 shadow-2xl border border-emerald-100 rounded-3xl bg-white relative overflow-hidden">
+              {/* Confetti-style background accent */}
+              <div className="absolute -top-10 -left-10 w-32 h-32 bg-emerald-50 rounded-full blur-2xl opacity-70 pointer-events-none" />
+              <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-purple-50 rounded-full blur-2xl opacity-70 pointer-events-none" />
+
+              {/* Bouncing Success Checkmark */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 15 }}
+                className="w-20 h-20 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-inner"
               >
-                New Order
-              </Button>
-            </div>
-          </Card>
+                <CheckCircle2 className="w-12 h-12" />
+              </motion.div>
+
+              {/* Animated Text Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.4 }}
+                className="flex flex-col gap-3"
+              >
+                <Heading
+                  level={2}
+                  className="text-2xl md:text-3xl text-gray-900 font-extrabold"
+                >
+                  Order Placed Successfully!
+                </Heading>
+                <Text className="text-gray-600 text-sm md:text-base max-w-sm mx-auto leading-relaxed">
+                  Thank you,{" "}
+                  <span className="font-extrabold text-[#3f159a]">
+                    {fullName || "Student"}
+                  </span>
+                  . Your academic order is registered. Our coordinator will email
+                  you at{" "}
+                  <span className="font-bold text-[#3f159a]">
+                    {email || "your address"}
+                  </span>{" "}
+                  to assign your PhD subject specialist.
+                </Text>
+              </motion.div>
+
+              {/* Animated Order ID Badge */}
+              {orderId && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.6, duration: 0.3 }}
+                  className="bg-emerald-50/75 text-emerald-800 border border-emerald-100/50 px-5 py-3 rounded-2xl font-black text-sm select-all tracking-wider shadow-sm"
+                >
+                  Order ID: <span className="font-extrabold text-emerald-600 font-mono">{orderId}</span>
+                </motion.div>
+              )}
+
+              {/* Animated Action Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.3 }}
+                className="flex gap-4 w-full mt-4"
+              >
+                <Link href="/" className="w-full">
+                  <Button variant="blueClose" className="w-full h-11 rounded-xl font-bold shadow-sm">
+                    Return Home
+                  </Button>
+                </Link>
+                <Button
+                  variant="orangeOpen"
+                  className="w-full h-11 rounded-xl font-bold shadow-sm"
+                  onClick={() => {
+                    setIsSuccess(false);
+                    setOrderId("");
+                  }}
+                >
+                  New Order
+                </Button>
+              </motion.div>
+            </Card>
+          </motion.div>
         </SectionContainer>
       </div>
     );
@@ -348,7 +486,7 @@ export default function OrderPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
           {/* Left Column Text Info */}
-          <div className="lg:col-span-7 flex flex-col gap-5 text-left">
+          <AnimateIn variant="fadeUp" className="lg:col-span-7 flex flex-col gap-5 text-left">
             <h1 className="text-[36px] md:text-[44px] font-black text-gray-950 leading-tight">
               Need Assignment Help?
             </h1>
@@ -418,10 +556,10 @@ export default function OrderPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </AnimateIn>
 
           {/* Right Column Graphic */}
-          <div className="lg:col-span-5 flex justify-center items-center relative">
+          <AnimateIn variant="scaleUp" delay={0.15} className="lg:col-span-5 flex justify-center items-center relative">
             <div className="relative w-full max-w-[340px] aspect-square">
               <img
                 src="/order-page/order-hero.png"
@@ -444,18 +582,17 @@ export default function OrderPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </AnimateIn>
         </div>
       </section>
-
-      {/* 2. Order Form Main Section */}
+{/* 2. Order Form Main Section */}
       <SectionContainer className="!py-10 !pb-2">
         <form
           onSubmit={handleOrderSubmit}
           className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
         >
           {/* LEFT COLUMN: Input details (65%) */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
+          <AnimateIn variant="fadeUp" className="lg:col-span-8 flex flex-col gap-6">
             <Card className="p-6 md:p-8 flex flex-col gap-8 text-left shadow-[0_10px_40px_rgba(0,0,0,0.02)] bg-white border border-gray-150/70 rounded-3xl">
               <div className="flex items-center gap-2.5 border-b border-gray-100 pb-4">
                 <FileText className="w-6 h-6 text-[#3f159a]" />
@@ -463,17 +600,17 @@ export default function OrderPage() {
                   level={2}
                   className="text-[18px] md:text-[20px] font-extrabold text-gray-900"
                 >
-                  Submit Your Assignment
+                  Order Form
                 </Heading>
               </div>
 
-              {/* STEP 1: Personal Info */}
+              {/* STEP 1: Contact Information */}
               <div className="flex flex-col gap-5">
                 <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
                   <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">
                     1
                   </span>
-                  Personal Information
+                  Contact Information
                 </span>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -488,66 +625,67 @@ export default function OrderPage() {
                       </div>
                       <input
                         type="text"
-                        placeholder="Enter your full name"
-                        className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
-                        value={fullName}
-                        onChange={handleFullNameChange}
                         required
+                        value={fullName}
+                        onChange={(e) =>
+                          setFullName(
+                            e.target.value.replace(/[^a-zA-Z\s]/g, ""),
+                          )
+                        }
+                        placeholder="Rahul Sharma"
+                        className="w-full text-[14px] text-gray-800 font-medium h-[46px] pl-10 pr-4 bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600 transition-colors shadow-sm"
                       />
                     </div>
                   </div>
 
-                  {/* Email Address */}
+                  {/* Email */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
                     <label className="text-[13px] font-bold text-gray-700">
                       Email Address <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
-                        <FileText className="w-[18px] h-[18px] text-gray-400" />
+                        <Mail className="w-[18px] h-[18px] text-gray-400" />
                       </div>
                       <input
                         type="email"
-                        placeholder="Enter your email address"
-                        className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
-                        value={email}
-                        onChange={handleEmailChange}
                         required
+                        value={email}
+                        onChange={(e) =>
+                          setEmail(
+                            e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, ""),
+                          )
+                        }
+                        placeholder="rahuldev5277@gmail.com"
+                        className="w-full text-[14px] text-gray-800 font-medium h-[46px] pl-10 pr-4 bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600 transition-colors shadow-sm"
                       />
                     </div>
                   </div>
 
-                  {/* Phone Number */}
+                  {/* Phone */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
                     <label className="text-[13px] font-bold text-gray-700">
                       Phone Number <span className="text-red-500">*</span>
                     </label>
-                    <div className="flex border border-gray-200 bg-white rounded-xl overflow-hidden focus-within:border-purple-600 transition-colors shadow-sm h-[46px]">
-                      {/* Country Selector Dropdown */}
-                      <div className="relative flex items-center bg-gray-50/50 border-r border-gray-200 shrink-0">
-                        <select
-                          className="pl-3 pr-8 h-full bg-transparent text-[14px] font-bold text-gray-800 focus:outline-none appearance-none cursor-pointer"
+                    <div className="flex gap-2">
+                      <div className="relative w-[100px] shrink-0 border border-gray-200 bg-white rounded-xl pl-9 pr-2 flex items-center h-[46px]">
+                        <Phone className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400" />
+                        <CustomDropdown
+                          options={COUNTRY_CODES}
                           value={countryCode}
-                          onChange={(e) => setCountryCode(e.target.value)}
-                        >
-                          {COUNTRY_CODES.map((c) => (
-                            <option key={c.value} value={c.value}>
-                              {c.label}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="absolute right-2.5 pointer-events-none text-gray-400">
-                          <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
-                        </div>
+                          onChange={setCountryCode}
+                          align="left"
+                        />
                       </div>
-                      {/* Input number */}
                       <input
                         type="tel"
-                        placeholder="Enter phone number"
-                        className="flex-1 pl-4 pr-4 h-full bg-transparent text-[14px] text-gray-800 focus:outline-none font-medium"
-                        value={phoneNumber}
-                        onChange={handlePhoneChange}
                         required
+                        value={phoneNumber}
+                        onChange={(e) =>
+                          setPhoneNumber(e.target.value.replace(/[^0-9]/g, ""))
+                        }
+                        placeholder="9876543210"
+                        className="w-full text-[14px] text-gray-800 font-medium h-[46px] px-4 bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600 transition-colors shadow-sm"
                       />
                     </div>
                   </div>
@@ -636,6 +774,26 @@ export default function OrderPage() {
                 </span>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Academic Level Dropdown */}
+                  <div className="flex flex-col gap-1.5 w-full text-left">
+                    <label className="text-[13px] font-bold text-gray-700">
+                      Academic Level <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 z-10">
+                        <Award className="w-[18px] h-[18px] text-gray-400" />
+                      </div>
+                      <CustomDropdown
+                        options={ACADEMIC_LEVELS}
+                        value={academicLevel}
+                        onChange={setAcademicLevel}
+                        placeholder="Select Academic Level"
+                        triggerClassName="!text-[14px] !text-gray-800 !font-medium !h-[46px] pl-10 pr-4 bg-white !border !border-solid !border-gray-200 rounded-xl focus:border-purple-600 focus-within:border-purple-600 transition-colors shadow-sm flex items-center justify-between"
+                        dropdownClassName="!text-[14px] shadow-lg rounded-xl border border-gray-150"
+                      />
+                    </div>
+                  </div>
+
                   {/* Deadline Dropdown */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
                     <label className="text-[13px] font-bold text-gray-700">
@@ -677,48 +835,6 @@ export default function OrderPage() {
                       />
                     </div>
                   </div>
-
-                  {/* Calculated Pages */}
-                  <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">
-                      Pages
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
-                        <BookOpen className="w-[18px] h-[18px] text-gray-400" />
-                      </div>
-                      <input
-                        type="text"
-                        disabled
-                        className="w-full pl-10 pr-4 h-[46px] border border-gray-200 bg-gray-50/50 rounded-xl text-[14px] text-gray-500 font-bold select-none cursor-not-allowed"
-                        value={pagesCount > 0 ? `${pagesCount}` : "-"}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Academic Level */}
-                <div className="flex flex-col gap-2.5 mt-2">
-                  <span className="text-xs font-bold text-gray-700">
-                    Academic Level:
-                  </span>
-                  <div className="flex flex-wrap gap-2.5">
-                    {ACADEMIC_LEVELS.map((lvl) => (
-                      <button
-                        key={lvl.value}
-                        type="button"
-                        onClick={() => setAcademicLevel(lvl.value)}
-                        className={cn(
-                          "px-4 py-2 rounded-xl text-xs font-bold transition-all border",
-                          academicLevel === lvl.value
-                            ? "bg-[#3f159a] border-[#3f159a] text-white shadow-sm"
-                            : "bg-white border-gray-200 hover:bg-gray-50 text-gray-600",
-                        )}
-                      >
-                        {lvl.label}
-                      </button>
-                    ))}
-                  </div>
                 </div>
               </div>
 
@@ -738,65 +854,6 @@ export default function OrderPage() {
                   onChange={(e) => setInstructions(e.target.value)}
                 />
               </div>
-
-              {/* STEP 5: Upload Files */}
-              {/* <div className="flex flex-col gap-5 border-t border-gray-100 pt-6">
-                <span className="text-sm font-extrabold text-[#3f159a] flex items-center gap-2">
-                  <span className="w-5.5 h-5.5 rounded-full bg-[#3f159a] text-white flex items-center justify-center text-xs font-bold">5</span>
-                  Upload Files (Optional)
-                </span>
-                
-                <div className="relative border-2 border-dashed border-purple-200 hover:border-purple-400 bg-purple-50/5 rounded-2xl p-6 transition-all flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <input 
-                    type="file" 
-                    id="file-upload" 
-                    multiple 
-                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full z-10"
-                    onChange={handleFileChange}
-                  />
-                  <div className="flex items-center gap-4 text-left">
-                    <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
-                      <FileUp className="w-6 h-6 text-purple-600" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-extrabold text-purple-800">Drag & Drop your files here</span>
-                      <span className="text-xs text-gray-400 font-semibold mt-0.5">or click to browse local folders (Max file size: 20MB)</span>
-                    </div>
-                  </div>
-                  <Button 
-                    type="button"
-                    variant="blueOpen"
-                    size="sm"
-                    className="relative z-20 shrink-0"
-                  >
-                    Choose Files
-                  </Button>
-                </div>
-
-                {attachedFiles.length > 0 && (
-                  <div className="flex flex-col gap-2 mt-2 text-left">
-                    <span className="text-xs font-bold text-gray-900">Attached Files ({attachedFiles.length}):</span>
-                    <div className="flex flex-col gap-1.5">
-                      {attachedFiles.map((filename, index) => (
-                        <div key={index} className="flex items-center justify-between bg-purple-50/20 p-2.5 rounded-lg border border-purple-100/30 text-xs text-gray-800 font-medium">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <FileUp className="w-4 h-4 text-purple-500 shrink-0" />
-                            <span className="truncate">{filename}</span>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => removeFile(index)}
-                            className="text-red-500 hover:text-red-700 transition-colors p-1"
-                            aria-label={`Remove file ${filename}`}
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div> */}
             </Card>
 
             {/* Bottom Benefits Strips */}
@@ -840,10 +897,10 @@ export default function OrderPage() {
                 ))}
               </div>
             </div>
-          </div>
+          </AnimateIn>
 
           {/* RIGHT COLUMN: Sidebar dynamic values (35%) */}
-          <div className="lg:col-span-4 flex flex-col gap-6 sticky top-24">
+          <AnimateIn variant="fadeUp" delay={0.15} className="lg:col-span-4 flex flex-col gap-6 sticky top-24">
             {/* 1. Order Summary Card */}
             <Card className="p-6 shadow-[0_10px_40px_rgba(0,0,0,0.02)] text-left flex flex-col gap-5 bg-white border border-gray-150/70 rounded-3xl">
               <div className="flex items-center gap-2 border-b border-gray-100 pb-3">
@@ -904,6 +961,13 @@ export default function OrderPage() {
                 </span>
               </div>
 
+              {/* Submit Error */}
+              {submitError && (
+                <div className="bg-red-50 text-red-700 text-xs px-3.5 py-2.5 rounded-xl border border-red-100 font-semibold text-center mt-2">
+                  {submitError}
+                </div>
+              )}
+
               {/* Submit CTA button */}
               <Button
                 type="submit"
@@ -911,9 +975,10 @@ export default function OrderPage() {
                 size="lg"
                 fullWidth
                 className="mt-2"
-                icon={<ArrowRight className="w-5 h-5" />}
+                disabled={isSubmitting}
+                icon={isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <ArrowRight className="w-5 h-5" />}
               >
-                Continue to Order
+                {isSubmitting ? "Placing Order..." : "Continue to Order"}
               </Button>
 
               {/* Payment Safe Safeguard */}
@@ -950,7 +1015,7 @@ export default function OrderPage() {
                 </Button>
               </Link>
             </div>
-          </div>
+          </AnimateIn>
         </form>
       </SectionContainer>
     </div>

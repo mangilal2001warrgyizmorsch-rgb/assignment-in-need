@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import {
   ChevronDown,
   ChevronRight,
@@ -403,6 +404,7 @@ export const Navbar = () => {
     setIsLoggedIn(false);
     setUserProfile(null);
     setIsAccountOpen(false);
+    toast.success("Logged out successfully!");
     router.push("/login");
   };
 

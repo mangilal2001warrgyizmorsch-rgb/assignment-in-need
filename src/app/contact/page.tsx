@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { CustomDropdown } from "@/components/ui/CustomDropdown";
+import { toast } from "react-hot-toast";
 
 const COUNTRY_CODES = [
   { label: "UK (+44)", value: "+44" },
@@ -26,6 +27,7 @@ import {
   CheckCircle2,
   ChevronRight,
 } from "lucide-react";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export default function ContactPage() {
   const [name, setName] = useState("");
@@ -84,20 +86,29 @@ export default function ContactPage() {
 
   // Regex validations matching Laravel filters
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value.replace(/[^a-zA-Z\s]/g, "");
-    setName(val);
-    if (errors.name) setErrors((prev) => ({ ...prev, name: "" }));
+    setName(e.target.value);
+    if (errors.name) {
+      setErrors((prev) => {
+        const copy = { ...prev };
+        delete copy.name;
+        return copy;
+      });
+    }
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, "");
-    setEmail(val);
-    if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+    setEmail(e.target.value);
+    if (errors.email) {
+      setErrors((prev) => {
+        const copy = { ...prev };
+        delete copy.email;
+        return copy;
+      });
+    }
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value.replace(/[^0-9]/g, "");
-    setPhone(val);
+    setPhone(e.target.value);
   };
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -108,10 +119,10 @@ export default function ContactPage() {
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    if (!name.trim()) newErrors.name = "Full Name is required";
+    if (!name.trim()) newErrors.name = "Full name is required";
 
     if (!email.trim()) {
-      newErrors.email = "Email Address is required";
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       newErrors.email = "Invalid email format";
     }
@@ -126,13 +137,17 @@ export default function ContactPage() {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validate()) {
+      toast.error("Please fill in all required fields correctly.");
+      return;
+    }
 
     setIsSubmitting(true);
     // Simulate contact form submission
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
+      toast.success("Message sent successfully! We will contact you soon.");
     }, 1200);
   };
 
@@ -162,7 +177,7 @@ export default function ContactPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-6">
             {/* Left Column: Intro + Contact Methods */}
-            <div className="lg:col-span-6 flex flex-col gap-6 text-left w-full">
+            <AnimateIn variant="fadeUp" className="lg:col-span-6 flex flex-col gap-6 text-left w-full">
               {/* Badge */}
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-100 text-[#3f159a] text-[10px] font-extrabold uppercase tracking-widest w-fit mb-1">
                 💬 Get In Touch
@@ -371,10 +386,10 @@ export default function ContactPage() {
                   ))}
                 </div>
               </div>
-            </div>
+            </AnimateIn>
 
             {/* Right Column: Enquiry Form Card */}
-            <div className="lg:col-span-6 flex justify-center lg:justify-end items-start w-full">
+            <AnimateIn variant="fadeUp" delay={0.2} className="lg:col-span-6 flex justify-center lg:justify-end items-start w-full">
               {isSubmitted ? (
                 <div className="w-full max-w-[620px] p-8 md:p-10 rounded-[24px] border border-gray-150 bg-white shadow-[0_12px_42px_rgba(0,0,0,0.06)] text-center flex flex-col items-center justify-center gap-5 min-h-[450px]">
                   <div className="w-16 h-16 rounded-full bg-[#e6fbf0] text-[#22c55e] flex items-center justify-center border border-green-50 shadow-sm mb-2 animate-bounce">
@@ -578,7 +593,7 @@ export default function ContactPage() {
                   </form>
                 </div>
               )}
-            </div>
+            </AnimateIn>
           </div>
         </div>
       </section>

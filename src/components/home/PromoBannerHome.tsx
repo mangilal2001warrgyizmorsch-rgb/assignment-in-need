@@ -1,11 +1,10 @@
-"use client";
-
 import React from "react";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 export default function PromoBannerHome() {
   return (
     <section className="py-6 px-4 md:py-8 md:px-6 bg-white font-sans flex justify-center overflow-hidden">
-      <div className="max-w-[1200px] w-full">
+      <AnimateIn variant="scaleUp" className="max-w-[1200px] w-full">
         {/* Outer Banner Card with precise gradient matching the reference image */}
         <div className="bg-gradient-to-r from-[#0b053f] via-[#1b0b5d] to-[#401269] rounded-2xl p-5 md:p-6 lg:p-7 flex flex-col lg:flex-row justify-between items-center text-center lg:text-left shadow-lg relative overflow-hidden gap-6 lg:gap-4 border border-purple-500/10">
           
@@ -48,7 +47,7 @@ export default function PromoBannerHome() {
             </div>
 
             {/* Grid layout on mobile, horizontal row layout on desktop */}
-            <div className="grid grid-cols-3 sm:grid-cols-4 lg:flex lg:flex-row gap-2 md:gap-2.5 w-full justify-between">
+            <StaggerContainer className="grid grid-cols-3 sm:grid-cols-4 lg:flex lg:flex-row gap-2 md:gap-2.5 w-full justify-between">
               {[
                 {
                   title: "Plagiarism Report",
@@ -108,23 +107,24 @@ export default function PromoBannerHome() {
                   )
                 }
               ].map((item, idx) => (
-                <div 
-                  key={idx} 
-                  className="bg-white rounded-xl p-2.5 flex flex-col items-center justify-center gap-1.5 flex-1 min-w-[95px] h-[105px] lg:min-w-[105px] lg:h-[112px] text-center shadow-md transition-transform duration-200 hover:-translate-y-1 select-none border border-purple-50/10"
-                >
-                  <div className="w-[32px] h-[32px] flex items-center justify-center shrink-0">
-                    {item.svg}
+                <StaggerItem key={idx} className="flex-1 min-w-[95px] lg:min-w-[105px]">
+                  <div 
+                    className="bg-white rounded-xl p-2.5 flex flex-col items-center justify-center gap-1.5 w-full h-[105px] lg:h-[112px] text-center shadow-md transition-transform duration-200 hover:-translate-y-1 select-none border border-purple-50/10"
+                  >
+                    <div className="w-[32px] h-[32px] flex items-center justify-center shrink-0">
+                      {item.svg}
+                    </div>
+                    <span className="text-[9px] lg:text-[10px] font-bold text-gray-800 leading-tight whitespace-normal">
+                      {item.title}
+                    </span>
                   </div>
-                  <span className="text-[9px] lg:text-[10px] font-bold text-gray-800 leading-tight whitespace-normal">
-                    {item.title}
-                  </span>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
 
         </div>
-      </div>
+      </AnimateIn>
     </section>
   );
 }

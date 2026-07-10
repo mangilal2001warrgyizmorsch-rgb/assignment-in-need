@@ -33,6 +33,7 @@ import {
   Headset,
   Heart,
 } from "lucide-react";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 const fallbackWhyItems = [
   {
@@ -397,7 +398,7 @@ export default function ServiceLanding() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative min-h-[500px] lg:min-h-[545px] min-w-[200px]">
             {/* Left Content Column */}
-            <div className="lg:col-span-8 flex flex-col justify-start items-start text-left z-20 pb-4 lg:pb-0 order-1 relative pt-2">
+            <AnimateIn variant="fadeUp" className="lg:col-span-8 flex flex-col justify-start items-start text-left z-20 pb-4 lg:pb-0 order-1 relative pt-2">
               <div className="max-w-full lg:max-w-[560px] xl:max-w-[600px] w-full flex flex-col items-start relative z-20">
                 {/* Title */}
                 <h1
@@ -448,7 +449,7 @@ export default function ServiceLanding() {
                       <span className="font-extrabold text-[#0f1b3d] text-[10px] leading-tight">
                         24/7
                       </span>
-                      <span className="text-[7px] text-gray-500 font-bold uppercase tracking-wider">
+                      <span className="text-[7px] text-gray-550 font-bold uppercase tracking-wider">
                         Live Support
                       </span>
                     </div>
@@ -569,7 +570,7 @@ export default function ServiceLanding() {
                 />
               </div>
               {/* Floating Headset Live Support Badge */}
-              <div className="absolute bottom-[40px] right-[-60px] bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-3.5 flex items-center gap-2.5 border border-gray-100 pointer-events-auto z-30 hidden lg:flex">
+              <div className="absolute bottom-[40px] right-[-60px] bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-3.5 flex items-center gap-2.5 border border-gray-150 pointer-events-auto z-30 hidden lg:flex">
                 <div className="w-8 h-8 rounded-full bg-[#fff2ea] flex items-center justify-center shrink-0">
                   <svg
                     className="w-4 h-4 text-[#ea580c]"
@@ -589,15 +590,17 @@ export default function ServiceLanding() {
                   <span className="font-extrabold text-[#0f1b3d] text-[11px] leading-tight">
                     24/7
                   </span>
-                  <span className="text-[8px] text-gray-550 font-bold uppercase tracking-wider">
+                  <span className="text-[8px] text-gray-500 font-bold uppercase tracking-wider">
                     Live Support
                   </span>
                 </div>
               </div>
-            </div>
+            </AnimateIn>
 
             {/* Right Form Card Column */}
-            <div
+            <AnimateIn
+              variant="fadeUp"
+              delay={0.2}
               className="lg:col-span-4 flex justify-center lg:justify-end items-center z-20 pt-4 order-3"
               id="quote-form"
             >
@@ -607,7 +610,7 @@ export default function ServiceLanding() {
                 title="Get Instant Quote"
                 className="w-[390px] max-w-full shadow-[0_20px_40px_rgba(0,0,0,0.08)]"
               />
-            </div>
+            </AnimateIn>
           </div>
         </div>
       </section>

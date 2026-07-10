@@ -1,7 +1,6 @@
-"use client";
-
 import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 export default function ExploreSubjects() {
   const trackWrapperRef = useRef<HTMLDivElement>(null);
@@ -72,14 +71,14 @@ export default function ExploreSubjects() {
     <section className="py-8 px-4 md:py-8 md:px-4 bg-[#faf5ff] font-sans border-t border-b border-[#f3e8ff]/50">
       <div className="max-w-[1200px] mx-auto">
         <div className="flex justify-between items-end mb-5 px-4 md:px-4 text-center md:text-left flex-col md:flex-row gap-2 md:gap-0">
-          <div className="w-full md:w-auto">
+          <AnimateIn variant="fadeUp" className="w-full md:w-auto">
             <h2 className="text-2xl md:text-[1.8rem] font-extrabold text-[#1e1b4b] m-0 mb-2">
               Explore Subjects
             </h2>
             <p className="text-[0.95rem] text-gray-600 m-0 font-medium">
               Expert help in 150+ subjects
             </p>
-          </div>
+          </AnimateIn>
           <a
             href="/services"
             className="hidden md:flex text-[0.95rem] font-bold text-[#4f46e5] hover:text-[#3730a3] items-center gap-2 transition-colors duration-300"
@@ -109,7 +108,7 @@ export default function ExploreSubjects() {
             id="znhSubjectsTrackWrapper"
             ref={trackWrapperRef}
           >
-            <div className="flex gap-3 w-max px-2.5 max-md:grid max-md:grid-cols-3 max-md:gap-2 max-md:w-full max-md:p-0">
+            <StaggerContainer className="flex gap-3 w-max px-2.5 max-md:grid max-md:grid-cols-3 max-md:gap-2 max-md:w-full max-md:p-0">
               {subjectsList.length > 0 ? (
                 subjectsList.map((sub: any, i: number) => {
                   const cleanSlug = (sub.slug || "").replace(/^\/+/, "");
@@ -119,12 +118,42 @@ export default function ExploreSubjects() {
                   const color = SUBJECT_COLORS[i % SUBJECT_COLORS.length];
                   
                   return (
+                    <StaggerItem key={sub.id || i}>
+                      <a
+                        href={`/subjects/${finalSlug}`}
+                        className="bg-white rounded-lg p-[0.6rem_0.8rem] flex items-center gap-2.5 min-w-[180px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.75 hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)] border border-transparent hover:border-[#f3e8ff] max-md:min-w-0 max-md:p-3 max-md:flex-col max-md:justify-center max-md:items-center max-md:gap-2"
+                      >
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${color.bg} ${color.text} max-md:w-9 max-md:h-9 max-md:rounded-full`}>
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="w-[15px] h-[15px] max-md:w-[18px] max-md:h-[18px]"
+                          >
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                          </svg>
+                        </div>
+                        <div className="flex flex-col gap-1 max-md:items-center max-md:gap-[2px]">
+                          <p className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
+                            {name.split(" Help")[0].split(" Assignment")[0]}
+                          </p>
+                          <span className="text-[0.68rem] text-gray-500 font-medium max-md:text-[0.55rem] max-md:text-center">
+                            {((12500 - (i * 1250)) > 1000 ? (12500 - (i * 1250)) : 2200).toLocaleString()}+ Orders
+                          </span>
+                        </div>
+                      </a>
+                    </StaggerItem>
+                  );
+                })
+              ) : (
+                fallbackSubjects.map((sub: any, i: number) => (
+                  <StaggerItem key={i}>
                     <a
-                      key={sub.id || i}
-                      href={`/subjects/${finalSlug}`}
+                      href={`/subjects/${sub.slug}`}
                       className="bg-white rounded-lg p-[0.6rem_0.8rem] flex items-center gap-2.5 min-w-[180px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.75 hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)] border border-transparent hover:border-[#f3e8ff] max-md:min-w-0 max-md:p-3 max-md:flex-col max-md:justify-center max-md:items-center max-md:gap-2"
                     >
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${color.bg} ${color.text} max-md:w-9 max-md:h-9 max-md:rounded-full`}>
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${sub.bg} ${sub.text} max-md:w-9 max-md:h-9 max-md:rounded-full`}>
                         <svg
                           viewBox="0 0 24 24"
                           fill="none"
@@ -132,54 +161,26 @@ export default function ExploreSubjects() {
                           strokeWidth="2"
                           className="w-[15px] h-[15px] max-md:w-[18px] max-md:h-[18px]"
                         >
-                          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                          {sub.icon === "grid" && <rect x="3" y="3" width="7" height="7" />}
+                          {sub.icon === "grid" && <rect x="14" y="3" width="7" height="7" />}
+                          {sub.icon === "grid" && <rect x="14" y="14" width="7" height="7" />}
+                          {sub.icon === "grid" && <rect x="3" y="14" width="7" height="7" />}
+                          {sub.icon !== "grid" && <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />}
                         </svg>
                       </div>
                       <div className="flex flex-col gap-1 max-md:items-center max-md:gap-[2px]">
                         <p className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
-                          {name.split(" Help")[0].split(" Assignment")[0]}
+                          {sub.name}
                         </p>
                         <span className="text-[0.68rem] text-gray-500 font-medium max-md:text-[0.55rem] max-md:text-center">
-                          {((12500 - (i * 1250)) > 1000 ? (12500 - (i * 1250)) : 2200).toLocaleString()}+ Orders
+                          {sub.count} Orders
                         </span>
                       </div>
                     </a>
-                  );
-                })
-              ) : (
-                fallbackSubjects.map((sub: any, i: number) => (
-                  <a
-                    key={i}
-                    href={`/subjects/${sub.slug}`}
-                    className="bg-white rounded-lg p-[0.6rem_0.8rem] flex items-center gap-2.5 min-w-[180px] shadow-[0_4px_15px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-0.75 hover:shadow-[0_10px_25px_rgba(0,0,0,0.08)] border border-transparent hover:border-[#f3e8ff] max-md:min-w-0 max-md:p-3 max-md:flex-col max-md:justify-center max-md:items-center max-md:gap-2"
-                  >
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${sub.bg} ${sub.text} max-md:w-9 max-md:h-9 max-md:rounded-full`}>
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        className="w-[15px] h-[15px] max-md:w-[18px] max-md:h-[18px]"
-                      >
-                        {sub.icon === "grid" && <rect x="3" y="3" width="7" height="7" />}
-                        {sub.icon === "grid" && <rect x="14" y="3" width="7" height="7" />}
-                        {sub.icon === "grid" && <rect x="14" y="14" width="7" height="7" />}
-                        {sub.icon === "grid" && <rect x="3" y="14" width="7" height="7" />}
-                        {sub.icon !== "grid" && <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />}
-                      </svg>
-                    </div>
-                    <div className="flex flex-col gap-1 max-md:items-center max-md:gap-[2px]">
-                      <p className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
-                        {sub.name}
-                      </p>
-                      <span className="text-[0.68rem] text-gray-500 font-medium max-md:text-[0.55rem] max-md:text-center">
-                        {sub.count} Orders
-                      </span>
-                    </div>
-                  </a>
+                  </StaggerItem>
                 ))
               )}
-            </div>
+            </StaggerContainer>
           </div>
 
           <button

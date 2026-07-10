@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   CheckCircle2,
 } from "lucide-react";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 interface SampleDetailPageProps {
   params: Promise<{
@@ -183,7 +184,7 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Main Content Area */}
-          <div className="w-full lg:w-2/3 flex flex-col gap-6 text-left">
+          <AnimateIn variant="fadeUp" className="w-full lg:w-2/3 flex flex-col gap-6 text-left">
             <div>
               <span className="bg-purple-100 text-purple-700 text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wider">
                 {sample.type_name || "Assignment Sample"}
@@ -252,10 +253,10 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
                 </p>
               </div>
             </div>
-          </div>
+          </AnimateIn>
 
           {/* Right Sidebar Form & Widgets */}
-          <div className="w-full lg:w-1/3 flex flex-col gap-6 sticky top-6">
+          <AnimateIn variant="fadeUp" delay={0.15} className="w-full lg:w-1/3 flex flex-col gap-6 sticky top-6">
             {/* Quick Order Form */}
             <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-md text-left flex flex-col gap-5">
               <div>
@@ -411,7 +412,7 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
                 ))}
               </div>
             </div>
-          </div>
+          </AnimateIn>
         </div>
 
         {/* Dynamic Related Samples Section */}
@@ -424,54 +425,55 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
               Explore more verified samples from the same discipline
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {relatedSamples.map((rel) => {
                 const relWords = ((rel.id * 7) % 1500) + 1000;
                 const relPages = Math.ceil(relWords / 250);
                 const relDownloads = ((rel.id * 13) % 2000) + 1200;
 
                 return (
-                  <div
-                    key={rel.id}
-                    className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer text-left"
-                  >
-                    <div>
-                      <span className="inline-block bg-purple-50 text-purple-700 text-xs px-2.5 py-1 rounded-md font-bold mb-3">
-                        {rel.type_name || "Assignment"}
-                      </span>
-                      <h3 className="font-bold text-gray-900 text-base group-hover:text-purple-800 transition-colors mb-2 line-clamp-2">
-                        {rel.title}
-                      </h3>
-                      <p className="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-2">
-                        {rel.meta_description ||
-                          `High scoring free academic related outline on the subject of ${readableCategory}.`}
-                      </p>
-                    </div>
-                    <div className="border-t border-purple-50 pt-4 mt-auto">
-                      <div className="flex flex-wrap items-center gap-2 text-[9px] text-gray-400 font-medium mb-3">
-                        <span>
-                          Downloads: <strong>{relDownloads}</strong>
+                  <StaggerItem key={rel.id}>
+                    <div
+                      className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer text-left h-full"
+                    >
+                      <div>
+                        <span className="inline-block bg-purple-50 text-purple-700 text-xs px-2.5 py-1 rounded-md font-bold mb-3">
+                          {rel.type_name || "Assignment"}
                         </span>
-                        <span>•</span>
-                        <span>
-                          Words: <strong>{relWords}</strong>
-                        </span>
-                        <span>•</span>
-                        <span>
-                          Pages: <strong>{relPages}</strong>
-                        </span>
+                        <h3 className="font-bold text-gray-900 text-base group-hover:text-purple-800 transition-colors mb-2 line-clamp-2">
+                          {rel.title}
+                        </h3>
+                        <p className="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-2">
+                          {rel.meta_description ||
+                            `High scoring free academic related outline on the subject of ${readableCategory}.`}
+                        </p>
                       </div>
-                      <Link
-                        href={`/samples/${category}/${rel.slug}`}
-                        className="flex items-center justify-between font-bold text-[11px] text-purple-700 group-hover:text-purple-800 hover:underline"
-                      >
-                        View or Download &rarr;
-                      </Link>
+                      <div className="border-t border-purple-50 pt-4 mt-auto">
+                        <div className="flex flex-wrap items-center gap-2 text-[9px] text-gray-400 font-medium mb-3">
+                          <span>
+                            Downloads: <strong>{relDownloads}</strong>
+                          </span>
+                          <span>•</span>
+                          <span>
+                            Words: <strong>{relWords}</strong>
+                          </span>
+                          <span>•</span>
+                          <span>
+                            Pages: <strong>{relPages}</strong>
+                          </span>
+                        </div>
+                        <Link
+                          href={`/samples/${category}/${rel.slug}`}
+                          className="flex items-center justify-between font-bold text-[11px] text-purple-700 group-hover:text-purple-800 hover:underline"
+                        >
+                          View or Download &rarr;
+                        </Link>
+                      </div>
                     </div>
-                  </div>
+                  </StaggerItem>
                 );
               })}
-            </div>
+            </StaggerContainer>
           </section>
         )}
       </div>

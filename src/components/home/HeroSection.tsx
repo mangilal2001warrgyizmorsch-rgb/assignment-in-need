@@ -2,6 +2,7 @@
 
 import React, { useRef } from "react";
 import { QuoteForm } from "@/components/ui/QuoteForm";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export default function HeroSection() {
   const marqueeWrapperRef = useRef<HTMLDivElement>(null);
@@ -110,7 +111,7 @@ export default function HeroSection() {
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="flex flex-row items-center justify-between gap-8 max-lg:flex-col max-lg:items-center max-lg:gap-8">
             {/* Left Content Column */}
-            <div className="flex-1 max-w-[650px] z-[2] max-lg:w-full max-lg:max-w-full max-lg:text-center max-lg:flex-none max-md:text-left max-md:items-start">
+            <AnimateIn variant="fadeUp" className="flex-1 max-w-[650px] z-[2] max-lg:w-full max-lg:max-w-full max-lg:text-center max-lg:flex-none max-md:text-left max-md:items-start">
               <div className="inline-flex items-center gap-2.5 bg-transparent mb-3 text-[0.78rem] max-[480px]:text-[0.65rem] font-semibold text-gray-800 max-lg:justify-center max-md:justify-start max-md:flex-nowrap max-md:whitespace-nowrap">
                 <div className="flex bg-green-800 py-[3px] px-1.5 rounded gap-0.5 max-[480px]:py-[2px] max-[480px]:px-1">
                   {[...Array(5)].map((_, i) => (
@@ -223,10 +224,10 @@ export default function HeroSection() {
                   View Our Experts &rarr;
                 </a>
               </div>
-            </div>
+            </AnimateIn>
 
             {/* Middle Image Column */}
-            <div className="flex-1 flex justify-center relative z-[1] max-lg:order-2 max-lg:mt-8 max-lg:w-full max-lg:max-w-[450px] max-lg:flex-none">
+            <AnimateIn variant="scaleUp" delay={0.15} className="flex-1 flex justify-center relative z-[1] max-lg:order-2 max-lg:mt-8 max-lg:w-full max-lg:max-w-[450px] max-lg:flex-none">
               <div className="relative w-full max-w-[360px] min-h-[320px]">
                 <img
                   src="/new-home-page-images/New-Hero-Bg.webp"
@@ -308,18 +309,18 @@ export default function HeroSection() {
                   </div>
                 </div>
               </div>
-            </div>
+            </AnimateIn>
 
             {/* Right Form Column */}
-            <div className="flex-[0_0_350px] z-[2] max-lg:order-3 max-lg:mt-8 max-lg:w-full max-lg:max-w-[450px] max-lg:flex-none max-md:w-full max-md:flex-1 flex justify-center">
+            <AnimateIn variant="fadeUp" delay={0.3} className="flex-[0_0_350px] z-[2] max-lg:order-3 max-lg:mt-8 max-lg:w-full max-lg:max-w-[450px] max-lg:flex-none max-md:w-full max-md:flex-1 flex justify-center">
               <QuoteForm className="w-full" />
-            </div>
+            </AnimateIn>
           </div>
         </div>
       </section>
 
       {/* University Marquee */}
-      <div className="w-full flex justify-center relative mt-8 z-10 px-4">
+      <AnimateIn variant="fadeUp" delay={0.4} className="w-full flex justify-center relative mt-8 z-10 px-4">
         <div className="bg-white rounded-[30px] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] max-w-[1200px] w-full py-3 px-6 flex flex-col items-center overflow-hidden border border-white/50">
           <h2 className="text-[0.9rem] font-bold text-gray-900 m-0 mb-4 text-center">
             Trusted by Students from Top UK Universities
@@ -439,7 +440,7 @@ export default function HeroSection() {
             </button>
           </div>
         </div>
-      </div>
+      </AnimateIn>
     </>
   );
 }

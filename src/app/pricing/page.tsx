@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { CustomDropdown } from "@/components/ui/CustomDropdown";
+import { toast } from "react-hot-toast";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 const COUNTRY_CODES = [
   { label: "UK (+44)", value: "+44" },
@@ -138,12 +140,16 @@ export default function PricingPage() {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validate()) {
+      toast.error("Please fill in all required fields correctly.");
+      return;
+    }
 
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
+      toast.success("Quote request submitted successfully! We will contact you soon.");
     }, 1200);
   };
 
@@ -309,7 +315,7 @@ export default function PricingPage() {
         />
 
         {/* Hero Left Content */}
-        <div className="lg:w-1/2 pt-4 relative z-10 text-left">
+        <AnimateIn variant="fadeUp" className="lg:w-1/2 pt-4 relative z-10 text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wide mb-6">
             <FileText className="w-4 h-4 text-purple-700" />
             Get Instant Quote
@@ -351,10 +357,12 @@ export default function PricingPage() {
               className="w-full h-auto drop-shadow-2xl"
             />
           </div>
-        </div>
+        </AnimateIn>
 
         {/* Hero Right Column Quote Form */}
-        <div
+        <AnimateIn
+          variant="fadeUp"
+          delay={0.2}
           id="quote-form"
           className="lg:w-1/2 w-full relative z-10 flex justify-center lg:justify-end items-start"
         >
@@ -558,7 +566,7 @@ export default function PricingPage() {
               </form>
             </div>
           )}
-        </div>
+        </AnimateIn>
       </section>
 
       {/* What's Included Section */}

@@ -9,6 +9,7 @@ import {
   RefreshCw,
   HelpCircle,
 } from "lucide-react";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export default function TermsConditionsPage() {
   return (
@@ -18,27 +19,29 @@ export default function TermsConditionsPage() {
         {/* Soft background glow */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-[1000px] mx-auto px-6 text-left relative z-10">
-          {/* Breadcrumbs */}
-          <div className="flex items-center gap-1.5 text-[10px] font-bold text-purple-200 uppercase tracking-widest mb-4">
-            <Link href="/" className="hover:text-white transition-colors">
-              Home
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-white">Terms & Conditions</span>
-          </div>
+          <AnimateIn variant="fadeUp">
+            {/* Breadcrumbs */}
+            <div className="flex items-center gap-1.5 text-[10px] font-bold text-purple-200 uppercase tracking-widest mb-4">
+              <Link href="/" className="hover:text-white transition-colors">
+                Home
+              </Link>
+              <ChevronRight className="w-3.5 h-3.5" />
+              <span className="text-white">Terms & Conditions</span>
+            </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white mb-3">
-            Terms & Conditions
-          </h1>
-          <p className="text-xs md:text-sm text-purple-100 font-semibold max-w-xl">
-            Please read these terms and conditions carefully before using our
-            services.
-          </p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white mb-3">
+              Terms & Conditions
+            </h1>
+            <p className="text-xs md:text-sm text-purple-100 font-semibold max-w-xl">
+              Please read these terms and conditions carefully before using our
+              services.
+            </p>
+          </AnimateIn>
         </div>
       </section>
 
       {/* 2. Content Section */}
-      <main className="max-w-[1000px] mx-auto px-6 mt-8 md:mt-12">
+      <AnimateIn variant="fadeUp" delay={0.15} as="main" className="max-w-[1000px] mx-auto px-6 mt-8 md:mt-12 block">
         <div className="bg-white rounded-3xl border border-gray-150/70 shadow-[0_10px_40px_rgba(0,0,0,0.02)] p-6 md:p-10 flex flex-col gap-8 text-left">
           <section className="flex flex-col gap-3">
             <p className="text-sm md:text-[15px] leading-relaxed text-gray-600 font-medium">
@@ -381,7 +384,7 @@ export default function TermsConditionsPage() {
             </div>
           </section>
         </div>
-      </main>
+      </AnimateIn>
     </div>
   );
 }

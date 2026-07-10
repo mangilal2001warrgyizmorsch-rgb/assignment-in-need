@@ -201,7 +201,7 @@ export const Footer = () => {
       </div>
 
       <div className="w-full border-t border-white/10 py-6 px-8 text-center flex justify-center">
-        <p className="m-0 text-[#9ca3af] text-[0.85rem] max-w-[1400px] w-full">© 2024 Assignment In Need. All Rights Reserved.</p>
+        <p className="m-0 text-[#9ca3af] text-[0.85rem] max-w-[1400px] w-full">© 2026 Assignment In Need. All Rights Reserved.</p>
       </div>
     </footer>
   );

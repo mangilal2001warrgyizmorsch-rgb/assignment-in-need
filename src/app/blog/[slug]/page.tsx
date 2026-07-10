@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SUBJECTS } from "@/lib/data";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { getBaseUrl, getImageUrl } from "@/lib/api";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export const dynamic = "force-dynamic";
 
@@ -46,7 +47,7 @@ export default async function BlogDetailPage({ params }: Props) {
     <div className="bg-white">
       <SectionContainer>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 py-8">
-          <main className="lg:col-span-8">
+          <AnimateIn variant="fadeUp" className="lg:col-span-8">
             <h1 className="text-3xl md:text-4xl font-extrabold mb-4 text-text-heading">{post.tittle}</h1>
             <div className="text-sm text-text-muted mb-4 font-semibold">{dateFormatted} • by Admin</div>
             
@@ -60,9 +61,9 @@ export default async function BlogDetailPage({ params }: Props) {
                 dangerouslySetInnerHTML={{ __html: post.content }} 
               />
             </article>
-          </main>
+          </AnimateIn>
 
-          <aside className="lg:col-span-4">
+          <AnimateIn variant="fadeUp" delay={0.15} className="lg:col-span-4">
             <div className="space-y-6 lg:sticky lg:top-24">
               
               {/* WhatsApp Order Banner */}
@@ -87,7 +88,7 @@ export default async function BlogDetailPage({ params }: Props) {
               </div>
 
             </div>
-          </aside>
+          </AnimateIn>
         </div>
       </SectionContainer>
     </div>

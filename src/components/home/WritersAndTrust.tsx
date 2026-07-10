@@ -1,6 +1,5 @@
-"use client";
-
 import React from "react";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 interface Expert {
   name: string;
@@ -63,83 +62,85 @@ export const WritersAndTrust: React.FC = () => {
         className="md:py-16 md:px-8 py-8 px-6 bg-white max-w-[1400px] w-full mx-auto"
         id="experts"
       >
-        <div className="mb-10 text-center">
+        <AnimateIn variant="fadeUp" className="mb-10 text-center">
           <h2 className="text-3xl lg:text-[2rem] font-extrabold text-gray-900 m-0 mb-2">
             Our Academic Experts
           </h2>
           <p className="text-base text-gray-600 m-0">
             150+ Subject Experts | PhD & Master's Qualified
           </p>
-        </div>
+        </AnimateIn>
 
         {/* Desktop grid */}
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <StaggerContainer className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           {EXPERTS_DATA.map((expert, idx) => (
-            <div
-              key={idx}
-              className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(109,40,217,0.08)] hover:border-purple-200"
-            >
-              <img
-                src={expert.image}
-                alt={expert.name}
-                className="w-[90px] h-[90px] rounded-full object-cover mb-4 border-[3px] border-purple-50"
-              />
-              <div className="flex flex-col items-center">
-                <h3 className="text-[1.1rem] font-bold text-gray-900 m-0 mb-1">
-                  {expert.name}
-                </h3>
-                <span className="block text-[0.85rem] text-gray-500 mb-1 font-medium">
-                  {expert.subject}
-                </span>
-                <span className="block text-[0.8rem] text-[#7c3aed] font-semibold mb-2">
-                  {expert.experience}
-                </span>
-                <div className="inline-flex items-center gap-1 text-[0.8rem] text-gray-600 font-semibold">
-                  <span className="text-amber-500 text-[1rem]">★</span>
-                  <span>
-                    {expert.rating} ({expert.orders}+ Orders)
+            <StaggerItem key={idx}>
+              <div
+                className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(109,40,217,0.08)] hover:border-purple-200 h-full"
+              >
+                <img
+                  src={expert.image}
+                  alt={expert.name}
+                  className="w-[90px] h-[90px] rounded-full object-cover mb-4 border-[3px] border-purple-50"
+                />
+                <div className="flex flex-col items-center">
+                  <h3 className="text-[1.1rem] font-bold text-gray-900 m-0 mb-1">
+                    {expert.name}
+                  </h3>
+                  <span className="block text-[0.85rem] text-gray-500 mb-1 font-medium">
+                    {expert.subject}
                   </span>
+                  <span className="block text-[0.8rem] text-[#7c3aed] font-semibold mb-2">
+                    {expert.experience}
+                  </span>
+                  <div className="inline-flex items-center gap-1 text-[0.8rem] text-gray-600 font-semibold">
+                    <span className="text-amber-500 text-[1rem]">★</span>
+                    <span>
+                      {expert.rating} ({expert.orders}+ Orders)
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
         {/* Mobile vertical list */}
-        <div className="flex md:hidden flex-col gap-3 mb-6">
+        <StaggerContainer className="flex md:hidden flex-col gap-3 mb-6">
           {EXPERTS_DATA.map((expert, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-xl p-[1.2rem_1rem] flex items-center gap-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-[#f9fafb]"
-            >
-              <img
-                src={expert.image}
-                alt={expert.name}
-                className="w-[65px] h-[65px] rounded-full object-cover bg-gray-100"
-              />
-              <div className="flex flex-col flex-1 text-left">
-                <h3 className="text-[0.95rem] font-bold text-gray-900 m-0 mb-1">
-                  {expert.name}
-                </h3>
-                <span className="text-[0.75rem] text-gray-500 m-0 mb-1">
-                  {expert.subject}
-                </span>
-                <span className="text-[0.75rem] text-gray-600 font-semibold m-0 mb-1.5">
-                  {expert.experience}
-                </span>
-                <div className="flex items-center gap-1.5 text-[0.8rem] text-gray-600 font-semibold">
-                  <i className="text-amber-500 not-italic text-[1rem]">★</i>
-                  <span>
-                    {expert.rating} ({expert.orders}+ Orders)
+            <StaggerItem key={idx}>
+              <div
+                className="bg-white rounded-xl p-[1.2rem_1rem] flex items-center gap-4 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-[#f9fafb]"
+              >
+                <img
+                  src={expert.image}
+                  alt={expert.name}
+                  className="w-[65px] h-[65px] rounded-full object-cover bg-gray-100"
+                />
+                <div className="flex flex-col flex-1 text-left">
+                  <h3 className="text-[0.95rem] font-bold text-gray-900 m-0 mb-1">
+                    {expert.name}
+                  </h3>
+                  <span className="text-[0.75rem] text-gray-500 m-0 mb-1">
+                    {expert.subject}
                   </span>
+                  <span className="text-[0.75rem] text-gray-600 font-semibold m-0 mb-1.5">
+                    {expert.experience}
+                  </span>
+                  <div className="flex items-center gap-1.5 text-[0.8rem] text-gray-600 font-semibold">
+                    <i className="text-amber-500 not-italic text-[1rem]">★</i>
+                    <span>
+                      {expert.rating} ({expert.orders}+ Orders)
+                    </span>
+                  </div>
+                </div>
+                <div className="text-gray-300 text-2xl pl-2 font-bold">
+                  &rarr;
                 </div>
               </div>
-              <div className="text-gray-300 text-2xl pl-2 font-bold">
-                &rarr;
-              </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
         <div className="text-center">
           <a
@@ -153,37 +154,38 @@ export const WritersAndTrust: React.FC = () => {
 
       {/* 2. Why Students Choose Section */}
       <section className="py-16 px-8 bg-[#fafaff] border-t border-b border-gray-100 md:py-16 md:px-8 py-8 px-6">
-        <div className="mb-10 text-center md:text-left">
+        <AnimateIn variant="fadeUp" className="mb-10 text-center md:text-left">
           <h2 className="text-3xl lg:text-[2rem] font-extrabold text-gray-900 m-0 mb-4 text-center">
             Why Students Choose{" "}
             <span className="text-blue-500">Assignment In Need</span>
           </h2>
-        </div>
+        </AnimateIn>
 
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-[1.3fr_0.9fr] gap-16 items-center md:gap-10 gap-8">
+        <StaggerContainer className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-[1.3fr_0.9fr] gap-16 items-center md:gap-10 gap-8">
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-5 list-none p-0 m-0 md:gap-5 gap-3">
             {CHECKLIST_ITEMS.map((item, idx) => (
-              <li
-                key={idx}
-                className="flex items-center gap-3 text-[0.95rem] font-semibold text-gray-700 md:text-[0.95rem] text-[0.85rem]"
-              >
-                <span className="w-5 h-5 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    className="w-3 h-3"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </span>
-                <span>{item}</span>
-              </li>
+              <StaggerItem key={idx}>
+                <li
+                  className="flex items-center gap-3 text-[0.95rem] font-semibold text-gray-700 md:text-[0.95rem] text-[0.85rem]"
+                >
+                  <span className="w-5 h-5 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      className="w-3 h-3"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  <span>{item}</span>
+                </li>
+              </StaggerItem>
             ))}
           </ul>
 
-          <div className="flex justify-center w-full">
+          <StaggerItem className="flex justify-center w-full">
             <div className="bg-[#032b2f] text-white p-[1.5rem_2rem] rounded-xl flex flex-col items-center gap-2 shadow-[0_4px_15px_rgba(3,43,47,0.15)] w-full max-w-[320px] md:max-w-[320px] max-w-none">
               <div className="flex items-center gap-1.5">
                 <span className="text-[#00b67a] text-2xl">★</span>
@@ -205,8 +207,8 @@ export const WritersAndTrust: React.FC = () => {
                 Rated 4.9/5 | 25,000+ Reviews
               </span>
             </div>
-          </div>
-        </div>
+          </StaggerItem>
+        </StaggerContainer>
       </section>
     </div>
   );

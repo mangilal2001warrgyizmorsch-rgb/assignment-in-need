@@ -1,13 +1,12 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export default function CtaBanner() {
   return (
     <section className="py-8 px-4 md:py-12 md:px-6 bg-[#fafaff] font-sans flex justify-center overflow-hidden">
       {/* Outer Banner Card with responsive padding to accommodate absolute student image */}
-      <div className="relative w-full max-w-[1200px] bg-gradient-to-r from-[#241165] via-[#3a1a8c] to-[#e8523f] rounded-2xl flex flex-col lg:flex-row items-center justify-between p-6 md:p-[2rem_2rem_2rem_240px] lg:p-[2rem_3rem_2rem_360px] text-center lg:text-left gap-6 lg:gap-0 shadow-[0_10px_35px_rgba(0,0,0,0.06)] overflow-visible">
+      <AnimateIn variant="scaleUp" className="relative w-full max-w-[1200px] bg-gradient-to-r from-[#241165] via-[#3a1a8c] to-[#e8523f] rounded-2xl flex flex-col lg:flex-row items-center justify-between p-6 md:p-[2rem_2rem_2rem_240px] lg:p-[2rem_3rem_2rem_360px] text-center lg:text-left gap-6 lg:gap-0 shadow-[0_10px_35px_rgba(0,0,0,0.06)] overflow-visible">
         {/* Layered transparent circles for premium texture */}
         <div className="absolute top-0 right-0 bottom-0 w-[300px] overflow-hidden rounded-r-2xl pointer-events-none z-[1]">
           <div className="absolute w-[200px] h-[200px] top-[-80px] right-[-40px] rounded-full bg-white/5" />
@@ -187,7 +186,7 @@ export default function CtaBanner() {
             </span>
           </div>
         </div>
-      </div>
+      </AnimateIn>
     </section>
   );
 }

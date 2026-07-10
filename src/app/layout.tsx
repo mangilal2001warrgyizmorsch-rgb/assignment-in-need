@@ -3,6 +3,7 @@ import { Montserrat, Nunito, Roboto } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Script from "next/script";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 // import "./blog/blog.css";
 
@@ -66,6 +67,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <Navbar />
         <main className="flex-grow">{children}</main>
         <Footer />
+        <Toaster position="top-center" reverseOrder={false} />
       </body>
     </html>
   );

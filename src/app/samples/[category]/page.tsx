@@ -9,6 +9,7 @@ import {
   BookOpen,
   AlertCircle,
 } from "lucide-react";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 interface CategoryPageProps {
   params: Promise<{
@@ -191,71 +192,72 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {samples.map((sample) => {
                     const words = ((sample.id * 7) % 1500) + 1000;
                     const pages = Math.ceil(words / 250);
                     const downloads = ((sample.id * 13) % 2000) + 1200;
 
                     return (
-                      <div
-                        key={sample.id}
-                        className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer text-left"
-                      >
-                        <div>
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="inline-block bg-purple-50 text-purple-700 text-xs px-2.5 py-1 rounded-md font-bold">
-                              {sample.type_name || "Assignment"}
-                            </span>
-                            <span className="text-[10px] text-gray-400">
-                              ID: #{sample.id}
-                            </span>
+                      <StaggerItem key={sample.id}>
+                        <div
+                          className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer text-left h-full"
+                        >
+                          <div>
+                            <div className="flex items-center justify-between mb-3">
+                              <span className="inline-block bg-purple-50 text-purple-700 text-xs px-2.5 py-1 rounded-md font-bold">
+                                {sample.type_name || "Assignment"}
+                              </span>
+                              <span className="text-[10px] text-gray-400">
+                                ID: #{sample.id}
+                              </span>
+                            </div>
+
+                            <h3 className="font-bold text-gray-900 text-lg group-hover:text-purple-800 transition-colors mb-2 line-clamp-2">
+                              {sample.title}
+                            </h3>
+
+                            <p className="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-3">
+                              {sample.meta_description ||
+                                `High scoring free academic ${sample.type_name || "model paper"} on the subject of ${readableCategory}.`}
+                            </p>
                           </div>
 
-                          <h3 className="font-bold text-gray-900 text-lg group-hover:text-purple-800 transition-colors mb-2 line-clamp-2">
-                            {sample.title}
-                          </h3>
+                          <div className="border-t border-purple-50 pt-4 mt-auto">
+                            <div className="flex flex-wrap items-center gap-2 text-[10px] text-gray-400 font-medium mb-4">
+                              <span>
+                                Downloads:{" "}
+                                <strong className="text-gray-600">
+                                  {downloads}
+                                </strong>
+                              </span>
+                              <span>•</span>
+                              <span>
+                                Words:{" "}
+                                <strong className="text-gray-600">{words}</strong>
+                              </span>
+                              <span>•</span>
+                              <span>
+                                Pages:{" "}
+                                <strong className="text-gray-600">{pages}</strong>
+                              </span>
+                            </div>
 
-                          <p className="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-3">
-                            {sample.meta_description ||
-                              `High scoring free academic ${sample.type_name || "model paper"} on the subject of ${readableCategory}.`}
-                          </p>
-                        </div>
-
-                        <div className="border-t border-purple-50 pt-4 mt-auto">
-                          <div className="flex flex-wrap items-center gap-2 text-[10px] text-gray-400 font-medium mb-4">
-                            <span>
-                              Downloads:{" "}
-                              <strong className="text-gray-600">
-                                {downloads}
-                              </strong>
-                            </span>
-                            <span>•</span>
-                            <span>
-                              Words:{" "}
-                              <strong className="text-gray-600">{words}</strong>
-                            </span>
-                            <span>•</span>
-                            <span>
-                              Pages:{" "}
-                              <strong className="text-gray-600">{pages}</strong>
-                            </span>
+                            <Link
+                              href={`/samples/${category}/${sample.slug}`}
+                              className="flex items-center justify-between font-bold text-xs text-purple-700 group-hover:text-purple-800 hover:underline"
+                            >
+                              View or Download{" "}
+                              <span className="group-hover:translate-x-1 transition-transform">
+                                &rarr;
+                              </span>
+                            </Link>
                           </div>
-
-                          <Link
-                            href={`/samples/${category}/${sample.slug}`}
-                            className="flex items-center justify-between font-bold text-xs text-purple-700 group-hover:text-purple-800 hover:underline"
-                          >
-                            View or Download{" "}
-                            <span className="group-hover:translate-x-1 transition-transform">
-                              &rarr;
-                            </span>
-                          </Link>
                         </div>
-                      </div>
+                      </StaggerItem>
                     );
                   })}
-                </div>
+                </StaggerContainer>
 
                 {/* Pagination Controls */}
                 {totalPages > 1 && (

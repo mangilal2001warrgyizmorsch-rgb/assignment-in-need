@@ -10,6 +10,7 @@ import { Heading } from "@/components/ui/Heading";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { SectionContainer } from "@/components/ui/SectionContainer";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 import { WRITERS, Writer } from "@/lib/data";
 import { getBaseUrl, mapExpertToWriter } from "@/lib/api";
 import {
@@ -170,7 +171,7 @@ export default function WriterProfile() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-2">
 
           {/* LEFT COLUMN: Main profile details (65%) */}
-          <div className="lg:col-span-8 flex flex-col gap-6 text-left">
+          <AnimateIn variant="fadeUp" className="lg:col-span-8 flex flex-col gap-6 text-left">
 
             {/* Header Card */}
             <div className="bg-gradient-to-br from-primary-50/40 to-white rounded-card border border-primary-100/50 p-6 flex flex-col sm:flex-row gap-5 items-center sm:items-start relative overflow-hidden">
@@ -306,10 +307,10 @@ export default function WriterProfile() {
                 ))}
               </div>
             </div>
-          </div>
+          </AnimateIn>
 
           {/* RIGHT COLUMN: Sidebar layout (35%) */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
+          <AnimateIn variant="fadeUp" delay={0.15} className="lg:col-span-4 flex flex-col gap-6">
 
             {/* Why Choose Card */}
             <Card className="p-6 border-t-4 border-t-primary-700 shadow-md">
@@ -415,7 +416,7 @@ export default function WriterProfile() {
                 </a>
               </div>
             )}
-          </div>
+          </AnimateIn>
         </div>
       </SectionContainer>
 

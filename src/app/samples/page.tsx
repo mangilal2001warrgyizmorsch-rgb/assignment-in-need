@@ -2,6 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 import {
   ChevronLeft,
   ChevronRight,
@@ -268,7 +269,7 @@ export default function SamplesPage() {
           />
         </div>
 
-        <div className="lg:w-1/2 relative z-20">
+        <AnimateIn variant="fadeUp" className="lg:w-1/2 relative z-20 text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-50 border border-purple-100 text-purple-700 text-sm font-semibold mb-6">
             <svg
               className="w-4 h-4"
@@ -339,9 +340,9 @@ export default function SamplesPage() {
               Get Expert Help &rarr;
             </a>
           </div>
-        </div>
+        </AnimateIn>
 
-        <div className="hidden lg:flex lg:w-1/2 mt-12 lg:mt-0 relative justify-center z-10">
+        <AnimateIn variant="scaleUp" className="hidden lg:flex lg:w-1/2 mt-12 lg:mt-0 relative justify-center z-10">
           <img
             src="/new-sample-img/hero1.png"
             alt="Free Samples Illustration"
@@ -353,7 +354,7 @@ export default function SamplesPage() {
                 "linear-gradient(to right, transparent 0%, black 10%, black 70%, transparent 100%)",
             }}
           />
-        </div>
+        </AnimateIn>
       </section>
 
       {/* Popular Categories Scroll */}
@@ -424,42 +425,45 @@ export default function SamplesPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {SUBJECTS.map((sub, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group cursor-pointer"
-              onClick={() => {
-                window.location.href = `/samples/${sub.category}`;
-              }}
-            >
-              <div className="w-12 h-12 bg-purple-700 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 group-hover:-translate-y-1 group-hover:shadow-lg transition-all">
-                {sub.badge}
-              </div>
-              <div className="absolute top-[40%] -translate-y-1/2 right-6 w-14 h-14 bg-purple-50 text-purple-700 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
-                {sub.icon && (
-                  <sub.icon className="w-6 h-6 text-purple-700 group-hover:text-white transition-colors" />
-                )}
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 group-hover:text-purple-800 transition-colors text-left">
-                {sub.name}
-              </h3>
-              <span className="inline-block bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded mt-2 flex w-fit">
-                {sub.count} Samples
-              </span>
-              <Link
-                href={`/samples/${sub.category}`}
-                className="mt-6 flex items-center justify-between font-bold btn-shutter-blue-close py-2.5 px-4 rounded-lg w-full text-sm"
-                onClick={(e) => e.stopPropagation()}
+            <StaggerItem key={idx}>
+              <div
+                className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group cursor-pointer h-full flex flex-col justify-between"
+                onClick={() => {
+                  window.location.href = `/samples/${sub.category}`;
+                }}
               >
-                View Samples{" "}
-                <span className="group-hover:translate-x-1 transition-transform">
-                  &rarr;
-                </span>
-              </Link>
-            </div>
+                <div>
+                  <div className="w-12 h-12 bg-purple-700 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 group-hover:-translate-y-1 group-hover:shadow-lg transition-all">
+                    {sub.badge}
+                  </div>
+                  <div className="absolute top-[40%] -translate-y-1/2 right-6 w-14 h-14 bg-purple-50 text-purple-700 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
+                    {sub.icon && (
+                      <sub.icon className="w-6 h-6 text-purple-700 group-hover:text-white transition-colors" />
+                    )}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-purple-800 transition-colors text-left">
+                    {sub.name}
+                  </h3>
+                  <span className="inline-block bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded mt-2 flex w-fit">
+                    {sub.count} Samples
+                  </span>
+                </div>
+                <Link
+                  href={`/samples/${sub.category}`}
+                  className="mt-6 flex items-center justify-between font-bold btn-shutter-blue-close py-2.5 px-4 rounded-lg w-full text-sm"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  View Samples{" "}
+                  <span className="group-hover:translate-x-1 transition-transform">
+                    &rarr;
+                  </span>
+                </Link>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
         <div className="text-center mt-10">
           <Link

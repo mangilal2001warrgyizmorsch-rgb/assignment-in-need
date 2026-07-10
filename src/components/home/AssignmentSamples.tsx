@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { SAMPLES } from "@/lib/data";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 interface HomeSample {
   id: string;
@@ -136,7 +137,7 @@ export default function AssignmentSamples() {
   return (
     <section className="py-12 px-8 max-md:py-4 max-md:px-4 bg-[#fafaff] font-sans flex justify-center overflow-hidden border-b border-[#f3e8ff]/50">
       <div className="max-w-[1200px] w-full flex items-center gap-10 max-lg:flex-col max-lg:items-start max-lg:gap-6">
-        <div className="w-[260px] max-lg:w-full shrink-0 flex flex-col gap-4 max-lg:flex-row max-lg:items-center max-lg:justify-between max-md:flex-col max-md:items-start">
+        <AnimateIn variant="fadeUp" className="w-[260px] max-lg:w-full shrink-0 flex flex-col gap-4 max-lg:flex-row max-lg:items-center max-lg:justify-between max-md:flex-col max-md:items-start">
           <h2 className="text-2xl md:text-[1.8rem] font-extrabold text-[#1e1b4b] m-0 leading-tight max-md:text-[1.4rem]">
             Assignment Samples
           </h2>
@@ -149,7 +150,7 @@ export default function AssignmentSamples() {
           >
             View All Samples
           </Link>
-        </div>
+        </AnimateIn>
 
         <div className="flex-1 relative flex items-center gap-4 min-w-0 max-md:w-full">
           <div
@@ -157,38 +158,39 @@ export default function AssignmentSamples() {
             id="znh-samplesTrackWrapper"
             ref={trackWrapperRef}
           >
-            <div className="flex gap-5 w-max max-md:gap-2">
+            <StaggerContainer className="flex gap-5 w-max max-md:gap-2">
               {samples.map((sample, index) => (
-                <Link
-                  key={sample.id}
-                  href={sample.href}
-                  className="group bg-white rounded-2xl flex flex-col w-[220px] max-md:w-[120px] shrink-0 shadow-[0_4px_15px_rgba(0,0,0,0.04)] border border-gray-100 transition-all duration-300 hover:-translate-y-1.25 hover:shadow-[0_12px_25px_rgba(0,0,0,0.08)] overflow-hidden max-md:rounded-xl"
-                >
-                  <div className="w-full h-[130px] max-md:h-[80px] bg-gray-100 overflow-hidden">
-                    <img
-                      src={sample.image}
-                      alt={sample.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
-                      onError={(event) => {
-                        event.currentTarget.src =
-                          FALLBACK_IMAGES[index % FALLBACK_IMAGES.length];
-                      }}
-                    />
-                  </div>
-                  <div className="p-4 max-md:p-2 relative flex flex-col gap-1">
-                    <p className="m-0 text-[0.95rem] max-md:text-[0.65rem] font-bold text-gray-900 max-md:leading-tight line-clamp-2">
-                      {sample.title}
-                    </p>
-                    <span className="text-[0.75rem] max-md:text-[0.55rem] text-gray-500 font-medium line-clamp-1">
-                      {sample.subject}
-                    </span>
-                    <div className="absolute bottom-4 right-4 max-md:bottom-2 max-md:right-2 bg-[#7c3aed] text-white text-[0.65rem] max-md:text-[0.5rem] font-extrabold py-1 px-2.5 max-md:py-0.5 max-md:px-1.5 rounded-[6px] tracking-wider">
-                      {sample.type}
+                <StaggerItem key={sample.id}>
+                  <Link
+                    href={sample.href}
+                    className="group bg-white rounded-2xl flex flex-col w-[220px] max-md:w-[120px] shrink-0 shadow-[0_4px_15px_rgba(0,0,0,0.04)] border border-gray-100 transition-all duration-300 hover:-translate-y-1.25 hover:shadow-[0_12px_25px_rgba(0,0,0,0.08)] overflow-hidden max-md:rounded-xl"
+                  >
+                    <div className="w-full h-[130px] max-md:h-[80px] bg-gray-100 overflow-hidden">
+                      <img
+                        src={sample.image}
+                        alt={sample.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
+                        onError={(event) => {
+                          event.currentTarget.src =
+                            FALLBACK_IMAGES[index % FALLBACK_IMAGES.length];
+                        }}
+                      />
                     </div>
-                  </div>
-                </Link>
+                    <div className="p-4 max-md:p-2 relative flex flex-col gap-1">
+                      <p className="m-0 text-[0.95rem] max-md:text-[0.65rem] font-bold text-gray-900 max-md:leading-tight line-clamp-2">
+                        {sample.title}
+                      </p>
+                      <span className="text-[0.75rem] max-md:text-[0.55rem] text-gray-500 font-medium line-clamp-1">
+                        {sample.subject}
+                      </span>
+                      <div className="absolute bottom-4 right-4 max-md:bottom-2 max-md:right-2 bg-[#7c3aed] text-white text-[0.65rem] max-md:text-[0.5rem] font-extrabold py-1 px-2.5 max-md:py-0.5 max-md:px-1.5 rounded-[6px] tracking-wider">
+                        {sample.type}
+                      </div>
+                    </div>
+                  </Link>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
 
           <button

@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CustomDropdown } from "./CustomDropdown";
+import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
+import { CheckCircle2, Mail, Phone } from "lucide-react";
 
 const COUNTRY_CODES = [
   { label: "UK (+44)", value: "+44" },
@@ -80,6 +83,25 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
   const [description, setDescription] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [orderId, setOrderId] = useState("");
+
+  // Country Code -> ISO
+  const getCountryIso = (code: string) => {
+    const mapping: Record<string, string> = {
+      "+44": "GB",
+      "+1": "US",
+      "+91": "IN",
+      "+61": "AU",
+      "+971": "AE",
+      "+966": "SA",
+      "+353": "IE",
+      "+64": "NZ",
+      "+65": "SG",
+      "+60": "MY",
+    };
+    return mapping[code] || "GB";
+  };
 
   // Input Sanitization Handlers (prevent special characters)
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,41 +136,114 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
   };
 
   // Form submit handler
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const fullPhone = `${countryCode} ${mobileNo}`;
-    const formValues = {
-      name,
-      email,
-      mobileNo: fullPhone,
-      projectType,
-      timePeriod,
-      wordCount,
-      description,
-    };
 
     setIsLoading(true);
 
-    if (onSubmit) {
-      onSubmit(formValues);
-      setIsLoading(false);
-    } else {
-      // Default fallback redirect behavior to order page
-      const pages = Math.ceil(wordCount / 250);
-      const searchParams = new URLSearchParams({
-        name,
-        email,
-        phone: fullPhone,
-        service: projectType,
-        pages: String(pages),
-        deadline: timePeriod,
-        description,
+    try {
+      const fullPhone = `${countryCode} ${mobileNo}`;
+      const countryIso = getCountryIso(countryCode);
+
+      const response = await fetch("/api/web-submit-quote", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone: mobileNo,
+          countryCode,
+          countryIso,
+          service: projectType || "Assignment",
+          deadline: timePeriod.replace(/[^0-9]/g, "") || timePeriod || "5",
+          wordCount: String(wordCount),
+          description: description || "Instant Quote Request",
+          source_page: typeof window !== "undefined" ? window.location.href : "https://assignmentinneed.com/quote",
+        }),
       });
-      router.push(`/order?${searchParams.toString()}`);
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast.success(data.message || "Quote submitted successfully!");
+        setOrderId(data.order_id || "");
+        setIsSuccess(true);
+      } else {
+        toast.error(data.message || "Something went wrong. Please try again.");
+      }
+    } catch (error: any) {
+      toast.error("Network error. Please try again.");
+    } finally {
       setIsLoading(false);
     }
   };
+
+  if (isSuccess) {
+    return (
+      <div
+        className={`w-full max-w-[390px] bg-white rounded-2xl p-[1.5rem] border border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.08)] relative flex flex-col items-center justify-center text-center gap-4 font-sans ${className || ""}`}
+        id="quote-form-success-card"
+      >
+        <motion.div
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600"
+        >
+          <CheckCircle2 className="w-7 h-7" />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="flex flex-col gap-2"
+        >
+          <h3 className="text-base font-extrabold text-gray-900 leading-snug">
+            Quote Submitted Successfully!
+          </h3>
+          <p className="text-xs text-gray-500 leading-relaxed max-w-[280px]">
+            Thank you, <span className="font-bold text-[#3f159a]">{name}</span>. Your request is registered. Our coordinator will contact you shortly.
+          </p>
+        </motion.div>
+
+        {orderId && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4 }}
+            className="bg-emerald-55 bg-emerald-50 text-emerald-800 border border-emerald-100 px-4 py-2 rounded-xl text-xs font-black select-all tracking-wider"
+          >
+            Order ID: <span className="font-extrabold text-emerald-600 font-mono">{orderId}</span>
+          </motion.div>
+        )}
+
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          type="button"
+          onClick={() => {
+            setIsSuccess(false);
+            setOrderId("");
+            setName("");
+            setEmail("");
+            setMobileNo("");
+            setProjectType("");
+            setTimePeriod("");
+            setWordCount(250);
+            setDescription("");
+          }}
+          className="w-full mt-2 py-2 btn-shutter-blue-open text-xs font-bold rounded-lg cursor-pointer"
+        >
+          Submit Another Quote
+        </motion.button>
+      </div>
+    );
+  }
 
   return (
     <div

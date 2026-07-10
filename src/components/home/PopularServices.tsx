@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { getBaseUrl } from "@/lib/api";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 interface HomeService {
   id: string;
@@ -276,37 +277,41 @@ export default function PopularServices() {
   return (
     <section className="py-12 md:py-16 bg-white font-sans w-full flex justify-center">
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 w-full">
-        <h2 className="text-center text-xl md:text-[1.75rem] font-black text-gray-900 m-0 mb-8 md:mb-12">
-          Our Most Popular Services
-        </h2>
+        <AnimateIn variant="fadeUp">
+          <h2 className="text-center text-xl md:text-[1.75rem] font-black text-gray-900 m-0 mb-8 md:mb-12">
+            Our Most Popular Services
+          </h2>
+        </AnimateIn>
 
-        <div className="flex flex-col md:flex-row gap-6 items-stretch w-full">
-          <div className="w-full md:w-1/4 shrink-0 h-full">
+        <StaggerContainer className="flex flex-col md:flex-row gap-6 items-stretch w-full">
+          <StaggerItem className="w-full md:w-1/4 shrink-0 h-full">
             <ServiceTile service={services[0]} index={0} isFeature />
-          </div>
+          </StaggerItem>
 
           <div className="flex flex-col gap-6 flex-1 w-full">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full flex-1">
               {services.slice(1, 4).map((service, index) => (
-                <ServiceTile
-                  key={service.id}
-                  service={service}
-                  index={index + 1}
-                />
+                <StaggerItem key={service.id}>
+                  <ServiceTile
+                    service={service}
+                    index={index + 1}
+                  />
+                </StaggerItem>
               ))}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full flex-1">
               {services.slice(4, 8).map((service, index) => (
-                <ServiceTile
-                  key={service.id}
-                  service={service}
-                  index={index + 4}
-                />
+                <StaggerItem key={service.id}>
+                  <ServiceTile
+                    service={service}
+                    index={index + 4}
+                  />
+                </StaggerItem>
               ))}
             </div>
           </div>
-        </div>
+        </StaggerContainer>
 
         <Link
           href="/services"

@@ -22,6 +22,7 @@ import {
   FolderOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 export default function AboutPage() {
   const steps = [
@@ -181,7 +182,7 @@ export default function AboutPage() {
           {/* 3.2 HERO */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mt-6">
             {/* Left Column Content */}
-            <div className="lg:col-span-7 flex flex-col gap-6 text-left">
+            <AnimateIn variant="fadeUp" className="lg:col-span-7 flex flex-col gap-6 text-left">
               {/* Badge */}
               <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#f3f0ff] text-[#3f159a] text-[10px] font-extrabold uppercase tracking-widest w-fit mb-1 shadow-sm">
                 ABOUT ASSIGNMENT IN NEED
@@ -261,10 +262,10 @@ export default function AboutPage() {
                   </Button>
                 </Link>
               </div>
-            </div>
+            </AnimateIn>
 
             {/* Right Column Illustration */}
-            <div className="lg:col-span-5 flex items-center justify-center relative w-full h-[320px] md:h-[480px]">
+            <AnimateIn variant="scaleUp" delay={0.2} className="lg:col-span-5 flex items-center justify-center relative w-full h-[320px] md:h-[480px]">
               <Image
                 src="/new-about-us-img/hero1.png"
                 alt="Empowering Students illustration"
@@ -272,7 +273,7 @@ export default function AboutPage() {
                 className="object-contain"
                 priority
               />
-            </div>
+            </AnimateIn>
           </div>
         </div>
       </section>

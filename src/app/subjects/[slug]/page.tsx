@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { toast } from "react-hot-toast";
 import { CustomDropdown } from "@/components/ui/CustomDropdown";
 
 const COUNTRY_CODES = [
@@ -71,6 +72,7 @@ import {
   Network,
   PaintRoller,
 } from "lucide-react";
+import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export default function SubjectLanding() {
   const params = useParams();
@@ -86,6 +88,9 @@ export default function SubjectLanding() {
   const [projectType, setProjectType] = useState("");
   const [wordCount, setWordCount] = useState("");
   const [timePeriod, setTimePeriod] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [orderId, setOrderId] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Dynamic States for API data
   const [pageData, setPageData] = useState<any>(null);
@@ -372,17 +377,63 @@ export default function SubjectLanding() {
     },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const getCountryIso = (code: string) => {
+    const mapping: Record<string, string> = {
+      "+44": "GB",
+      "+1": "US",
+      "+91": "IN",
+      "+61": "AU",
+      "+971": "AE",
+      "+966": "SA",
+      "+353": "IE",
+      "+64": "NZ",
+      "+65": "SG",
+      "+60": "MY",
+    };
+    return mapping[code] || "GB";
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({
-      name,
-      email,
-      mobile: `${countryCode} ${mobile}`,
-      projectType,
-      wordCount,
-      timePeriod,
-      subject: subject.name,
-    });
+    setIsSubmitting(true);
+
+    try {
+      const countryIso = getCountryIso(countryCode);
+
+      const response = await fetch("/api/web-submit-quote", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone: mobile,
+          countryCode,
+          countryIso,
+          service: projectType || "Assignment",
+          deadline: timePeriod ? (timePeriod.replace(/[^0-9]/g, "") || timePeriod) : "5",
+          wordCount: wordCount ? (wordCount.replace(/[^0-9]/g, "") || wordCount) : "1500",
+          description: `Quote request for ${subject.name}`,
+          source_page: typeof window !== "undefined" ? window.location.href : `https://assignmentinneed.com/subjects/${slug}`,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast.success(data.message || "Quote submitted successfully!");
+        setOrderId(data.order_id || "");
+        setIsSuccess(true);
+      } else {
+        toast.error(data.message || "Failed to submit quote. Please check your details.");
+      }
+    } catch (err: any) {
+      toast.error("Network error. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (loading) {
@@ -422,7 +473,7 @@ export default function SubjectLanding() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative min-h-[500px] lg:min-h-[545px]">
             {/* Left Content Column */}
-            <div className="lg:col-span-7 flex flex-col justify-start items-start text-left z-20 pb-4 lg:pb-0 order-1 relative pt-2">
+            <AnimateIn variant="fadeUp" className="lg:col-span-7 flex flex-col justify-start items-start text-left z-20 pb-4 lg:pb-0 order-1 relative pt-2">
               {/* Star Badge */}
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex items-center bg-[#22c55e] text-white text-[9px] px-1.5 py-0.5 rounded font-black tracking-tight select-none">
@@ -593,234 +644,277 @@ export default function SubjectLanding() {
                   </span>
                 </div>
               </div>
-            </div>
+            </AnimateIn>
 
             {/* Empty Spacer Column for Desktop to keep the center empty for absolute image */}
             <div className="lg:col-span-1 hidden lg:block order-2" />
 
             {/* Right Form Card Column */}
-            <div
-              className="lg:col-span-4 flex justify-center lg:justify-end items-center z-20 pt-4 order-3"
+            <AnimateIn
+              variant="fadeUp"
+              delay={0.2}
               id="quote-form"
+              className="lg:col-span-4 flex justify-center lg:justify-end items-center z-20 pt-4 order-3"
             >
-              <div className="w-[390px] max-w-full p-[0.8rem_1rem] rounded-2xl border border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.08)] bg-white relative">
-                {/* Offer ribbon banner at top-right */}
-                <div className="absolute top-[-26px] right-0 z-[5] pointer-events-none h-[48px] w-[300px]">
-                  <Image
-                    src="/images/offer-3.png"
-                    alt="Enjoy Upto 40% Off"
-                    fill
-                    className="object-contain rounded-tr-[10px]"
-                  />
-                </div>
-
-                <div className="flex items-center justify-center gap-2 mb-2 pt-4">
-                  <span
-                    className="text-[1.2rem] select-none"
-                    style={{ filter: "grayscale(100%) opacity(0.6)" }}
-                  >
-                    ✨
-                  </span>
-                  <h3 className="text-[0.95rem] font-bold text-gray-900 m-0 mx-2 capitalize leading-snug whitespace-nowrap">
-                    Get Instant Quote
-                  </h3>
-                  <span
-                    className="text-[1.2rem] select-none"
-                    style={{ filter: "grayscale(100%) opacity(0.6)" }}
-                  >
-                    ✨
-                  </span>
-                </div>
-
-                <form
-                  onSubmit={handleSubmit}
-                  className="flex flex-col gap-[0.15rem]"
-                  id="placeOrder"
-                >
-                  {/* Name Row */}
-                  <div className="flex items-center justify-between mb-1.5 gap-[15px]">
-                    <div className="flex items-center gap-3 flex-1">
-                      <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-purple-100 text-[#7c3aed]">
-                        <Users className="w-3 h-3 text-[#7c3aed]" />
-                      </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
-                        Name
-                      </label>
-                    </div>
-                    <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <input
-                        type="text"
-                        required
-                        placeholder="Enter Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-1 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
-                      />
-                    </div>
+              {isSuccess ? (
+                <div className="w-[390px] max-w-full p-8 rounded-2xl border border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.08)] bg-white relative flex flex-col items-center justify-center text-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                    <CheckCircle2 className="w-7 h-7" />
                   </div>
 
-                  {/* Email Row */}
-                  <div className="flex items-center justify-between mb-1.5 gap-[15px]">
-                    <div className="flex items-center gap-3 flex-1">
-                      <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-blue-100 text-blue-500">
-                        <FileText className="w-3 h-3 text-blue-500" />
-                      </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
-                        Email
-                      </label>
-                    </div>
-                    <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <input
-                        type="email"
-                        required
-                        placeholder="Enter Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-1 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
-                      />
-                    </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-base font-extrabold text-gray-900 leading-snug">
+                      Quote Request Received!
+                    </h3>
+                    <p className="text-xs text-gray-500 leading-relaxed max-w-[280px]">
+                      Thank you, <span className="font-bold text-[#3f159a]">{name}</span>. Your quote request for {subject.name} has been submitted successfully. Our team will contact you shortly.
+                    </p>
                   </div>
 
-                  {/* Mobile Row */}
-                  <div className="flex items-center justify-between mb-1.5 gap-[15px]">
-                    <div className="flex items-center gap-3 flex-1">
-                      <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-red-100 text-red-500">
-                        <Headset className="w-3 h-3 text-red-555" />
-                      </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
-                        Mobile No
-                      </label>
+                  {orderId && (
+                    <div className="bg-emerald-50 text-emerald-800 border border-emerald-100 px-4 py-2 rounded-xl text-xs font-black select-all tracking-wider">
+                      Order ID: <span className="font-extrabold text-emerald-600 font-mono">{orderId}</span>
                     </div>
-                    <div className="flex-grow flex-1 max-w-[170px] flex gap-1">
-                      <div className="w-[65px] bg-white border border-gray-200 rounded-lg py-1 px-1 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                        <CustomDropdown
-                          options={COUNTRY_CODES}
-                          value={countryCode}
-                          onChange={setCountryCode}
-                          align="left"
-                        />
-                      </div>
-                      <div className="flex-grow bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                        <input
-                          type="tel"
-                          required
-                          placeholder="Enter Mobile"
-                          value={mobile}
-                          onChange={(e) => setMobile(e.target.value)}
-                          className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-0.5 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Project Type Row */}
-                  <div className="flex items-center justify-between mb-1.5 gap-[15px]">
-                    <div className="flex items-center gap-3 flex-1">
-                      <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-green-100 text-green-500">
-                        <BookOpen className="w-3 h-3 text-green-600" />
-                      </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
-                        Project Type
-                      </label>
-                    </div>
-                    <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <CustomDropdown
-                        options={PROJECT_TYPE_OPTIONS}
-                        value={projectType}
-                        onChange={setProjectType}
-                        placeholder="Select Level"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Word Count Row */}
-                  <div className="flex items-center justify-between mb-1.5 gap-[15px]">
-                    <div className="flex items-center gap-3 flex-1">
-                      <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-pink-100 text-pink-500">
-                        <AlignLeft className="w-3 h-3 text-pink-500" />
-                      </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
-                        Word Count
-                      </label>
-                    </div>
-                    <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <CustomDropdown
-                        options={WORD_COUNT_OPTIONS}
-                        value={wordCount}
-                        onChange={setWordCount}
-                        placeholder="Select Word Count"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Time Period Row */}
-                  <div className="flex items-center justify-between mb-1.5 gap-[15px]">
-                    <div className="flex items-center gap-3 flex-1">
-                      <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-yellow-100 text-yellow-600">
-                        <Clock className="w-3 h-3 text-yellow-600" />
-                      </span>
-                      <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
-                        Time Period
-                      </label>
-                    </div>
-                    <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-                      <CustomDropdown
-                        options={TIME_PERIOD_OPTIONS}
-                        value={timePeriod}
-                        onChange={setTimePeriod}
-                        placeholder="Select Deadline"
-                      />
-                    </div>
-                  </div>
+                  )}
 
                   <button
-                    type="submit"
-                    className="btn-shutter-orange-open border-none py-[9px] px-3 rounded-lg text-[0.78rem] font-semibold cursor-pointer w-full mt-3 shadow-[0_4px_14px_rgba(249,115,22,0.3)] whitespace-nowrap"
+                    type="button"
+                    onClick={() => {
+                      setIsSuccess(false);
+                      setOrderId("");
+                      setName("");
+                      setEmail("");
+                      setMobile("");
+                      setProjectType("");
+                      setWordCount("");
+                      setTimePeriod("");
+                    }}
+                    className="w-full mt-2 py-2 btn-shutter-blue-open text-xs font-bold rounded-lg cursor-pointer"
                   >
-                    Get Price Now &rarr;
+                    Submit Another Quote
                   </button>
+                </div>
+              ) : (
+                <div className="w-[390px] max-w-full p-[0.8rem_1rem] rounded-2xl border border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.08)] bg-white relative">
+                  {/* Offer ribbon banner at top-right */}
+                  <div className="absolute top-[-26px] right-0 z-[5] pointer-events-none h-[48px] w-[300px]">
+                    <Image
+                      src="/images/offer-3.png"
+                      alt="Enjoy Upto 40% Off"
+                      fill
+                      className="object-contain rounded-tr-[10px]"
+                    />
+                  </div>
 
-                  <div className="flex justify-between mt-2.5 text-[0.65rem] text-gray-500 border-t border-gray-100 pt-2.5">
-                    <span className="flex items-center gap-1">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#22c55e"
-                        strokeWidth="3"
-                        className="w-3 h-3"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      It&apos;s free
+                  <div className="flex items-center justify-center gap-2 mb-2 pt-4">
+                    <span
+                      className="text-[1.2rem] select-none"
+                      style={{ filter: "grayscale(100%) opacity(0.6)" }}
+                    >
+                      ✨
                     </span>
-                    <span className="flex items-center gap-1">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#22c55e"
-                        strokeWidth="3"
-                        className="w-3 h-3"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      No obligation
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#22c55e"
-                        strokeWidth="3"
-                        className="w-3 h-3"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      Quick response
+                    <h3 className="text-[0.95rem] font-bold text-gray-900 m-0 mx-2 capitalize leading-snug whitespace-nowrap">
+                      Get Instant Quote
+                    </h3>
+                    <span
+                      className="text-[1.2rem] select-none"
+                      style={{ filter: "grayscale(100%) opacity(0.6)" }}
+                    >
+                      ✨
                     </span>
                   </div>
-                </form>
-              </div>
-            </div>
+
+                  <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col gap-[0.15rem]"
+                    id="placeOrder"
+                  >
+                    {/* Name Row */}
+                    <div className="flex items-center justify-between mb-1.5 gap-[15px]">
+                      <div className="flex items-center gap-3 flex-1">
+                        <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-purple-100 text-[#7c3aed]">
+                          <Users className="w-3 h-3 text-[#7c3aed]" />
+                        </span>
+                        <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                          Name
+                        </label>
+                      </div>
+                      <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                        <input
+                          type="text"
+                          required
+                          placeholder="Enter Name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-1 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Email Row */}
+                    <div className="flex items-center justify-between mb-1.5 gap-[15px]">
+                      <div className="flex items-center gap-3 flex-1">
+                        <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-blue-100 text-blue-500">
+                          <FileText className="w-3 h-3 text-blue-500" />
+                        </span>
+                        <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                          Email
+                        </label>
+                      </div>
+                      <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                        <input
+                          type="email"
+                          required
+                          placeholder="Enter Email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-1 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Mobile Row */}
+                    <div className="flex items-center justify-between mb-1.5 gap-[15px]">
+                      <div className="flex items-center gap-3 flex-1">
+                        <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-red-100 text-red-500">
+                          <Headset className="w-3 h-3 text-red-555" />
+                        </span>
+                        <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                          Mobile No
+                        </label>
+                      </div>
+                      <div className="flex-grow flex-1 max-w-[170px] flex gap-1">
+                        <div className="w-[65px] bg-white border border-gray-200 rounded-lg py-1 px-1 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                          <CustomDropdown
+                            options={COUNTRY_CODES}
+                            value={countryCode}
+                            onChange={setCountryCode}
+                            align="left"
+                          />
+                        </div>
+                        <div className="flex-grow bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                          <input
+                            type="tel"
+                            required
+                            placeholder="Enter Mobile"
+                            value={mobile}
+                            onChange={(e) => setMobile(e.target.value.replace(/[^0-9]/g, ""))}
+                            className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-1 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Project Type Row */}
+                    <div className="flex items-center justify-between mb-1.5 gap-[15px]">
+                      <div className="flex items-center gap-3 flex-1">
+                        <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-purple-100 text-purple-600">
+                          <FileSignature className="w-3 h-3 text-purple-600" />
+                        </span>
+                        <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                          Project Type
+                        </label>
+                      </div>
+                      <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                        <CustomDropdown
+                          options={PROJECT_TYPE_OPTIONS}
+                          value={projectType}
+                          onChange={setProjectType}
+                          placeholder="Select Project Type"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Word Count Row */}
+                    <div className="flex items-center justify-between mb-1.5 gap-[15px]">
+                      <div className="flex items-center gap-3 flex-1">
+                        <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-pink-100 text-pink-500">
+                          <AlignLeft className="w-3 h-3 text-pink-500" />
+                        </span>
+                        <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                          Word Count
+                        </label>
+                      </div>
+                      <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                        <CustomDropdown
+                          options={WORD_COUNT_OPTIONS}
+                          value={wordCount}
+                          onChange={setWordCount}
+                          placeholder="Select Word Count"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Time Period Row */}
+                    <div className="flex items-center justify-between mb-1.5 gap-[15px]">
+                      <div className="flex items-center gap-3 flex-1">
+                        <span className="w-6 h-6 rounded-lg flex items-center justify-center bg-yellow-100 text-yellow-600">
+                          <Clock className="w-3 h-3 text-yellow-600" />
+                        </span>
+                        <label className="text-[0.78rem] font-bold text-gray-800 m-0 whitespace-nowrap">
+                          Time Period
+                        </label>
+                      </div>
+                      <div className="hero-select-box flex-1 max-w-[170px] bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+                        <CustomDropdown
+                          options={TIME_PERIOD_OPTIONS}
+                          value={timePeriod}
+                          onChange={setTimePeriod}
+                          placeholder="Select Deadline"
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="btn-shutter-orange-open border-none py-[9px] px-3 rounded-lg text-[0.78rem] font-semibold cursor-pointer w-full mt-3 shadow-[0_4px_14px_rgba(249,115,22,0.3)] whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5"
+                    >
+                      {isSubmitting ? "Submitting..." : "Get Price Now →"}
+                    </button>
+
+                    <div className="flex justify-between mt-2.5 text-[0.65rem] text-gray-500 border-t border-gray-100 pt-2.5">
+                      <span className="flex items-center gap-1">
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#22c55e"
+                          strokeWidth="3"
+                          className="w-3 h-3"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        It&apos;s free
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#22c55e"
+                          strokeWidth="3"
+                          className="w-3 h-3"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        No obligation
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="#22c55e"
+                          strokeWidth="3"
+                          className="w-3 h-3"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Quick response
+                      </span>
+                    </div>
+                  </form>
+                </div>
+              )}
+            </AnimateIn>
           </div>
         </div>
       </section>

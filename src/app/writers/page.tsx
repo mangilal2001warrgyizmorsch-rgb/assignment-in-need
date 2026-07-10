@@ -5,6 +5,7 @@ import { WRITERS, Writer } from "@/lib/data";
 import { getBaseUrl, mapExpertToWriter } from "@/lib/api";
 import { Loader2 } from "lucide-react";
 import { CustomDropdown } from "@/components/ui/CustomDropdown";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 import "./writers.css";
 
 const SUBJECT_OPTIONS = [
@@ -309,81 +310,85 @@ export default function WritersDirectory() {
             </div>
           ) : currentWriters.length > 0 ? (
             <div>
-              <div className="znw-experts-grid">
+              <StaggerContainer className="znw-experts-grid">
                 {currentWriters.map((writer) => {
                   const filledStars = Math.round(writer.rating);
                   return (
-                    <div key={writer.id} className="znw-expert-card">
-                      <div className="znw-card-header">
-                        <div className="znw-avatar-wrapper">
-                          <img 
-                            src={writer.avatar || "/assets/media/avatars/blank.png"} 
-                            alt={writer.name} 
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = "/assets/media/avatars/blank.png";
-                            }}
-                          />
-                        </div>
-                        <div className="znw-header-info">
-                          <h3 className="znw-expert-name">{writer.name}</h3>
-                          <p className="znw-expert-role">{writer.role || "Academic Expert"}</p>
-                          <div className="znw-expert-rating">
-                            <div className="znw-stars">
-                              {[...Array(5)].map((_, i) => (
-                                <span key={i} className={i < filledStars ? "text-[#fbbf24]" : "text-[#e5e7eb]"}>
-                                  ★
-                                </span>
-                              ))}
+                    <StaggerItem key={writer.id}>
+                      <div className="znw-expert-card h-full flex flex-col justify-between">
+                        <div>
+                          <div className="znw-card-header">
+                            <div className="znw-avatar-wrapper">
+                              <img 
+                                src={writer.avatar || "/assets/media/avatars/blank.png"} 
+                                alt={writer.name} 
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = "/assets/media/avatars/blank.png";
+                                }}
+                              />
                             </div>
-                            <span className="znw-rating-number">{writer.rating.toFixed(1)}</span>
+                            <div className="znw-header-info">
+                              <h3 className="znw-expert-name">{writer.name}</h3>
+                              <p className="znw-expert-role">{writer.role || "Academic Expert"}</p>
+                              <div className="znw-expert-rating">
+                                <div className="znw-stars">
+                                  {[...Array(5)].map((_, i) => (
+                                    <span key={i} className={i < filledStars ? "text-[#fbbf24]" : "text-[#e5e7eb]"}>
+                                      ★
+                                    </span>
+                                  ))}
+                                </div>
+                                <span className="znw-rating-number">{writer.rating.toFixed(1)}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="znw-card-body">
+                            <div className="znw-orders-stat">
+                              <div className="znw-icon">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                  <polyline points="14 2 14 8 20 8"></polyline>
+                                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                                  <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                              </div>
+                              <div>
+                                <span className="znw-orders-count">
+                                  {writer.ordersCompleted}
+                                </span>{" "}
+                                <span className="znw-orders-text">Orders Completed</span>
+                              </div>
+                            </div>
+
+                            <div className="znw-info-section">
+                              <h4 className="znw-info-title">Expertise</h4>
+                              <p className="znw-info-text">{writer.expertise.join(", ")}</p>
+                            </div>
+
+                            <div className="znw-info-section">
+                              <h4 className="znw-info-title">Qualifications</h4>
+                              <p className="znw-info-text">{writer.qualifications}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="znw-card-body">
-                        <div className="znw-orders-stat">
-                          <div className="znw-icon">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                              <polyline points="14 2 14 8 20 8"></polyline>
-                              <line x1="16" y1="13" x2="8" y2="13"></line>
-                              <line x1="16" y1="17" x2="8" y2="17"></line>
-                              <polyline points="10 9 9 9 8 9"></polyline>
-                            </svg>
-                          </div>
-                          <div>
-                            <span className="znw-orders-count">
-                              {writer.ordersCompleted}
-                            </span>{" "}
-                            <span className="znw-orders-text">Orders Completed</span>
-                          </div>
-                        </div>
-
-                        <div className="znw-info-section">
-                          <h4 className="znw-info-title">Expertise</h4>
-                          <p className="znw-info-text">{writer.expertise.join(", ")}</p>
-                        </div>
-
-                        <div className="znw-info-section">
-                          <h4 className="znw-info-title">Qualifications</h4>
-                          <p className="znw-info-text">{writer.qualifications}</p>
+                        <div className="znw-card-footer">
+                          <button 
+                            onClick={() => {
+                              window.location.href = `/writers/${writer.id}`;
+                            }}
+                            className="btn-shutter-blue-close flex items-center justify-center gap-2 w-full py-3 px-4 font-semibold text-[0.95rem] rounded-lg cursor-pointer"
+                          >
+                            Hire Now <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                          </button>
                         </div>
                       </div>
-
-                      <div className="znw-card-footer">
-                        <button 
-                          onClick={() => {
-                            window.location.href = `/writers/${writer.id}`;
-                          }}
-                          className="btn-shutter-blue-close flex items-center justify-center gap-2 w-full py-3 px-4 font-semibold text-[0.95rem] rounded-lg cursor-pointer"
-                        >
-                          Hire Now <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                        </button>
-                      </div>
-                    </div>
+                    </StaggerItem>
                   );
                 })}
-              </div>
+              </StaggerContainer>
 
               {/* Pagination Controls */}
               {totalPages > 1 && (

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { getImageUrl } from "@/lib/api";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
 interface Review {
   id: number | string;
@@ -336,44 +337,45 @@ export default function ReviewsAndFaq() {
       <div className="max-w-[1200px] w-full grid grid-cols-[1.3fr_0.9fr] max-lg:grid-cols-1 gap-12">
         {/* Reviews Column */}
         <div className="flex flex-col">
-          <div>
+          <AnimateIn variant="fadeUp">
             <h2 className="text-[1.6rem] font-extrabold text-gray-900 mb-6 tracking-tight">
               What Students Say <span className="text-blue-600">About Us</span>
             </h2>
-          </div>
+          </AnimateIn>
 
-          <div className="grid grid-cols-2 max-md:grid-cols-1 gap-4">
+          <StaggerContainer className="grid grid-cols-2 max-md:grid-cols-1 gap-4">
             {reviews.map((r) => (
-              <div
-                key={r.id}
-                onClick={() => setSelectedReviewId(r.id)}
-                className="bg-white rounded-2xl p-[1.25rem_1rem] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(0,0,0,0.06)] cursor-pointer"
-              >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={r.image}
-                    alt={r.name}
-                    className="w-10 h-10 rounded-full bg-gray-100 object-cover border-2 border-gray-200"
-                    onError={(event) => {
-                      event.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(r.name)}&background=f3e8ff&color=6b21a8&size=80`;
-                    }}
-                  />
-                  <div className="flex flex-col">
-                    <strong className="text-[0.85rem] text-gray-900 leading-tight">
-                      {r.name}
-                    </strong>
-                    <span className="text-[0.75rem] text-gray-500">
-                      {r.meta}
-                    </span>
+              <StaggerItem key={r.id}>
+                <div
+                  onClick={() => setSelectedReviewId(r.id)}
+                  className="bg-white rounded-2xl p-[1.25rem_1rem] shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col gap-2.5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(0,0,0,0.06)] cursor-pointer h-full"
+                >
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={r.image}
+                      alt={r.name}
+                      className="w-10 h-10 rounded-full bg-gray-100 object-cover border-2 border-gray-200"
+                      onError={(event) => {
+                        event.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(r.name)}&background=f3e8ff&color=6b21a8&size=80`;
+                      }}
+                    />
+                    <div className="flex flex-col">
+                      <strong className="text-[0.85rem] text-gray-900 leading-tight">
+                        {r.name}
+                      </strong>
+                      <span className="text-[0.75rem] text-gray-500">
+                        {r.meta}
+                      </span>
+                    </div>
                   </div>
+                  <Stars rating={r.rating} />
+                  <p className="text-[0.82rem] text-gray-600 leading-relaxed m-0">
+                    {r.text}
+                  </p>
                 </div>
-                <Stars rating={r.rating} />
-                <p className="text-[0.82rem] text-gray-600 leading-relaxed m-0">
-                  {r.text}
-                </p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
 
           <div className="text-right mt-6">
             <a
@@ -387,50 +389,51 @@ export default function ReviewsAndFaq() {
 
         {/* FAQ Column */}
         <div className="flex flex-col">
-          <div>
+          <AnimateIn variant="fadeUp">
             <h2 className="text-[1.6rem] font-extrabold text-gray-900 mb-6 tracking-tight">
               Frequently Asked Questions
             </h2>
-          </div>
+          </AnimateIn>
 
-          <div className="flex flex-col gap-0 border-t border-gray-100 max-md:gap-3 max-md:border-t-0">
+          <StaggerContainer className="flex flex-col gap-0 border-t border-gray-100 max-md:gap-3 max-md:border-t-0">
             {faqsToRender.map((faq, idx) => {
               const isActive = activeFaq === idx;
               return (
-                <div
-                  key={idx}
-                  className={`border-b border-gray-100 max-md:bg-white max-md:rounded-xl max-md:border-none max-md:shadow-[0_2px_10px_rgba(0,0,0,0.02)] max-md:px-4`}
-                >
-                  <button
-                    className={`w-full text-left bg-transparent border-none py-5 max-md:py-4 flex justify-between items-center cursor-pointer text-[0.95rem] font-semibold transition-colors duration-200 font-[inherit] ${isActive ? "text-indigo-600" : "text-gray-800 hover:text-indigo-600"}`}
-                    onClick={() => toggleFaq(idx)}
-                  >
-                    <span>{faq.question}</span>
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      className={`w-[18px] h-[18px] text-[#6d28d9] shrink-0 ml-4 transition-transform duration-300 ${isActive ? "rotate-180" : ""}`}
-                    >
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </button>
+                <StaggerItem key={idx}>
                   <div
-                    className="overflow-hidden"
-                    style={{
-                      maxHeight: isActive ? "200px" : "0px",
-                      transition: "max-height 0.3s ease-out",
-                    }}
+                    className={`border-b border-gray-100 max-md:bg-white max-md:rounded-xl max-md:border-none max-md:shadow-[0_2px_10px_rgba(0,0,0,0.02)] max-md:px-4`}
                   >
-                    <p className="pb-5 m-0 text-[0.9rem] text-gray-600 leading-relaxed">
-                      {faq.answer}
-                    </p>
+                    <button
+                      className={`w-full text-left bg-transparent border-none py-5 max-md:py-4 flex justify-between items-center cursor-pointer text-[0.95rem] font-semibold transition-colors duration-200 font-[inherit] ${isActive ? "text-indigo-600" : "text-gray-800 hover:text-indigo-600"}`}
+                      onClick={() => toggleFaq(idx)}
+                    >
+                      <span>{faq.question}</span>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        className={`w-[18px] h-[18px] text-[#6d28d9] shrink-0 ml-4 transition-transform duration-300 ${isActive ? "rotate-180" : ""}`}
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </button>
+                    <div
+                      className="overflow-hidden"
+                      style={{
+                        maxHeight: isActive ? "200px" : "0px",
+                        transition: "max-height 0.3s ease-out",
+                      }}
+                    >
+                      <p className="pb-5 m-0 text-[0.9rem] text-gray-600 leading-relaxed">
+                        {faq.answer}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </StaggerItem>
               );
             })}
-          </div>
+          </StaggerContainer>
 
           <div className="text-left mt-6">
             <a
