@@ -176,9 +176,9 @@ export default function AssignmentSamples() {
                     />
                   </div>
                   <div className="p-4 max-md:p-2 relative flex flex-col gap-1">
-                    <h4 className="m-0 text-[0.95rem] max-md:text-[0.65rem] font-bold text-gray-900 max-md:leading-tight line-clamp-2">
+                    <p className="m-0 text-[0.95rem] max-md:text-[0.65rem] font-bold text-gray-900 max-md:leading-tight line-clamp-2">
                       {sample.title}
-                    </h4>
+                    </p>
                     <span className="text-[0.75rem] max-md:text-[0.55rem] text-gray-500 font-medium line-clamp-1">
                       {sample.subject}
                     </span>

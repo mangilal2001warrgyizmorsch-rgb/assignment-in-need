@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 
-const SERVICE_PAGES_API_BASE_URL = "https://admin.assignnmentinneed.com/api/service-pages";
+const BACKEND_URL =
+  process.env.BACKEND_INTERNAL_URL ||
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  "https://ain.warrgyizmorsch.com";
+const SERVICE_PAGES_API_BASE_URL = `${BACKEND_URL}/api/service-pages`;
 
 type RouteContext = {
   params: Promise<{
@@ -22,7 +26,10 @@ export async function GET(_request: Request, context: RouteContext) {
 
     if (!response.ok) {
       return NextResponse.json(
-        { success: false, message: `Service page API responded with ${response.status}` },
+        {
+          success: false,
+          message: `Service page API responded with ${response.status}`,
+        },
         { status: response.status },
       );
     }
@@ -30,9 +37,15 @@ export async function GET(_request: Request, context: RouteContext) {
     try {
       return NextResponse.json(JSON.parse(text));
     } catch {
-      return NextResponse.json({ success: false, message: "Service page API returned invalid JSON" }, { status: 502 });
+      return NextResponse.json(
+        { success: false, message: "Service page API returned invalid JSON" },
+        { status: 502 },
+      );
     }
   } catch {
-    return NextResponse.json({ success: false, message: "Unable to fetch service page" }, { status: 502 });
+    return NextResponse.json(
+      { success: false, message: "Unable to fetch service page" },
+      { status: 502 },
+    );
   }
 }

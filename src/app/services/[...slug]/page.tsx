@@ -105,7 +105,7 @@ export default function ServiceLanding() {
       if (!fullSlug) return;
       try {
         setLoading(true);
-        const pageRes = await fetch(`/api/admin/service-pages/${fullSlug}`);
+        const pageRes = await fetch(`/api/admin/service-pages?slug=${fullSlug}`);
         let pageResult: any = null;
 
         if (pageRes.ok) {

@@ -164,9 +164,9 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         >
           <path d="M12 2a1 1 0 0 1 .93.64l1.6 3.86 3.86 1.6a1 1 0 0 1 0 1.86l-3.86 1.6-1.6 3.86a1 1 0 0 1-1.86 0l-1.6-3.86-3.86-1.6a1 1 0 0 1 0-1.86l3.86-1.6 1.6-3.86A1 1 0 0 1 12 2z" />
         </svg>
-        <h3 className="text-[0.95rem] font-bold text-gray-900 m-0 mx-2 capitalize leading-snug whitespace-nowrap">
+        <p className="text-[0.95rem] font-bold text-gray-900 m-0 mx-2 capitalize leading-snug whitespace-nowrap">
           {title}
-        </h3>
+        </p>
         <svg
           className="w-[14px] h-[14px] text-purple-500 shrink-0"
           fill="currentColor"

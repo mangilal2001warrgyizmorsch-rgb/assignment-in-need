@@ -321,9 +321,9 @@ export default function HeroSection() {
       {/* University Marquee */}
       <div className="w-full flex justify-center relative mt-8 z-10 px-4">
         <div className="bg-white rounded-[30px] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] max-w-[1200px] w-full py-3 px-6 flex flex-col items-center overflow-hidden border border-white/50">
-          <h4 className="text-[0.9rem] font-bold text-gray-900 m-0 mb-4 text-center">
+          <h2 className="text-[0.9rem] font-bold text-gray-900 m-0 mb-4 text-center">
             Trusted by Students from Top UK Universities
-          </h4>
+          </h2>
           <div className="flex items-center w-full relative gap-3">
             <button
               className="bg-transparent border-none cursor-pointer text-[#7c3aed] flex items-center justify-center p-[5px] rounded-full transition-all duration-300 shrink-0 z-[2] hover:bg-purple-100 max-md:absolute max-md:w-7 max-md:h-7 max-md:p-0.5 max-md:z-10 max-md:bg-transparent max-md:left-[-5px] max-md:top-[75%] max-md:-translate-y-1/2"

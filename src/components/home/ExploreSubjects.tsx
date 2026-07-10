@@ -90,9 +90,9 @@ export default function ExploreSubjects() {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-1 max-md:items-center max-md:gap-[2px]">
-                  <h4 className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
+                  <p className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
                     Business
-                  </h4>
+                  </p>
                   <span className="text-[0.68rem] text-gray-500 font-medium max-md:text-[0.55rem] max-md:text-center">
                     12,500+ Orders
                   </span>
@@ -116,9 +116,9 @@ export default function ExploreSubjects() {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-1 max-md:items-center max-md:gap-[2px]">
-                  <h4 className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
+                  <p className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
                     Law
-                  </h4>
+                  </p>
                   <span className="text-[0.68rem] text-gray-500 font-medium max-md:text-[0.55rem] max-md:text-center">
                     8,600+ Orders
                   </span>
@@ -142,9 +142,9 @@ export default function ExploreSubjects() {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-1 max-md:items-center max-md:gap-[2px]">
-                  <h4 className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
+                  <p className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
                     Nursing
-                  </h4>
+                  </p>
                   <span className="text-[0.68rem] text-gray-500 font-medium max-md:text-[0.55rem] max-md:text-center">
                     9,800+ Orders
                   </span>
@@ -170,9 +170,9 @@ export default function ExploreSubjects() {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-1 max-md:items-center max-md:gap-[2px]">
-                  <h4 className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
+                  <p className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
                     Psychology
-                  </h4>
+                  </p>
                   <span className="text-[0.68rem] text-gray-500 font-medium max-md:text-[0.55rem] max-md:text-center">
                     6,300+ Orders
                   </span>
@@ -197,9 +197,9 @@ export default function ExploreSubjects() {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-1 max-md:items-center max-md:gap-[2px]">
-                  <h4 className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
+                  <p className="m-0 text-[0.68rem] font-bold text-gray-900 max-md:text-[0.65rem] max-md:text-center max-md:whitespace-nowrap">
                     Engineering
-                  </h4>
+                  </p>
                   <span className="text-[0.68rem] text-gray-500 font-medium max-md:text-[0.55rem] max-md:text-center">
                     8,000+ Orders
                   </span>
@@ -226,9 +226,9 @@ export default function ExploreSubjects() {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-[2px] items-center">
-                  <h4 className="m-0 text-[0.65rem] text-center font-bold text-gray-900 whitespace-nowrap">
+                  <p className="m-0 text-[0.65rem] text-center font-bold text-gray-900 whitespace-nowrap">
                     More Subjects
-                  </h4>
+                  </p>
                   <span className="text-[0.55rem] text-gray-500 font-medium text-center">
                     View All
                   </span>
@@ -254,9 +254,9 @@ export default function ExploreSubjects() {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <h4 className="m-0 text-[0.68rem] font-bold text-gray-900">
+                  <p className="m-0 text-[0.68rem] font-bold text-gray-900">
                     Computer Science
-                  </h4>
+                  </p>
                   <span className="text-[0.68rem] text-gray-500 font-medium">
                     7,900+ Orders
                   </span>
@@ -283,9 +283,9 @@ export default function ExploreSubjects() {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <h4 className="m-0 text-[0.68rem] font-bold text-gray-900">
+                  <p className="m-0 text-[0.68rem] font-bold text-gray-900">
                     Accounting
-                  </h4>
+                  </p>
                   <span className="text-[0.68rem] text-gray-500 font-medium">
                     7,600+ Orders
                   </span>
@@ -309,9 +309,9 @@ export default function ExploreSubjects() {
                   </svg>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <h4 className="m-0 text-[0.68rem] font-bold text-gray-900">
+                  <p className="m-0 text-[0.68rem] font-bold text-gray-900">
                     Marketing
-                  </h4>
+                  </p>
                   <span className="text-[0.68rem] text-gray-500 font-medium">
                     5,500+ Orders
                   </span>

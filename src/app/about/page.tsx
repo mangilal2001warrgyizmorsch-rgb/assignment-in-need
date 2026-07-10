@@ -321,9 +321,9 @@ export default function AboutPage() {
             {/* Subtle sparkle overlay pattern */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent pointer-events-none" />
 
-            <h2 className="text-[20px] sm:text-[24px] font-[900] text-white tracking-tight mb-8 relative z-10 font-heading">
+            <p className="text-[20px] sm:text-[24px] font-[900] text-white tracking-tight mb-8 relative z-10 font-heading">
               Numbers Speak of Our Success Story
-            </h2>
+            </p>
 
             {/* 4 Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
@@ -388,9 +388,9 @@ export default function AboutPage() {
                       </span>
                     </div>
                   </div>
-                  <h3 className="text-xs sm:text-sm font-extrabold text-[#0f1b3d] leading-snug mt-1 font-heading">
+                  <p className="text-xs sm:text-sm font-extrabold text-[#0f1b3d] leading-snug mt-1 font-heading">
                     {step.title}
-                  </h3>
+                  </p>
                   <p className="text-[11px] text-gray-500 font-bold max-w-[150px] leading-relaxed">
                     {step.description}
                   </p>
@@ -418,9 +418,9 @@ export default function AboutPage() {
                       {step.number}
                     </span>
                   </div>
-                  <h3 className="text-xs font-extrabold text-[#0f1b3d] font-heading">
+                  <p className="text-xs font-extrabold text-[#0f1b3d] font-heading">
                     {step.title}
-                  </h3>
+                  </p>
                   <p className="text-[10px] text-gray-500 font-bold leading-normal">
                     {step.description}
                   </p>
@@ -495,9 +495,9 @@ export default function AboutPage() {
                   {item.icon}
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <h3 className="text-xs sm:text-sm font-extrabold text-[#0f1b3d] font-heading group-hover:text-[#3f159a] transition-colors">
+                  <p className="text-xs sm:text-sm font-extrabold text-[#0f1b3d] font-heading group-hover:text-[#3f159a] transition-colors">
                     {item.title}
-                  </h3>
+                  </p>
                   <p className="text-[11px] text-gray-500 font-bold leading-relaxed">
                     {item.desc}
                   </p>
@@ -579,9 +579,9 @@ export default function AboutPage() {
                     />
                   </div>
                   <div className="flex flex-col text-left justify-center min-w-0 flex-1">
-                    <h3 className="font-extrabold text-[#0f1b3d] text-[13px] mb-0.5 leading-snug">
+                    <p className="font-extrabold text-[#0f1b3d] text-[13px] mb-0.5 leading-snug">
                       {expert.name}
-                    </h3>
+                    </p>
                     <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wide mb-1">
                       {expert.role}
                     </p>
@@ -605,9 +605,9 @@ export default function AboutPage() {
                     />
                   </div>
                   <div className="p-4 flex flex-col text-left">
-                    <h3 className="font-extrabold text-[#0f1b3d] text-[13px] mb-0.5">
+                    <p className="font-extrabold text-[#0f1b3d] text-[13px] mb-0.5">
                       {expert.name}
-                    </h3>
+                    </p>
                     <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wide mb-2">
                       {expert.role}
                     </p>

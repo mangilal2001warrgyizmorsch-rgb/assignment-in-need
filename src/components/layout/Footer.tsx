@@ -65,12 +65,33 @@ export const Footer = () => {
               </svg>
             </a>
           </div>
+
+          {/* Secure Payment and Security Badges */}
+          <div className="mt-8 flex flex-col gap-3.5">
+            <span className="text-[#9ca3af] text-[0.75rem] font-bold uppercase tracking-wider">Secure Payment</span>
+            
+            {/* Payment card row */}
+            <div className="flex flex-wrap gap-1.5 items-center">
+              <img src="/images/badge-visa.png" alt="Visa" className="h-[24px] w-auto object-contain" />
+              <img src="/images/badge-mastercard.png" alt="Mastercard" className="h-[24px] w-auto object-contain" />
+              <img src="/images/badge-maestro.png" alt="Maestro" className="h-[24px] w-auto object-contain" />
+              <img src="/images/badge-amex.png" alt="American Express" className="h-[24px] w-auto object-contain" />
+              <img src="/images/badge-discover.png" alt="Discover" className="h-[24px] w-auto object-contain" />
+            </div>
+
+            {/* Security badges row */}
+            <div className="flex flex-wrap gap-1.5 items-center">
+              <img src="/images/badge-dmca.png" alt="DMCA Protected" className="h-[24px] w-auto object-contain" />
+              <img src="/images/badge-mcafee.png" alt="McAfee Secure" className="h-[24px] w-auto object-contain" />
+              <img src="/images/badge-gdpr.png" alt="GDPR Compliant" className="h-[24px] w-auto object-contain" />
+            </div>
+          </div>
         </div>
 
         {/* Group 1: Services & Subjects */}
         <div className="grid grid-cols-2 gap-6">
           <div className="flex flex-col">
-            <h3 className="text-white text-[1.05rem] font-bold mb-6 mt-0">Services</h3>
+            <p className="text-white text-[1.05rem] font-bold mb-6 mt-0">Services</p>
             <ul className="list-none p-0 m-0 flex flex-col gap-3.5">
               <li><Link href="/essay-writing-help-services" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Essay Writing</Link></li>
               <li><Link href="/dissertation-writing-help-services" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Dissertation Help</Link></li>
@@ -83,7 +104,7 @@ export const Footer = () => {
             </ul>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-white text-[1.05rem] font-bold mb-6 mt-0">Subjects</h3>
+            <p className="text-white text-[1.05rem] font-bold mb-6 mt-0">Subjects</p>
             <ul className="list-none p-0 m-0 flex flex-col gap-3.5">
               <li><Link href="/subjects/business" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Business</Link></li>
               <li><Link href="/subjects/nursing" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Nursing</Link></li>
@@ -99,7 +120,7 @@ export const Footer = () => {
         {/* Group 2: Company & Resources */}
         <div className="grid grid-cols-2 gap-6">
           <div className="flex flex-col">
-            <h3 className="text-white text-[1.05rem] font-bold mb-6 mt-0">Resources</h3>
+            <p className="text-white text-[1.05rem] font-bold mb-6 mt-0">Resources</p>
             <ul className="list-none p-0 m-0 flex flex-col gap-3.5">
               <li><Link href="/resources/referencing-guides" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Referencing Guides</Link></li>
               <li><Link href="/resources/writing-tips" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Writing Tips</Link></li>
@@ -110,7 +131,7 @@ export const Footer = () => {
             </ul>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-white text-[1.05rem] font-bold mb-6 mt-0">Company</h3>
+            <p className="text-white text-[1.05rem] font-bold mb-6 mt-0">Company</p>
             <ul className="list-none p-0 m-0 flex flex-col gap-3.5">
               <li><Link href="/about" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">About Us</Link></li>
               <li><Link href="/writers" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Our Experts</Link></li>
@@ -124,7 +145,7 @@ export const Footer = () => {
 
         {/* Column 6: Contact Us */}
         <div className="flex flex-col">
-          <h3 className="text-white text-[1.05rem] font-bold mb-6 mt-0">Contact Us</h3>
+          <p className="text-white text-[1.05rem] font-bold mb-6 mt-0">Contact Us</p>
           <ul className="list-none p-0 m-0 flex flex-col gap-3.5">
             <li className="flex items-start gap-3 text-[0.9rem] leading-relaxed">
               <Phone className="text-[#d1d5db] w-4 h-4 mt-1 shrink-0" />

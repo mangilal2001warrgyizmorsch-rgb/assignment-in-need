@@ -17,16 +17,16 @@ export default function PromoBannerHome() {
             <span className="text-[10px] md:text-xs font-black tracking-widest text-[#dcd6fc]">
               GET UP TO
             </span>
-            <h2 className="text-3xl md:text-[2.6rem] font-black text-white m-0 leading-none tracking-tight">
-              <span className="text-[#ff7a00]">30%</span> OFF
-            </h2>
+            <div className="text-3xl md:text-[2.6rem] font-black text-white m-0 leading-none tracking-tight">
+              <span className="text-[#ff7a00]">40%</span> OFF
+            </div>
             <span className="text-[10px] md:text-xs font-black tracking-widest text-[#dcd6fc] mt-0.5">
               ON YOUR FIRST ORDER
             </span>
             
             {/* Promo Code Badge */}
             <div className="bg-white text-[#4a17a3] text-[10px] font-extrabold py-1 px-4 rounded-full mt-2 mb-1.5 w-max border border-purple-100 select-all">
-              Use Code: <strong className="text-[#4a17a3]">AIN30</strong>
+              Use Code: <strong className="text-[#4a17a3]">AIN40</strong>
             </div>
             
             <p className="text-[9px] md:text-[10px] text-white/50 m-0 font-medium tracking-wide">
@@ -42,9 +42,9 @@ export default function PromoBannerHome() {
             {/* sparkles icon + title */}
             <div className="flex items-center gap-1.5 justify-center lg:justify-start">
               <span className="text-amber-400 text-xs select-none">✨</span>
-              <h3 className="text-xs md:text-sm font-extrabold m-0 text-white tracking-wider uppercase">
+              <p className="text-xs md:text-sm font-extrabold m-0 text-white tracking-wider uppercase">
                 All These, Absolutely FREE!
-              </h3>
+              </p>
             </div>
 
             {/* Grid layout on mobile, horizontal row layout on desktop */}

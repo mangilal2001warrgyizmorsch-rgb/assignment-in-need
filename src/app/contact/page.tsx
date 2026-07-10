@@ -177,9 +177,9 @@ export default function ContactPage() {
                         </svg>
                       </div>
                       <div className="flex flex-col text-left flex-1 min-w-0">
-                        <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">
+                        <p className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">
                           WhatsApp Support
-                        </h3>
+                        </p>
                         <p className="text-xs text-gray-500 leading-relaxed font-bold">
                           Chat with us on WhatsApp for instant assistance 24/7.
                         </p>
@@ -209,9 +209,9 @@ export default function ContactPage() {
                         <PhoneCall className="w-5 h-5 text-[#3f159a]" />
                       </div>
                       <div className="flex flex-col text-left flex-1 min-w-0">
-                        <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">
+                        <p className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">
                           Phone Support
-                        </h3>
+                        </p>
                         <p className="text-xs text-gray-500 leading-relaxed font-bold">
                           Speak to our experts anytime. We're here to help!
                         </p>
@@ -238,9 +238,9 @@ export default function ContactPage() {
                         <Mail className="w-5 h-5 text-[#ea580c]" />
                       </div>
                       <div className="flex flex-col text-left flex-1 min-w-0">
-                        <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">
+                        <p className="text-sm font-extrabold text-[#0f1b3d] mb-0.5 font-heading">
                           Email Support
-                        </h3>
+                        </p>
                         <p className="text-xs text-gray-500 leading-relaxed font-bold">
                           Drop us an email and we'll get back to you soon.
                         </p>
@@ -383,9 +383,9 @@ export default function ContactPage() {
               ) : (
                 <div className="w-full max-w-[620px] p-6 md:p-8 rounded-[24px] border border-white bg-white shadow-[0_12px_42px_rgba(0,0,0,0.06)] relative flex flex-col justify-between">
                   <div className="mb-6 text-left">
-                    <h3 className="text-[20px] text-[#0f1b3d] font-[900] mb-2 tracking-tight font-heading">
+                    <p className="text-[20px] text-[#0f1b3d] font-[900] mb-2 tracking-tight font-heading">
                       Send Us an Enquiry
-                    </h3>
+                    </p>
                     <div className="w-16 h-1 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full" />
                   </div>
 
@@ -561,9 +561,9 @@ export default function ContactPage() {
       {/* 3.4 "OUR LOCATION" MAP SECTION */}
       <section className="py-8 bg-[#faf9fe]">
         <div className="max-w-[1250px] mx-auto px-4 text-center">
-          <h2 className="text-[24px] md:text-[32px] font-[900] text-[#0f1b3d] mb-3 tracking-tight font-heading">
+          <p className="text-[24px] md:text-[32px] font-[900] text-[#0f1b3d] mb-3 tracking-tight font-heading">
             Our Location
-          </h2>
+          </p>
           <div className="w-16 h-1 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full mx-auto mb-8" />
 
           <div className="relative w-full h-[320px] md:h-[450px] rounded-3xl overflow-hidden shadow-lg border border-gray-150">
