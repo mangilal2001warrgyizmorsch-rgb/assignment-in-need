@@ -69,6 +69,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
   timePeriodOptions = DEFAULT_TIME_PERIODS,
   onSubmit,
   className,
+  prefilledSubject,
 }) => {
   const router = useRouter();
 
@@ -158,9 +159,10 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           countryCode,
           countryIso,
           service: projectType || "Assignment",
+          subject: prefilledSubject || "General",
           deadline: timePeriod.replace(/[^0-9]/g, "") || timePeriod || "5",
           wordCount: String(wordCount),
-          description: description || "Instant Quote Request",
+          description: description || "",
           source_page: typeof window !== "undefined" ? window.location.href : "https://assignmentinneed.com/quote",
         }),
       });

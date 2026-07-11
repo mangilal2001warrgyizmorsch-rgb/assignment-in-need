@@ -413,9 +413,10 @@ export default function SubjectLanding() {
           countryCode,
           countryIso,
           service: projectType || "Assignment",
+          subject: subject?.name || "",
           deadline: timePeriod ? (timePeriod.replace(/[^0-9]/g, "") || timePeriod) : "5",
           wordCount: wordCount ? (wordCount.replace(/[^0-9]/g, "") || wordCount) : "1500",
-          description: `Quote request for ${subject.name}`,
+          description: `Quote request for ${subject?.name || ""}`,
           source_page: typeof window !== "undefined" ? window.location.href : `https://assignmentinneed.com/subjects/${slug}`,
         }),
       });

@@ -138,7 +138,7 @@ export default function PricingPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) {
       toast.error("Please fill in all required fields correctly.");
@@ -146,11 +146,38 @@ export default function PricingPage() {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    try {
+      const response = await fetch("/api/submit-enquiry", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          mobile: phone || "",
+          country_code: countryCode,
+          subject,
+          inquiry_type: inquiryType,
+          message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast.success(data.message || "Enquiry submitted successfully!");
+        setIsSubmitted(true);
+      } else {
+        toast.error(data.message || "Failed to submit enquiry. Please try again.");
+      }
+    } catch (error: any) {
+      toast.error("Network error. Please try again.");
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-      toast.success("Quote request submitted successfully! We will contact you soon.");
-    }, 1200);
+    }
   };
 
   const trustBadges = [

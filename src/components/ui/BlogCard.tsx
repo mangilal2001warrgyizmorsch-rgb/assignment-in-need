@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export interface BlogCardProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BlogCardProps extends React.HTMLAttributes<HTMLAnchorElement> {
   title: string;
   excerpt: string;
   date: string;
@@ -12,15 +12,19 @@ export interface BlogCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const BlogCard: React.FC<BlogCardProps> = ({ title, excerpt, date, image, href, className, ...props }) => {
   return (
-    <article className={`rounded-[2rem] overflow-hidden border border-slate-100 bg-white shadow-[0_15px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col h-full ${className ?? ""}`} {...props}>
+    <Link 
+      href={href} 
+      className={`rounded-[2rem] overflow-hidden border border-slate-100 bg-white shadow-[0_15px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col h-full cursor-pointer no-underline group ${className ?? ""}`} 
+      {...props}
+    >
       <div className="relative overflow-hidden h-56 w-full">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="p-6 flex flex-col flex-grow text-left">
         {/* Meta Info Row */}
         <div className="flex items-center justify-between text-xs text-text-muted font-semibold mb-3">
           <span className="flex items-center gap-1.5">
@@ -38,8 +42,8 @@ export const BlogCard: React.FC<BlogCardProps> = ({ title, excerpt, date, image,
         </div>
 
         {/* Title */}
-        <h3 className="text-lg md:text-xl font-bold text-text-heading mb-4 leading-snug hover:text-primary-700 transition-colors">
-          <Link href={href}>{title}</Link>
+        <h3 className="text-lg md:text-xl font-bold text-text-heading mb-4 leading-snug group-hover:text-primary-700 transition-colors">
+          {title}
         </h3>
 
         {/* Excerpt Box */}
@@ -51,12 +55,12 @@ export const BlogCard: React.FC<BlogCardProps> = ({ title, excerpt, date, image,
 
         {/* Action Button */}
         <div>
-          <Link href={href} className="btn-shutter-blue-open font-bold rounded-full px-6 py-2.5 text-sm cursor-pointer inline-flex items-center justify-center">
+          <span className="btn-shutter-blue-open font-bold rounded-full px-6 py-2.5 text-sm cursor-pointer inline-flex items-center justify-center">
             Learn More
-          </Link>
+          </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 };
 

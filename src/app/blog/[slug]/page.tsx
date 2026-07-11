@@ -5,6 +5,7 @@ import { SUBJECTS } from "@/lib/data";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { getBaseUrl, getImageUrl } from "@/lib/api";
 import { AnimateIn } from "@/components/ui/AnimateIn";
+import { SidebarQuoteForm } from "@/components/ui/SidebarQuoteForm";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,7 @@ export default async function BlogDetailPage({ params }: Props) {
   const { slug } = await params;
 
   let post = null;
+  let subjects: any[] = [];
   try {
     const baseUrl = getBaseUrl();
     const res = await fetch(`${baseUrl}/api/blogs/${slug}`);
@@ -27,6 +29,22 @@ export default async function BlogDetailPage({ params }: Props) {
     }
   } catch (error) {
     console.error("Error fetching blog detail:", error);
+  }
+
+  try {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://ain.warrgyizmorsch.com";
+    const res = await fetch(`${backendUrl}/api/subject-pages`, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const payload = await res.json();
+      if ((payload.success || payload.status === "success") && Array.isArray(payload.data)) {
+        subjects = payload.data;
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching subjects list:", error);
   }
 
   if (!post) {
@@ -73,17 +91,36 @@ export default async function BlogDetailPage({ params }: Props) {
                 </Link>
               </div>
 
+              {/* Get Free Assignment Quote Form */}
+              <SidebarQuoteForm sourceName="Blog Detail Page" />
+
               {/* Popular Subjects */}
               <div className="rounded-2xl bg-slate-50 p-6 shadow-sm border border-slate-100">
                 <h4 className="text-lg font-bold text-primary-700 mb-4">Our Popular Subjects</h4>
                 <ul className="space-y-2.5">
-                  {SUBJECTS.slice(0, 8).map((s) => (
-                    <li key={s.slug}>
-                      <Link href={`/subjects/${s.slug}`} className="block rounded-xl px-4 py-2.5 border border-slate-200 text-sm font-semibold text-text-heading bg-white hover:bg-primary-700 hover:text-white hover:border-primary-700 transition duration-300">
-                        {s.name}
-                      </Link>
-                    </li>
-                  ))}
+                  {(subjects.length > 0 ? subjects.slice(0, 8) : SUBJECTS.slice(0, 8)).map((s: any, idx: number) => {
+                    let finalSlug = "";
+                    let name = "";
+                    if (s.title) {
+                      const cleanSlug = (s.slug || "").replace(/^\/+/, "");
+                      finalSlug = cleanSlug.startsWith("subject/") ? cleanSlug.replace("subject/", "") : cleanSlug;
+                      const humanized = finalSlug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+                      name = s.title.split(" Help")[0]?.split(" Assignment")[0] || humanized;
+                    } else {
+                      finalSlug = s.slug || "";
+                      name = s.name || "";
+                    }
+                    return (
+                      <li key={finalSlug || idx}>
+                        <Link
+                          href={`/subjects/${finalSlug}`}
+                          className="block rounded-xl px-4 py-2.5 border border-slate-200 text-sm font-semibold text-text-heading bg-white hover:bg-primary-700 hover:text-white hover:border-primary-700 transition duration-300"
+                        >
+                          {name}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
 
