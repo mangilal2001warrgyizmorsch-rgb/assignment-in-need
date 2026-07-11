@@ -306,7 +306,7 @@ export default function ReviewsAndFaq() {
 
       {/* 1. Replicated Header Banner (Same as Experts page styling) */}
       <section className="znw-hero-section">
-        <div className="znw-hero-container">
+        <div className="znw-hero-top">
           <AnimateIn variant="fadeUp" className="znw-hero-content text-left">
             <span className="znw-badge">⭐ Student Testimonials</span>
             <h1 className="znw-hero-title">
