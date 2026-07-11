@@ -439,9 +439,74 @@ export default function SubjectLanding() {
 
   if (loading) {
     return (
-      <div className="bg-white min-h-[60vh] flex flex-col items-center justify-center gap-4 text-center px-4">
-        <div className="w-10 h-10 border-4 border-[#3f159a] border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-gray-500 font-semibold animate-pulse">Loading subject details...</p>
+      <div className="bg-white min-h-[60vh] font-sans text-[#111827] overflow-hidden">
+        {/* Skeleton Hero Section */}
+        <section
+          className="relative pt-6 pb-8 px-4 md:px-6 lg:px-8 border-b border-gray-100 animate-pulse"
+          style={{ background: "linear-gradient(115deg, #ffffff 48%, #faf8ff)" }}
+        >
+          <div className="max-w-[1250px] mx-auto">
+            {/* Breadcrumb Skeleton */}
+            <div className="flex items-center gap-1.5 mb-6">
+              <div className="h-3.5 w-10 bg-slate-200 rounded"></div>
+              <div className="h-3 w-3 bg-slate-200 rounded"></div>
+              <div className="h-3.5 w-14 bg-slate-200 rounded"></div>
+              <div className="h-3 w-3 bg-slate-200 rounded"></div>
+              <div className="h-3.5 w-28 bg-slate-200 rounded"></div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch min-h-[500px] lg:min-h-[545px]">
+              {/* Left Column Skeleton */}
+              <div className="lg:col-span-7 flex flex-col justify-start items-start text-left z-20 pb-4 lg:pb-0 pt-2">
+                {/* Badge Skeleton */}
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-4 w-12 bg-slate-200 rounded"></div>
+                  <div className="h-3.5 w-48 bg-slate-200 rounded"></div>
+                </div>
+
+                {/* Title Skeleton */}
+                <div className="h-9 w-[80%] bg-slate-200 rounded mb-3"></div>
+                <div className="h-9 w-[60%] bg-slate-200 rounded mb-6"></div>
+
+                {/* Description Skeleton */}
+                <div className="space-y-2.5 w-full max-w-[500px] mb-8">
+                  <div className="h-3.5 w-[95%] bg-slate-200 rounded"></div>
+                  <div className="h-3.5 w-[90%] bg-slate-200 rounded"></div>
+                  <div className="h-3.5 w-[75%] bg-slate-200 rounded"></div>
+                </div>
+
+                {/* Key Benefits Skeleton */}
+                <div className="grid grid-cols-2 gap-4 w-full max-w-[480px] mt-4">
+                  <div className="h-10 bg-slate-200 rounded-xl"></div>
+                  <div className="h-10 bg-slate-200 rounded-xl"></div>
+                  <div className="h-10 bg-slate-200 rounded-xl"></div>
+                  <div className="h-10 bg-slate-200 rounded-xl"></div>
+                </div>
+              </div>
+
+              {/* Right Column (Quote Form) Skeleton */}
+              <div className="lg:col-span-4 flex justify-center lg:justify-end items-center z-20 pt-4">
+                <div className="w-[390px] h-[450px] bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+                  {/* Form Header Skeleton */}
+                  <div className="h-6 w-32 bg-slate-200 rounded mx-auto mb-2"></div>
+                  {/* Inputs Skeleton */}
+                  <div className="space-y-3.5 w-full">
+                    <div className="h-8 bg-slate-200 rounded-lg"></div>
+                    <div className="h-8 bg-slate-200 rounded-lg"></div>
+                    <div className="h-8 bg-slate-200 rounded-lg"></div>
+                    <div className="h-8 bg-slate-200 rounded-lg"></div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="h-8 bg-slate-200 rounded-lg"></div>
+                      <div className="h-8 bg-slate-200 rounded-lg"></div>
+                    </div>
+                  </div>
+                  {/* Button Skeleton */}
+                  <div className="h-10 bg-slate-200 rounded-lg mt-auto w-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     );
   }
