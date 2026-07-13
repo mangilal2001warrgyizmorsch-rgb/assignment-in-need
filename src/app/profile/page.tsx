@@ -86,9 +86,11 @@ interface OrderListData {
   summary: OrderSummary;
 }
 
-const BACKEND_BASE = "https://ain.warrgyizmorsch.com";
-const PROFILE_API = `${BACKEND_BASE}/api/app/profile`;
-const ORDER_LIST_API = `${BACKEND_BASE}/api/app/order-list`;
+// These hit Next.js proxy routes (src/app/api/app/*/route.ts)
+// which forward the request server-side — no CORS issues.
+const PROFILE_API = "/api/app/profile";
+const ORDER_LIST_API = "/api/app/order-list";
+
 
 /* ── Status badge helper ────────────────────────────────────────────────────── */
 function StatusBadge({ status }: { status: string | null }) {
@@ -154,40 +156,7 @@ export default function ProfilePage() {
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [ordersError, setOrdersError] = useState<string | null>(null);
 
-  /* ── Fetch user profile from API ── */
-  const fetchProfile = useCallback(async (token: string) => {
-    try {
-      const res = await fetch(PROFILE_API, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
-      if (!res.ok) return;
-      const json = await res.json().catch(() => null);
-      if (json?.success && json?.data) {
-        const pd = json.data as Record<string, string>;
-        const merged = {
-          name: pd.name || "",
-          email: pd.email || "",
-          // API uses mobile_no, fall back to stored phone_no
-          phone_no: pd.mobile_no || pd.phone_no || pd.phone || "+44 7300 000000",
-          // API uses country
-          location: pd.country || pd.location || "United Kingdom",
-          created_at: pd.created_at || new Date().toISOString(),
-        };
-        setProfile(merged);
-        setEditForm(merged);
-        // Keep localStorage in sync with fresh API data
-        localStorage.setItem("ain_user_name", merged.name);
-        localStorage.setItem("ain_user_email", merged.email);
-        localStorage.setItem("ain_user_data", JSON.stringify(pd));
-      }
-    } catch {
-      // Silent — profile already loaded from localStorage as fallback
-    }
-  }, []);
-
+  /* ── Fetch orders (also used by the Refresh button) ── */
   const fetchOrders = useCallback(async (token: string) => {
     setOrdersLoading(true);
     setOrdersError(null);
@@ -211,9 +180,48 @@ export default function ProfilePage() {
     } finally {
       setOrdersLoading(false);
     }
-  }, []);
+  }, []); // stable — no external deps
 
-  /* ── Auth + profile load ── */
+  /* ── Single init callback: loads profile + orders in parallel ── */
+  const loadPageData = useCallback(
+    async (token: string) => {
+      // 1. Fetch profile from API (overwrites localStorage with fresh server data)
+      try {
+        const res = await fetch(PROFILE_API, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+        });
+        if (res.ok) {
+          const json = await res.json().catch(() => null);
+          if (json?.success && json?.data) {
+            const pd = json.data as Record<string, string>;
+            const merged = {
+              name: pd.name || "",
+              email: pd.email || "",
+              phone_no: pd.mobile_no || pd.phone_no || pd.phone || "+44 7300 000000",
+              location: pd.country || pd.location || "United Kingdom",
+              created_at: pd.created_at || new Date().toISOString(),
+            };
+            setProfile(merged);
+            setEditForm(merged);
+            localStorage.setItem("ain_user_name", merged.name);
+            localStorage.setItem("ain_user_email", merged.email);
+            localStorage.setItem("ain_user_data", JSON.stringify(pd));
+          }
+        }
+      } catch {
+        // silent — localStorage fallback already shown
+      }
+
+      // 2. Fetch orders in parallel
+      fetchOrders(token);
+    },
+    [fetchOrders] // stable because fetchOrders is stable
+  );
+
+  /* ── Auth + page init ── */
   useEffect(() => {
     setIsClient(true);
     const token = localStorage.getItem("ain_auth_token");
@@ -223,7 +231,7 @@ export default function ProfilePage() {
       return;
     }
 
-    // Load profile
+    // Show cached profile data immediately while API loads
     const rawData = localStorage.getItem("ain_user_data");
     const localName = localStorage.getItem("ain_user_name");
     const localEmail = localStorage.getItem("ain_user_email");
@@ -231,19 +239,17 @@ export default function ProfilePage() {
     if (rawData) {
       try {
         const parsed = JSON.parse(rawData);
-        const merged = {
+        const cached = {
           name: parsed.name || localName || "Student",
           email: parsed.email || localEmail || "",
-          // Profile API returns mobile_no; fallback to phone_no/phone
           phone_no: parsed.mobile_no || parsed.phone_no || parsed.phone || "+44 7300 000000",
-          // Profile API returns country; fallback to location
           location: parsed.country || parsed.location || "United Kingdom",
           created_at: parsed.created_at || "2026-03-10",
         };
-        setProfile(merged);
-        setEditForm(merged);
+        setProfile(cached);
+        setEditForm(cached);
       } catch {
-        // use fallbacks
+        // use defaults
       }
     } else if (localName || localEmail) {
       const fallback = {
@@ -257,11 +263,10 @@ export default function ProfilePage() {
       setEditForm(fallback);
     }
 
-    // Fetch fresh profile from API (refreshes localStorage with latest server data)
-    fetchProfile(token);
-    // Fetch orders
-    fetchOrders(token);
-  }, [router, fetchProfile, fetchOrders]);
+    // Load fresh data from server
+    loadPageData(token);
+  }, [router, loadPageData]); // ← fixed size — always 2 deps
+
 
   /* ── Handlers ── */
   const handleProfileUpdate = (e: React.FormEvent) => {
