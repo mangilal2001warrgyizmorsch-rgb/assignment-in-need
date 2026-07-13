@@ -294,7 +294,7 @@ export default function StyleGuide() {
         <SectionContainer background="lavender">
           <Heading level={2} className="mb-8">7. Full Width Promo Banner</Heading>
           <PromoBanner
-            title="Get 30% OFF Your First Accounting Case Study Order!"
+            title="Get 40% OFF Your First Accounting Case Study Order!"
             description="Sign up with your university email today and get a turnitin-verified report, formatting, and formatting revisions completely free."
             badgeItems={promoBadges}
             ctaLabel="Get Discount Now"

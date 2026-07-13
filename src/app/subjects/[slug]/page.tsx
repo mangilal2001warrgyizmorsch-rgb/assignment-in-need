@@ -1147,7 +1147,7 @@ export default function SubjectLanding() {
                   ON YOUR FIRST ORDER
                 </span>
                 <em className="inline-block rounded-[4px] px-3.5 py-2 bg-white text-[#3f159a] text-[10px] font-black uppercase not-italic tracking-wider text-center shadow-sm cursor-pointer hover:bg-gray-50 transition">
-                  Use Code: AIN30
+                  Use Code: AIN40
                 </em>
               </div>
 

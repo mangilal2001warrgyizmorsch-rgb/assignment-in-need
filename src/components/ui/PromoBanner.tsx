@@ -43,7 +43,7 @@ export const PromoBanner: React.FC<PromoBannerProps> = ({
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
 
       {isGiftLayout ? (
-        // Enhanced Gift Box Layout (Matching Homepage and Subject Page 30% OFF banner)
+        // Enhanced Gift Box Layout (Matching Homepage and Subject Page 40% OFF banner)
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 w-full z-10">
           <div className="flex flex-col gap-4 max-w-xl text-left">
             <div className="inline-flex w-fit bg-white/15 px-3 py-1 rounded-pill text-xs font-heading font-semibold tracking-wide border border-white/10 uppercase">
