@@ -99,7 +99,7 @@ export default function Home() {
 
       <SeoContentSection />
       <ResultsAndTools />
-      {/* <WritersAndTrust /> */}
+      <WritersAndTrust />
       <ReviewsAndFaq />
       <CtaBanner />
 

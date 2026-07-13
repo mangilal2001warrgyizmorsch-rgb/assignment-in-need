@@ -30,9 +30,9 @@ export const Footer = () => {
         
         {/* Column 1: Brand */}
         <div className="flex flex-col items-start text-left">
-          <div className="max-h-[70px] bg-transparent object-contain bg-white p-1 rounded-lg">
-            <img src="/images/icons/assignment_logo2.png" alt="Assignment IN NEED" className="max-h-[70px] object-contain" />
-          </div>
+          <Link href="/" className="inline-block bg-white p-1 rounded-lg max-h-[70px]">
+            <img src="/assets/media/layout/ain-logo-full.webp" alt="Assignment IN NEED" className="max-h-[62px] object-contain" />
+          </Link>
           <p className="text-[0.85rem] leading-relaxed text-[#9ca3af] mt-4 mb-6 max-w-[250px]">
             Helping students in the UK achieve academic success with expert support and guidance.
           </p>
@@ -90,19 +90,19 @@ export const Footer = () => {
             <span className="text-[#9ca3af] text-[0.75rem] font-bold uppercase tracking-wider">Secure Payment</span>
             
             {/* Payment card row */}
-            <div className="flex flex-wrap gap-1.5 items-center">
-              <img src="/images/badge-visa.png" alt="Visa" className="h-[24px] w-auto object-contain" />
-              <img src="/images/badge-mastercard.png" alt="Mastercard" className="h-[24px] w-auto object-contain" />
-              <img src="/images/badge-maestro.png" alt="Maestro" className="h-[24px] w-auto object-contain" />
-              <img src="/images/badge-amex.png" alt="American Express" className="h-[24px] w-auto object-contain" />
-              <img src="/images/badge-discover.png" alt="Discover" className="h-[24px] w-auto object-contain" />
+            <div className="flex flex-wrap gap-3 items-center">
+              <img src="/images/badge-visa.png" alt="Visa" className="h-[38px] w-auto object-contain" />
+              <img src="/images/badge-mastercard.png" alt="Mastercard" className="h-[38px] w-auto object-contain" />
+              <img src="/images/badge-maestro.png" alt="Maestro" className="h-[38px] w-auto object-contain" />
+              <img src="/images/badge-amex.png" alt="American Express" className="h-[38px] w-auto object-contain" />
+              <img src="/images/badge-discover.png" alt="Discover" className="h-[38px] w-auto object-contain" />
             </div>
 
             {/* Security badges row */}
-            <div className="flex flex-wrap gap-1.5 items-center">
-              <img src="/images/badge-dmca.png" alt="DMCA Protected" className="h-[24px] w-auto object-contain" />
-              <img src="/images/badge-mcafee.png" alt="McAfee Secure" className="h-[24px] w-auto object-contain" />
-              <img src="/images/badge-gdpr.png" alt="GDPR Compliant" className="h-[24px] w-auto object-contain" />
+            <div className="flex flex-wrap gap-3 items-center">
+              <img src="/images/badge-dmca.png" alt="DMCA Protected" className="h-[38px] w-auto object-contain" />
+              <img src="/images/badge-mcafee.png" alt="McAfee Secure" className="h-[38px] w-auto object-contain" />
+              <img src="/images/badge-gdpr.png" alt="GDPR Compliant" className="h-[38px] w-auto object-contain" />
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ export const Footer = () => {
               <li><Link href="/report-writing" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Report Writing</Link></li>
               <li><Link href="/proofreading-and-editing-writing-help" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Proofreading</Link></li>
               <li><Link href="/dissertation-editing-and-proofreading-help-uk" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Editing & Formatting</Link></li>
-              <li className="font-semibold"><Link href="/assignment-writing-help-services" className="text-[#3b82f6] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">View All Services</Link></li>
+              {/* <li className="font-semibold"><Link href="/assignment-writing-help-services" className="text-[#3b82f6] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">View All Services</Link></li> */}
             </ul>
           </div>
           <div className="flex flex-col">
@@ -149,7 +149,7 @@ export const Footer = () => {
                   <li><Link href="/subjects/psychology" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Psychology</Link></li>
                 </>
               )}
-              <li className="font-semibold"><Link href="/subjects/business" className="text-[#3b82f6] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">View All Subjects</Link></li>
+              {/* <li className="font-semibold"><Link href="/subjects/business" className="text-[#3b82f6] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">View All Subjects</Link></li> */}
             </ul>
           </div>
         </div>
@@ -164,7 +164,7 @@ export const Footer = () => {
               <li><Link href="/samples" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Samples</Link></li>
               <li><Link href="/blog" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Blog</Link></li>
               <li><Link href="/resources/student-resources" className="text-[#d1d5db] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">Student Resources</Link></li>
-              <li className="font-semibold"><Link href="/resources" className="text-[#3b82f6] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">View All Resources</Link></li>
+              {/* <li className="font-semibold"><Link href="/resources" className="text-[#3b82f6] no-underline text-[0.9rem] transition-colors duration-200 hover:text-white hover:underline">View All Resources</Link></li> */}
             </ul>
           </div>
           <div className="flex flex-col">

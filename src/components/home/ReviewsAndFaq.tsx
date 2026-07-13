@@ -339,7 +339,7 @@ export default function ReviewsAndFaq() {
         <div className="flex flex-col">
           <AnimateIn variant="fadeUp">
             <h2 className="text-[1.6rem] font-extrabold text-gray-900 mb-6 tracking-tight">
-              What Students Say <span className="text-blue-600">About Us</span>
+              What Students Say <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis">About Us</span>
             </h2>
           </AnimateIn>
 
@@ -391,7 +391,8 @@ export default function ReviewsAndFaq() {
         <div className="flex flex-col">
           <AnimateIn variant="fadeUp">
             <h2 className="text-[1.6rem] font-extrabold text-gray-900 mb-6 tracking-tight">
-              Frequently Asked Questions
+              Frequently 
+              <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis"> Asked Questions </span>
             </h2>
           </AnimateIn>
 

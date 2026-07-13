@@ -6,7 +6,7 @@ export default function CtaBanner() {
   return (
     <section className="py-8 px-4 md:py-12 md:px-6 bg-[#fafaff] font-sans flex justify-center overflow-hidden">
       {/* Outer Banner Card with responsive padding to accommodate absolute student image */}
-      <AnimateIn variant="scaleUp" className="relative w-full max-w-[1200px] bg-gradient-to-r from-[#241165] via-[#3a1a8c] to-[#e8523f] rounded-2xl flex flex-col lg:flex-row items-center justify-between p-6 md:p-[2rem_2rem_2rem_240px] lg:p-[2rem_3rem_2rem_360px] text-center lg:text-left gap-6 lg:gap-0 shadow-[0_10px_35px_rgba(0,0,0,0.06)] overflow-visible">
+      <AnimateIn variant="scaleUp" className="relative w-full max-w-[1200px] bg-gradient-to-r from-[#241165] via-[#3a1a8c] to-[#e8523f] rounded-2xl flex flex-col lg:flex-row items-center justify-between p-6 md:p-[2rem_2rem_2rem_200px] lg:p-[2rem_3rem_2rem_220px] text-center lg:text-left gap-6 lg:gap-0 shadow-[0_10px_35px_rgba(0,0,0,0.06)] overflow-visible">
         {/* Layered transparent circles for premium texture */}
         <div className="absolute top-0 right-0 bottom-0 w-[300px] overflow-hidden rounded-r-2xl pointer-events-none z-[1]">
           <div className="absolute w-[200px] h-[200px] top-[-80px] right-[-40px] rounded-full bg-white/5" />
@@ -17,20 +17,20 @@ export default function CtaBanner() {
         <img
           src="/new-home-page-images/Cta-New.webp"
           alt="Student assignment help assistance"
-          className="hidden md:block absolute left-[-2rem] lg:left-[-3rem] bottom-0 h-[125%] max-w-[280px] lg:max-w-[380px] z-[2] pointer-events-none object-contain object-left-bottom select-none"
+          className="hidden md:block absolute left-[1rem] lg:left-[-1rem] bottom-0 h-[135%] max-w-[30%] lg:max-w-[30%] z-[2] pointer-events-none object-contain object-left-bottom select-none"
         />
 
-        {/* Left Columns Container */}
-        <div className="flex flex-col items-center lg:items-start flex-1 z-[2] relative">
-          <h2 className="text-xl md:text-2xl lg:text-[2rem] font-black text-white tracking-tight leading-tight m-0">
+        {/* Left Columns Container (Centered) */}
+        <div className="flex flex-col items-center flex-1 z-[2] relative max-w-[65%] text-center lg:text-center">
+          <h2 className="text-xl md:text-2xl lg:text-[2rem] font-black text-white tracking-tight leading-tight m-0 text-center">
             Stuck On Your Assignment?
           </h2>
-          <p className="text-xs md:text-sm text-purple-100 font-semibold mt-1.5 mb-5 lg:mb-6 max-w-lg leading-relaxed m-0">
+          <p className="text-xs md:text-sm text-purple-100 font-semibold mt-1.5 mb-5 lg:mb-6 max-w-lg leading-relaxed m-0 text-center">
             Get expert help and improve your grades with confidence.
           </p>
 
           {/* Three Feature Strips */}
-          <div className="flex flex-wrap sm:flex-nowrap gap-4 sm:gap-6 justify-center lg:justify-start items-center w-full">
+          <div className="flex flex-wrap sm:flex-nowrap gap-4 sm:gap-6 justify-center items-center w-full">
             {/* feature 1 */}
             <div className="flex items-center gap-2.5 text-left shrink-0">
               <div className="w-[34px] h-[34px] rounded-full border border-white/20 flex items-center justify-center shrink-0">

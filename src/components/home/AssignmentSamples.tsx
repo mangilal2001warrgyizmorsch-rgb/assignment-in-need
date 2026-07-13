@@ -139,7 +139,8 @@ export default function AssignmentSamples() {
       <div className="max-w-[1200px] w-full flex items-center gap-10 max-lg:flex-col max-lg:items-start max-lg:gap-6">
         <AnimateIn variant="fadeUp" className="w-[260px] max-lg:w-full shrink-0 flex flex-col gap-4 max-lg:flex-row max-lg:items-center max-lg:justify-between max-md:flex-col max-md:items-start">
           <h2 className="text-2xl md:text-[1.8rem] font-extrabold text-[#1e1b4b] m-0 leading-tight max-md:text-[1.4rem]">
-            Assignment Samples
+            Assignment 
+             <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis"> Samples</span>
           </h2>
           <p className="text-[0.95rem] text-gray-600 m-0 leading-relaxed max-lg:hidden max-md:block max-md:text-[0.85rem]">
             High-quality work samples to get an idea of our writing quality.

@@ -279,7 +279,8 @@ export default function PopularServices() {
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 w-full">
         <AnimateIn variant="fadeUp">
           <h2 className="text-center text-xl md:text-[1.75rem] font-black text-gray-900 m-0 mb-8 md:mb-12">
-            Our Most Popular Services
+            Our Most 
+            <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis"> Popular Services</span>
           </h2>
         </AnimateIn>
 

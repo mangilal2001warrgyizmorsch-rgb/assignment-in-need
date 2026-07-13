@@ -855,17 +855,19 @@ export const Navbar = () => {
                 gap: 12px;
               }
               .znh-logo img {
-                height: 44px;
+                height: 35px;
+                width: auto;
               }
               .znh-contact-icon,
               .znh-account-button,
               .znh-mobile-toggle {
-                width: 38px;
-                height: 38px;
+                width: 32px;
+                height: 32px;
               }
               .znh-nav {
                 width: 300px;
               }
+
             }
 
           `,
@@ -930,7 +932,7 @@ export const Navbar = () => {
             aria-label="Assignment In Need home"
           >
             <img
-              src="/assets/media/layout/assignment_logo.webp"
+              src="/assets/media/layout/ain-logo-full.webp"
               alt="Assignment In Need Logo"
             />
           </Link>
@@ -1057,7 +1059,7 @@ export const Navbar = () => {
               <li className="znh-mobile-only mt-4">
                 <Link
                   href="/order"
-                  className="btn-shutter-orange-open text-white py-3 px-6 rounded-lg font-semibold inline-flex items-center justify-center w-full"
+                  className="btn-shutter-orange-open text-white lg:py-3! py-2! lg:px-6! px-2! rounded-lg font-semibold inline-flex items-center justify-center w-56px! lg:w-full!"
                   onClick={closeMobileMenu}
                 >
                   Get Free Quote
@@ -1132,7 +1134,7 @@ export const Navbar = () => {
 
             <Link
               href="/order"
-              className="btn-shutter-orange-open text-white py-3 px-6 rounded-lg font-semibold inline-flex items-center justify-center desktop-only"
+              className="btn-shutter-orange-open text-white py-2 px-3 md:py-3 md:px-6 rounded-lg font-semibold text-[11px] md:text-base inline-flex items-center justify-center whitespace-nowrap"
             >
               Get Free Quote
             </Link>

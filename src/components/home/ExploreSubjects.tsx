@@ -73,18 +73,19 @@ export default function ExploreSubjects() {
         <div className="flex justify-between items-end mb-5 px-4 md:px-4 text-center md:text-left flex-col md:flex-row gap-2 md:gap-0">
           <AnimateIn variant="fadeUp" className="w-full md:w-auto">
             <h2 className="text-2xl md:text-[1.8rem] font-extrabold text-[#1e1b4b] m-0 mb-2">
-              Explore Subjects
+              Explore
+              <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis"> Subjects </span>
             </h2>
             <p className="text-[0.95rem] text-gray-600 m-0 font-medium">
               Expert help in 150+ subjects
             </p>
           </AnimateIn>
-          <a
+          {/* <a
             href="/services"
             className="hidden md:flex text-[0.95rem] font-bold text-[#4f46e5] hover:text-[#3730a3] items-center gap-2 transition-colors duration-300"
           >
             View All Subjects &rarr;
-          </a>
+          </a> */}
         </div>
 
         <div className="relative flex items-center gap-4">

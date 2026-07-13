@@ -1,33 +1,11 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { QuoteForm } from "@/components/ui/QuoteForm";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export default function HeroSection() {
-  const marqueeWrapperRef = useRef<HTMLDivElement>(null);
-
-  const scrollMarqueeLeft = () => {
-    if (marqueeWrapperRef.current) {
-      marqueeWrapperRef.current.classList.add("user-scrolling");
-      marqueeWrapperRef.current.scrollBy({ left: -200, behavior: "smooth" });
-      setTimeout(
-        () => marqueeWrapperRef.current?.classList.remove("user-scrolling"),
-        1000,
-      );
-    }
-  };
-
-  const scrollMarqueeRight = () => {
-    if (marqueeWrapperRef.current) {
-      marqueeWrapperRef.current.classList.add("user-scrolling");
-      marqueeWrapperRef.current.scrollBy({ left: 200, behavior: "smooth" });
-      setTimeout(
-        () => marqueeWrapperRef.current?.classList.remove("user-scrolling"),
-        1000,
-      );
-    }
-  };
+  const [marqueeHovered, setMarqueeHovered] = useState(false);
 
   return (
     <>
@@ -60,8 +38,7 @@ export default function HeroSection() {
             transform: translateX(calc(-50% - 0.75rem));
           }
         }
-        .hero-marquee-wrapper:hover .hero-marquee-track,
-        .hero-marquee-wrapper.user-scrolling .hero-marquee-track {
+        .hero-marquee-wrapper:hover .hero-marquee-track {
           animation-play-state: paused;
         }
         /* Mobile marquee grid */
@@ -111,7 +88,10 @@ export default function HeroSection() {
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="flex flex-row items-center justify-between gap-8 max-lg:flex-col max-lg:items-center max-lg:gap-8">
             {/* Left Content Column */}
-            <AnimateIn variant="fadeUp" className="flex-1 max-w-[650px] z-[2] max-lg:w-full max-lg:max-w-full max-lg:text-center max-lg:flex-none max-md:text-left max-md:items-start">
+            <AnimateIn
+              variant="fadeUp"
+              className="flex-1 max-w-[650px] z-[2] max-lg:w-full max-lg:max-w-full max-lg:text-center max-lg:flex-none max-md:text-left max-md:items-start"
+            >
               <div className="inline-flex items-center gap-2.5 bg-transparent mb-3 text-[0.78rem] max-[480px]:text-[0.65rem] font-semibold text-gray-800 max-lg:justify-center max-md:justify-start max-md:flex-nowrap max-md:whitespace-nowrap">
                 <div className="flex bg-green-800 py-[3px] px-1.5 rounded gap-0.5 max-[480px]:py-[2px] max-[480px]:px-1">
                   {[...Array(5)].map((_, i) => (
@@ -131,7 +111,7 @@ export default function HeroSection() {
               </div>
 
               <h1 className="text-[2.75rem] max-md:text-[2.1rem] max-[480px]:text-[1.8rem] font-extrabold leading-[1.3] text-gray-900 mb-3 line-clamp-3 max-md:text-left">
-                Assignment Help UK by Expert 
+                Assignment Help UK by Expert
                 <br />
                 <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent block mt-1 whitespace-nowrap overflow-hidden text-ellipsis">
                   Assignment Helpers
@@ -140,8 +120,11 @@ export default function HeroSection() {
 
               <div className="max-lg:text-center max-md:text-left">
                 <p className="text-[0.92rem] max-md:text-[0.78rem] text-gray-600 leading-relaxed mb-4">
-                  Get trusted assignment help online for essays, reports, coursework, dissertations, and case studies. Our subject specialists provide original, human-written academic support tailored to UK university standards, your module requirements, and your deadlines.
-
+                  Get trusted assignment help online for essays, reports,
+                  coursework, dissertations, and case studies. Our subject
+                  specialists provide original, human-written academic support
+                  tailored to UK university standards, your module requirements,
+                  and your deadlines.
                 </p>
               </div>
 
@@ -226,7 +209,11 @@ export default function HeroSection() {
             </AnimateIn>
 
             {/* Middle Image Column */}
-            <AnimateIn variant="scaleUp" delay={0.15} className="flex-1 flex justify-center relative z-[1] max-lg:order-2 max-lg:mt-8 max-lg:w-full max-lg:max-w-[450px] max-lg:flex-none">
+            <AnimateIn
+              variant="scaleUp"
+              delay={0.15}
+              className="flex-1 flex justify-center relative z-[1] max-lg:order-2 max-lg:mt-8 max-lg:w-full max-lg:max-w-[450px] max-lg:flex-none"
+            >
               <div className="relative w-full max-w-[360px] min-h-[320px]">
                 <img
                   src="/new-home-page-images/New-Hero-Bg.webp"
@@ -311,132 +298,115 @@ export default function HeroSection() {
             </AnimateIn>
 
             {/* Right Form Column */}
-            <AnimateIn variant="fadeUp" delay={0.3} className="flex-[0_0_350px] z-[2] max-lg:order-3 max-lg:mt-8 max-lg:w-full max-lg:max-w-[450px] max-lg:flex-none max-md:w-full max-md:flex-1 flex justify-center">
+            <AnimateIn
+              variant="fadeUp"
+              delay={0.3}
+              className="flex-[0_0_350px] z-[2] max-lg:order-3 max-lg:mt-8 max-lg:w-full max-lg:max-w-[450px] max-lg:flex-none max-md:w-full max-md:flex-1 flex justify-center"
+            >
               <QuoteForm className="w-full" />
             </AnimateIn>
           </div>
         </div>
       </section>
 
-      {/* University Marquee */}
-      <AnimateIn variant="fadeUp" delay={0.4} className="w-full flex justify-center relative mt-8 z-10 px-4">
+      <AnimateIn
+        variant="fadeUp"
+        delay={0.4}
+        className="w-full flex justify-center relative mt-8 z-10 px-4"
+      >
         <div className="bg-white rounded-[30px] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] max-w-[1200px] w-full py-3 px-6 flex flex-col items-center overflow-hidden border border-white/50">
           <h2 className="text-[0.9rem] font-bold text-gray-900 m-0 mb-4 text-center">
-            Trusted by Students from Top UK Universities
+            Trusted by Students from
+            <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis">
+              {" "}
+              Top UK Universities
+            </span>
           </h2>
-          <div className="flex items-center w-full relative gap-3">
-            <button
-              className="bg-transparent border-none cursor-pointer text-[#7c3aed] flex items-center justify-center p-[5px] rounded-full transition-all duration-300 shrink-0 z-[2] hover:bg-purple-100 max-md:absolute max-md:w-7 max-md:h-7 max-md:p-0.5 max-md:z-10 max-md:bg-transparent max-md:left-[-5px] max-md:top-[75%] max-md:-translate-y-1/2"
-              onClick={scrollMarqueeLeft}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="w-[13px] h-[13px]"
-              >
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-
+          {/* Infinite marquee — pauses on hover via React state */}
+          <div
+            className="hero-marquee-wrapper w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
+            onMouseEnter={() => setMarqueeHovered(true)}
+            onMouseLeave={() => setMarqueeHovered(false)}
+          >
             <div
-              className="hero-marquee-wrapper w-full overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] [&::-webkit-scrollbar]:hidden"
-              ref={marqueeWrapperRef}
+              className="hero-marquee-track flex items-center gap-16 w-max"
+              style={{
+                animation: "scrollMarquee 25s linear infinite",
+                animationPlayState: marqueeHovered ? "paused" : "running",
+              }}
             >
-              <div
-                className="hero-marquee-track flex items-center gap-16 w-max"
-                style={{ animation: "scrollMarquee 25s linear infinite" }}
-              >
-                <img
-                  src="/assets/media/layout/university/oxford.jpg"
-                  alt="University of Oxford"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/cambridge.png"
-                  alt="University of Cambridge"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/ucl.png"
-                  alt="UCL"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/manchester.jpg"
-                  alt="University of Manchester"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/birmingham.png"
-                  alt="University of Birmingham"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/kingslondon.png"
-                  alt="King's College London"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/leedsuni.png"
-                  alt="University of Leeds"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-
-                {/* Repeat for Infinite Loop */}
-                <img
-                  src="/assets/media/layout/university/oxford.jpg"
-                  alt="University of Oxford"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/cambridge.png"
-                  alt="University of Cambridge"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/ucl.png"
-                  alt="UCL"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/manchester.jpg"
-                  alt="University of Manchester"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/birmingham.png"
-                  alt="University of Birmingham"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/kingslondon.png"
-                  alt="King's College London"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-                <img
-                  src="/assets/media/layout/university/leedsuni.png"
-                  alt="University of Leeds"
-                  className="h-8 max-md:h-[25px] w-auto object-contain transition-all duration-300 shrink-0 hover:scale-105"
-                />
-              </div>
+              <img
+                src="/assets/media/layout/university/oxford.jpg"
+                alt="University of Oxford"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/cambridge.png"
+                alt="University of Cambridge"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/ucl.png"
+                alt="UCL"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/manchester.jpg"
+                alt="University of Manchester"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/birmingham.png"
+                alt="University of Birmingham"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/kingslondon.png"
+                alt="King's College London"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/leedsuni.png"
+                alt="University of Leeds"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              {/* Duplicate set for seamless infinite loop */}
+              <img
+                src="/assets/media/layout/university/oxford.jpg"
+                alt="University of Oxford"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/cambridge.png"
+                alt="University of Cambridge"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/ucl.png"
+                alt="UCL"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/manchester.jpg"
+                alt="University of Manchester"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/birmingham.png"
+                alt="University of Birmingham"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/kingslondon.png"
+                alt="King's College London"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
+              <img
+                src="/assets/media/layout/university/leedsuni.png"
+                alt="University of Leeds"
+                className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
+              />
             </div>
-
-            <button
-              className="bg-transparent border-none cursor-pointer text-[#7c3aed] flex items-center justify-center p-[5px] rounded-full transition-all duration-300 shrink-0 z-[2] hover:bg-purple-100 max-md:absolute max-md:w-7 max-md:h-7 max-md:p-0.5 max-md:z-10 max-md:bg-transparent max-md:right-[-5px] max-md:top-[25%] max-md:-translate-y-1/2"
-              onClick={scrollMarqueeRight}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="w-[13px] h-[13px]"
-              >
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
           </div>
         </div>
       </AnimateIn>

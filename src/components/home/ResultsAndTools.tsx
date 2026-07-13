@@ -10,7 +10,8 @@ export default function ResultsAndTools() {
         <div className="rounded-[20px] p-[1.2rem] flex flex-col gap-8 max-md:p-0 max-md:bg-transparent max-md:border-none max-md:shadow-none max-md:gap-5 bg-[#fdfdfd] border border-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.02)]">
           <AnimateIn variant="fadeUp" className="flex flex-col">
             <h2 className="text-2xl font-extrabold text-gray-900 m-0 mb-2 tracking-tight">
-              Real Results. Real Success.
+              Real Results.
+              <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis"> Real Success.</span>
             </h2>
             <p className="text-[0.95rem] text-gray-500 m-0 leading-normal">
               See how we help students improve their grades.
@@ -159,7 +160,8 @@ export default function ResultsAndTools() {
         <div className="rounded-[20px] p-[1.2rem] flex flex-col gap-8 max-md:p-0 max-md:bg-transparent max-md:border-none max-md:shadow-none max-md:gap-5 bg-[#faf5ff] border border-purple-100">
           <AnimateIn variant="fadeUp" className="flex flex-col">
             <h2 className="text-2xl font-extrabold text-gray-900 m-0 mb-2 tracking-tight">
-              Academic Tools & Resources
+              Academic 
+              <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis"> Tools & Resources</span>
             </h2>
             <p className="text-[0.95rem] text-gray-500 m-0 leading-normal">
               Free tools designed to support your academic journey.

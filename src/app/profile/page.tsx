@@ -550,7 +550,7 @@ export default function ProfilePage() {
                         <span className="bg-amber-400 text-purple-950 font-bold text-[0.7rem] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                           Referral Program
                         </span>
-                        <h3 className="text-xl font-bold leading-snug">Invite friends & get £10 Reward Voucher</h3>
+                        <h3 className="text-xl text-purple-100 font-bold leading-snug">Invite friends & get £10 Reward Voucher</h3>
                         <p className="text-purple-100 text-xs leading-relaxed max-w-md">
                           Your friend gets 10% OFF on their first order. You get £10 voucher when their order is completed.
                         </p>
