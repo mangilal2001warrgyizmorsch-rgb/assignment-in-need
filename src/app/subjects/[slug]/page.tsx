@@ -1139,7 +1139,7 @@ export default function SubjectLanding() {
                 </small>
                 <strong className="block my-1 text-[26px] md:text-[32px] font-extrabold uppercase leading-none">
                   <b className="text-[#ff6a12] text-[36px] md:text-[45px] font-black mr-1.5">
-                    30%
+                    40%
                   </b>{" "}
                   OFF
                 </strong>

@@ -112,21 +112,42 @@ export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
 
       const payload = data && typeof data === "object" ? (data as Record<string, any>) : {};
       const token = payload.token || payload.access_token || payload.data?.token || null;
-      const userData = payload.data || payload;
-      const userName = userData?.name || "";
-      const userEmail = userData?.email || "";
 
       if (typeof token === "string") {
         localStorage.setItem("ain_auth_token", token);
       }
-      if (typeof userName === "string" && userName) {
-        localStorage.setItem("ain_user_name", userName);
-      }
-      if (typeof userEmail === "string" && userEmail) {
-        localStorage.setItem("ain_user_email", userEmail);
-      }
-      if (userData && typeof userData === "object") {
-        localStorage.setItem("ain_user_data", JSON.stringify(userData));
+
+      // Fetch full profile data from the profile API using the received token
+      if (typeof token === "string") {
+        try {
+          const profileRes = await fetch("/api/app/profile", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          });
+          const profileJson = await profileRes.json().catch(() => null);
+
+          if (profileRes.ok && profileJson?.success && profileJson?.data) {
+            const pd = profileJson.data as Record<string, any>;
+            localStorage.setItem("ain_user_name", pd.name || "");
+            localStorage.setItem("ain_user_email", pd.email || "");
+            localStorage.setItem("ain_user_data", JSON.stringify(pd));
+          } else {
+            // fallback: use login response data
+            const userData = payload.data || payload;
+            if (userData?.name) localStorage.setItem("ain_user_name", userData.name);
+            if (userData?.email) localStorage.setItem("ain_user_email", userData.email);
+            if (userData && typeof userData === "object") {
+              localStorage.setItem("ain_user_data", JSON.stringify(userData));
+            }
+          }
+        } catch {
+          // Profile fetch failed — use login response as fallback
+          const userData = payload.data || payload;
+          if (userData?.name) localStorage.setItem("ain_user_name", userData.name);
+          if (userData?.email) localStorage.setItem("ain_user_email", userData.email);
+        }
       }
 
       if (typeof window !== "undefined") {
