@@ -250,7 +250,10 @@ export default function PopularServices() {
       try {
         const baseUrl = getBaseUrl();
         const response = await fetch(`${baseUrl}/api/service-pages`);
-        if (!response.ok) throw new Error("Failed to load homepage services");
+        if (!response.ok) {
+          console.error("Failed to load homepage services");
+          return;
+        }
 
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {

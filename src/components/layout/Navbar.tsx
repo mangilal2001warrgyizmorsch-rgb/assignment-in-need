@@ -451,7 +451,7 @@ export const Navbar = () => {
               gap: 24px;
             }
             .znh-logo img {
-              height: 50px;
+              height: 55px;
               width: auto;
               transition: transform 0.3s ease;
             }
@@ -932,7 +932,7 @@ export const Navbar = () => {
             aria-label="Assignment In Need home"
           >
             <img
-              src="/assets/media/layout/ain-logo-full.webp"
+              src="/assets/media/layout/ain-logo.webp"
               alt="Assignment In Need Logo"
             />
           </Link>

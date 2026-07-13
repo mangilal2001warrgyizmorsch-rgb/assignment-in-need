@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
 import { CustomDropdown } from "@/components/ui/CustomDropdown";
+import { mapExpertToWriter } from "@/lib/api";
 
 const COUNTRY_CODES = [
   { label: "UK (+44)", value: "+44" },
@@ -132,12 +133,11 @@ export default function SubjectLanding() {
       avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(writerName)}&background=f3e8ff&color=6b21a8`;
     }
 
-    const hasRealImage = expert.image && !expert.image.includes("blank.png") && !expert.image.includes("ui-avatars.com");
-    const finalImg = hasRealImage ? avatarUrl : "/assets/media/avatars/blank.png";
+    const finalImg = avatarUrl;
 
     return {
       name: writerName,
-      role: expert.subject ? `${expert.subject} Expert` : `${subject.name} Expert`,
+      role: `${subject.name} Expert`,
       qual: calculatedQualifications,
       exp: calculatedExperience,
       rating: parseFloat(calculatedRating.toFixed(1)),
@@ -152,13 +152,25 @@ export default function SubjectLanding() {
       try {
         setLoading(true);
         const res = await fetch(`/api/admin/subjects?slug=${slug}`);
+        let hasCustomExperts = false;
+
         if (res.ok) {
           const payload = await res.json();
           if (payload.success && payload.data && payload.data.page) {
             setPageData(payload.data.page);
             if (Array.isArray(payload.data.experts) && payload.data.experts.length > 0) {
               const mapped = payload.data.experts.map(mapExpertToWriterLocal);
-              setExpertsList(mapped);
+              
+              // Sort by rating (descending), then orders completed (descending)
+              mapped.sort((a: any, b: any) => {
+                if (b.rating !== a.rating) return b.rating - a.rating;
+                const aOrders = parseInt(a.orders) || 0;
+                const bOrders = parseInt(b.orders) || 0;
+                return bOrders - aOrders;
+              });
+
+              setExpertsList(mapped.slice(0, 5));
+              hasCustomExperts = true;
             }
             if (Array.isArray(payload.data.reviews) && payload.data.reviews.length > 0) {
               const mapped = payload.data.reviews.map((item: any) => ({
@@ -171,14 +183,75 @@ export default function SubjectLanding() {
             }
           }
         }
+
+        // If no custom experts are loaded, fetch from global experts API
+        if (!hasCustomExperts) {
+          const resExp = await fetch("/api/experts");
+          if (resExp.ok) {
+            const result = await resExp.json();
+            if (result.success && Array.isArray(result.data)) {
+              const mapped = result.data.map((item: any) => {
+                const parsed = mapExpertToWriter(item);
+
+                return {
+                  id: parsed.id,
+                  name: parsed.name,
+                  role: `${subject.name} Expert`,
+                  qual: parsed.qualifications,
+                  exp: parsed.experience.includes("Years") ? parsed.experience : `${parsed.experience} Experience`,
+                  rating: parsed.rating,
+                  orders: parsed.ordersCompleted,
+                  img: parsed.avatar,
+                  expertise: parsed.expertise
+                };
+              });
+
+              // Filter by current subject expertise keywords
+              const subjectLower = subject.name.toLowerCase();
+              const slugLower = slug.toLowerCase();
+
+              const matchesSubject = (w: any) => {
+                const searchStr = `${w.role} ${w.expertise ? w.expertise.join(" ") : ""}`.toLowerCase();
+                
+                if (searchStr.includes(subjectLower) || searchStr.includes(slugLower)) return true;
+                
+                // Specific keyword mappings for major subjects to ensure matches
+                if (slugLower.includes("math") && (searchStr.includes("math") || searchStr.includes("calculus") || searchStr.includes("algebra") || searchStr.includes("geometry") || searchStr.includes("statistic"))) return true;
+                if (slugLower.includes("accounting") && (searchStr.includes("account") || searchStr.includes("finance") || searchStr.includes("tax") || searchStr.includes("audit"))) return true;
+                if (slugLower.includes("nursing") && (searchStr.includes("nurs") || searchStr.includes("health") || searchStr.includes("medic") || searchStr.includes("clinic"))) return true;
+                if (slugLower.includes("law") && (searchStr.includes("law") || searchStr.includes("legal") || searchStr.includes("crim") || searchStr.includes("juris"))) return true;
+                
+                return false;
+              };
+
+              let matched = mapped.filter(matchesSubject);
+
+              if (matched.length === 0) {
+                // fallback to general top experts
+                matched = mapped;
+              }
+
+              // Sort by rating desc, then ordersCompleted desc to rank the best experts
+              matched.sort((a: any, b: any) => {
+                if (b.rating !== a.rating) return b.rating - a.rating;
+                const aOrders = parseInt(a.orders) || 0;
+                const bOrders = parseInt(b.orders) || 0;
+                return bOrders - aOrders;
+              });
+
+              // Take only top 5 relevant experts
+              setExpertsList(matched.slice(0, 5));
+            }
+          }
+        }
       } catch (err) {
-        console.error("Failed to fetch subject page:", err);
+        console.error("Failed to fetch subject page data:", err);
       } finally {
         setLoading(false);
       }
     };
     fetchSubjectPage();
-  }, [slug]);
+  }, [slug, subject.name]);
 
   useEffect(() => {
     if (pageData && pageData.meta_title) {
@@ -202,7 +275,7 @@ export default function SubjectLanding() {
       exp: "8+ Years Exp.",
       rating: 4.9,
       orders: "1200+",
-      img: "/images/resource/team-1.jpg",
+      img: "https://ui-avatars.com/api/?name=Emma+Taylor&background=f3e8ff&color=6b21a8",
     },
     {
       name: "Daniel Harris",
@@ -214,7 +287,7 @@ export default function SubjectLanding() {
       exp: "10+ Years Exp.",
       rating: 4.9,
       orders: "1900+",
-      img: "/images/resource/team-2.jpg",
+      img: "https://ui-avatars.com/api/?name=Daniel+Harris&background=ede9fe&color=4c1d95",
     },
     {
       name: "Sophia Martinez",
@@ -226,7 +299,7 @@ export default function SubjectLanding() {
       exp: "7+ Years Exp.",
       rating: 4.8,
       orders: "980+",
-      img: "/images/resource/team-3.jpg",
+      img: "https://ui-avatars.com/api/?name=Sophia+Martinez&background=fae8ff&color=86198f",
     },
     {
       name: "James Anderson",
@@ -236,7 +309,7 @@ export default function SubjectLanding() {
       exp: "12+ Years Exp.",
       rating: 4.9,
       orders: "1500+",
-      img: "/images/resource/team-4.jpg",
+      img: "https://ui-avatars.com/api/?name=James+Anderson&background=e0f2fe&color=0369a1",
     },
     {
       name: "Olivia Bennett",
@@ -248,7 +321,7 @@ export default function SubjectLanding() {
       exp: "6+ Years Exp.",
       rating: 4.8,
       orders: "860+",
-      img: "/images/resource/team-5.jpg",
+      img: "https://ui-avatars.com/api/?name=Olivia+Bennett&background=f0fdf4&color=166534",
     },
   ];
 
@@ -274,7 +347,7 @@ export default function SubjectLanding() {
     },
   ];
 
-  const expertsToRender = expertsList.length > 0 ? expertsList : defaultExperts;
+  const expertsToRender = (expertsList.length > 0 ? expertsList : defaultExperts).slice(0, 5);
   const reviewsToRender = reviewsList.length > 0 ? reviewsList : defaultReviews;
 
   // Dynamic choice features row
@@ -515,7 +588,7 @@ export default function SubjectLanding() {
     <div className="font-sans text-[#111827] bg-white overflow-hidden">
       {/* 3.2 HERO SECTION (Incorporates breadcrumbs for seamless backdrop layout) */}
       <section
-        className="relative pt-6 pb-8 px-4 md:px-6 lg:px-8 overflow-hidden border-b border-gray-100"
+        className="relative pt-6 pb-0 px-4 md:px-6 lg:px-8 overflow-hidden border-b border-gray-100"
         style={{ background: "linear-gradient(115deg, #ffffff 48%, #faf8ff)" }}
       >
         <div className="relative z-10 max-w-[1250px] mx-auto">
@@ -537,12 +610,12 @@ export default function SubjectLanding() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative min-h-[500px] lg:min-h-[545px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative min-h-0">
             {/* Left Content Column */}
             <AnimateIn variant="fadeUp" className="lg:col-span-7 flex flex-col justify-start items-start text-left z-20 pb-4 lg:pb-0 order-1 relative pt-2">
               {/* Star Badge */}
               <div className="flex items-center gap-2 mb-4">
-                <div className="flex items-center bg-[#22c55e] text-white text-[9px] px-1.5 py-0.5 rounded font-black tracking-tight select-none">
+                <div className="flex items-center bg-[#1a6c38] text-white text-[9px] px-1.5 py-0.5 rounded font-black tracking-tight select-none">
                   ★★★★★
                 </div>
                 <span className="text-[11px] font-bold text-[#0f1b3d]">
@@ -551,7 +624,7 @@ export default function SubjectLanding() {
               </div>
 
               {/* Title */}
-              <h1 className="text-[34px] sm:text-[40px] lg:text-[42px] font-[900] leading-[1.08] text-[#0f1b3d] tracking-tight mb-3 font-heading">
+              <h1 className="text-[26px] sm:text-[34px] md:text-[40px] lg:text-[42px] w-full max-w-[500px] font-[900] leading-[1.08] text-[#0f1b3d] tracking-tight mb-3 font-heading">
                 {pageTitle}
                 <br />
                 <span className="text-[#ea580c] block mt-1.5">
@@ -562,44 +635,20 @@ export default function SubjectLanding() {
               {/* Description */}
               {pageData?.hero_content ? (
                 <div 
-                  className="text-gray-500 text-xs md:text-sm font-semibold leading-relaxed mb-6 max-w-[500px] html-desc"
+                  className="text-gray-500 w-full max-w-[450px] text-xs md:text-sm font-semibold leading-relaxed mb-6 html-desc"
                   dangerouslySetInnerHTML={{ __html: pageData.hero_content }}
                 />
               ) : (
-                <p className="text-gray-500 text-xs md:text-sm font-semibold leading-relaxed mb-6 max-w-[500px]">
+                <p className="text-gray-500 w-full max-w-[450px] text-xs md:text-sm font-semibold leading-relaxed mb-6">
                   Get accurate, well-researched and plagiarism-free{" "}
                   {subject.name.toLowerCase()} assignments helped by qualified
                   experts to achieve top grades.
                 </p>
               )}
 
-              {/* Mobile Student Image block */}
-              <div className="relative w-full max-w-[360px] h-[240px] mx-auto my-4 block lg:hidden z-10">
-                <Image
-                  src="/new-subject-sectionimg/herosubject.png"
-                  alt={`${subject.name} student`}
-                  fill
-                  className="object-contain object-bottom"
-                  priority
-                />
-                {/* Floating Headset Live Support Badge on mobile overlaying the image */}
-                <div className="absolute bottom-[20px] right-0 bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-2.5 flex items-center gap-2 border border-gray-100 z-20">
-                  <div className="w-7 h-7 rounded-full bg-[#fff2ea] flex items-center justify-center shrink-0">
-                    <Headset className="w-3.5 h-3.5 text-[#ea580c]" />
-                  </div>
-                  <div className="flex flex-col text-left pr-1">
-                    <span className="font-extrabold text-[#0f1b3d] text-[10px] leading-tight">
-                      24/7
-                    </span>
-                    <span className="text-[7px] text-gray-500 font-bold uppercase tracking-wider">
-                      Live Support
-                    </span>
-                  </div>
-                </div>
-              </div>
 
               {/* 4 Stats Row */}
-              <div className="grid grid-cols-4 md:flex md:flex-wrap items-center gap-x-6 gap-y-4 mb-8 max-w-[560px] w-full border-t border-b border-gray-100 py-3 md:border-none md:py-0">
+              <div className="grid grid-cols-4 md:flex md:flex-wrap items-center gap-x-2 gap-y-4 mb-8 max-w-[500px] w-full border-t border-b border-gray-100 py-3 md:border-none md:py-0">
                 {/* Stat 1 */}
                 <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2.5 text-center md:text-left border-r border-gray-150 md:border-none last:border-r-0 pr-1 md:pr-0">
                   <div className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center shrink-0 hidden md:flex">
@@ -676,41 +725,41 @@ export default function SubjectLanding() {
                   View Samples <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
-
-              {/* Absolutely positioned center image, matching Laravel structure for organic overlap */}
-              <div
-                className="absolute right-[-170px] bottom-[-48px] w-[420px] h-[450px] select-none pointer-events-none hidden lg:block z-10"
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
-                  maskImage:
-                    "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
-                }}
-              >
-                <Image
-                  src="/new-subject-sectionimg/herosubject.png"
-                  alt={`${subject.name} student`}
-                  fill
-                  className="object-contain object-bottom"
-                  priority
-                />
-              </div>
-
-              {/* Floating Headset Live Support Badge */}
-              <div className="absolute bottom-[40px] right-[-160px] bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-3.5 flex items-center gap-2.5 border border-gray-100 pointer-events-auto z-30 hidden lg:flex">
-                <div className="w-8 h-8 rounded-full bg-[#fff2ea] flex items-center justify-center shrink-0">
-                  <Headset className="w-4 h-4 text-[#ea580c]" />
-                </div>
-                <div className="flex flex-col text-left pr-1">
-                  <span className="font-extrabold text-[#0f1b3d] text-[11px] leading-tight">
-                    24/7
-                  </span>
-                  <span className="text-[8px] text-gray-500 font-bold uppercase tracking-wider">
-                    Live Support
-                  </span>
-                </div>
-              </div>
             </AnimateIn>
+
+            {/* Student Image: centered at the background of the section */}
+            <div
+              className="absolute left-[54%] top-[20px] -translate-x-1/2 w-[420px] h-[450px] select-none pointer-events-none hidden lg:block z-0"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
+                maskImage:
+                  "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
+              }}
+            >
+              <Image
+                src="/new-subject-sectionimg/herosubject.png"
+                alt={`${subject.name} student`}
+                fill
+                className="object-contain object-top"
+                priority
+              />
+            </div>
+
+            {/* Floating Headset Live Support Badge */}
+            <div className="absolute top-[300px] left-[44%] translate-x-[80px] bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-3.5 flex items-center gap-2.5 border border-gray-100 pointer-events-auto z-30 hidden lg:flex">
+              <div className="w-8 h-8 rounded-full bg-[#fff2ea] flex items-center justify-center shrink-0">
+                <Headset className="w-4 h-4 text-[#ea580c]" />
+              </div>
+              <div className="flex flex-col text-left pr-1">
+                <span className="font-extrabold text-[#0f1b3d] text-[11px] leading-tight">
+                  24/7
+                </span>
+                <span className="text-[8px] text-gray-500 font-bold uppercase tracking-wider">
+                  Live Support
+                </span>
+              </div>
+            </div>
 
             {/* Empty Spacer Column for Desktop to keep the center empty for absolute image */}
             <div className="lg:col-span-1 hidden lg:block order-2" />
@@ -720,7 +769,7 @@ export default function SubjectLanding() {
               variant="fadeUp"
               delay={0.2}
               id="quote-form"
-              className="lg:col-span-4 flex justify-center lg:justify-end items-center z-20 pt-4 order-3"
+              className="lg:col-span-4 flex justify-center lg:justify-center items-start z-20 pt-0 order-3"
             >
               {isSuccess ? (
                 <div className="w-[390px] max-w-full p-8 rounded-2xl border border-slate-200 shadow-[0_20px_40px_rgba(0,0,0,0.08)] bg-white relative flex flex-col items-center justify-center text-center gap-4">
@@ -985,34 +1034,7 @@ export default function SubjectLanding() {
         </div>
       </section>
 
-      {/* 3.3 "WHY STUDENTS CHOOSE" SECTION */}
-      <section className="py-8 md:py-10 bg-white border-b border-gray-50">
-        <div className="max-w-[1250px] mx-auto px-4">
-          <h2 className="text-[22px] md:text-[26px] font-[900] text-[#0f1b3d] text-center mb-10 tracking-tight font-heading">
-            Why Students Choose Our {subject.name} Assignment Help?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-6 md:gap-y-8">
-            {choiceFeatures.map((f, i) => (
-              <div
-                key={i}
-                className="flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-0"
-              >
-                <div className="w-12 h-12 rounded-full bg-[#f4f2ff] flex items-center justify-center text-[#3f159a] mb-3.5 border border-purple-50 shadow-sm transition-transform hover:scale-110 duration-200 shrink-0">
-                  {f.icon}
-                </div>
-                <div className="flex flex-col text-left md:text-center">
-                  <h3 className="text-[13px] md:text-[12px] font-extrabold text-[#0f1b3d] leading-snug whitespace-pre-line mb-1.5 font-heading">
-                    {f.title}
-                  </h3>
-                  <p className="text-[11px] md:text-[10px] text-gray-500 font-bold leading-relaxed whitespace-pre-line">
-                    {f.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* 3.4 "OUR EXPERTS" SECTION */}
       <section className="py-8 md:py-10 bg-[#faf9fe] border-b border-gray-50">
@@ -1055,6 +1077,9 @@ export default function SubjectLanding() {
                     <img
                       src={expert.img || "/assets/media/avatars/blank.png"}
                       alt={expert.name}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/assets/media/avatars/blank.png";
+                      }}
                       className="w-full h-full object-cover object-center bg-gray-100"
                     />
                   </div>
@@ -1118,6 +1143,68 @@ export default function SubjectLanding() {
               <span className="w-2.5 h-2.5 rounded-full bg-[#3f159a]" />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* 3.3 "WHY STUDENTS CHOOSE" SECTION */}
+      <section className="py-8 md:py-10 bg-white border-b border-gray-50">
+        <div className="max-w-[1250px] mx-auto px-4">
+          <h2 className="text-[22px] md:text-[26px] font-[900] text-[#0f1b3d] text-center mb-10 tracking-tight font-heading">
+            Why Students Choose Our {subject.name} Assignment Help?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-6 md:gap-y-8">
+            {choiceFeatures.map((f, i) => (
+              <div
+                key={i}
+                className="flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-0"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#f4f2ff] flex items-center justify-center text-[#3f159a] mb-3.5 border border-purple-50 shadow-sm transition-transform hover:scale-110 duration-200 shrink-0">
+                  {f.icon}
+                </div>
+                <div className="flex flex-col text-left md:text-center">
+                  <h3 className="text-[16px] md:text-[12px] font-extrabold text-[#0f1b3d] leading-snug whitespace-pre-line mb-1.5 font-heading">
+                    {f.title}
+                  </h3>
+                  <p className="text-[14px] md:text-[12px] text-gray-500 font-bold leading-relaxed whitespace-pre-line">
+                    {f.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3.7 "WHY CHOOSE [SUBJECT] FROM US?" SECTION */}
+      <section className="py-8 md:py-10 bg-white border-b border-gray-50">
+        <div className="max-w-[800px] mx-auto px-4 text-center mb-12">
+          <h2 className="text-[24px] md:text-[32px] font-[900] text-[#0f1b3d] mb-4 tracking-tight font-heading">
+            Why Choose {subject.name} Assignment Help From Us?
+          </h2>
+          <p className="text-[13px] text-gray-500 font-bold leading-relaxed">
+            Well, the answer to your question is simple! When students seek{" "}
+            {subject.name.toLowerCase()} assignment help from us, they get
+            several benefits that add value to their service. So, do you want to
+            know such valuable benefits that explain why seeking our assistance
+            is the right decision to make? Continue reading to learn about it!
+          </p>
+        </div>
+        <div className="max-w-[1000px] mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+          {benefits.map((b, i) => (
+            <div key={i} className="flex items-start text-left">
+              <div className="w-12 h-12 rounded-xl bg-[#f4f2ff] flex items-center justify-center shrink-0 mr-4 border border-purple-50 shadow-sm">
+                {b.icon}
+              </div>
+              <div>
+                <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-1.5 font-heading">
+                  {b.title}
+                </h3>
+                <p className="text-xs text-gray-500 leading-relaxed font-bold">
+                  {b.desc}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -1262,38 +1349,7 @@ export default function SubjectLanding() {
         </div>
       </section>
 
-      {/* 3.7 "WHY CHOOSE [SUBJECT] FROM US?" SECTION */}
-      <section className="py-8 md:py-10 bg-white border-b border-gray-50">
-        <div className="max-w-[800px] mx-auto px-4 text-center mb-12">
-          <h2 className="text-[24px] md:text-[32px] font-[900] text-[#0f1b3d] mb-4 tracking-tight font-heading">
-            Why Choose {subject.name} Assignment Help From Us?
-          </h2>
-          <p className="text-[13px] text-gray-500 font-bold leading-relaxed">
-            Well, the answer to your question is simple! When students seek{" "}
-            {subject.name.toLowerCase()} assignment help from us, they get
-            several benefits that add value to their service. So, do you want to
-            know such valuable benefits that explain why seeking our assistance
-            is the right decision to make? Continue reading to learn about it!
-          </p>
-        </div>
-        <div className="max-w-[1000px] mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-          {benefits.map((b, i) => (
-            <div key={i} className="flex items-start text-left">
-              <div className="w-12 h-12 rounded-xl bg-[#f4f2ff] flex items-center justify-center shrink-0 mr-4 border border-purple-50 shadow-sm">
-                {b.icon}
-              </div>
-              <div>
-                <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-1.5 font-heading">
-                  {b.title}
-                </h3>
-                <p className="text-xs text-gray-500 leading-relaxed font-bold">
-                  {b.desc}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      
 
       {/* 3.8 BOTTOM CTA STRIP */}
       <section className="py-6 bg-white border-b border-gray-50">

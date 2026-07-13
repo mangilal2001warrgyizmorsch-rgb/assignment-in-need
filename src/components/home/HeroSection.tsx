@@ -212,7 +212,7 @@ export default function HeroSection() {
             <AnimateIn
               variant="scaleUp"
               delay={0.15}
-              className="flex-1 flex justify-center relative z-[1] max-lg:order-2 max-lg:mt-8 max-lg:w-full max-lg:max-w-[450px] max-lg:flex-none"
+              className="flex-1 hidden lg:flex  justify-center relative z-[1] max-lg:order-2 max-lg:mt-8 max-lg:w-full max-lg:max-w-[450px] max-lg:flex-none"
             >
               <div className="relative w-full max-w-[360px] min-h-[320px]">
                 <img

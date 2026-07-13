@@ -259,7 +259,7 @@ export default function SamplesPage() {
           <img
             src="/new-sample-img/hero1.png"
             alt=""
-            className="w-[150%] max-w-none h-auto object-contain"
+            className="w-[120%] max-w-none h-auto object-contain"
             style={{
               WebkitMaskImage:
                 "radial-gradient(ellipse at center, black 40%, transparent 80%)",
@@ -342,17 +342,11 @@ export default function SamplesPage() {
           </div>
         </AnimateIn>
 
-        <AnimateIn variant="scaleUp" className="hidden lg:flex lg:w-1/2 mt-12 lg:mt-0 relative justify-center z-10">
+        <AnimateIn variant="scaleUp" className="hidden lg:flex lg:w-1/2 mt-12 lg:mt-0 relative justify-end z-10">
           <img
             src="/new-sample-img/hero1.png"
             alt="Free Samples Illustration"
-            className="w-[120%] lg:w-[130%] max-w-none h-auto object-contain scale-110 lg:scale-125 -translate-x-8 lg:-translate-x-16"
-            style={{
-              WebkitMaskImage:
-                "linear-gradient(to right, transparent 0%, black 10%, black 70%, transparent 100%)",
-              maskImage:
-                "linear-gradient(to right, transparent 0%, black 10%, black 70%, transparent 100%)",
-            }}
+            className="w-full max-w-[760px] h-auto object-contain"
           />
         </AnimateIn>
       </section>
@@ -438,11 +432,11 @@ export default function SamplesPage() {
                   <div className="w-12 h-12 bg-purple-700 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 group-hover:-translate-y-1 group-hover:shadow-lg transition-all">
                     {sub.badge}
                   </div>
-                  <div className="absolute top-[40%] -translate-y-1/2 right-6 w-14 h-14 bg-purple-50 text-purple-700 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
+                  {/* <div className="absolute top-[40%] -translate-y-1/2 right-6 w-14 h-14 bg-purple-50 text-purple-700 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
                     {sub.icon && (
                       <sub.icon className="w-6 h-6 text-purple-700 group-hover:text-white transition-colors" />
                     )}
-                  </div>
+                  </div> */}
                   <h3 className="text-xl font-bold text-gray-900 group-hover:text-purple-800 transition-colors text-left">
                     {sub.name}
                   </h3>
@@ -599,10 +593,10 @@ export default function SamplesPage() {
                   onClick={() => toggleFaq(idx)}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-lg group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300 group-hover:rotate-12">
-                      {faq.icon && (
+                    <div className="w-10 h-10 hidden rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-lg group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300 group-hover:rotate-12">
+                      {/* {faq.icon && (
                         <faq.icon className="w-5 h-5 text-purple-600 group-hover:text-white transition-colors" />
-                      )}
+                      )} */}
                     </div>
                     <span className="font-bold text-gray-900 text-sm md:text-base group-hover:text-purple-700 transition-colors">
                       {faq.question}

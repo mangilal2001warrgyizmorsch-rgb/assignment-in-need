@@ -111,7 +111,10 @@ export default function AssignmentSamples() {
     const fetchSamples = async () => {
       try {
         const response = await fetch("/api/samples?limit=6");
-        if (!response.ok) throw new Error("Failed to load homepage samples");
+        if (!response.ok) {
+          console.error("Failed to load homepage samples");
+          return;
+        }
 
         const json = await response.json();
         const list = json?.data?.data ?? json?.data ?? json?.samples ?? [];

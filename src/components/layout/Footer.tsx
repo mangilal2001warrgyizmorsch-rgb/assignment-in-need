@@ -31,7 +31,7 @@ export const Footer = () => {
         {/* Column 1: Brand */}
         <div className="flex flex-col items-start text-left">
           <Link href="/" className="inline-block bg-white p-1 rounded-lg max-h-[70px]">
-            <img src="/assets/media/layout/ain-logo-full.webp" alt="Assignment IN NEED" className="max-h-[62px] object-contain" />
+            <img src="/assets/media/layout/ain-logo.webp" alt="Assignment IN NEED" className="max-h-[62px] object-contain" />
           </Link>
           <p className="text-[0.85rem] leading-relaxed text-[#9ca3af] mt-4 mb-6 max-w-[250px]">
             Helping students in the UK achieve academic success with expert support and guidance.

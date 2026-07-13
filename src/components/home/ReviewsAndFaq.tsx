@@ -295,7 +295,10 @@ export default function ReviewsAndFaq() {
     const fetchReviews = async () => {
       try {
         const response = await fetch("/api/reviews");
-        if (!response.ok) throw new Error("Failed to load homepage reviews");
+        if (!response.ok) {
+          console.error("Failed to load homepage reviews");
+          return;
+        }
 
         const json = await response.json();
         const raw = json?.data?.data ?? json?.data ?? json?.reviews ?? [];
