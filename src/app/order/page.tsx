@@ -98,6 +98,13 @@ export default function OrderPage() {
   const [dynamicServices, setDynamicServices] = useState<any[]>([]);
   const [dynamicSubjects, setDynamicSubjects] = useState<any[]>([]);
 
+  // Dynamic API configurations
+  const [apiWordCounts, setApiWordCounts] = useState<any[]>([]);
+  const [apiUrgencies, setApiUrgencies] = useState<any[]>([]);
+  const [apiCountries, setApiCountries] = useState<any[]>([]);
+  const [apiBasePrice, setApiBasePrice] = useState<number>(0.03);
+  const [apiDiscountPercent, setApiDiscountPercent] = useState<number>(40);
+
   useEffect(() => {
     const fetchServices = async () => {
       try {
@@ -135,8 +142,48 @@ export default function OrderPage() {
       }
     };
 
+    const fetchAppConfigs = async () => {
+      try {
+        const [wcRes, urgRes, countryRes] = await Promise.all([
+          fetch("/api/app/word-count"),
+          fetch("/api/app/urgencies"),
+          fetch("/api/app/countries")
+        ]);
+
+        if (wcRes.ok) {
+          const payload = await wcRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiWordCounts(payload.data);
+            if (payload.base_price_per_word) {
+              setApiBasePrice(Number(payload.base_price_per_word));
+            }
+            if (payload.discount_percentage) {
+              setApiDiscountPercent(Number(payload.discount_percentage));
+            }
+          }
+        }
+
+        if (urgRes.ok) {
+          const payload = await urgRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiUrgencies(payload.data);
+          }
+        }
+
+        if (countryRes.ok) {
+          const payload = await countryRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiCountries(payload.data);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching app configurations for order form:", err);
+      }
+    };
+
     fetchServices();
     fetchSubjects();
+    fetchAppConfigs();
   }, []);
 
   const subjectOptions = useMemo(() => {
@@ -171,6 +218,37 @@ export default function OrderPage() {
   // Step 3: Delivery Details
   const [selectedDeadline, setSelectedDeadline] = useState("3d");
   const [selectedWordCount, setSelectedWordCount] = useState("250");
+
+  const wordCountOptions = useMemo(() => {
+    if (apiWordCounts.length > 0) {
+      return apiWordCounts.map((wc: any) => ({
+        label: `${wc.name} (${Math.ceil(wc.value / 250)} Page${wc.value > 250 ? 's' : ''})`,
+        value: String(wc.value)
+      }));
+    }
+    return WORD_COUNTS;
+  }, [apiWordCounts]);
+
+  const deadlineOptions = useMemo(() => {
+    if (apiUrgencies.length > 0) {
+      return apiUrgencies.map((urg: any) => ({
+        label: urg.name,
+        value: String(urg.value)
+      }));
+    }
+    return DEADLINES;
+  }, [apiUrgencies]);
+
+  useEffect(() => {
+    if (apiUrgencies.length > 0 && selectedDeadline === "3d") {
+      const match = apiUrgencies.find((u: any) => String(u.value) === "3");
+      if (match) {
+        setSelectedDeadline(String(match.value));
+      } else {
+        setSelectedDeadline(String(apiUrgencies[0].value));
+      }
+    }
+  }, [apiUrgencies]);
 
   // Step 4: Instructions
   const [instructions, setInstructions] = useState("");
@@ -216,19 +294,58 @@ export default function OrderPage() {
 
   // Live Price Calculation Details
   const subtotal = useMemo(() => {
-    const pages = parseInt(selectedWordCount, 10) / 250;
-    const basePricePerPage = 2.002;
+    const wordCount = parseInt(selectedWordCount, 10) || 250;
+    const basePricePerWord = apiBasePrice || 0.03;
+    let basePrice = basePricePerWord * wordCount;
+
+    // Find multiplier from API data
+    const matchedWc = apiWordCounts.find((wc: any) => Number(wc.value) === wordCount);
+    if (matchedWc) {
+      basePrice *= Number(matchedWc.multiplier);
+    } else {
+      // Range-based fallback
+      if (wordCount >= 250 && wordCount < 500) {
+        basePrice *= 2.67;
+      } else if (wordCount >= 500 && wordCount < 1000) {
+        basePrice *= 2.22;
+      } else if (wordCount >= 1000 && wordCount < 2000) {
+        basePrice *= 1.94;
+      } else if (wordCount >= 2000 && wordCount < 3000) {
+        basePrice *= 1.67;
+      } else if (wordCount >= 3000 && wordCount < 4000) {
+        basePrice *= 1.30;
+      } else if (wordCount >= 4000 && wordCount < 5000) {
+        basePrice *= 1.13;
+      } else if (wordCount >= 5000) {
+        basePrice *= 1.17;
+      }
+    }
 
     // Deadline Multipliers
     let deadlineMult = 1.0;
-    if (selectedDeadline === "12h") deadlineMult = 2.5;
-    else if (selectedDeadline === "24h") deadlineMult = 2.0;
-    else if (selectedDeadline === "2d") deadlineMult = 1.5;
-    else if (selectedDeadline === "3d") deadlineMult = 1.0;
-    else if (selectedDeadline === "5d") deadlineMult = 0.9;
-    else if (selectedDeadline === "7d") deadlineMult = 0.8;
-    else if (selectedDeadline === "10d") deadlineMult = 0.7;
-    else if (selectedDeadline === "14d") deadlineMult = 0.6;
+    const matchedUrg = apiUrgencies.find((urg: any) => String(urg.value) === selectedDeadline);
+    if (matchedUrg) {
+      deadlineMult = Number(matchedUrg.multiplier);
+    } else {
+      // Fallback mapping for Next.js static deadline slugs
+      if (selectedDeadline === "12h") deadlineMult = 2.5;
+      else if (selectedDeadline === "24h") deadlineMult = 2.0;
+      else if (selectedDeadline === "2d") deadlineMult = 1.5;
+      else if (selectedDeadline === "3d") deadlineMult = 1.4;
+      else if (selectedDeadline === "5d") deadlineMult = 1.2;
+      else if (selectedDeadline === "7d") deadlineMult = 1.1;
+      else if (selectedDeadline === "10d") deadlineMult = 1.05;
+      else if (selectedDeadline === "14d") deadlineMult = 1.0;
+    }
+
+    // Service Multiplier (Dissertation, Thesis, and Research Project get 1.1)
+    const serviceSlug = (selectedService || "").toLowerCase();
+    const serviceMultiplier =
+      serviceSlug.includes("dissertation") ||
+      serviceSlug.includes("thesis") ||
+      serviceSlug.includes("research")
+        ? 1.1
+        : 1.0;
 
     // Academic Level Multipliers
     let levelMult = 1.0;
@@ -243,18 +360,28 @@ export default function OrderPage() {
 
     return Number(
       (
-        pages *
-        basePricePerPage *
+        basePrice *
         deadlineMult *
+        serviceMultiplier *
         levelMult *
         workTypeMult
       ).toFixed(2),
     );
-  }, [selectedWordCount, selectedDeadline, academicLevel, selectedWorkType]);
+  }, [
+    selectedWordCount,
+    selectedDeadline,
+    selectedService,
+    academicLevel,
+    selectedWorkType,
+    apiWordCounts,
+    apiUrgencies,
+    apiBasePrice
+  ]);
 
   const discount = useMemo(() => {
-    return Number((subtotal * 0.4).toFixed(2));
-  }, [subtotal]);
+    const rate = (apiDiscountPercent ?? 40) / 100;
+    return Number((subtotal * rate).toFixed(2));
+  }, [subtotal, apiDiscountPercent]);
 
   const total = useMemo(() => {
     return Number((subtotal - discount).toFixed(2));
@@ -804,7 +931,7 @@ export default function OrderPage() {
                         <Calendar className="w-[18px] h-[18px] text-gray-400" />
                       </div>
                       <CustomDropdown
-                        options={DEADLINES}
+                        options={deadlineOptions}
                         value={selectedDeadline}
                         onChange={setSelectedDeadline}
                         placeholder="Select Deadline"
@@ -826,7 +953,7 @@ export default function OrderPage() {
                         </span>
                       </div>
                       <CustomDropdown
-                        options={WORD_COUNTS}
+                        options={wordCountOptions}
                         value={selectedWordCount}
                         onChange={setSelectedWordCount}
                         placeholder="Select Word Count"

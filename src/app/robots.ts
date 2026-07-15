@@ -1,0 +1,20 @@
+import type { MetadataRoute } from "next";
+
+const BASE_URL = "https://assignmentinneed.co.uk";
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/profile", "/order", "/login", "/signup"],
+      },
+      {
+        userAgent: "OAI-SearchBot",
+        allow: "/",
+      },
+    ],
+    sitemap: `${BASE_URL}/sitemap.xml`,
+  };
+}

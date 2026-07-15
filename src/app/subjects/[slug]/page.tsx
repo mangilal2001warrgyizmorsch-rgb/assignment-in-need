@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
@@ -131,6 +131,7 @@ export default function SubjectLanding() {
   const [expertsList, setExpertsList] = useState<any[]>([]);
   const [reviewsList, setReviewsList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isNotFound, setIsNotFound] = useState(false);
 
   // Map backend helper to match Writer model
   const mapExpertToWriterLocal = (expert: any) => {
@@ -236,6 +237,12 @@ export default function SubjectLanding() {
         }
 
 
+        if (!payload || !payload.success || !payload.data || !payload.data.page) {
+          setIsNotFound(true);
+          setLoading(false);
+          return;
+        }
+
         if (payload && payload.success && payload.data && payload.data.page) {
           setPageData(payload.data.page);
             if (
@@ -315,6 +322,7 @@ export default function SubjectLanding() {
         }
       } catch (err) {
         console.error("Failed to fetch subject page data:", err);
+        setIsNotFound(true);
       } finally {
         setLoading(false);
       }
@@ -327,6 +335,10 @@ export default function SubjectLanding() {
       document.title = pageData.meta_title;
     }
   }, [pageData]);
+
+  if (isNotFound) {
+    notFound();
+  }
 
   // Fallbacks if backend data is loading / empty
   const pageTitle =

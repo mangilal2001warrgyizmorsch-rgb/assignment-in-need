@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { CustomDropdown } from "@/components/ui/CustomDropdown";
@@ -72,6 +72,8 @@ export function SidebarQuoteForm({ sourceName = "Blog Page" }: SidebarQuoteFormP
   const [isLoading, setIsLoading] = useState(false);
 
   const [subjectsOptions, setSubjectsOptions] = useState<any[]>([]);
+  const [apiServices, setApiServices] = useState<any[]>([]);
+  const [apiUrgencies, setApiUrgencies] = useState<any[]>([]);
   const [orderId, setOrderId] = useState("");
 
   const getCountryIso = (code: string) => {
@@ -91,7 +93,44 @@ export function SidebarQuoteForm({ sourceName = "Blog Page" }: SidebarQuoteFormP
   };
 
   useEffect(() => {
-    const fetchSubjects = async () => {
+    const fetchAppConfigs = async () => {
+      try {
+        const [wcRes, urgRes, subRes] = await Promise.all([
+          fetch("/api/app/services"),
+          fetch("/api/app/urgencies"),
+          fetch("/api/app/subjects")
+        ]);
+
+        if (wcRes.ok) {
+          const payload = await wcRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiServices(payload.data);
+          }
+        }
+
+        if (urgRes.ok) {
+          const payload = await urgRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiUrgencies(payload.data);
+          }
+        }
+
+        if (subRes.ok) {
+          const payload = await subRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            const mapped = payload.data.map((sub: any) => ({
+              label: sub.name,
+              value: sub.value || sub.name
+            }));
+            setSubjectsOptions(mapped);
+            return; // Successful fetch from app/subjects
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching app configurations for sidebar form:", err);
+      }
+
+      // Fallback: fetch from admin subjects if app subjects didn't load
       try {
         const res = await fetch("/api/admin/subjects");
         if (res.ok) {
@@ -108,11 +147,32 @@ export function SidebarQuoteForm({ sourceName = "Blog Page" }: SidebarQuoteFormP
           }
         }
       } catch (e) {
-        // fallback
+        console.error("Fallback subjects fetch failed:", e);
       }
     };
-    fetchSubjects();
+
+    fetchAppConfigs();
   }, []);
+
+  const dynamicServicesOptions = useMemo(() => {
+    if (apiServices.length > 0) {
+      return apiServices.map((s: any) => ({
+        label: s.name,
+        value: s.value || s.name
+      }));
+    }
+    return SERVICE_OPTIONS;
+  }, [apiServices]);
+
+  const dynamicDeadlineOptions = useMemo(() => {
+    if (apiUrgencies.length > 0) {
+      return apiUrgencies.map((u: any) => ({
+        label: u.name,
+        value: String(u.value)
+      }));
+    }
+    return DEADLINE_OPTIONS;
+  }, [apiUrgencies]);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -293,7 +353,7 @@ export function SidebarQuoteForm({ sourceName = "Blog Page" }: SidebarQuoteFormP
               <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none z-10" />
               <div className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-xs text-text-heading focus-within:border-primary-500 focus-within:bg-white transition-all h-[38px] flex items-center">
                 <CustomDropdown
-                  options={DEADLINE_OPTIONS}
+                  options={dynamicDeadlineOptions}
                   value={deadline}
                   onChange={setDeadline}
                   placeholder="Select deadline"
@@ -350,7 +410,7 @@ export function SidebarQuoteForm({ sourceName = "Blog Page" }: SidebarQuoteFormP
               <BookOpen className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none z-10" />
               <div className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-xs text-text-heading focus-within:border-primary-500 focus-within:bg-white transition-all h-[38px] flex items-center">
                 <CustomDropdown
-                  options={SERVICE_OPTIONS}
+                  options={dynamicServicesOptions}
                   value={service}
                   onChange={setService}
                   placeholder="Select service"

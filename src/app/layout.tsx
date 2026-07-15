@@ -4,6 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Script from "next/script";
 import { Toaster } from "react-hot-toast";
+import { CanonicalHeader } from "@/components/layout/CanonicalHeader";
 import "./globals.css";
 // import "./blog/blog.css";
 
@@ -30,8 +31,49 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "Assignment Help UK | Human-Written Academic Support",
-  description: "Need reliable Assignment Help UK? Get human-written essays, reports, coursework, and dissertations from subject specialists who understand UK universities.",
-  keywords: ["assignment help", "plagiarism-free writing", "case study writing", "business law essays", "nursing assignment help", "engineering report help"],
+  description:
+    "Need reliable Assignment Help UK? Get human-written essays, reports, coursework, and dissertations from subject specialists who understand UK universities.",
+  keywords: [
+    "assignment help",
+    "plagiarism-free writing",
+    "case study writing",
+    "business law essays",
+    "nursing assignment help",
+    "engineering report help",
+  ],
+  verification: {
+    google: "vWHMdoWSmBuW-0Yi0_rkI3e3yoED357tBiyTV5OlF2w",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "Assignment In Need",
+    title: "Assignment Help UK | Human-Written Academic Support",
+    description:
+      "Need reliable Assignment Help UK? Get human-written essays, reports, coursework, and dissertations from subject specialists who understand UK universities.",
+    url: "https://www.assignmentinneed.co.uk/",
+    images: [
+      {
+        url: "https://www.assignmentinneed.co.uk/assets/media/layout/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Assignment Help UK - Human-Written Academic Support by AssignmentInNeed",
+      },
+    ],
+    locale: "en_GB",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@assignment_in",
+    title: "Assignment Help UK | Human-Written Academic Support",
+    description:
+      "Need reliable Assignment Help UK? Get human-written essays, reports, coursework, and dissertations from subject specialists who understand UK universities.",
+    images: [
+      {
+        url: "https://www.assignmentinneed.co.uk/assets/media/layout/og-image.jpg",
+        alt: "Assignment Help UK - Human-Written Academic Support by AssignmentInNeed",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -40,8 +82,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${nunito.variable} ${roboto.variable}`}>
+    <html
+      lang="en"
+      className={`${montserrat.variable} ${nunito.variable} ${roboto.variable}`}
+    >
       <head>
+        <CanonicalHeader />
         <Script
           id="google-tag-manager"
           strategy="afterInteractive"
@@ -72,7 +118,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           reverseOrder={false}
           containerStyle={{ zIndex: 99999 }}
         />
-      </body>
+      </body>   
     </html>
   );
 }

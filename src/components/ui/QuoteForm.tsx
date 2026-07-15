@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { CustomDropdown } from "./CustomDropdown";
 import { motion } from "framer-motion";
@@ -86,6 +86,57 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [orderId, setOrderId] = useState("");
+
+  const [apiServices, setApiServices] = useState<any[]>([]);
+  const [apiUrgencies, setApiUrgencies] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchConfigs = async () => {
+      try {
+        const [servicesRes, urgenciesRes] = await Promise.all([
+          fetch("/api/app/services"),
+          fetch("/api/app/urgencies")
+        ]);
+
+        if (servicesRes.ok) {
+          const payload = await servicesRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiServices(payload.data);
+          }
+        }
+
+        if (urgenciesRes.ok) {
+          const payload = await urgenciesRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiUrgencies(payload.data);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching configs in QuoteForm:", err);
+      }
+    };
+    fetchConfigs();
+  }, []);
+
+  const finalProjectTypes = useMemo(() => {
+    if (apiServices.length > 0) {
+      return apiServices.map((s: any) => ({
+        label: s.name,
+        value: s.value || s.name
+      }));
+    }
+    return projectTypeOptions;
+  }, [apiServices, projectTypeOptions]);
+
+  const finalTimePeriods = useMemo(() => {
+    if (apiUrgencies.length > 0) {
+      return apiUrgencies.map((u: any) => ({
+        label: u.name,
+        value: String(u.value)
+      }));
+    }
+    return timePeriodOptions;
+  }, [apiUrgencies, timePeriodOptions]);
 
   // Country Code -> ISO
   const getCountryIso = (code: string) => {
@@ -343,7 +394,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           </label>
           <div className="flex-1 bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)] relative flex items-center h-[30px] focus-within:border-gray-300">
             <CustomDropdown
-              options={projectTypeOptions}
+              options={finalProjectTypes}
               value={projectType}
               onChange={setProjectType}
               placeholder="Select Project Type"
@@ -360,7 +411,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             </label>
             <div className="bg-white border border-gray-200 rounded-lg py-1 px-2 shadow-[0_1px_2px_rgba(0,0,0,0.02)] relative flex items-center h-[34px] focus-within:border-gray-300">
               <CustomDropdown
-                options={timePeriodOptions}
+                options={finalTimePeriods}
                 value={timePeriod}
                 onChange={setTimePeriod}
                 placeholder="Select Deadline"
