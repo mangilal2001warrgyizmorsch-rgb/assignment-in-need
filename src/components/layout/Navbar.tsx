@@ -916,7 +916,7 @@ export const Navbar = () => {
           {/* Contact — fixed left (hidden below 480px) */}
           <div className="flex items-center gap-[18px] max-md:gap-2.5 max-[480px]:hidden shrink-0">
             <a
-              href="tel:+447300640066"
+              href="tel:+44 7826233106"
               className="flex items-center gap-[5px] font-semibold text-[12.5px] max-md:text-[11px] whitespace-nowrap [&_svg]:w-[13px] [&_svg]:h-[13px] [&_svg]:shrink-0"
             >
               <svg
@@ -929,10 +929,10 @@ export const Navbar = () => {
               >
                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
               </svg>
-              +44 7300 640066
+              +44 7826233106
             </a>
             <a
-              href="mailto:support@assignmentinneed.com"
+              href="mailto:order@assignnmentneed.com"
               className="flex items-center gap-[5px] font-semibold text-[12.5px] max-md:text-[11px] whitespace-nowrap [&_svg]:w-[13px] [&_svg]:h-[13px] [&_svg]:shrink-0"
             >
               <svg
@@ -946,7 +946,7 @@ export const Navbar = () => {
                 <rect x="2" y="4" width="20" height="16" rx="2" />
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7" />
               </svg>
-              support@assignmentinneed.com
+              order@assignnmentneed.com
             </a>
           </div>
 
@@ -1216,12 +1216,12 @@ export const Navbar = () => {
           </ul>
 
           <div className="znh-right-actions">
-            <a href="tel:+447300640066" className="znh-contact-widget">
+            <a href="tel:+447826233106" className="znh-contact-widget">
               <div className="znh-contact-icon">
                 <Phone className="h-[18px] w-[18px]" />
               </div>
               <div className="znh-contact-text">
-                <span className="znh-contact-number">+44 7300 640066</span>
+                <span className="znh-contact-number">+44 78262 33106</span>
                 <span className="znh-contact-label">24/7 Support</span>
               </div>
             </a>

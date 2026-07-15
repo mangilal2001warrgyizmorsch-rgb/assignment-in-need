@@ -427,27 +427,27 @@ export const Footer = () => {
             <li className="flex items-start gap-3 text-[0.9rem] leading-relaxed">
               <Phone className="text-[#d1d5db] w-4 h-4 mt-1 shrink-0" />
               <a
-                href="tel:+447300640066"
+                href="tel:+447826233106"
                 className="text-[#d1d5db] no-underline transition-colors duration-200 hover:text-white"
               >
-                +44 7300 640066
+                +44 78262 33106
               </a>
             </li>
             <li className="flex items-start gap-3 text-[0.9rem] leading-relaxed">
               <Mail className="text-[#d1d5db] w-4 h-4 mt-1 shrink-0" />
               <a
-                href="mailto:support@assignmentinneed.com"
+                href="mailto:order@assignnmentneed.com"
                 className="text-[#d1d5db] no-underline transition-colors duration-200 hover:text-white"
               >
-                support@assignmentinneed.com
+                order@assignnmentneed.com
               </a>
             </li>
             <li className="flex items-start gap-3 text-[0.9rem] leading-relaxed">
               <MapPin className="text-[#d1d5db] w-4 h-4 mt-1 shrink-0" />
               <span className="text-[#d1d5db]">
-                77 Great Portland Street,
+                Roehampton Ln, London SW15
                 <br />
-                London, W1W 6PQ, UK
+                5PU, United Kingdom
               </span>
             </li>
           </ul>
