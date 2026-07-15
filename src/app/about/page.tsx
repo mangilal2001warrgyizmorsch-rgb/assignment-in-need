@@ -22,7 +22,11 @@ import {
   FolderOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
+import {
+  AnimateIn,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/ui/AnimateIn";
 import { ExpertCard } from "@/components/ui/ExpertCard";
 
 export default function AboutPage() {
@@ -146,32 +150,35 @@ export default function AboutPage() {
     fetchExperts();
   }, []);
 
-  const experts = dynamicExperts.length > 0 ? dynamicExperts : [
-    {
-      name: "Sophia Adams",
-      role: "Marketing Expert",
-      rating: 4.9,
-      img: "/images/resource/team-1.jpg",
-    },
-    {
-      name: "Dr. James Wilson",
-      role: "Finance Expert",
-      rating: 4.8,
-      img: "/images/resource/team-2.jpg",
-    },
-    {
-      name: "Olivia Bennett",
-      role: "Management Expert",
-      rating: 4.9,
-      img: "/images/resource/team-3.jpg",
-    },
-    {
-      name: "Dr. Daniel Harris",
-      role: "Economics Expert",
-      rating: 4.7,
-      img: "/images/resource/team-4.jpg",
-    },
-  ];
+  const experts =
+    dynamicExperts.length > 0
+      ? dynamicExperts
+      : [
+          {
+            name: "Sophia Adams",
+            role: "Marketing Expert",
+            rating: 4.9,
+            img: "/images/resource/team-1.jpg",
+          },
+          {
+            name: "Dr. James Wilson",
+            role: "Finance Expert",
+            rating: 4.8,
+            img: "/images/resource/team-2.jpg",
+          },
+          {
+            name: "Olivia Bennett",
+            role: "Management Expert",
+            rating: 4.9,
+            img: "/images/resource/team-3.jpg",
+          },
+          {
+            name: "Dr. Daniel Harris",
+            role: "Economics Expert",
+            rating: 4.7,
+            img: "/images/resource/team-4.jpg",
+          },
+        ];
 
   return (
     <div className="font-sans text-[#111827] bg-white overflow-hidden">
@@ -190,7 +197,10 @@ export default function AboutPage() {
           {/* 3.2 HERO */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mt-6">
             {/* Left Column Content */}
-            <AnimateIn variant="fadeUp" className="lg:col-span-7 flex flex-col gap-6 text-left">
+            <AnimateIn
+              variant="fadeUp"
+              className="lg:col-span-7 flex flex-col gap-6 text-left"
+            >
               {/* Badge */}
               <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#f3f0ff] text-[#3f159a] text-[10px] font-extrabold uppercase tracking-widest w-fit mb-1 shadow-sm">
                 ABOUT ASSIGNMENT IN NEED
@@ -273,7 +283,11 @@ export default function AboutPage() {
             </AnimateIn>
 
             {/* Right Column Illustration */}
-            <AnimateIn variant="scaleUp" delay={0.2} className="lg:col-span-5 flex items-center justify-center relative w-full h-[320px] md:h-[480px]">
+            <AnimateIn
+              variant="scaleUp"
+              delay={0.2}
+              className="lg:col-span-5 flex items-center justify-center relative w-full h-[320px] md:h-[480px]"
+            >
               <Image
                 src="/new-about-us-img/hero1.png"
                 alt="Empowering Students illustration"
@@ -302,48 +316,29 @@ export default function AboutPage() {
 
             {/* Right Column Content */}
             <div className="lg:col-span-7 flex flex-col gap-5 text-left">
-              <span className="text-[10px] font-extrabold text-[#3f159a] uppercase tracking-widest">
+              {/* <span className="text-[10px] font-extrabold text-[#3f159a] uppercase tracking-widest">
                 WHO WE ARE
-              </span>
+              </span> */}
               <h2 className="text-[28px] sm:text-[34px] font-[900] text-[#0f1b3d] tracking-tight">
                 About Assignment In Need
               </h2>
               <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed max-w-[620px]">
-                Assignment In Need was founded with a simple goal – to provide
-                students with accessible, reliable and high-quality academic
-                support. We understand the challenges students face, which is
-                why we've built a platform that connects you with the best
-                academic experts who deliver top-notch assistance tailored to
-                your needs.
+                Assignment in Need was built on a simple idea: UK students
+                deserve academic support written by someone who actually
+                understands the assignment, not spat out by an AI tool in thirty
+                seconds. Everything we deliver is written from scratch by a
+                human writer who reads your brief properly. No shortcuts, no AI
+                drafts passed off as original thinking.
+                <br />
+                <br />
+                That matters more now than it used to. UK universities have
+                sharpened their AI-detection policies, and if flagged work gets
+                submitted, it's the student who carries the consequences, not
+                the platform that sold it. We designed our entire process to
+                avoid that risk. Every assignment goes through a plagiarism
+                check and an AI-detection scan before it reaches you, so what
+                you get back is genuinely 0% AI, start to finish.
               </p>
-
-              {/* Checklist */}
-              <ul className="flex flex-col gap-3 mt-2">
-                <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#f4f2ff] text-[#3f159a] flex items-center justify-center shrink-0 border border-purple-50 shadow-sm">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">
-                    Trusted by students across the UK and worldwide
-                  </span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#f4f2ff] text-[#3f159a] flex items-center justify-center shrink-0 border border-purple-50 shadow-sm">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">
-                    A team of qualified academic experts
-                  </span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#f4f2ff] text-[#3f159a] flex items-center justify-center shrink-0 border border-purple-50 shadow-sm">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-xs sm:text-sm text-[#0f1b3d] font-bold">
-                    Commitment to quality, originality and confidentiality
-                  </span>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
@@ -418,7 +413,18 @@ export default function AboutPage() {
           <div className="w-16 h-1 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full mx-auto mb-12" />
 
           {/* Desktop flow (horizontal) */}
-          <div className="hidden md:flex items-start justify-center gap-0 w-full max-w-[1100px] mx-auto">
+          <div className="hidden md:flex flex-col gap-5 items-start justify-center gap-0 w-full max-w-[1100px] mx-auto">
+            
+            <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">
+              We match your assignment to a writer with real background in that
+              subject. A nursing case study doesn't land with someone whose only
+              experience is general essay writing. Someone with relevant
+              academic grounding takes it on, which is the difference between
+              generic filler and work that actually holds up under a tutor's
+              questions. 
+            </p>
+            
+            <div className="hidden md:flex items-start justify-center gap-0 w-full max-w-[1100px] mx-auto">
             {steps.map((step, idx) => (
               <React.Fragment key={step.number}>
                 <div className="flex flex-col items-center text-center gap-3 flex-1">
@@ -447,6 +453,43 @@ export default function AboutPage() {
                 )}
               </React.Fragment>
             ))}
+            </div>
+
+            <p className="text-start text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">
+              Referencing gets applied the way your department
+              expects it, whether that's Harvard, OSCOLA, APA 7th or something
+              else. Get this part wrong and markers notice immediately, even
+              when the argument underneath is solid. 
+            </p>
+
+            <ul className="item-start text-start display: flex flex-col gap-2 list-disc text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">
+              <li>Written entirely by human subject-matched writers</li>
+              <li>Checked for plagiarism and AI content before delivery</li>
+              <li>UK referencing styles applied correctly</li>
+              <li>Work built so you can explain it back, not just hand it in</li>
+            </ul>
+
+            <div className="text-start ">
+              <h2 className="mb-3">Where We Stand on UK Education Standards</h2>
+              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">The Skills and Post-16 Education Act 2022 pushed UK education toward more transparency and accountability. We're not regulated directly under it, but we hold our own process to that same bar clear about what we do, and honest about what students should and shouldn't submit as their own.
+                <span className="italic">This section touches on UK education legislation and is worth a legal review before it goes live.</span>
+              </p>
+            </div>
+
+            <div className="text-start ">
+              <h2 className="mb-3">Who Writes for You</h2>
+              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">Our writers come from UK academic backgrounds relevant to the subjects they cover. We'd rather tell you honestly what a writer's background is when you ask than publish a generic "PhD experts" badge with nothing behind it. </p>
+            </div>
+
+            <div className="text-start ">
+              <h3 className="mb-3">Your Data Stays Yours</h3>
+              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">Your order details and personal information are handled under UK GDPR principles and aren't shared beyond what's needed to complete your work.</p>
+            </div>
+
+            <div className="text-start ">
+              <h3 className="mb-3">Talk to Us</h3>
+              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">Questions about how we work or whether we're right for your assignment get in touch and we'll answer directly, no sales script.</p>
+            </div>
           </div>
 
           {/* Mobile flow (vertical list) */}
