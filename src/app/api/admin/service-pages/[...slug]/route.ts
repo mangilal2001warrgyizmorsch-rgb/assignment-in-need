@@ -19,7 +19,7 @@ export async function GET(_request: Request, context: RouteContext) {
   try {
     const response = await fetch(`${SERVICE_PAGES_API_BASE_URL}/${fullSlug}`, {
       headers: { Accept: "application/json" },
-      cache: "no-store",
+      next: { revalidate: 300 },
     });
 
     const text = await response.text();
