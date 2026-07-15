@@ -52,57 +52,81 @@ export default function PromoBannerHome() {
                 {
                   title: "Plagiarism Report",
                   svg: (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="w-5.5 h-5.5 text-[#4a17a3]">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 14h6m-6 3h6" />
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5.5 h-5.5 text-[#4a17a3]">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <polygon points="9.5 12 9.5 16 13.5 14" />
+                      <circle cx="16" cy="18" r="2.5" />
+                      <line x1="18" y1="20" x2="20" y2="22" />
                     </svg>
                   )
                 },
                 {
                   title: "Rewriting & Paraphrasing",
                   svg: (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="w-5.5 h-5.5 text-[#4a17a3]">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.656 48.656 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3M3 12c0 1.232.046 2.453.138 3.662a4.006 4.006 0 00-3.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M3 12l-3 3m3-3l3 3" />
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5.5 h-5.5 text-[#4a17a3]">
+                      <circle cx="12" cy="8" r="3.5" />
+                      <circle cx="12" cy="16" r="3.5" />
+                      <circle cx="8" cy="12" r="3.5" />
+                      <circle cx="16" cy="12" r="3.5" />
+                      <path d="M12 10.5v3" />
+                      <path d="M10.5 12h3" />
                     </svg>
                   )
                 },
                 {
                   title: "Title Page",
                   svg: (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="w-5.5 h-5.5 text-[#4a17a3]">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18V6a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 6v3.75" />
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5.5 h-5.5 text-[#4a17a3]">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <path d="M9 12h6" />
+                      <path d="M12 12v5" />
                     </svg>
                   )
                 },
                 {
                   title: "Bibliography",
                   svg: (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="w-5.5 h-5.5 text-[#4a17a3]">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5.5 h-5.5 text-[#4a17a3]">
+                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                      <line x1="6" y1="8" x2="8" y2="8" />
+                      <line x1="6" y1="12" x2="8" y2="12" />
+                      <line x1="16" y1="8" x2="18" y2="8" />
+                      <line x1="16" y1="12" x2="18" y2="12" />
                     </svg>
                   )
                 },
                 {
                   title: "Formatting",
                   svg: (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="w-5.5 h-5.5 text-[#4a17a3]">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5.5 h-5.5 text-[#4a17a3]">
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <line x1="7" y1="8" x2="17" y2="8" />
+                      <line x1="7" y1="12" x2="13" y2="12" />
+                      <line x1="7" y1="16" x2="15" y2="16" />
                     </svg>
                   )
                 },
                 {
                   title: "Unlimited Revisions",
                   svg: (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="w-5.5 h-5.5 text-[#4a17a3]">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5.5 h-5.5 text-[#4a17a3]">
+                      <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38L21.5 8" />
                     </svg>
                   )
                 },
                 {
                   title: "24/7 Support",
                   svg: (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="w-5.5 h-5.5 text-[#4a17a3]">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 21m0 0l-.813-5.096M9 21h7.5M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.773l-1.591 1.591M3 12h2.25m-.386-6.364l1.591 1.591M12 18.75a6.75 6.75 0 110-13.5 6.75 6.75 0 010 13.5z" />
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5.5 h-5.5 text-[#4a17a3]">
+                      <path d="M3 12c0-5 4-9 9-9s9 4 9 9" />
+                      <rect x="2" y="10" width="2" height="4" rx="1" />
+                      <rect x="20" y="10" width="2" height="4" rx="1" />
+                      <path d="M20 12v1a3 3 0 0 1-3 3h-2" />
+                      <circle cx="12" cy="11" r="3" />
+                      <path d="M9 17a3 3 0 0 0 6 0" />
                     </svg>
                   )
                 }

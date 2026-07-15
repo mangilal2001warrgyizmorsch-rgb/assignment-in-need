@@ -203,7 +203,7 @@ function ServiceTile({
   return (
     <Link
       href={service.href}
-      className={`group relative overflow-hidden rounded-[20px] p-5 bg-gradient-to-br ${service.gradient} shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-gray-100/50 hover:-translate-y-1 hover:shadow-[0_12px_25px_rgba(0,0,0,0.07)] transition-all duration-300 flex flex-col justify-between h-full ${minHeight}`}
+      className={`group relative overflow-hidden rounded-[20px] p-5 bg-gradient-to-br ${service.gradient} shadow-[0_4px_15px_rgba(0,0,0,0.03)] border border-gray-300/50 hover:-translate-y-1 hover:shadow-[0_12px_25px_rgba(0,0,0,0.07)] transition-all duration-300 flex flex-col justify-between h-full ${minHeight}`}
     >
       <div className="flex flex-col justify-between h-full w-full relative z-[2] items-start text-left">
         <div>

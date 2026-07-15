@@ -5,6 +5,7 @@ import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/Animat
 import { mapExpertToWriter } from "@/lib/api";
 import { WRITERS } from "@/lib/data";
 import { Button } from "@/components/ui/Button";
+import { ExpertCard } from "@/components/ui/ExpertCard";
 import Link from "next/link";
 
 interface Expert {
@@ -67,20 +68,29 @@ export const WritersAndTrust: React.FC = () => {
         if (res.ok) {
           const result = await res.json();
           if (result.success && Array.isArray(result.data)) {
-            const mapped = result.data.map((item: any) => {
-              const parsed = mapExpertToWriter(item);
-              return {
-                id: parsed.id,
-                name: parsed.name,
-                subject: parsed.role.replace(" Expert", ""),
-                experience: parsed.experience.includes("Years") ? `${parsed.experience} Exp.` : parsed.experience,
-                rating: parsed.rating,
-                orders: parsed.ordersCompleted || 250,
-                image: parsed.avatar,
-              };
-            });
-            // Show top 4 dynamic experts
-            setExperts(mapped.slice(0, 4));
+            const mapped = result.data
+              .map((item: any) => {
+                const parsed = mapExpertToWriter(item);
+                const hasRealImage =
+                  parsed.avatar &&
+                  !parsed.avatar.includes("blank.png") &&
+                  !parsed.avatar.includes("ui-avatars.com");
+                return {
+                  id: parsed.id,
+                  name: parsed.name,
+                  subject: parsed.role.replace(" Expert", ""),
+                  experience: parsed.experience.includes("Years")
+                    ? `${parsed.experience} Exp.`
+                    : parsed.experience,
+                  rating: parsed.rating,
+                  orders: parsed.ordersCompleted || 250,
+                  image: parsed.avatar,
+                  hasRealImage,
+                };
+              })
+              .filter((expert: any) => expert.hasRealImage && expert.image)
+              .slice(0, 4);
+            setExperts(mapped);
           } else {
             setExperts(FALLBACK_EXPERTS);
           }
@@ -140,38 +150,23 @@ export const WritersAndTrust: React.FC = () => {
             <StaggerContainer className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               {experts.map((expert) => (
                 <StaggerItem key={expert.id}>
-                  <div
-                    onClick={() => {
-                      window.location.href = `/writers/${expert.id}`;
-                    }}
-                    className="bg-white border border-gray-100 rounded-2xl p-6 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_30px_rgba(109,40,217,0.08)] hover:border-purple-200 h-full cursor-pointer"
+                  <Link
+                    href={`/writers/${expert.id}`}
+                    className="block h-full no-underline hover:no-underline"
                   >
-                    <img
-                      src={getAvatarUrl(expert.image)}
-                      alt={expert.name}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/assets/media/avatars/blank.png";
+                    <ExpertCard
+                      name={expert.name}
+                      role={`${expert.subject} Expert`}
+                      rating={expert.rating}
+                      ordersCount={expert.orders}
+                      avatar={getAvatarUrl(expert.image)}
+                      experience={expert.experience}
+                      onHire={() => {
+                        window.location.href = "/order";
                       }}
-                      className="w-[90px] h-[90px] rounded-full object-cover mb-4 border-[3px] border-purple-50"
+                      className="h-full"
                     />
-                    <div className="flex flex-col items-center">
-                      <h3 className="text-[1.1rem] font-bold text-gray-900 m-0 mb-1">
-                        {expert.name}
-                      </h3>
-                      <span className="block text-[0.85rem] text-gray-500 mb-1 font-medium">
-                        {expert.subject}
-                      </span>
-                      <span className="block text-[0.8rem] text-[#7c3aed] font-semibold mb-2">
-                        {expert.experience}
-                      </span>
-                      <div className="inline-flex items-center gap-1 text-[0.8rem] text-gray-600 font-semibold">
-                        <span className="text-amber-500 text-[1rem]">★</span>
-                        <span>
-                          {expert.rating.toFixed(1)} ({expert.orders}+ Orders)
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                  </Link>
                 </StaggerItem>
               ))}
             </StaggerContainer>

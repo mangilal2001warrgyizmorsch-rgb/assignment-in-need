@@ -794,83 +794,18 @@ export default function ServiceLanding() {
                 const ordersCount = writer.ordersCompleted || writer.orders || "1200+";
 
                 return (
-                  <div
-                    key={writer.id}
-                    className="bg-white rounded-3xl border border-gray-100 flex flex-col items-center p-5 text-center shadow-[0_8px_30px_rgb(0,0,0,0.015)] hover:shadow-[0_15px_40px_rgba(63,21,154,0.06)] hover:-translate-y-1.5 duration-300 flex-none w-[265px] sm:w-[45%] lg:w-auto snap-center relative overflow-hidden"
-                  >
-                    {/* Decorative top colored block */}
-                    <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-t-3xl" />
-
-                    {/* Avatar Section */}
-                    <div className="relative w-20 h-20 rounded-full flex items-center justify-center shrink-0 mb-4 ring-4 ring-white shadow-md overflow-hidden mt-3 bg-gray-150">
-                      <img
-                        src={avatarUrl || "/assets/media/avatars/blank.png"}
-                        alt={writer.name}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src =
-                            "/assets/media/avatars/blank.png";
-                        }}
-                        className="w-full h-full object-cover object-center bg-gray-100"
-                      />
-                    </div>
-
-                    {/* Name and Role */}
-                    <div className="flex flex-col items-center flex-1 min-w-0 w-full text-center">
-                      <h3 className="font-extrabold text-[#0f1b3d] text-[14px] mb-1 tracking-tight truncate w-full">
-                        {writer.name}
-                      </h3>
-                      <span className="text-[9px] font-extrabold text-indigo-600 bg-indigo-50/70 px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-2">
-                        {writer.role || `${title} Expert`}
-                      </span>
-
-                      {/* Stats block */}
-                      <div className="space-y-0.5 mb-3 text-center">
-                        <p className="text-[10px] font-extrabold text-[#3f159a]">
-                          {qualStr}
-                        </p>
-                        <p className="text-[9px] text-gray-550 font-bold">
-                          {experienceStr}
-                        </p>
-                      </div>
-
-                      {/* Rating stars */}
-                      <div className="flex items-center gap-1.5 justify-center mb-3">
-                        <div className="flex text-yellow-400 text-[10px]">
-                          ★★★★★
-                        </div>
-                        <span className="text-[#0f1b3d] text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-50 text-amber-700">
-                          {formattedRating}
-                        </span>
-                      </div>
-
-                      {/* Mini stats row */}
-                      <div className="grid grid-cols-2 gap-1 w-full pt-3 border-t border-gray-100 mt-auto text-left">
-                        <div>
-                          <p className="text-[8px] font-bold text-gray-400 uppercase tracking-wide m-0">
-                            Orders
-                          </p>
-                          <p className="text-[10px] font-black text-slate-800 m-0">
-                            {ordersCount}
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-[8px] font-bold text-gray-400 uppercase tracking-wide m-0">
-                            Success Rate
-                          </p>
-                          <p className="text-[10px] font-black text-emerald-600 m-0">
-                            99%
-                          </p>
-                        </div>
-                      </div>
-
-                      <a
-                        href="#quote-form"
-                        className="btn-shutter-blue-close block w-full py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-widest text-center transition-colors duration-250 cursor-pointer mt-3"
-                      >
-                        Hire Expert
-                      </a>
-                    </div>
-                  </div>
+                  <ExpertCard
+                    key={writer.id || index}
+                    name={writer.name}
+                    role={writer.role || `${title} Expert`}
+                    rating={parseFloat(formattedRating)}
+                    ordersCount={ordersCount}
+                    avatar={avatarUrl || "/assets/media/avatars/blank.png"}
+                    experience={experienceStr}
+                    qualifications={qualStr}
+                    variant="subject"
+                    className="w-[265px] sm:w-[45%] lg:w-auto shrink-0"
+                  />
                 );
               })}
             </div>

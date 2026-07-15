@@ -34,70 +34,22 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
   onHire,
   ...props
 }) => {
-  const isSubjectVariant = variant === "subject";
   const isDirectoryVariant = variant === "directory";
 
-  if (isSubjectVariant) {
-    // Subject expert layout matching screenshots (square photo, text elements, primary hire button)
-    return (
-      <Card hoverEffect={true} className={cn("p-4 gap-3 bg-white border border-primary-100/50 flex flex-col justify-between text-left", className)} {...props}>
-        <CardHeader className="p-0 flex flex-col gap-3">
-          {/* Square Photo with subtle rounded borders */}
-          <div className="relative aspect-square w-full rounded-xl bg-primary-50 overflow-hidden border border-primary-100/30">
-            {avatar.length <= 3 ? (
-              <div className="w-full h-full flex items-center justify-center font-heading font-extrabold text-2xl text-primary-700 uppercase bg-primary-50">
-                {avatar}
-              </div>
-            ) : (
-              <img src={avatar} alt={name} className="w-full h-full object-cover" />
-            )}
-            <div className="absolute top-2 right-2 bg-white/95 backdrop-blur-sm px-2 py-0.5 rounded-md text-[10px] font-bold text-success border border-success/15 flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3 text-success" />
-              Verified
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <Heading level={3} className="text-base md:text-lg leading-tight">
-              {name}
-            </Heading>
-            <span className="text-xs font-bold text-accent-600">
-              {role}
-            </span>
-          </div>
-        </CardHeader>
-
-        <CardBody className="p-0 flex flex-col gap-2 border-t border-dashed border-primary-50 pt-3">
-          {experience && (
-            <div className="flex items-center gap-2 text-xs text-text-body font-medium">
-              <Briefcase className="w-3.5 h-3.5 text-primary-500 shrink-0" />
-              <span>{experience} Experience</span>
-            </div>
-          )}
-          {qualifications && (
-            <div className="flex items-center gap-2 text-xs text-text-body font-medium">
-              <GraduationCap className="w-3.5 h-3.5 text-primary-500 shrink-0" />
-              <span>{qualifications}</span>
-            </div>
-          )}
-          <div className="flex items-center gap-2 text-xs text-text-muted">
-            <div className="flex items-center gap-0.5 text-warning">
-              <Star className="w-3.5 h-3.5 fill-current" />
-              <span className="font-bold text-text-heading ml-0.5">{rating.toFixed(1)}</span>
-            </div>
-            <span>•</span>
-            <span className="font-semibold text-text-heading">{ordersCount} Orders</span>
-          </div>
-        </CardBody>
-
-        <CardFooter className="p-0 w-full mt-2">
-          <Button variant="blueOpen" size="sm" fullWidth={true} onClick={onHire}>
-            Hire Expert
-          </Button>
-        </CardFooter>
-      </Card>
-    );
-  }
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onHire) {
+      onHire();
+      return;
+    }
+    // Default fallback: scroll to quote-form if present, otherwise navigate to /order
+    const quoteForm = document.getElementById("quote-form");
+    if (quoteForm) {
+      quoteForm.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = "/order";
+    }
+  };
 
   if (isDirectoryVariant) {
     // Directory listing layout matching screenshots (circular photo, expertise tags, qualifications, info tags, outline button)
@@ -158,44 +110,85 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
     );
   }
 
-  // Fallback / default layout
+  // Premium expert card design with grey top header and clean layout for subject and default variants
+  const formattedRating = typeof rating === "number" ? rating.toFixed(1) : parseFloat(String(rating)).toFixed(1);
+  const expText = experience ? (experience.includes("Exp.") ? experience : `${experience} Exp.`) : "8+ Years Exp.";
+
   return (
-    <Card hoverEffect={true} className={cn("text-center items-center p-5 gap-3 bg-white", className)} {...props}>
-      <CardHeader className="items-center flex flex-col gap-2">
-        <div className="relative w-20 h-20 rounded-full bg-primary-50 border-2 border-primary-100/50 flex items-center justify-center overflow-hidden shrink-0">
-          {avatar.length <= 3 ? (
-            <span className="font-heading font-extrabold text-xl text-primary-700 uppercase">{avatar}</span>
-          ) : (
-            <img src={avatar} alt={name} className="w-full h-full object-cover" />
+    <div
+      className={cn(
+        "bg-white rounded-2xl border border-slate-100 flex flex-col shadow-[0_8px_25px_rgba(0,0,0,0.03)] duration-300 flex-none w-full snap-center relative overflow-hidden text-left hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)] hover:-translate-y-1",
+        className
+      )}
+      {...props}
+    >
+      {/* Top Image Container with off-white/light-grey background */}
+      <div className="w-full h-[220px] bg-[#f0f0f0] flex items-center justify-center relative overflow-hidden">
+        {avatar.length <= 3 ? (
+          <div className="w-full h-full flex items-center justify-center font-heading font-extrabold text-2xl text-primary-700 uppercase bg-primary-50">
+            {avatar}
+          </div>
+        ) : (
+          <img
+            src={avatar}
+            alt={name}
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "/assets/media/avatars/blank.png";
+            }}
+            className="h-full w-full object-cover object-top"
+          />
+        )}
+      </div>
+
+      {/* Body Content */}
+      <div className="p-4 flex flex-col gap-1.5 flex-1 justify-between">
+        <div>
+          <h3 className="font-extrabold text-[15px] text-gray-900 m-0 leading-snug truncate">
+            {name}
+          </h3>
+          <p className="text-[12px] text-slate-700 font-semibold m-0 mt-0.5 leading-snug truncate">
+            {role}
+          </p>
+          {qualifications && (
+            <p className="text-[11px] text-gray-500 font-medium m-0 mt-0.5 leading-snug truncate">
+              {qualifications}
+            </p>
           )}
-          <div className="absolute bottom-0 right-0 bg-white rounded-full p-0.5 shadow-sm border border-primary-100">
-            <ShieldCheck className="w-4 h-4 text-success fill-success/10" />
+          <p className="text-[11px] text-gray-500 font-semibold m-0 mt-0.5 leading-snug">
+            {expText}
+          </p>
+
+          {/* Rating & Orders Row */}
+          <div className="flex items-center gap-1.5 mt-2">
+            <svg
+              className="w-[13px] h-[13px] text-amber-500 shrink-0"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 .587l3.668 7.431 8.2 1.191-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.209l8.2-1.191L12 .587z" />
+            </svg>
+            <span className="text-[12px] font-bold text-amber-600">
+              {formattedRating}
+            </span>
+            <span className="text-[11px] text-gray-400 font-medium ml-1">
+              ({ordersCount} Orders)
+            </span>
           </div>
         </div>
 
-        <div className="flex flex-col items-center mt-2 gap-1">
-          <Heading level={3} className="text-lg leading-tight">{name}</Heading>
-          <Badge variant="soft-purple" className="text-[10px] py-0.5 px-2">{role}</Badge>
+        <div className="w-full mt-3.5">
+          <Button
+            variant="blueClose"
+            fullWidth
+            size="sm"
+            className="text-[12px] font-extrabold uppercase tracking-widest text-center"
+            onClick={handleButtonClick}
+          >
+            Hire Expert
+          </Button>
         </div>
-      </CardHeader>
-      
-      <CardBody className="flex flex-col items-center justify-center gap-1 py-1">
-        <div className="flex items-center gap-1">
-          <Star className="w-4 h-4 fill-warning text-warning" />
-          <span className="font-heading font-bold text-sm text-text-heading">{rating.toFixed(1)}</span>
-          <span className="text-xs text-text-muted">(Star Rating)</span>
-        </div>
-        <span className="text-sm font-semibold text-text-body">
-          {ordersCount} Orders Completed
-        </span>
-      </CardBody>
-      
-      <CardFooter className="w-full mt-1">
-        <Button variant="orangeOpen" size="sm" fullWidth={true} onClick={onHire}>
-          Hire This Expert
-        </Button>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 };
 ExpertCard.displayName = "ExpertCard";
