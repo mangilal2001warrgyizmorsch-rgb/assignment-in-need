@@ -33,7 +33,11 @@ import {
   Headset,
   Heart,
 } from "lucide-react";
-import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
+import {
+  AnimateIn,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/ui/AnimateIn";
 
 const fallbackWhyItems = [
   {
@@ -106,7 +110,25 @@ export default function ServiceLanding() {
       if (!fullSlug) return;
       try {
         setLoading(true);
-        const pageRes = await fetch(`/api/admin/service-pages?slug=${fullSlug}`);
+
+        let apiSlug = fullSlug;
+        if (fullSlug === "assignment-writing-uk" || fullSlug === "service/assignment") {
+          apiSlug = "assignment";
+        } else if (fullSlug === "dissertation-writing-services" || fullSlug === "service/dissertation") {
+          apiSlug = "dissertation";
+        } else if (fullSlug.startsWith("service/assignment/")) {
+          apiSlug = fullSlug.replace("service/assignment/", "");
+        } else if (fullSlug.startsWith("service/dissertation/")) {
+          apiSlug = fullSlug.replace("service/dissertation/", "");
+        } else if (fullSlug.endsWith("-assignment-writing-help")) {
+          apiSlug = fullSlug.replace("-assignment-writing-help", "");
+        } else if (fullSlug.endsWith("-dissertation-writing-help")) {
+          apiSlug = fullSlug.replace("-dissertation-writing-help", "");
+        }
+
+        const pageRes = await fetch(
+          `/api/admin/service-pages?slug=${apiSlug}`,
+        );
         let pageResult: any = null;
 
         if (pageRes.ok) {
@@ -163,6 +185,67 @@ export default function ServiceLanding() {
     const slug = service?.slug || "";
     return slug.startsWith(`${fullSlug}/`);
   });
+
+  useEffect(() => {
+    const fetchGlobalExperts = async () => {
+      const currentTitle = pageData?.hero_heading || "Professional Assignment Help";
+      if (!currentTitle) return;
+      try {
+        const resExp = await fetch("/api/experts");
+        if (resExp.ok) {
+          const result = await resExp.json();
+          if (result.success && Array.isArray(result.data)) {
+            // Filter by current service title keywords
+            const titleLower = currentTitle.toLowerCase();
+            const slugLower = (fullSlug || "").toLowerCase();
+
+            // Try to find expert's subject in the title/slug
+            const subjectMatched = result.data.filter((item: any) => {
+              const expertSubject = (item.subject || "").toLowerCase();
+              if (!expertSubject) return false;
+              return titleLower.includes(expertSubject) ||
+                     slugLower.includes(expertSubject) ||
+                     expertSubject.includes(titleLower) ||
+                     expertSubject.includes(slugLower);
+            });
+
+            // Secondary filter: match by skills/expertise keywords
+            const keywordMatched = subjectMatched.length > 0 ? [] : result.data.filter((item: any) => {
+              const skills = Array.isArray(item.skills) ? item.skills.join(" ").toLowerCase() : "";
+              const content = (item.content || "").toLowerCase();
+              return skills.includes(titleLower) || skills.includes(slugLower) ||
+                     content.includes(titleLower) || content.includes(slugLower);
+            });
+
+            const bestMatches = subjectMatched.length > 0 ? subjectMatched : keywordMatched;
+            // Use matched experts, or fall back to all if no matches
+            const sourceExperts = bestMatches.length > 0 ? bestMatches : result.data;
+
+            const mapped = sourceExperts.map((item: any) => {
+              const parsed = mapExpertToWriter(item);
+              return {
+                ...parsed,
+                role: parsed.role || `${currentTitle} Expert`
+              };
+            });
+
+            // Sort by rating desc, then ordersCompleted desc to rank the best experts
+            mapped.sort((a: any, b: any) => {
+              if (b.rating !== a.rating) return b.rating - a.rating;
+              const aOrders = parseInt(a.ordersCompleted || a.orders) || 0;
+              const bOrders = parseInt(b.ordersCompleted || b.orders) || 0;
+              return bOrders - aOrders;
+            });
+
+            setExperts(mapped);
+          }
+        }
+      } catch (e) {
+        console.error("Error fetching global experts for service:", e);
+      }
+    };
+    fetchGlobalExperts();
+  }, [pageData, fullSlug]);
 
   useEffect(() => {
     if (pageData && pageData.meta_title) {
@@ -396,9 +479,12 @@ export default function ServiceLanding() {
             <span className="text-[#3f159a] font-semibold">{title}</span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative min-h-[500px] lg:min-h-[545px] min-w-[200px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative min-h-0">
             {/* Left Content Column */}
-            <AnimateIn variant="fadeUp" className="lg:col-span-8 flex flex-col justify-start items-start text-left z-20 pb-4 lg:pb-0 order-1 relative pt-2">
+            <AnimateIn
+              variant="fadeUp"
+              className="lg:col-span-7 flex flex-col justify-start items-start text-left z-20 pb-4 lg:pb-0 order-1 relative pt-2"
+            >
               <div className="max-w-full lg:max-w-[560px] xl:max-w-[600px] w-full flex flex-col items-start relative z-20">
                 {/* Title */}
                 <h1
@@ -552,56 +638,61 @@ export default function ServiceLanding() {
                     </svg>
                   </a>
                 </div>
-              </div>{" "}
-              {/* Absolutely positioned center image, matching Laravel structure for organic overlap */}
-              <div
-                className="absolute right-[-70px] bottom-[-48px] w-[420px] h-[450px] select-none pointer-events-none hidden lg:block z-10"
-                style={{
-                  WebkitMaskImage:
-                    "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
-                  maskImage:
-                    "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
-                }}
-              >
-                <img
-                  src="/new-subject-sectionimg/herosubject.png"
-                  alt={`${title} student`}
-                  className="w-full h-full object-contain object-bottom"
-                />
-              </div>
-              {/* Floating Headset Live Support Badge */}
-              <div className="absolute bottom-[40px] right-[-60px] bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-3.5 flex items-center gap-2.5 border border-gray-150 pointer-events-auto z-30 hidden lg:flex">
-                <div className="w-8 h-8 rounded-full bg-[#fff2ea] flex items-center justify-center shrink-0">
-                  <svg
-                    className="w-4 h-4 text-[#ea580c]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
-                    />
-                  </svg>
-                </div>
-                <div className="flex flex-col text-left pr-1">
-                  <span className="font-extrabold text-[#0f1b3d] text-[11px] leading-tight">
-                    24/7
-                  </span>
-                  <span className="text-[8px] text-gray-500 font-bold uppercase tracking-wider">
-                    Live Support
-                  </span>
-                </div>
               </div>
             </AnimateIn>
+
+            {/* Student Image: centered at the background of the section */}
+            <div
+              className="absolute left-[54%] top-[20px] -translate-x-1/2 w-[420px] h-[450px] select-none pointer-events-none hidden lg:block z-0"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
+                maskImage:
+                  "linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 8%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)",
+              }}
+            >
+              <img
+                src="/new-subject-sectionimg/herosubject.png"
+                alt={`${title} student`}
+                className="w-full h-full object-contain object-top"
+              />
+            </div>
+
+            {/* Floating Headset Live Support Badge */}
+            <div className="absolute top-[300px] left-[44%] translate-x-[80px] bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] p-3.5 flex items-center gap-2.5 border border-gray-150 pointer-events-auto z-30 hidden lg:flex">
+              <div className="w-8 h-8 rounded-full bg-[#fff2ea] flex items-center justify-center shrink-0">
+                <svg
+                  className="w-4 h-4 text-[#ea580c]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+                  />
+                </svg>
+              </div>
+              <div className="flex flex-col text-left pr-1">
+                <span className="font-extrabold text-[#0f1b3d] text-[11px] leading-tight">
+                  24/7
+                </span>
+                <span className="text-[8px] text-gray-555 font-bold uppercase tracking-wider">
+                  Live Support
+                </span>
+              </div>
+            </div>
+
+            {/* Empty Spacer Column for Desktop to keep the center empty for absolute image */}
+            <div className="lg:col-span-1 hidden lg:block order-2" />
 
             {/* Right Form Card Column */}
             <AnimateIn
               variant="fadeUp"
               delay={0.2}
-              className="lg:col-span-4 flex justify-center lg:justify-end items-center z-20 pt-4 order-3"
+              className="lg:col-span-4 flex justify-center lg:justify-center items-start z-20 pt-0 order-3"
               id="quote-form"
             >
               <QuoteForm
@@ -629,10 +720,10 @@ export default function ServiceLanding() {
           {/* Cards Grid with Decorative Next Arrow */}
           <div className="relative">
             <div
-              className="flex overflow-x-auto pb-4 lg:pb-0 -mx-4 px-4 snap-x snap-mandatory lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible lg:mx-0 lg:px-0 gap-4 scroll-smooth"
+              className="flex overflow-x-auto pb-4 lg:pb-0 -mx-4 px-4 snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:gap-5 lg:overflow-visible lg:mx-0 lg:px-0 gap-4 scroll-smooth"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
-              {expertsToShow.slice(0, 4).map((writer, index) => {
+              {expertsToShow.slice(0, 5).map((writer, index) => {
                 const firstName = writer.name.split(" ")[0];
 
                 // Deterministic fallback for initials or ui-avatars placeholder to show premium profile pictures
@@ -694,69 +785,97 @@ export default function ServiceLanding() {
                     ? writer.rating.toFixed(1)
                     : parseFloat(writer.rating || "4.9").toFixed(1);
 
+                const experienceStr = writer.experience
+                  ? (writer.experience.includes("Years") ? writer.experience : `${writer.experience} Experience`)
+                  : "6+ Years Experience";
+
+                const qualStr = writer.qualifications || writer.qual || "Master's Qualified";
+
+                const ordersCount = writer.ordersCompleted || writer.orders || "1200+";
+
                 return (
                   <div
                     key={writer.id}
-                    className="bg-white border border-[#eef2f6] hover:border-slate-200 shadow-[0_4px_25px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.05)] rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 relative text-left flex-none w-[285px] sm:w-[45%] lg:w-auto snap-center"
+                    className="bg-white rounded-3xl border border-gray-100 flex flex-col items-center p-5 text-center shadow-[0_8px_30px_rgb(0,0,0,0.015)] hover:shadow-[0_15px_40px_rgba(63,21,154,0.06)] hover:-translate-y-1.5 duration-300 flex-none w-[265px] sm:w-[45%] lg:w-auto snap-center relative overflow-hidden"
                   >
-                    <div className="flex gap-4 items-start mb-4">
-                      {/* Vertical Portrait Image */}
-                      <div className="w-[100px] h-[125px] rounded-xl overflow-hidden bg-[#f8f9fc] shrink-0 border border-slate-100">
-                        <img
-                          src={avatarUrl}
-                          alt={writer.name}
-                          className="w-full h-full object-cover object-top"
-                        />
-                      </div>
+                    {/* Decorative top colored block */}
+                    <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-t-3xl" />
 
-                      {/* Right column details */}
-                      <div className="flex flex-col text-left pt-1">
-                        <span className="font-extrabold text-[#0f1b3d] text-[16px] leading-tight mb-1">
-                          {writer.name}
-                        </span>
-                        <span className="text-[12.5px] font-semibold text-gray-400 mb-3.5">
-                          {writer.role}
-                        </span>
-
-                        {/* Rating */}
-                        <div className="flex items-center gap-1.5 mb-1.5">
-                          <svg
-                            className="w-3.5 h-3.5 text-amber-400 fill-current"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                          <span className="text-[13px] font-extrabold text-[#0f1b3d] leading-none">
-                            {formattedRating}
-                          </span>
-                        </div>
-
-                        {/* Orders count */}
-                        <span className="text-[12.5px] font-semibold text-gray-400">
-                          {writer.ordersCompleted ||
-                            writer.ordersCount ||
-                            "650"}
-                          + Orders
-                        </span>
-                      </div>
+                    {/* Avatar Section */}
+                    <div className="relative w-20 h-20 rounded-full flex items-center justify-center shrink-0 mb-4 ring-4 ring-white shadow-md overflow-hidden mt-3 bg-gray-150">
+                      <img
+                        src={avatarUrl || "/assets/media/avatars/blank.png"}
+                        alt={writer.name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src =
+                            "/assets/media/avatars/blank.png";
+                        }}
+                        className="w-full h-full object-cover object-center bg-gray-100"
+                      />
                     </div>
 
-                    {/* Hire Button */}
-                    <a
-                      href="#quote-form"
-                      className="btn-shutter-blue-close font-extrabold text-[13px] py-2.5 px-4 rounded-xl w-full text-center block select-none cursor-pointer"
-                    >
-                      Hire {firstName}
-                    </a>
+                    {/* Name and Role */}
+                    <div className="flex flex-col items-center flex-1 min-w-0 w-full text-center">
+                      <h3 className="font-extrabold text-[#0f1b3d] text-[14px] mb-1 tracking-tight truncate w-full">
+                        {writer.name}
+                      </h3>
+                      <span className="text-[9px] font-extrabold text-indigo-600 bg-indigo-50/70 px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-2">
+                        {writer.role || `${title} Expert`}
+                      </span>
+
+                      {/* Stats block */}
+                      <div className="space-y-0.5 mb-3 text-center">
+                        <p className="text-[10px] font-extrabold text-[#3f159a]">
+                          {qualStr}
+                        </p>
+                        <p className="text-[9px] text-gray-550 font-bold">
+                          {experienceStr}
+                        </p>
+                      </div>
+
+                      {/* Rating stars */}
+                      <div className="flex items-center gap-1.5 justify-center mb-3">
+                        <div className="flex text-yellow-400 text-[10px]">
+                          ★★★★★
+                        </div>
+                        <span className="text-[#0f1b3d] text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-50 text-amber-700">
+                          {formattedRating}
+                        </span>
+                      </div>
+
+                      {/* Mini stats row */}
+                      <div className="grid grid-cols-2 gap-1 w-full pt-3 border-t border-gray-100 mt-auto text-left">
+                        <div>
+                          <p className="text-[8px] font-bold text-gray-400 uppercase tracking-wide m-0">
+                            Orders
+                          </p>
+                          <p className="text-[10px] font-black text-slate-800 m-0">
+                            {ordersCount}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[8px] font-bold text-gray-400 uppercase tracking-wide m-0">
+                            Success Rate
+                          </p>
+                          <p className="text-[10px] font-black text-emerald-600 m-0">
+                            99%
+                          </p>
+                        </div>
+                      </div>
+
+                      <a
+                        href="#quote-form"
+                        className="btn-shutter-blue-close block w-full py-2 rounded-lg text-[10px] font-extrabold uppercase tracking-widest text-center transition-colors duration-250 cursor-pointer mt-3"
+                      >
+                        Hire Expert
+                      </a>
+                    </div>
                   </div>
                 );
               })}
             </div>
 
-            {/* Next Arrow Button */}
-            <div className="absolute right-[-20px] top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-slate-100 shadow-md flex items-center justify-center text-[#3f159a] cursor-pointer hover:bg-slate-50 transition z-20 hidden xl:flex">
-              <ChevronRight className="w-5 h-5 stroke-[2.5]" />
-            </div>
+            
           </div>
         </div>
       </SectionContainer>

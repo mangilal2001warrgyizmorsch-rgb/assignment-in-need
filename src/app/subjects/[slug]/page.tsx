@@ -77,10 +77,40 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export default function SubjectLanding() {
   const params = useParams();
-  const slug = params?.slug as string;
+  const rawSlug = params?.slug;
+  const slug = Array.isArray(rawSlug) ? rawSlug.join("/") : (rawSlug as string) || "";
 
-  // Find current subject or default to Accounting
-  const subject = SUBJECTS.find((s) => s.slug === slug) || SUBJECTS[0];
+  // Normalize slug to extract the subject key, e.g. "history-assignment-help" -> "history"
+  const cleanSubjectSlug = (s: string) => {
+    let base = s.replace("-assignment-help", "").toLowerCase();
+    if (base === "math") base = "maths";
+    return base;
+  };
+  const cleanSlugForSubject = cleanSubjectSlug(slug);
+
+  // Find current subject or construct a dynamic fallback
+  let subject = SUBJECTS.find((s) => s.slug === cleanSlugForSubject || s.slug === slug);
+  if (!subject) {
+    const humanName = cleanSlugForSubject === "math" ? "Maths" : cleanSlugForSubject.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    subject = {
+      slug: cleanSlugForSubject,
+      name: humanName,
+      iconName: "BookOpen",
+      orderCount: "4,500+",
+      sampleCount: 10,
+      letterBadge: humanName.charAt(0) || "S",
+      letterColorClass: "bg-purple-100 text-purple-700",
+      assignmentsDelivered: "15,000+",
+      expertsCount: "120+",
+      rating: "4.8/5",
+      onTimeDelivery: "98%",
+      roleName: `${humanName} Expert`,
+      professionalsWord: `${humanName.toLowerCase()} specialists`,
+      standardsWord: `${humanName.toLowerCase()} academic standards`,
+      analyticalWord: `critical ${humanName.toLowerCase()} analysis`
+    };
+  }
+
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -102,8 +132,11 @@ export default function SubjectLanding() {
   // Map backend helper to match Writer model
   const mapExpertToWriterLocal = (expert: any) => {
     const writerName = expert.name || "Academic Expert";
-    const isDrOrProf = writerName.includes("Dr.") || writerName.includes("Prof.");
-    const calculatedQualifications = isDrOrProf ? "Ph.D. Qualified" : "Master's Qualified";
+    const isDrOrProf =
+      writerName.includes("Dr.") || writerName.includes("Prof.");
+    const calculatedQualifications = isDrOrProf
+      ? "Ph.D. Qualified"
+      : "Master's Qualified";
     let calculatedExperience = "5+ Years";
     const finishOrder = parseInt(expert.finish_order) || 0;
     if (finishOrder > 2000) calculatedExperience = "8+ Years";
@@ -113,22 +146,29 @@ export default function SubjectLanding() {
     let calculatedRating = 4.8;
     if (expert.customer_review) {
       try {
-        const reviewsArray = typeof expert.customer_review === "string" 
-          ? JSON.parse(expert.customer_review) 
-          : expert.customer_review;
+        const reviewsArray =
+          typeof expert.customer_review === "string"
+            ? JSON.parse(expert.customer_review)
+            : expert.customer_review;
         if (Array.isArray(reviewsArray) && reviewsArray.length > 0) {
-          const ratings = reviewsArray.map((r: any) => parseFloat(r.rating) || 5).filter(Boolean);
+          const ratings = reviewsArray
+            .map((r: any) => parseFloat(r.rating) || 5)
+            .filter(Boolean);
           if (ratings.length > 0) {
-            calculatedRating = ratings.reduce((sum: number, r: number) => sum + r, 0) / ratings.length;
+            calculatedRating =
+              ratings.reduce((sum: number, r: number) => sum + r, 0) /
+              ratings.length;
           }
         }
       } catch (e) {}
     }
-    
+
     // Get image
     let avatarUrl = "";
     if (expert.image) {
-      avatarUrl = expert.image.startsWith("http") ? expert.image : `https://ain.warrgyizmorsch.com/${expert.image.startsWith("/") ? expert.image : `/${expert.image}`}`;
+      avatarUrl = expert.image.startsWith("http")
+        ? expert.image
+        : `https://ain.warrgyizmorsch.com/${expert.image.startsWith("/") ? expert.image : `/${expert.image}`}`;
     } else {
       avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(writerName)}&background=f3e8ff&color=6b21a8`;
     }
@@ -142,7 +182,7 @@ export default function SubjectLanding() {
       exp: calculatedExperience,
       rating: parseFloat(calculatedRating.toFixed(1)),
       orders: `${finishOrder > 0 ? finishOrder : 1200}+`,
-      img: finalImg
+      img: finalImg,
     };
   };
 
@@ -151,17 +191,113 @@ export default function SubjectLanding() {
       if (!slug) return;
       try {
         setLoading(true);
-        const res = await fetch(`/api/admin/subjects?slug=${slug}`);
-        let hasCustomExperts = false;
-
+        let cleanSlug = slug.replace("-assignment-help", "");
+        if (cleanSlug === "math") {
+          cleanSlug = "maths";
+        }
+        let res = await fetch(`/api/admin/subjects?slug=${cleanSlug}`);
+        let payload: any = null;
         if (res.ok) {
-          const payload = await res.json();
-          if (payload.success && payload.data && payload.data.page) {
-            setPageData(payload.data.page);
-            if (Array.isArray(payload.data.experts) && payload.data.experts.length > 0) {
-              const mapped = payload.data.experts.map(mapExpertToWriterLocal);
-              
-              // Sort by rating (descending), then orders completed (descending)
+          payload = await res.json();
+        }
+
+        if (!payload || !payload.success || !payload.data || !payload.data.page) {
+          const res2 = await fetch(`/api/admin/subjects?slug=/subject/${cleanSlug}`);
+          if (res2.ok) {
+            const temp = await res2.json();
+            if (temp.success && temp.data && temp.data.page) {
+              payload = temp;
+            }
+          }
+        }
+
+        if (!payload || !payload.success || !payload.data || !payload.data.page) {
+          const res3 = await fetch(`/api/admin/subjects?slug=subject/${cleanSlug}`);
+          if (res3.ok) {
+            const temp = await res3.json();
+            if (temp.success && temp.data && temp.data.page) {
+              payload = temp;
+            }
+          }
+        }
+
+        // Fallback: try the service-pages API (for service children like economics, english)
+        if (!payload || !payload.success || !payload.data || !payload.data.page) {
+          const serviceRes = await fetch(`/api/admin/service-pages?slug=${cleanSlug}`);
+          if (serviceRes.ok) {
+            const servicePayload = await serviceRes.json();
+            if (servicePayload.success && servicePayload.data && servicePayload.data.page) {
+              payload = servicePayload;
+            }
+          }
+        }
+
+
+        if (payload && payload.success && payload.data && payload.data.page) {
+          setPageData(payload.data.page);
+            if (
+              Array.isArray(payload.data.reviews) &&
+              payload.data.reviews.length > 0
+            ) {
+              const mapped = payload.data.reviews.map((item: any) => ({
+                name: item.name,
+                uni: item.location || "UK University",
+                text: item.description,
+                img: `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&background=f3e8ff&color=6b21a8`,
+              }));
+              setReviewsList(mapped);
+            }
+          }
+
+        // Always fetch from global experts API and filter by subject
+        {
+          const resExp = await fetch("/api/experts");
+          if (resExp.ok) {
+            const result = await resExp.json();
+            if (result.success && Array.isArray(result.data)) {
+              // Filter by current subject expertise keywords
+              const subjectLower = subject.name.toLowerCase();
+              const slugLower = slug.toLowerCase().replace("-assignment-help", "");
+
+              // Primary filter: match by the expert's `subject` field from the API
+              const subjectMatched = result.data.filter((item: any) => {
+                const expertSubject = (item.subject || "").toLowerCase();
+                return expertSubject === subjectLower ||
+                       expertSubject === slugLower ||
+                       expertSubject.includes(subjectLower) ||
+                       subjectLower.includes(expertSubject);
+              });
+
+              // Secondary filter: match by skills/expertise keywords
+              const keywordMatched = subjectMatched.length > 0 ? [] : result.data.filter((item: any) => {
+                const skills = Array.isArray(item.skills) ? item.skills.join(" ").toLowerCase() : "";
+                const content = (item.content || "").toLowerCase();
+                return skills.includes(subjectLower) || skills.includes(slugLower) ||
+                       content.includes(subjectLower) || content.includes(slugLower);
+              });
+
+              const bestMatches = subjectMatched.length > 0 ? subjectMatched : keywordMatched;
+              // Use matched experts, or fall back to all if no matches
+              const sourceExperts = bestMatches.length > 0 ? bestMatches : result.data;
+
+              const mapped = sourceExperts.map((item: any) => {
+                const parsed = mapExpertToWriter(item);
+                return {
+                  id: parsed.id,
+                  name: parsed.name,
+                  role: `${subject.name} Expert`,
+                  qual: parsed.qualifications,
+                  exp: parsed.experience.includes("Years")
+                    ? parsed.experience
+                    : `${parsed.experience} Experience`,
+                  rating: parsed.rating,
+                  orders: parsed.ordersCompleted,
+                  img: parsed.avatar,
+                  expertise: parsed.expertise,
+                };
+              });
+
+              // Sort by rating desc, then ordersCompleted desc to rank the best experts
               mapped.sort((a: any, b: any) => {
                 if (b.rating !== a.rating) return b.rating - a.rating;
                 const aOrders = parseInt(a.orders) || 0;
@@ -169,78 +305,8 @@ export default function SubjectLanding() {
                 return bOrders - aOrders;
               });
 
-              setExpertsList(mapped.slice(0, 5));
-              hasCustomExperts = true;
-            }
-            if (Array.isArray(payload.data.reviews) && payload.data.reviews.length > 0) {
-              const mapped = payload.data.reviews.map((item: any) => ({
-                name: item.name,
-                uni: item.location || "UK University",
-                text: item.description,
-                img: `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&background=f3e8ff&color=6b21a8`
-              }));
-              setReviewsList(mapped);
-            }
-          }
-        }
-
-        // If no custom experts are loaded, fetch from global experts API
-        if (!hasCustomExperts) {
-          const resExp = await fetch("/api/experts");
-          if (resExp.ok) {
-            const result = await resExp.json();
-            if (result.success && Array.isArray(result.data)) {
-              const mapped = result.data.map((item: any) => {
-                const parsed = mapExpertToWriter(item);
-
-                return {
-                  id: parsed.id,
-                  name: parsed.name,
-                  role: `${subject.name} Expert`,
-                  qual: parsed.qualifications,
-                  exp: parsed.experience.includes("Years") ? parsed.experience : `${parsed.experience} Experience`,
-                  rating: parsed.rating,
-                  orders: parsed.ordersCompleted,
-                  img: parsed.avatar,
-                  expertise: parsed.expertise
-                };
-              });
-
-              // Filter by current subject expertise keywords
-              const subjectLower = subject.name.toLowerCase();
-              const slugLower = slug.toLowerCase();
-
-              const matchesSubject = (w: any) => {
-                const searchStr = `${w.role} ${w.expertise ? w.expertise.join(" ") : ""}`.toLowerCase();
-                
-                if (searchStr.includes(subjectLower) || searchStr.includes(slugLower)) return true;
-                
-                // Specific keyword mappings for major subjects to ensure matches
-                if (slugLower.includes("math") && (searchStr.includes("math") || searchStr.includes("calculus") || searchStr.includes("algebra") || searchStr.includes("geometry") || searchStr.includes("statistic"))) return true;
-                if (slugLower.includes("accounting") && (searchStr.includes("account") || searchStr.includes("finance") || searchStr.includes("tax") || searchStr.includes("audit"))) return true;
-                if (slugLower.includes("nursing") && (searchStr.includes("nurs") || searchStr.includes("health") || searchStr.includes("medic") || searchStr.includes("clinic"))) return true;
-                if (slugLower.includes("law") && (searchStr.includes("law") || searchStr.includes("legal") || searchStr.includes("crim") || searchStr.includes("juris"))) return true;
-                
-                return false;
-              };
-
-              let matched = mapped.filter(matchesSubject);
-
-              if (matched.length === 0) {
-                // fallback to general top experts
-                matched = mapped;
-              }
-
-              // Sort by rating desc, then ordersCompleted desc to rank the best experts
-              matched.sort((a: any, b: any) => {
-                if (b.rating !== a.rating) return b.rating - a.rating;
-                const aOrders = parseInt(a.orders) || 0;
-                const bOrders = parseInt(b.orders) || 0;
-                return bOrders - aOrders;
-              });
-
               // Take only top 5 relevant experts
-              setExpertsList(matched.slice(0, 5));
+              setExpertsList(mapped.slice(0, 5));
             }
           }
         }
@@ -260,7 +326,8 @@ export default function SubjectLanding() {
   }, [pageData]);
 
   // Fallbacks if backend data is loading / empty
-  const pageTitle = pageData?.hero_heading || `Expert ${subject.name} Assignment Help`;
+  const pageTitle =
+    pageData?.hero_heading || `Expert ${subject.name} Assignment Help`;
   const pageHighlight = pageData?.hero_highlight || "You Can Rely On";
 
   // Generate subject-specific experts
@@ -347,7 +414,9 @@ export default function SubjectLanding() {
     },
   ];
 
-  const expertsToRender = (expertsList.length > 0 ? expertsList : defaultExperts).slice(0, 5);
+  const expertsToRender = (
+    expertsList.length > 0 ? expertsList : defaultExperts
+  ).slice(0, 5);
   const reviewsToRender = reviewsList.length > 0 ? reviewsList : defaultReviews;
 
   // Dynamic choice features row
@@ -476,7 +545,7 @@ export default function SubjectLanding() {
       const response = await fetch("/api/web-submit-quote", {
         method: "POST",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -487,10 +556,17 @@ export default function SubjectLanding() {
           countryIso,
           service: projectType || "Assignment",
           subject: subject?.name || "",
-          deadline: timePeriod ? (timePeriod.replace(/[^0-9]/g, "") || timePeriod) : "5",
-          wordCount: wordCount ? (wordCount.replace(/[^0-9]/g, "") || wordCount) : "1500",
+          deadline: timePeriod
+            ? timePeriod.replace(/[^0-9]/g, "") || timePeriod
+            : "5",
+          wordCount: wordCount
+            ? wordCount.replace(/[^0-9]/g, "") || wordCount
+            : "1500",
           description: `Quote request for ${subject?.name || ""}`,
-          source_page: typeof window !== "undefined" ? window.location.href : `https://assignmentinneed.com/subjects/${slug}`,
+          source_page:
+            typeof window !== "undefined"
+              ? window.location.href
+              : `https://assignmentinneed.com/${subject.slug}-assignment-help`,
         }),
       });
 
@@ -501,7 +577,9 @@ export default function SubjectLanding() {
         setOrderId(data.order_id || "");
         setIsSuccess(true);
       } else {
-        toast.error(data.message || "Failed to submit quote. Please check your details.");
+        toast.error(
+          data.message || "Failed to submit quote. Please check your details.",
+        );
       }
     } catch (err: any) {
       toast.error("Network error. Please try again later.");
@@ -516,7 +594,9 @@ export default function SubjectLanding() {
         {/* Skeleton Hero Section */}
         <section
           className="relative pt-6 pb-8 px-4 md:px-6 lg:px-8 border-b border-gray-100 animate-pulse"
-          style={{ background: "linear-gradient(115deg, #ffffff 48%, #faf8ff)" }}
+          style={{
+            background: "linear-gradient(115deg, #ffffff 48%, #faf8ff)",
+          }}
         >
           <div className="max-w-[1250px] mx-auto">
             {/* Breadcrumb Skeleton */}
@@ -606,13 +686,16 @@ export default function SubjectLanding() {
             </Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-gray-550">
-              {subject.name} Assignment Help
+              {pageData?.hero_heading?.replace(/ Help$/, ' Help') || `${subject.name} Assignment Help`}
             </span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch relative min-h-0">
             {/* Left Content Column */}
-            <AnimateIn variant="fadeUp" className="lg:col-span-7 flex flex-col justify-start items-start text-left z-20 pb-4 lg:pb-0 order-1 relative pt-2">
+            <AnimateIn
+              variant="fadeUp"
+              className="lg:col-span-7 flex flex-col justify-start items-start text-left z-20 pb-4 lg:pb-0 order-1 relative pt-2"
+            >
               {/* Star Badge */}
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex items-center bg-[#1a6c38] text-white text-[9px] px-1.5 py-0.5 rounded font-black tracking-tight select-none">
@@ -634,18 +717,17 @@ export default function SubjectLanding() {
 
               {/* Description */}
               {pageData?.hero_content ? (
-                <div 
-                  className="text-gray-500 w-full max-w-[450px] text-xs md:text-sm font-semibold leading-relaxed mb-6 html-desc"
+                <div
+                  className="text-gray-600 w-full max-w-[450px] text-sm md:text-[15px] font-semibold leading-relaxed mb-6 html-desc"
                   dangerouslySetInnerHTML={{ __html: pageData.hero_content }}
                 />
               ) : (
-                <p className="text-gray-500 w-full max-w-[450px] text-xs md:text-sm font-semibold leading-relaxed mb-6">
+                <p className="text-gray-600 w-full max-w-[450px] text-sm md:text-[15px] font-semibold leading-relaxed mb-6">
                   Get accurate, well-researched and plagiarism-free{" "}
                   {subject.name.toLowerCase()} assignments helped by qualified
                   experts to achieve top grades.
                 </p>
               )}
-
 
               {/* 4 Stats Row */}
               <div className="grid grid-cols-4 md:flex md:flex-wrap items-center gap-x-2 gap-y-4 mb-8 max-w-[500px] w-full border-t border-b border-gray-100 py-3 md:border-none md:py-0">
@@ -782,13 +864,19 @@ export default function SubjectLanding() {
                       Quote Request Received!
                     </h3>
                     <p className="text-xs text-gray-500 leading-relaxed max-w-[280px]">
-                      Thank you, <span className="font-bold text-[#3f159a]">{name}</span>. Your quote request for {subject.name} has been submitted successfully. Our team will contact you shortly.
+                      Thank you,{" "}
+                      <span className="font-bold text-[#3f159a]">{name}</span>.
+                      Your quote request for {subject.name} has been submitted
+                      successfully. Our team will contact you shortly.
                     </p>
                   </div>
 
                   {orderId && (
                     <div className="bg-emerald-50 text-emerald-800 border border-emerald-100 px-4 py-2 rounded-xl text-xs font-black select-all tracking-wider">
-                      Order ID: <span className="font-extrabold text-emerald-600 font-mono">{orderId}</span>
+                      Order ID:{" "}
+                      <span className="font-extrabold text-emerald-600 font-mono">
+                        {orderId}
+                      </span>
                     </div>
                   )}
 
@@ -913,7 +1001,9 @@ export default function SubjectLanding() {
                             required
                             placeholder="Enter Mobile"
                             value={mobile}
-                            onChange={(e) => setMobile(e.target.value.replace(/[^0-9]/g, ""))}
+                            onChange={(e) =>
+                              setMobile(e.target.value.replace(/[^0-9]/g, ""))
+                            }
                             className="w-full border-none bg-transparent text-[0.7rem] text-slate-800 outline-none font-medium py-1 box-border placeholder:text-gray-400 focus:outline-none focus:border-none focus:shadow-none"
                           />
                         </div>
@@ -1034,8 +1124,6 @@ export default function SubjectLanding() {
         </div>
       </section>
 
-      
-
       {/* 3.4 "OUR EXPERTS" SECTION */}
       <section className="py-8 md:py-10 bg-[#faf9fe] border-b border-gray-50">
         <div className="max-w-[1250px] mx-auto px-4">
@@ -1078,7 +1166,8 @@ export default function SubjectLanding() {
                       src={expert.img || "/assets/media/avatars/blank.png"}
                       alt={expert.name}
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/assets/media/avatars/blank.png";
+                        (e.target as HTMLImageElement).src =
+                          "/assets/media/avatars/blank.png";
                       }}
                       className="w-full h-full object-cover object-center bg-gray-100"
                     />
@@ -1116,12 +1205,20 @@ export default function SubjectLanding() {
                     {/* Mini stats row */}
                     <div className="grid grid-cols-2 gap-1 w-full pt-3 border-t border-gray-100 mt-auto text-left">
                       <div>
-                        <p className="text-[8px] font-bold text-gray-400 uppercase tracking-wide m-0">Orders</p>
-                        <p className="text-[10px] font-black text-slate-800 m-0">{expert.orders}</p>
+                        <p className="text-[8px] font-bold text-gray-400 uppercase tracking-wide m-0">
+                          Orders
+                        </p>
+                        <p className="text-[10px] font-black text-slate-800 m-0">
+                          {expert.orders}
+                        </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[8px] font-bold text-gray-400 uppercase tracking-wide m-0">Success Rate</p>
-                        <p className="text-[10px] font-black text-emerald-600 m-0">99%</p>
+                        <p className="text-[8px] font-bold text-gray-400 uppercase tracking-wide m-0">
+                          Success Rate
+                        </p>
+                        <p className="text-[10px] font-black text-emerald-600 m-0">
+                          99%
+                        </p>
                       </div>
                     </div>
 
@@ -1162,10 +1259,10 @@ export default function SubjectLanding() {
                   {f.icon}
                 </div>
                 <div className="flex flex-col text-left md:text-center">
-                  <h3 className="text-[16px] md:text-[12px] font-extrabold text-[#0f1b3d] leading-snug whitespace-pre-line mb-1.5 font-heading">
+                  <h3 className="text-[16px] md:text-[15px] font-extrabold text-[#0f1b3d] leading-snug whitespace-pre-line mb-1.5 font-heading">
                     {f.title}
                   </h3>
-                  <p className="text-[14px] md:text-[12px] text-gray-500 font-bold leading-relaxed whitespace-pre-line">
+                  <p className="text-[14px] md:text-[13px] text-gray-600 font-bold leading-relaxed whitespace-pre-line">
                     {f.desc}
                   </p>
                 </div>
@@ -1181,7 +1278,7 @@ export default function SubjectLanding() {
           <h2 className="text-[24px] md:text-[32px] font-[900] text-[#0f1b3d] mb-4 tracking-tight font-heading">
             Why Choose {subject.name} Assignment Help From Us?
           </h2>
-          <p className="text-[13px] text-gray-500 font-bold leading-relaxed">
+          <p className="text-[15px] text-gray-600 font-bold leading-relaxed">
             Well, the answer to your question is simple! When students seek{" "}
             {subject.name.toLowerCase()} assignment help from us, they get
             several benefits that add value to their service. So, do you want to
@@ -1196,10 +1293,10 @@ export default function SubjectLanding() {
                 {b.icon}
               </div>
               <div>
-                <h3 className="text-sm font-extrabold text-[#0f1b3d] mb-1.5 font-heading">
+                <h3 className="text-[16px] md:text-[15px] font-extrabold text-[#0f1b3d] mb-1.5 font-heading">
                   {b.title}
                 </h3>
-                <p className="text-xs text-gray-500 leading-relaxed font-bold">
+                <p className="text-[13px] text-gray-600 leading-relaxed font-bold">
                   {b.desc}
                 </p>
               </div>
@@ -1305,8 +1402,8 @@ export default function SubjectLanding() {
                     “
                   </span>
                   <p
-                    className={`text-[12px] md:text-[13px] leading-relaxed mb-8 relative z-10 pt-4 font-semibold ${
-                      isFeatured ? "text-white" : "text-gray-600"
+                    className={`text-[13px] md:text-[14px] leading-relaxed mb-8 relative z-10 pt-4 font-semibold ${
+                      isFeatured ? "text-white" : "text-gray-650"
                     }`}
                   >
                     {review.text}
@@ -1349,8 +1446,6 @@ export default function SubjectLanding() {
         </div>
       </section>
 
-      
-
       {/* 3.8 BOTTOM CTA STRIP */}
       <section className="py-6 bg-white border-b border-gray-50">
         <div className="max-w-[1100px] mx-auto px-4">
@@ -1365,7 +1460,7 @@ export default function SubjectLanding() {
                 />
               </div>
               <div>
-                <p className="text-[#0f1b3d] text-[13px] font-extrabold leading-relaxed m-0">
+                <p className="text-[#0f1b3d] text-[15px] font-extrabold leading-relaxed m-0">
                   {subject.name} is a crucial subject that requires{" "}
                   {subject.analyticalWord}.
                 </p>
@@ -1402,6 +1497,55 @@ export default function SubjectLanding() {
           outline: none !important;
           border-color: transparent !important;
           box-shadow: none !important;
+        }
+        .html-desc h1, .html-desc h2 {
+          font-size: 1.8rem !important;
+          font-weight: 800 !important;
+          color: #0f1b3d !important;
+          margin-top: 1.5rem !important;
+          margin-bottom: 0.75rem !important;
+          line-height: 1.25 !important;
+        }
+        .html-desc h3 {
+          font-size: 1.4rem !important;
+          font-weight: 700 !important;
+          color: #0f1b3d !important;
+          margin-top: 1.25rem !important;
+          margin-bottom: 0.5rem !important;
+          line-height: 1.3 !important;
+        }
+        .html-desc h4 {
+          font-size: 1.2rem !important;
+          font-weight: 700 !important;
+          color: #0f1b3d !important;
+          margin-top: 1rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+        .html-desc p {
+          font-size: 15px !important;
+          line-height: 1.625 !important;
+          color: #4b5563 !important;
+          margin-bottom: 1.15rem !important;
+        }
+        .html-desc ul {
+          list-style-type: disc !important;
+          padding-left: 1.25rem !important;
+          margin-bottom: 1.15rem !important;
+        }
+        .html-desc ol {
+          list-style-type: decimal !important;
+          padding-left: 1.25rem !important;
+          margin-bottom: 1.15rem !important;
+        }
+        .html-desc li {
+          font-size: 14.5px !important;
+          line-height: 1.6 !important;
+          color: #4b5563 !important;
+          margin-bottom: 0.5rem !important;
+        }
+        .html-desc strong {
+          font-weight: 750 !important;
+          color: #0f1b3d !important;
         }
       `}</style>
     </div>

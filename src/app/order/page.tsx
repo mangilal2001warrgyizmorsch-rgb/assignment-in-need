@@ -76,11 +76,11 @@ const WORD_COUNTS = [
 ];
 
 const COUNTRY_CODES = [
-  { label: "🇬🇧 +44", value: "+44" },
-  { label: "🇺🇸 +1", value: "+1" },
-  { label: "🇦🇺 +61", value: "+61" },
-  { label: "🇨🇦 +1", value: "+1-CA" },
-  { label: "🇳🇿 +64", value: "+64" },
+  { label: "+44", value: "+44" },
+  { label: "+1", value: "+1" },
+  { label: "+61", value: "+61" },
+  { label: "+1-CA", value: "+1-CA" },
+  { label: "+64", value: "+64" },
 ];
 
 export default function OrderPage() {
@@ -632,7 +632,7 @@ export default function OrderPage() {
                             e.target.value.replace(/[^a-zA-Z\s]/g, ""),
                           )
                         }
-                        placeholder="Rahul Sharma"
+                        placeholder="Enter Your Full Name"
                         className="w-full text-[14px] text-gray-800 font-medium h-[46px] pl-10 pr-4 bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600 transition-colors shadow-sm"
                       />
                     </div>
@@ -656,7 +656,7 @@ export default function OrderPage() {
                             e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, ""),
                           )
                         }
-                        placeholder="rahuldev5277@gmail.com"
+                        placeholder="Enter Your Email Address"
                         className="w-full text-[14px] text-gray-800 font-medium h-[46px] pl-10 pr-4 bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600 transition-colors shadow-sm"
                       />
                     </div>
@@ -664,11 +664,11 @@ export default function OrderPage() {
 
                   {/* Phone */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
-                    <label className="text-[13px] font-bold text-gray-700">
+                    <label className="text-[13px]  font-bold text-gray-700">
                       Phone Number <span className="text-red-500">*</span>
                     </label>
                     <div className="flex gap-2">
-                      <div className="relative w-[100px] shrink-0 border border-gray-200 bg-white rounded-xl pl-9 pr-2 flex items-center h-[46px]">
+                      <div className="relative w-[80px] shrink-0 border border-gray-200 bg-white rounded-xl pl-9 pr-2 flex items-center h-[46px]">
                         <Phone className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400" />
                         <CustomDropdown
                           options={COUNTRY_CODES}
@@ -684,7 +684,7 @@ export default function OrderPage() {
                         onChange={(e) =>
                           setPhoneNumber(e.target.value.replace(/[^0-9]/g, ""))
                         }
-                        placeholder="9876543210"
+                        placeholder="Enter Your Phone Number"
                         className="w-full text-[14px] text-gray-800 font-medium h-[46px] px-4 bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-purple-600 transition-colors shadow-sm"
                       />
                     </div>

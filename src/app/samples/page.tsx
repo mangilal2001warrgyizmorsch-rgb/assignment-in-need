@@ -33,111 +33,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 
-const CATEGORIES = [
-  {
-    name: "Accounting",
-    count: "1,250",
-    type: "letter",
-    badge: "A",
-    category: "Account",
-  },
-  {
-    name: "Business",
-    count: "980",
-    type: "icon",
-    icon: Briefcase,
-    category: "Business",
-  },
-  { name: "Law", count: "750", type: "icon", icon: Scale, category: "law" },
-  {
-    name: "Nursing",
-    count: "620",
-    type: "icon",
-    icon: Stethoscope,
-    category: "Nursing",
-  },
-  {
-    name: "Marketing",
-    count: "540",
-    type: "icon",
-    icon: BarChart3,
-    category: "marketing",
-  },
-  {
-    name: "Psychology",
-    count: "420",
-    type: "icon",
-    icon: Brain,
-    category: "psychology",
-  },
-  {
-    name: "Engineering",
-    count: "380",
-    type: "icon",
-    icon: Settings,
-    category: "Engineering",
-  },
-  {
-    name: "Computer Science",
-    count: "340",
-    type: "icon",
-    icon: Code2,
-    category: "Computer-Science",
-  },
-];
 
-const SUBJECTS = [
-  {
-    name: "Accounting",
-    count: "152",
-    badge: "A",
-    icon: Calculator,
-    category: "Account",
-  },
-  {
-    name: "Business",
-    count: "87",
-    badge: "B",
-    icon: Briefcase,
-    category: "Business",
-  },
-  {
-    name: "Economics",
-    count: "45",
-    badge: "E",
-    icon: TrendingUp,
-    category: "Economic",
-  },
-  { name: "Law", count: "60", badge: "L", icon: BookOpen, category: "law" },
-  {
-    name: "Marketing",
-    count: "65",
-    badge: "M",
-    icon: Megaphone,
-    category: "marketing",
-  },
-  {
-    name: "Nursing",
-    count: "74",
-    badge: "N",
-    icon: HeartPulse,
-    category: "Nursing",
-  },
-  {
-    name: "Psychology",
-    count: "81",
-    badge: "P",
-    icon: Brain,
-    category: "psychology",
-  },
-  {
-    name: "History",
-    count: "30",
-    badge: "H",
-    icon: Clock,
-    category: "History",
-  },
-];
 
 const BENEFITS = [
   {
@@ -226,9 +122,100 @@ const FAQS = [
   },
 ];
 
+const getCategoryMeta = (name: string) => {
+  const normalized = name.toLowerCase();
+  if (normalized.includes("account")) {
+    return { name: "Accounting", badge: "A", icon: Calculator };
+  }
+  if (normalized.includes("business-law")) {
+    return { name: "Business Law", badge: "B", icon: Scale };
+  }
+  if (normalized.includes("business")) {
+    return { name: "Business Management", badge: "B", icon: Briefcase };
+  }
+  if (normalized.includes("chemistry")) {
+    return { name: "Chemistry", badge: "C", icon: BookOpen };
+  }
+  if (normalized.includes("economic")) {
+    return { name: "Economics", badge: "E", icon: TrendingUp };
+  }
+  if (normalized.includes("english")) {
+    return { name: "English", badge: "E", icon: BookOpen };
+  }
+  if (normalized.includes("essay")) {
+    return { name: "Essay Writing", badge: "E", icon: BookOpen };
+  }
+  if (normalized.includes("geography")) {
+    return { name: "Geography", badge: "G", icon: BookOpen };
+  }
+  if (normalized.includes("history")) {
+    return { name: "History", badge: "H", icon: Clock };
+  }
+  if (normalized.includes("human-resource")) {
+    return { name: "Human Resource", badge: "H", icon: Briefcase };
+  }
+  if (normalized.includes("law")) {
+    return { name: "Law", badge: "L", icon: Scale };
+  }
+  if (normalized.includes("linguistic")) {
+    return { name: "Linguistics", badge: "L", icon: BookOpen };
+  }
+  if (normalized.includes("marketing")) {
+    return { name: "Marketing", badge: "M", icon: BarChart3 };
+  }
+  if (normalized.includes("math")) {
+    return { name: "Maths", badge: "M", icon: Calculator };
+  }
+  if (normalized.includes("nursing")) {
+    return { name: "Nursing", badge: "N", icon: Stethoscope };
+  }
+  if (normalized.includes("philosophy")) {
+    return { name: "Philosophy", badge: "P", icon: Brain };
+  }
+  if (normalized.includes("physics")) {
+    return { name: "Physics", badge: "P", icon: BookOpen };
+  }
+  if (normalized.includes("programming")) {
+    return { name: "Programming", badge: "P", icon: Code2 };
+  }
+  if (normalized.includes("sociology")) {
+    return { name: "Sociology", badge: "S", icon: Brain };
+  }
+  
+  const char = name.charAt(0).toUpperCase() || "S";
+  return {
+    name: name.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+    badge: char,
+    icon: BookOpen
+  };
+};
+
 export default function SamplesPage() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [categoriesList, setCategoriesList] = useState<any[]>([]);
+  const [apiLoading, setApiLoading] = useState(true);
+
+  React.useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("/api/sample-categories");
+        if (response.ok) {
+          const json = await response.json();
+          if (json.success && Array.isArray(json.data)) {
+            // Sort categories by sample_count (descending)
+            const sorted = [...json.data].sort((a, b) => (b.sample_count || 0) - (a.sample_count || 0));
+            setCategoriesList(sorted);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load sample categories:", err);
+      } finally {
+        setApiLoading(false);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
@@ -243,6 +230,31 @@ export default function SamplesPage() {
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
+
+  const activeCategories = categoriesList.filter((cat) => (cat.sample_count || 0) > 0);
+
+  const displayCategories = activeCategories.map((cat) => {
+    const meta = getCategoryMeta(cat.name);
+    return {
+      name: meta.name,
+      count: `${cat.sample_count || 0} Samples`,
+      category: cat.name,
+      badge: meta.badge,
+      icon: meta.icon,
+      type: "icon"
+    };
+  });
+
+  const displaySubjects = activeCategories.map((cat) => {
+    const meta = getCategoryMeta(cat.name);
+    return {
+      name: meta.name,
+      count: String(cat.sample_count || 0),
+      badge: meta.badge,
+      icon: meta.icon,
+      category: cat.name,
+    };
+  });
 
   return (
     <main className="w-full font-sans text-gray-800 bg-white">
@@ -373,27 +385,39 @@ export default function SamplesPage() {
             className="flex overflow-x-auto gap-4 py-2 px-2 w-full lg:w-11/12 snap-x scroll-smooth"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {CATEGORIES.map((cat, idx) => (
-              <Link
-                key={idx}
-                href={`/samples/${cat.category}`}
-                className="flex-shrink-0 border border-gray-200 rounded-xl px-4 py-3 flex items-center gap-3 bg-white hover:border-purple-300 hover:shadow-md cursor-pointer transition-all duration-300 hover:-translate-y-1 group snap-start min-w-[160px]"
-              >
-                <div className="w-10 h-10 bg-purple-50 text-purple-700 rounded-full flex items-center justify-center font-bold text-lg group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
-                  {cat.type === "letter" ? (
-                    cat.badge
-                  ) : cat.icon ? (
-                    <cat.icon className="w-5 h-5 text-purple-700 group-hover:text-white transition-colors" />
-                  ) : null}
+            {apiLoading ? (
+              Array.from({ length: 8 }).map((_, idx) => (
+                <div key={idx} className="flex-shrink-0 border border-gray-100 rounded-xl px-4 py-3 flex items-center gap-3 bg-white min-w-[160px] animate-pulse">
+                  <div className="w-10 h-10 bg-slate-200 rounded-full shrink-0"></div>
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 bg-slate-200 rounded w-3/4"></div>
+                    <div className="h-3 bg-slate-200 rounded w-1/2"></div>
+                  </div>
                 </div>
-                <div className="text-left">
-                  <h4 className="font-bold text-gray-900 text-sm group-hover:text-purple-700 transition-colors">
-                    {cat.name}
-                  </h4>
-                  <p className="text-xs text-gray-500">{cat.count}</p>
-                </div>
-              </Link>
-            ))}
+              ))
+            ) : (
+              displayCategories.map((cat, idx) => (
+                <Link
+                  key={idx}
+                  href={`/samples/${cat.category}`}
+                  className="flex-shrink-0 border border-gray-200 rounded-xl px-4 py-3 flex items-center gap-3 bg-white hover:border-purple-300 hover:shadow-md cursor-pointer transition-all duration-300 hover:-translate-y-1 group snap-start min-w-[160px]"
+                >
+                  <div className="w-10 h-10 bg-purple-50 text-purple-700 rounded-full flex items-center justify-center font-bold text-lg group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
+                    {cat.type === "letter" ? (
+                      cat.badge
+                    ) : cat.icon ? (
+                      <cat.icon className="w-5 h-5 text-purple-700 group-hover:text-white transition-colors" />
+                    ) : null}
+                  </div>
+                  <div className="text-left">
+                    <h4 className="font-bold text-gray-900 text-sm group-hover:text-purple-700 transition-colors">
+                      {cat.name}
+                    </h4>
+                    <p className="text-xs text-gray-500">{cat.count}</p>
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
 
           <button
@@ -420,43 +444,51 @@ export default function SamplesPage() {
         </div>
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {SUBJECTS.map((sub, idx) => (
-            <StaggerItem key={idx}>
-              <div
-                className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group cursor-pointer h-full flex flex-col justify-between"
-                onClick={() => {
-                  window.location.href = `/samples/${sub.category}`;
-                }}
-              >
+          {apiLoading ? (
+            Array.from({ length: 8 }).map((_, idx) => (
+              <div key={idx} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 animate-pulse h-full flex flex-col justify-between min-h-[220px]">
                 <div>
-                  <div className="w-12 h-12 bg-purple-700 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 group-hover:-translate-y-1 group-hover:shadow-lg transition-all">
-                    {sub.badge}
-                  </div>
-                  {/* <div className="absolute top-[40%] -translate-y-1/2 right-6 w-14 h-14 bg-purple-50 text-purple-700 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
-                    {sub.icon && (
-                      <sub.icon className="w-6 h-6 text-purple-700 group-hover:text-white transition-colors" />
-                    )}
-                  </div> */}
-                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-purple-800 transition-colors text-left">
-                    {sub.name}
-                  </h3>
-                  <span className="inline-block bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded mt-2 flex w-fit">
-                    {sub.count} Samples
-                  </span>
+                  <div className="w-12 h-12 bg-slate-200 rounded-full mb-4"></div>
+                  <div className="h-6 bg-slate-200 rounded w-3/4 mb-3"></div>
+                  <div className="h-4 bg-slate-200 rounded w-1/3"></div>
                 </div>
-                <Link
-                  href={`/samples/${sub.category}`}
-                  className="mt-6 flex items-center justify-between font-bold btn-shutter-blue-close py-2.5 px-4 rounded-lg w-full text-sm"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  View Samples{" "}
-                  <span className="group-hover:translate-x-1 transition-transform">
-                    &rarr;
-                  </span>
-                </Link>
+                <div className="h-10 bg-slate-200 rounded-lg w-full mt-6"></div>
               </div>
-            </StaggerItem>
-          ))}
+            ))
+          ) : (
+            displaySubjects.map((sub, idx) => (
+              <StaggerItem key={idx}>
+                <div
+                  className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group cursor-pointer h-full flex flex-col justify-between"
+                  onClick={() => {
+                    window.location.href = `/samples/${sub.category}`;
+                  }}
+                >
+                  <div>
+                    <div className="w-12 h-12 bg-purple-700 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 group-hover:-translate-y-1 group-hover:shadow-lg transition-all">
+                      {sub.badge}
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-purple-800 transition-colors text-left">
+                      {sub.name}
+                    </h3>
+                    <span className="inline-block bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded mt-2 flex w-fit">
+                      {sub.count} Samples
+                    </span>
+                  </div>
+                  <Link
+                    href={`/samples/${sub.category}`}
+                    className="mt-6 flex items-center justify-between font-bold btn-shutter-blue-close py-2.5 px-4 rounded-lg w-full text-sm"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    View Samples{" "}
+                    <span className="group-hover:translate-x-1 transition-transform">
+                      &rarr;
+                    </span>
+                  </Link>
+                </div>
+              </StaggerItem>
+            ))
+          )}
         </StaggerContainer>
 
         <div className="text-center mt-10">

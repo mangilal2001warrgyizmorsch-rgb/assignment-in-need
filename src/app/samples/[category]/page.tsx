@@ -10,6 +10,14 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
+import { CustomDropdown } from "@/components/ui/CustomDropdown";
+
+const DOCUMENT_TYPE_OPTIONS = [
+  { label: "All Types", value: "All" },
+  { label: "Assignment", value: "Assignment" },
+  { label: "Essay", value: "Essay" },
+  { label: "Case Study", value: "Case Study" },
+];
 
 interface CategoryPageProps {
   params: Promise<{
@@ -25,12 +33,41 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Find category ID based on the string slug
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [categoryName, setCategoryName] = useState<string>(category);
+
   // Filtering and pagination states
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+
+  useEffect(() => {
+    const resolveCategoryId = async () => {
+      try {
+        const response = await fetch("/api/sample-categories");
+        if (response.ok) {
+          const json = await response.json();
+          if (json.success && Array.isArray(json.data)) {
+            const matched = json.data.find(
+              (cat: any) =>
+                cat.name.toLowerCase() === category.toLowerCase() ||
+                cat.name.toLowerCase().replace(/-/g, " ") === category.toLowerCase().replace(/-/g, " ")
+            );
+            if (matched) {
+              setCategoryId(matched.id);
+              setCategoryName(matched.name);
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Failed to resolve category ID:", err);
+      }
+    };
+    resolveCategoryId();
+  }, [category]);
 
   // Debounced search trigger (fetches when searchTerm or type filters update)
   useEffect(() => {
@@ -49,7 +86,8 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         const searchQuery = searchTerm
           ? `&search=${encodeURIComponent(searchTerm)}`
           : "";
-        const url = `/api/samples?category=${encodeURIComponent(category)}&page=${currentPage}${typeQuery}${searchQuery}`;
+        const categoryQueryParam = categoryId !== null ? String(categoryId) : category;
+        const url = `/api/samples?category=${encodeURIComponent(categoryQueryParam)}&page=${currentPage}${typeQuery}${searchQuery}`;
 
         const response = await fetch(url);
         if (!response.ok) {
@@ -75,7 +113,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     };
 
     fetchSamples();
-  }, [category, currentPage, selectedType, searchTerm]);
+  }, [category, categoryId, currentPage, selectedType, searchTerm]);
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -92,7 +130,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   };
 
   // Convert slug/category names to readable titles
-  const readableCategory = category.charAt(0).toUpperCase() + category.slice(1);
+  const readableCategory = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
 
   return (
     <main className="w-full font-sans text-gray-800 bg-white">
@@ -135,16 +173,15 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                 <label className="text-xs text-gray-400 font-bold mb-1.5 uppercase">
                   Document Type
                 </label>
-                <select
+                <CustomDropdown
+                  options={DOCUMENT_TYPE_OPTIONS}
                   value={selectedType}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                  className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-sm font-medium focus:border-purple-500 focus:outline-none transition"
-                >
-                  <option value="All">All Types</option>
-                  <option value="Assignment">Assignment</option>
-                  <option value="Essay">Essay</option>
-                  <option value="Case Study">Case Study</option>
-                </select>
+                  onChange={setSelectedType}
+                  placeholder="Select Type"
+                  className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 transition focus-within:border-purple-500 cursor-pointer shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
+                  triggerClassName="text-sm font-medium text-gray-800 py-0"
+                  dropdownClassName="text-sm rounded-xl"
+                />
               </div>
 
               {/* Keyword Search */}
@@ -167,11 +204,22 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
             {/* Grid display logic */}
             {loading ? (
-              <div className="py-20 flex flex-col items-center justify-center gap-3">
-                <div className="w-10 h-10 border-4 border-purple-200 border-t-purple-700 rounded-full animate-spin"></div>
-                <p className="text-gray-400 text-sm font-medium">
-                  Fetching database samples...
-                </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                {Array.from({ length: 6 }).map((_, idx) => (
+                  <div key={idx} className="bg-white rounded-3xl border border-gray-100 p-6 flex flex-col justify-between shadow-sm animate-pulse min-h-[220px]">
+                    <div>
+                      <div className="h-4 bg-slate-200 rounded w-1/4 mb-4"></div>
+                      <div className="h-6 bg-slate-200 rounded w-full mb-3"></div>
+                      <div className="h-6 bg-slate-200 rounded w-2/3 mb-4"></div>
+                      <div className="flex gap-4">
+                        <div className="h-4 bg-slate-200 rounded w-16"></div>
+                        <div className="h-4 bg-slate-200 rounded w-16"></div>
+                        <div className="h-4 bg-slate-200 rounded w-16"></div>
+                      </div>
+                    </div>
+                    <div className="h-10 bg-slate-200 rounded-xl w-full mt-6"></div>
+                  </div>
+                ))}
               </div>
             ) : error ? (
               <div className="py-12 px-6 bg-red-50 text-red-700 border border-red-100 rounded-2xl flex items-center gap-3">
@@ -298,7 +346,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                 <span className="bg-yellow-400 text-purple-950 font-bold px-3 py-1 rounded-full text-[10px] uppercase tracking-wider">
                   Promo Offer
                 </span>
-                <h3 className="text-3xl font-extrabold mt-3">UP TO 40% OFF</h3>
+                <h3 className="text-3xl text-purple-200 font-extrabold mt-3">UP TO 40% OFF</h3>
                 <p className="text-xs text-purple-200 mt-2 leading-relaxed">
                   Save your grades & your wallet! Reach your academic goals with
                   expert help.

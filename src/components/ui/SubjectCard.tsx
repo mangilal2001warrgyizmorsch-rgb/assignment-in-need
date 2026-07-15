@@ -28,19 +28,37 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
   slug,
   className,
 }) => {
-  const IconComponent = (Icons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconName] || Icons.BookOpen;
+  const IconComponent =
+    (
+      Icons as unknown as Record<
+        string,
+        React.ComponentType<{ className?: string }>
+      >
+    )[iconName] || Icons.BookOpen;
+
+  const cleanSlug = (slug || "").replace(/^\/+/, "");
+  const finalSlug = cleanSlug.startsWith("subject/")
+    ? cleanSlug.replace("subject/", "")
+    : cleanSlug;
+  const mappedSlug = finalSlug === "maths" || finalSlug === "math" ? "math" : finalSlug;
+  const path = `/${mappedSlug}-assignment-help`;
 
   return (
-    <Link href={`/subjects/${slug}`} className="block">
+    <Link href={path} className="block">
       <Card
         hoverEffect={true}
         className={cn(
           "flex-row items-center gap-4 p-4 border border-primary-100/50 hover:border-primary-200 bg-white group/card",
-          className
+          className,
         )}
       >
         {/* Letter Badge Indicator */}
-        <div className={cn("w-10 h-10 rounded-full flex items-center justify-center font-heading font-extrabold text-sm shrink-0", letterColorClass)}>
+        <div
+          className={cn(
+            "w-10 h-10 rounded-full flex items-center justify-center font-heading font-extrabold text-sm shrink-0",
+            letterColorClass,
+          )}
+        >
           {letterBadge}
         </div>
 
@@ -48,12 +66,17 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <IconComponent className="w-4 h-4 text-primary-500 shrink-0" />
-            <Heading level={4} className="text-sm md:text-base group-hover/card:text-primary-700 transition-colors truncate">
+            <Heading
+              level={4}
+              className="text-sm md:text-base group-hover/card:text-primary-700 transition-colors truncate"
+            >
               {name}
             </Heading>
           </div>
           <p className="text-xs text-text-muted mt-0.5 font-medium">
-            {orderCount ? `${orderCount} Orders Completed` : `${sampleCount} Free Samples`}
+            {orderCount
+              ? `${orderCount} Orders Completed`
+              : `${sampleCount} Free Samples`}
           </p>
         </div>
 

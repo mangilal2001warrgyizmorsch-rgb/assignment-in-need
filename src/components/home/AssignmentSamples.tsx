@@ -119,7 +119,8 @@ export default function AssignmentSamples() {
         const json = await response.json();
         const list = json?.data?.data ?? json?.data ?? json?.samples ?? [];
         if (Array.isArray(list) && list.length > 0) {
-          setSamples(list.filter(isApiRecord).slice(0, 6).map(mapSample));
+          const mapped = list.filter(isApiRecord).slice(0, 6).map(mapSample);
+          setSamples(mapped);
         }
       } catch (err) {
         console.error("Error fetching homepage samples:", err);

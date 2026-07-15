@@ -73,8 +73,8 @@ function readMessage(data: unknown, fallback: string) {
 export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
   const [mode, setMode] = useState<AuthMode>(initialMode);
   const [loginForm, setLoginForm] = useState<LoginForm>({
-    email: "Anshul_testing@gmail.com",
-    password: "klB$ameK*fr=@uTR98wl",
+    email: "",
+    password: "",
   });
   const [registerForm, setRegisterForm] = useState<RegisterForm>({
     name: "",
@@ -265,7 +265,7 @@ export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
                       className={passwordInputClass}
                       id="login-password"
                       name="password"
-                      placeholder="••••••••"
+                      placeholder="Password"
                       required
                       type={showLoginPassword ? "text" : "password"}
                       value={loginForm.password}
@@ -329,7 +329,7 @@ export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
                       className={inputClass}
                       id="signup-name"
                       name="name"
-                      placeholder="Rahul Sharma"
+                      placeholder="Enter your name"
                       required
                       type="text"
                       value={registerForm.name}
@@ -357,7 +357,7 @@ export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
                         className={inputClass}
                         id="signup-phone"
                         name="phone_no"
-                        placeholder="9876543210"
+                        placeholder="Enter phone number"
                         required
                         type="tel"
                         value={registerForm.phone_no}
@@ -377,7 +377,7 @@ export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
                       className={inputClass}
                       id="signup-email"
                       name="email"
-                      placeholder="rahuldev5277@gmail.com"
+                      placeholder="Enter your email"
                       required
                       type="email"
                       value={registerForm.email}
@@ -397,7 +397,7 @@ export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
                         className={passwordInputClass}
                         id="signup-password"
                         name="password"
-                        placeholder="••••••"
+                        placeholder="Create password"
                         required
                         type={showRegisterPassword ? "text" : "password"}
                         value={registerForm.password}
@@ -424,7 +424,7 @@ export function AuthSlider({ initialMode = "login" }: AuthSliderProps) {
                         className={passwordInputClass}
                         id="signup-confirm-password"
                         name="confirm_password"
-                        placeholder="••••••"
+                        placeholder="Confirm password"
                         required
                         type={showConfirmPassword ? "text" : "password"}
                         value={registerForm.confirm_password}

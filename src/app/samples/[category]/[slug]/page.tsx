@@ -14,6 +14,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
+import { SidebarQuoteForm } from "@/components/ui/SidebarQuoteForm";
 
 interface SampleDetailPageProps {
   params: Promise<{
@@ -31,18 +32,9 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
   const [relatedSamples, setRelatedSamples] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [categoryName, setCategoryName] = useState<string>(category);
 
-  // Sidebar Order Form State
-  const [orderForm, setOrderForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    deadline: "3 Days",
-    service: "Assignment Help",
-    subject: "",
-    pages: "1 Page / 250 Words",
-  });
-  const [formSubmitted, setFormSubmitted] = useState(false);
+
 
   useEffect(() => {
     const fetchSampleDetail = async () => {
@@ -63,8 +55,29 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
 
           // Fetch related samples (limit=2)
           try {
+            let resolvedCategoryId = category;
+            try {
+              const catRes = await fetch("/api/sample-categories");
+              if (catRes.ok) {
+                const catJson = await catRes.json();
+                if (catJson.success && Array.isArray(catJson.data)) {
+                  const matched = catJson.data.find(
+                    (catItem: any) =>
+                      catItem.name.toLowerCase() === category.toLowerCase() ||
+                      catItem.name.toLowerCase().replace(/-/g, " ") === category.toLowerCase().replace(/-/g, " ")
+                  );
+                  if (matched) {
+                    resolvedCategoryId = String(matched.id);
+                    setCategoryName(matched.name);
+                  }
+                }
+              }
+            } catch (e) {
+              console.warn("Failed to dynamically resolve category ID in details:", e);
+            }
+
             const relResponse = await fetch(
-              `/api/samples?category=${encodeURIComponent(category)}&limit=2`,
+              `/api/samples?category=${encodeURIComponent(resolvedCategoryId)}&limit=2`,
             );
             if (relResponse.ok) {
               const relJson = await relResponse.json();
@@ -111,27 +124,67 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
     }
   }, [sample]);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setFormSubmitted(false);
-      // Open quick order chat reference
-      window.open(
-        `https://wa.me/447466847847?text=Hi, I want expert help with my ${orderForm.subject || "assignment"}. Service: ${orderForm.service}, Deadline: ${orderForm.deadline}`,
-        "_blank",
-      );
-    }, 1000);
-  };
+
 
   if (loading) {
     return (
-      <div className="py-32 flex flex-col items-center justify-center gap-4 bg-white min-h-[60vh]">
-        <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-700 rounded-full animate-spin"></div>
-        <p className="text-gray-400 text-sm font-semibold">
-          Loading paper outline...
-        </p>
-      </div>
+      <main className="w-full font-sans text-gray-800 bg-white">
+        {/* Breadcrumb Skeleton */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 animate-pulse flex gap-2">
+          <div className="h-4 bg-slate-200 rounded w-16"></div>
+          <div className="h-4 bg-slate-200 rounded w-4"></div>
+          <div className="h-4 bg-slate-200 rounded w-20"></div>
+          <div className="h-4 bg-slate-200 rounded w-4"></div>
+          <div className="h-4 bg-slate-200 rounded w-32"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-pulse">
+          <div className="flex flex-col lg:flex-row gap-8 items-start">
+            {/* Main Content Area Skeleton */}
+            <div className="w-full lg:w-2/3 flex flex-col gap-6 text-left">
+              <div>
+                <div className="h-6 bg-slate-200 rounded w-32 mb-4"></div>
+                <div className="h-10 bg-slate-200 rounded w-full mb-3"></div>
+                <div className="h-10 bg-slate-200 rounded w-3/4"></div>
+              </div>
+
+              {/* Stats Bar Skeleton */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                {Array.from({ length: 4 }).map((_, idx) => (
+                  <div key={idx} className="flex flex-col gap-2">
+                    <div className="h-3 bg-slate-200 rounded w-1/2"></div>
+                    <div className="h-5 bg-slate-200 rounded w-3/4"></div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Rich Content Placeholder */}
+              <div className="bg-white border border-gray-100 rounded-3xl p-6 md:p-8 shadow-sm space-y-4">
+                <div className="h-6 bg-slate-200 rounded w-1/3 mb-6"></div>
+                {Array.from({ length: 12 }).map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="h-4 bg-slate-200 rounded"
+                    style={{ width: `${100 - (idx % 4) * 10}%` }}
+                  ></div>
+                ))}
+              </div>
+            </div>
+
+            {/* Sidebar Skeleton */}
+            <div className="w-full lg:w-1/3 flex flex-col gap-6 sticky top-24">
+              <div className="h-48 bg-slate-200 rounded-2xl w-full"></div>
+              <div className="bg-white border border-gray-100 rounded-3xl p-6 shadow-sm space-y-4">
+                <div className="h-6 bg-slate-200 rounded w-2/3 mb-4"></div>
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <div key={idx} className="h-10 bg-slate-200 rounded-xl w-full"></div>
+                ))}
+                <div className="h-12 bg-slate-200 rounded-xl w-full mt-4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     );
   }
 
@@ -155,7 +208,7 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
     );
   }
 
-  const readableCategory = category.charAt(0).toUpperCase() + category.slice(1);
+  const readableCategory = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
   const words = ((sample.id * 7) % 1500) + 1000;
   const pages = Math.ceil(words / 250);
   const downloads = ((sample.id * 13) % 2000) + 1200;
@@ -258,133 +311,7 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
           {/* Right Sidebar Form & Widgets */}
           <AnimateIn variant="fadeUp" delay={0.15} className="w-full lg:w-1/3 flex flex-col gap-6 sticky top-6">
             {/* Quick Order Form */}
-            <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-md text-left flex flex-col gap-5">
-              <div>
-                <h3 className="font-extrabold text-gray-900 text-lg">
-                  Order Custom Model Paper
-                </h3>
-                <p className="text-xs text-gray-400 mt-1 leading-relaxed">
-                  Get a personalized, fully-referenced custom assignment
-                  tailored to your exact prompt requirements.
-                </p>
-              </div>
-
-              <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
-                <div className="flex flex-col">
-                  <label className="text-[10px] text-gray-400 font-bold uppercase mb-1">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={orderForm.name}
-                    onChange={(e) =>
-                      setOrderForm({ ...orderForm, name: e.target.value })
-                    }
-                    placeholder="Enter your name"
-                    className="border border-gray-200 rounded-xl px-3 py-2 text-sm focus:border-purple-500 focus:outline-none"
-                  />
-                </div>
-
-                <div className="flex flex-col">
-                  <label className="text-[10px] text-gray-400 font-bold uppercase mb-1">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={orderForm.email}
-                    onChange={(e) =>
-                      setOrderForm({ ...orderForm, email: e.target.value })
-                    }
-                    placeholder="student@example.co.uk"
-                    className="border border-gray-200 rounded-xl px-3 py-2 text-sm focus:border-purple-500 focus:outline-none"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col">
-                    <label className="text-[10px] text-gray-400 font-bold uppercase mb-1">
-                      Deadline
-                    </label>
-                    <select
-                      value={orderForm.deadline}
-                      onChange={(e) =>
-                        setOrderForm({ ...orderForm, deadline: e.target.value })
-                      }
-                      className="border border-gray-200 rounded-xl px-3 py-2 text-sm focus:border-purple-500 focus:outline-none bg-white"
-                    >
-                      <option>6 Hours</option>
-                      <option>12 Hours</option>
-                      <option>24 Hours</option>
-                      <option>2 Days</option>
-                      <option>3 Days</option>
-                      <option>5 Days</option>
-                      <option>7 Days</option>
-                      <option>10+ Days</option>
-                    </select>
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label className="text-[10px] text-gray-400 font-bold uppercase mb-1">
-                      Pages Count
-                    </label>
-                    <select
-                      value={orderForm.pages}
-                      onChange={(e) =>
-                        setOrderForm({ ...orderForm, pages: e.target.value })
-                      }
-                      className="border border-gray-200 rounded-xl px-3 py-2 text-sm focus:border-purple-500 focus:outline-none bg-white"
-                    >
-                      <option>1 Page / 250 Words</option>
-                      <option>2 Pages / 500 Words</option>
-                      <option>3 Pages / 750 Words</option>
-                      <option>4 Pages / 1000 Words</option>
-                      <option>6 Pages / 1500 Words</option>
-                      <option>8 Pages / 2000 Words</option>
-                      <option>10+ Pages</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="flex flex-col">
-                  <label className="text-[10px] text-gray-400 font-bold uppercase mb-1">
-                    Subject Topic
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={orderForm.subject}
-                    onChange={(e) =>
-                      setOrderForm({ ...orderForm, subject: e.target.value })
-                    }
-                    placeholder="e.g. Marketing Strategy Tesco"
-                    className="border border-gray-200 rounded-xl px-3 py-2 text-sm focus:border-purple-500 focus:outline-none"
-                  />
-                </div>
-
-                <div className="flex items-start gap-2 pt-1">
-                  <input type="checkbox" required id="terms" className="mt-1" />
-                  <label
-                    htmlFor="terms"
-                    className="text-[10px] text-gray-400 leading-normal cursor-pointer"
-                  >
-                    I agree to the Fair Use Integrity Guidelines and Privacy
-                    Terms of Service.
-                  </label>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={formSubmitted}
-                  className="btn-shutter-blue-open font-extrabold py-3 rounded-xl shadow-md text-center block text-sm disabled:opacity-50 disabled:pointer-events-none mt-2 w-full"
-                >
-                  {formSubmitted
-                    ? "Redirecting to Whatsapp..."
-                    : "Submit & Chat with Experts"}
-                </button>
-              </form>
-            </div>
+            <SidebarQuoteForm sourceName={`Sample Detail Page: ${sample?.title || "General"}`} />
 
             {/* Popular Subjects counters */}
             <div className="bg-[#fafaff] border border-gray-100 rounded-3xl p-6 text-left shadow-sm">

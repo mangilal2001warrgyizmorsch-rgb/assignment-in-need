@@ -7,26 +7,6 @@ export default function SeoContentSection() {
   return (
     <section className="px-4 py-8 md:px-8 bg-[#faf5ff] font-sans border-t border-b border-[#f3e8ff]/50 flex justify-center">
       <div className="max-w-[1200px] w-full">
-        {/* Section Heading */}
-        <motion.div
-          className="mb-8 text-center md:text-left"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-2xl md:text-[1.8rem] font-extrabold text-[#1e1b4b] m-0 mb-2">
-            <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis">
-              {" "}
-              Assignment Help UK{" "}
-            </span>
-            You Can Actually Trust
-          </h2>
-          <p className="text-[0.95rem] text-gray-500 m-0 font-medium">
-            Human-written coursework, essays, and reports tailored to UK
-            university standards.
-          </p>
-        </motion.div>
 
         {/* Scrollable SEO Content Box */}
         <motion.div
@@ -37,6 +17,16 @@ export default function SeoContentSection() {
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           <div className="h-[400px] overflow-y-auto scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden text-gray-700 space-y-6 text-[0.98rem] leading-relaxed">
+           
+           <h2 className="text-2xl md:text-[1.8rem] font-extrabold text-[#1e1b4b] m-0 mb-2">
+              Assignment Help UK{" "}
+            You Can Actually Trust
+          </h2>
+          <p className="text-[0.95rem] text-gray-500 m-0 font-medium">
+            Human-written coursework, essays, and reports tailored to UK
+            university standards.
+          </p>
+           
             <p>
               Struggling with a deadline, a confusing brief, or a subject you
               just can't get your head around?

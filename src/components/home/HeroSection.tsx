@@ -315,7 +315,7 @@ export default function HeroSection() {
         className="w-full flex justify-center relative mt-8 z-10 px-4"
       >
         <div className="bg-white rounded-[30px] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] max-w-[1200px] w-full py-3 px-6 flex flex-col items-center overflow-hidden border border-white/50">
-          <h2 className="text-[0.9rem] font-bold text-gray-900 m-0 mb-4 text-center">
+          <h2 className="text-xl md:text-[1.75rem] font-bold text-gray-900 m-0 mb-4 text-center">
             Trusted by Students from
             <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis">
               {" "}
@@ -324,7 +324,7 @@ export default function HeroSection() {
           </h2>
           {/* Infinite marquee — pauses on hover via React state */}
           <div
-            className="hero-marquee-wrapper w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
+            className="hero-marquee-wrapper mt-5 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
             onMouseEnter={() => setMarqueeHovered(true)}
             onMouseLeave={() => setMarqueeHovered(false)}
           >
