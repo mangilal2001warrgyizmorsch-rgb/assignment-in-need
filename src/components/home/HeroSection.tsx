@@ -218,11 +218,13 @@ export default function HeroSection() {
                 <img
                   src="/new-home-page-images/New-Hero-Bg.webp"
                   alt="Student"
+                  width={360}
+                  height={320}
                   className="hidden max-md:block w-full h-auto rounded-[20px] max-md:max-h-[380px] max-md:object-contain max-md:mx-auto"
                 />
 
                 {/* Floating Badges */}
-                <div
+                {/* <div
                   className="absolute bg-white py-2 px-3 rounded-xl flex items-center gap-3 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] top-[10%] left-[-10%] max-md:left-[2%] max-md:top-[5%] max-md:p-[6px_10px] max-md:gap-2 max-md:scale-90"
                   style={{ animation: "float 6s ease-in-out infinite 0s" }}
                 >
@@ -244,9 +246,9 @@ export default function HeroSection() {
                     </strong>
                     <span>Plagiarism Free</span>
                   </div>
-                </div>
+                </div> */}
 
-                <div
+                {/* <div
                   className="absolute bg-white py-2 px-3 rounded-xl flex items-center gap-3 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] bottom-[30%] left-[-15%] max-md:left-[-2%] max-md:bottom-[35%] max-md:p-[6px_10px] max-md:gap-2 max-md:scale-90"
                   style={{ animation: "float 6s ease-in-out infinite 2s" }}
                 >
@@ -268,10 +270,10 @@ export default function HeroSection() {
                       Unlimited
                     </strong>
                     <span>Revisions</span>
-                  </div>
-                </div>
+                  </div> */}
+                {/* </div> */}
 
-                <div
+                {/* <div
                   className="absolute bg-white py-2 px-3 rounded-xl flex items-center gap-3 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] bottom-[10%] right-[-5%] max-md:left-[calc(50%-80px)] max-md:bottom-[5%] max-md:right-auto max-md:top-auto max-md:p-[6px_10px] max-md:gap-2 max-md:scale-90"
                   style={{ animation: "float 6s ease-in-out infinite 4s" }}
                 >
@@ -293,7 +295,7 @@ export default function HeroSection() {
                     </strong>
                     <span>Live Support</span>
                   </div>
-                </div>
+                </div> */}
               </div>
             </AnimateIn>
 
@@ -315,10 +317,9 @@ export default function HeroSection() {
         className="w-full flex justify-center relative mt-8 z-10 px-4"
       >
         <div className="bg-white rounded-[30px] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] max-w-[1200px] w-full py-3 px-6 flex flex-col items-center overflow-hidden border border-white/50">
-          <h2 className="text-xl md:text-[1.75rem] font-bold text-gray-900 m-0 mb-4 text-center">
-            Trusted by Students from
+          <h2 className="text-xl md:text-[1.75rem] font-black text-gray-900 m-0 mb-3 leading-tight text-center">
+            Trusted by Students from 
             <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis">
-              {" "}
               Top UK Universities
             </span>
           </h2>
@@ -338,72 +339,100 @@ export default function HeroSection() {
               <img
                 src="/assets/media/layout/university/oxford.jpg"
                 alt="University of Oxford"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/cambridge.png"
                 alt="University of Cambridge"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/ucl.png"
                 alt="UCL"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/manchester.jpg"
                 alt="University of Manchester"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/birmingham.png"
                 alt="University of Birmingham"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/kingslondon.png"
                 alt="King's College London"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/leedsuni.png"
                 alt="University of Leeds"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               {/* Duplicate set for seamless infinite loop */}
               <img
                 src="/assets/media/layout/university/oxford.jpg"
                 alt="University of Oxford"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/cambridge.png"
                 alt="University of Cambridge"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/ucl.png"
                 alt="UCL"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/manchester.jpg"
                 alt="University of Manchester"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/birmingham.png"
                 alt="University of Birmingham"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/kingslondon.png"
                 alt="King's College London"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
               <img
                 src="/assets/media/layout/university/leedsuni.png"
                 alt="University of Leeds"
+                width={120}
+                height={32}
                 className="h-8 max-md:h-[25px] w-auto object-contain shrink-0"
               />
             </div>

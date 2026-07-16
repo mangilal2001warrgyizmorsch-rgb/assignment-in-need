@@ -139,7 +139,7 @@ export default function AssignmentSamples() {
   }, [slideSamples]);
 
   return (
-    <section className="py-12 px-8 max-md:py-4 max-md:px-4 bg-[#fafaff] font-sans flex justify-center overflow-hidden border-b border-[#f3e8ff]/50">
+    <section className="py-8 md:py-10 px-8 max-md:py-4 max-md:px-4 bg-[#fafaff] font-sans flex justify-center overflow-hidden border-b border-[#f3e8ff]/50">
       <div className="max-w-[1200px] w-full flex items-center gap-10 max-lg:flex-col max-lg:items-start max-lg:gap-6">
         <AnimateIn variant="fadeUp" className="w-[260px] max-lg:w-full shrink-0 flex flex-col gap-4 max-lg:flex-row max-lg:items-center max-lg:justify-between max-md:flex-col max-md:items-start">
           <h2 className="text-2xl md:text-[1.8rem] font-extrabold text-[#1e1b4b] m-0 leading-tight max-md:text-[1.4rem]">
@@ -174,6 +174,8 @@ export default function AssignmentSamples() {
                       <img
                         src={sample.image}
                         alt={sample.title}
+                        width={220}
+                        height={130}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-108"
                         onError={(event) => {
                           event.currentTarget.src =
@@ -201,6 +203,7 @@ export default function AssignmentSamples() {
           <button
             className="hidden md:flex bg-white border border-gray-200 shadow-[0_4px_10px_rgba(0,0,0,0.05)] cursor-pointer text-gray-400 items-center justify-center w-[45px] h-[45px] rounded-full transition-all duration-300 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300 shrink-0 z-[2]"
             onClick={() => slideSamples(1)}
+            aria-label="Next samples"
           >
             <svg
               viewBox="0 0 24 24"

@@ -88,6 +88,20 @@ export default function RootLayout({
     >
       <head>
         <CanonicalHeader />
+        <link
+          rel="preload"
+          href="/new-home-page-images/ain-hero-bg.webp"
+          as="image"
+          fetchPriority="high"
+          type="image/webp"
+        />
+        <link
+          rel="preload"
+          href="/new-home-page-images/New-Hero-Bg.webp"
+          as="image"
+          fetchPriority="high"
+          type="image/webp"
+        />
         <Script
           id="google-tag-manager"
           strategy="afterInteractive"

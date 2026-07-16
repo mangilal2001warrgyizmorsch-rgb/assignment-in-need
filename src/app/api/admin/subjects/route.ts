@@ -30,13 +30,22 @@ export async function GET(request: Request) {
   // 1. If slug query param is present, fetch that specific subject page detail
   if (slug) {
     try {
-      // Ensure we query with the prefix "subject/" if not present
-      const fullSlug = slug.includes("/") ? slug : `subject/${slug}`;
-      const targetUrl = `${SUBJECT_PAGES_API_BASE_URL}/${fullSlug}`;
-      const response = await fetch(targetUrl, {
+      // 1. Try querying the exact slug directly (e.g. subject-pages/history)
+      let targetUrl = `${SUBJECT_PAGES_API_BASE_URL}/${slug}`;
+      let response = await fetch(targetUrl, {
         headers: { Accept: "application/json" },
         next: { revalidate: 300 },
       });
+
+      // 2. Fallback: if it returns 404, try querying with the "subject/" prefix (e.g. subject-pages/subject/history)
+      if (!response.ok && response.status === 404) {
+        const fullSlug = slug.includes("/") ? slug : `subject/${slug}`;
+        targetUrl = `${SUBJECT_PAGES_API_BASE_URL}/${fullSlug}`;
+        response = await fetch(targetUrl, {
+          headers: { Accept: "application/json" },
+          next: { revalidate: 300 },
+        });
+      }
 
       const text = await response.text();
 

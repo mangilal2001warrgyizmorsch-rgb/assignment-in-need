@@ -4,7 +4,7 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export default function CtaBanner() {
   return (
-    <section className="py-8 px-4 md:py-12 md:px-6 bg-[#fafaff] font-sans flex justify-center overflow-hidden">
+    <section className="pt-2 pb-6 px-4 md:pt-4 md:pb-8 md:px-6 bg-[#fafaff] font-sans flex justify-center overflow-hidden">
       {/* Outer Banner Card with responsive padding to accommodate absolute student image */}
       <AnimateIn variant="scaleUp" className="relative w-full max-w-[1200px] bg-gradient-to-r from-[#241165] via-[#3a1a8c] to-[#e8523f] rounded-2xl flex flex-col lg:flex-row items-center justify-between p-6 md:p-[2rem_2rem_2rem_200px] lg:p-[2rem_3rem_2rem_220px] text-center lg:text-left gap-6 lg:gap-0 shadow-[0_10px_35px_rgba(0,0,0,0.06)] overflow-visible">
         {/* Layered transparent circles for premium texture */}
@@ -17,6 +17,8 @@ export default function CtaBanner() {
         <img
           src="/new-home-page-images/Cta-New.webp"
           alt="Student assignment help assistance"
+          width={360}
+          height={450}
           className="hidden md:block absolute left-[1rem] lg:left-[-1rem] bottom-0 h-[135%] max-w-[30%] lg:max-w-[30%] z-[2] pointer-events-none object-contain object-left-bottom select-none"
         />
 
@@ -163,21 +165,29 @@ export default function CtaBanner() {
               <img
                 src="/assets/media/layout/testimonial/testimonial1.webp"
                 alt="Student avatar 1"
+                width={28}
+                height={28}
                 className="w-[28px] h-[28px] rounded-full border-2 border-white bg-gray-150 relative z-[1]"
               />
               <img
                 src="/assets/media/layout/testimonial/testimonial2.webp"
                 alt="Student avatar 2"
+                width={28}
+                height={28}
                 className="w-[28px] h-[28px] rounded-full border-2 border-white bg-gray-150 relative z-[2]"
               />
               <img
                 src="/assets/media/layout/testimonial/testimonial3.webp"
                 alt="Student avatar 3"
+                width={28}
+                height={28}
                 className="w-[28px] h-[28px] rounded-full border-2 border-white bg-gray-150 relative z-[3]"
               />
               <img
                 src="/assets/media/layout/testimonial/testimonial4.webp"
                 alt="Student avatar 4"
+                width={28}
+                height={28}
                 className="w-[28px] h-[28px] rounded-full border-2 border-white bg-gray-150 relative z-[4]"
               />
             </div>

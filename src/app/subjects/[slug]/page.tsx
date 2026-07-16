@@ -8,19 +8,17 @@ import { toast } from "react-hot-toast";
 import { CustomDropdown } from "@/components/ui/CustomDropdown";
 import { mapExpertToWriter } from "@/lib/api";
 
-const COUNTRY_CODES = [
-  { label: "UK (+44)", value: "+44" },
-  { label: "US (+1)", value: "+1" },
-  { label: "IN (+91)", value: "+91" },
-  { label: "AU (+61)", value: "+61" },
-  { label: "CA (+1)", value: "+1" },
-  { label: "AE (+971)", value: "+971" },
-  { label: "SA (+966)", value: "+966" },
-  { label: "IE (+353)", value: "+353" },
-  { label: "NZ (+64)", value: "+64" },
-  { label: "SG (+65)", value: "+65" },
-  { label: "MY (+60)", value: "+60" },
-];
+import { getCountries, getCountryCallingCode } from "react-phone-number-input";
+import en from "react-phone-number-input/locale/en.json";
+
+const COUNTRY_CODES = getCountries().map((country) => {
+  const code = getCountryCallingCode(country);
+  const name = (en as any)[country] || country;
+  return {
+    label: `${name} (+${code})`,
+    value: `+${code}`
+  };
+}).sort((a, b) => a.label.localeCompare(b.label));
 
 const PROJECT_TYPE_OPTIONS = [
   { label: "Assignment", value: "Assignment" },
@@ -49,6 +47,7 @@ const TIME_PERIOD_OPTIONS = [
   { label: "16-20 Days", value: "16 to 20" },
   { label: "21+ Days", value: "21+" },
 ];
+import { cn } from "@/lib/utils";
 import { SUBJECTS } from "@/lib/data";
 import {
   Star,
@@ -82,6 +81,19 @@ export default function SubjectLanding() {
   const params = useParams();
   const rawSlug = params?.slug;
   const slug = Array.isArray(rawSlug) ? rawSlug.join("/") : (rawSlug as string) || "";
+
+  const normalizeArray = (value: any) => {
+    if (Array.isArray(value)) return value;
+    if (typeof value === "string") {
+      try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  };
 
   // Normalize slug to extract the subject key, e.g. "history-assignment-help" -> "history"
   const cleanSubjectSlug = (s: string) => {
@@ -132,6 +144,7 @@ export default function SubjectLanding() {
   const [reviewsList, setReviewsList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isNotFound, setIsNotFound] = useState(false);
+  const [seoExpanded, setSeoExpanded] = useState(false);
 
   // Map backend helper to match Writer model
   const mapExpertToWriterLocal = (expert: any) => {
@@ -245,78 +258,94 @@ export default function SubjectLanding() {
 
         if (payload && payload.success && payload.data && payload.data.page) {
           setPageData(payload.data.page);
-            if (
-              Array.isArray(payload.data.reviews) &&
-              payload.data.reviews.length > 0
-            ) {
-              const mapped = payload.data.reviews.map((item: any) => ({
-                name: item.name,
-                uni: item.location || "UK University",
-                text: item.description,
-                img: `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&background=f3e8ff&color=6b21a8`,
-              }));
-              setReviewsList(mapped);
-            }
+          
+          if (
+            Array.isArray(payload.data.reviews) &&
+            payload.data.reviews.length > 0
+          ) {
+            const mapped = payload.data.reviews.map((item: any) => ({
+              name: item.name,
+              uni: item.location || "UK University",
+              text: item.description,
+              img: item.name ? `https://ui-avatars.com/api/?name=${encodeURIComponent(item.name)}&background=f3e8ff&color=6b21a8` : "/assets/media/avatars/blank.png",
+            }));
+            setReviewsList(mapped);
           }
 
-        // Always fetch from global experts API and filter by subject
-        {
-          const resExp = await fetch("/api/experts");
-          if (resExp.ok) {
-            const result = await resExp.json();
-            if (result.success && Array.isArray(result.data)) {
-              // Filter by current subject expertise keywords
-              const subjectLower = subject.name.toLowerCase();
-              const slugLower = slug.toLowerCase().replace("-assignment-help", "");
+          if (
+            Array.isArray(payload.data.experts) &&
+            payload.data.experts.length > 0
+          ) {
+            const mapped = payload.data.experts.map((item: any) => {
+              const parsed = mapExpertToWriter(item);
+              return {
+                id: parsed.id,
+                name: parsed.name,
+                role: `${subject.name} Expert`,
+                qual: parsed.qualifications,
+                exp: parsed.experience.includes("Years")
+                  ? parsed.experience
+                  : `${parsed.experience} Experience`,
+                rating: parsed.rating,
+                orders: parsed.ordersCompleted,
+                img: parsed.avatar,
+                expertise: parsed.expertise,
+              };
+            });
+            setExpertsList(mapped);
+          } else {
+            // Fetch from global experts API and filter
+            const resExp = await fetch("/api/experts");
+            if (resExp.ok) {
+              const result = await resExp.json();
+              if (result.success && Array.isArray(result.data)) {
+                const subjectLower = subject.name.toLowerCase();
+                const slugLower = slug.toLowerCase().replace("-assignment-help", "");
 
-              // Primary filter: match by the expert's `subject` field from the API
-              const subjectMatched = result.data.filter((item: any) => {
-                const expertSubject = (item.subject || "").toLowerCase();
-                return expertSubject === subjectLower ||
-                       expertSubject === slugLower ||
-                       expertSubject.includes(subjectLower) ||
-                       subjectLower.includes(expertSubject);
-              });
+                const subjectMatched = result.data.filter((item: any) => {
+                  const expertSubject = (item.subject || "").toLowerCase();
+                  return expertSubject === subjectLower ||
+                         expertSubject === slugLower ||
+                         expertSubject.includes(subjectLower) ||
+                         subjectLower.includes(expertSubject);
+                });
 
-              // Secondary filter: match by skills/expertise keywords
-              const keywordMatched = subjectMatched.length > 0 ? [] : result.data.filter((item: any) => {
-                const skills = Array.isArray(item.skills) ? item.skills.join(" ").toLowerCase() : "";
-                const content = (item.content || "").toLowerCase();
-                return skills.includes(subjectLower) || skills.includes(slugLower) ||
-                       content.includes(subjectLower) || content.includes(slugLower);
-              });
+                const keywordMatched = subjectMatched.length > 0 ? [] : result.data.filter((item: any) => {
+                  const skills = Array.isArray(item.skills) ? item.skills.join(" ").toLowerCase() : "";
+                  const content = (item.content || "").toLowerCase();
+                  return skills.includes(subjectLower) || skills.includes(slugLower) ||
+                         content.includes(subjectLower) || content.includes(slugLower);
+                });
 
-              const bestMatches = subjectMatched.length > 0 ? subjectMatched : keywordMatched;
-              // Use matched experts, or fall back to all if no matches
-              const sourceExperts = bestMatches.length > 0 ? bestMatches : result.data;
+                const bestMatches = subjectMatched.length > 0 ? subjectMatched : keywordMatched;
+                const sourceExperts = bestMatches.length > 0 ? bestMatches : result.data;
 
-              const mapped = sourceExperts.map((item: any) => {
-                const parsed = mapExpertToWriter(item);
-                return {
-                  id: parsed.id,
-                  name: parsed.name,
-                  role: `${subject.name} Expert`,
-                  qual: parsed.qualifications,
-                  exp: parsed.experience.includes("Years")
-                    ? parsed.experience
-                    : `${parsed.experience} Experience`,
-                  rating: parsed.rating,
-                  orders: parsed.ordersCompleted,
-                  img: parsed.avatar,
-                  expertise: parsed.expertise,
-                };
-              });
+                const mapped = sourceExperts.map((item: any) => {
+                  const parsed = mapExpertToWriter(item);
+                  return {
+                    id: parsed.id,
+                    name: parsed.name,
+                    role: `${subject.name} Expert`,
+                    qual: parsed.qualifications,
+                    exp: parsed.experience.includes("Years")
+                      ? parsed.experience
+                      : `${parsed.experience} Experience`,
+                    rating: parsed.rating,
+                    orders: parsed.ordersCompleted,
+                    img: parsed.avatar,
+                    expertise: parsed.expertise,
+                  };
+                });
 
-              // Sort by rating desc, then ordersCompleted desc to rank the best experts
-              mapped.sort((a: any, b: any) => {
-                if (b.rating !== a.rating) return b.rating - a.rating;
-                const aOrders = parseInt(a.orders) || 0;
-                const bOrders = parseInt(b.orders) || 0;
-                return bOrders - aOrders;
-              });
+                mapped.sort((a: any, b: any) => {
+                  if (b.rating !== a.rating) return b.rating - a.rating;
+                  const aOrders = parseInt(a.orders) || 0;
+                  const bOrders = parseInt(b.orders) || 0;
+                  return bOrders - aOrders;
+                });
 
-              // Take only top 5 relevant experts
-              setExpertsList(mapped.slice(0, 5));
+                setExpertsList(mapped.slice(0, 5));
+              }
             }
           }
         }
@@ -331,8 +360,21 @@ export default function SubjectLanding() {
   }, [slug, subject.name]);
 
   useEffect(() => {
-    if (pageData && pageData.meta_title) {
-      document.title = pageData.meta_title;
+    if (pageData) {
+      if (pageData.meta_title) {
+        document.title = pageData.meta_title;
+      }
+      if (pageData.meta_description) {
+        let metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) {
+          metaDesc.setAttribute("content", pageData.meta_description);
+        } else {
+          metaDesc = document.createElement("meta");
+          metaDesc.setAttribute("name", "description");
+          metaDesc.setAttribute("content", pageData.meta_description);
+          document.head.appendChild(metaDesc);
+        }
+      }
     }
   }, [pageData]);
 
@@ -471,6 +513,27 @@ export default function SubjectLanding() {
     },
   ];
 
+  const whyHeading = pageData?.why_heading || `Why Students Choose Our ${subject.name} Assignment Help?`;
+  const whySubheading = pageData?.why_subheading || null;
+
+  const dynamicWhyItems = normalizeArray(pageData?.why_items)
+    .map((item: any) => ({
+      title: item?.heading || item?.title,
+      desc: item?.content || item?.desc,
+    }))
+    .filter((item: any) => item.title || item.desc);
+
+  const choiceFeaturesToRender = dynamicWhyItems.length > 0
+    ? dynamicWhyItems.map((item: any, idx: number) => {
+        const match = choiceFeatures[idx % choiceFeatures.length];
+        return {
+          icon: match ? match.icon : choiceFeatures[0].icon,
+          title: item.title,
+          desc: item.desc
+        };
+      })
+    : choiceFeatures;
+
   // Dynamic promo banner inclusions row
   const promoInclusions = [
     {
@@ -509,6 +572,16 @@ export default function SubjectLanding() {
       visibility: "hidden lg:flex",
     },
   ];
+
+  const sectionTwoHeading =
+    pageData?.section_two_heading ||
+    `Why Choose ${subject.name} Assignment Help From Us?`;
+  const sectionTwoContent = pageData?.section_two_content || null;
+
+  const sectionThreeHeading = pageData?.section_three_heading || null;
+  const sectionThreeContent = pageData?.section_three_content || null;
+
+  const longContentHtml = pageData?.long_content || null;
 
   // Dynamic benefits points
   const benefits = [
@@ -810,7 +883,7 @@ export default function SubjectLanding() {
               {/* Purple Actions */}
               <div className="flex flex-col sm:flex-row gap-3 w-full">
                 <Link
-                  href="#quote-form"
+                  href="/writers"
                   className="btn-shutter-blue-open text-white font-extrabold py-3.5 px-6 rounded-lg text-[11px] tracking-wider transition uppercase shadow-md flex items-center justify-center gap-2 w-full sm:w-auto text-center shrink-0 cursor-pointer border-none"
                 >
                   Talk To An Expert <ArrowRight className="w-3.5 h-3.5" />
@@ -931,11 +1004,18 @@ export default function SubjectLanding() {
       {/* 3.3 "WHY STUDENTS CHOOSE" SECTION */}
       <section className="py-8 md:py-10 bg-white border-b border-gray-50">
         <div className="max-w-[1250px] mx-auto px-4">
-          <h2 className="text-[22px] md:text-[26px] font-[900] text-[#0f1b3d] text-center mb-10 tracking-tight font-heading">
-            Why Students Choose Our {subject.name} Assignment Help?
-          </h2>
+          <div className="text-center mb-10 max-w-3xl mx-auto flex flex-col gap-2">
+            <h2 className="text-[22px] md:text-[28px] font-black text-[#0f1b3d] tracking-tight font-heading leading-tight">
+              Why Students Choose <span className="text-[#3f159a]">{whyHeading.replace("Why Students Choose ", "")}</span>
+            </h2>
+            {whySubheading && (
+              <p className="text-xs md:text-sm text-gray-500 font-semibold leading-relaxed mt-1">
+                {whySubheading}
+              </p>
+            )}
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-6 md:gap-y-8">
-            {choiceFeatures.map((f, i) => (
+            {choiceFeaturesToRender.map((f: any, i: number) => (
               <div
                 key={i}
                 className="flex flex-row md:flex-col items-start md:items-center text-left md:text-center gap-4 md:gap-0"
@@ -959,34 +1039,57 @@ export default function SubjectLanding() {
 
       {/* 3.7 "WHY CHOOSE [SUBJECT] FROM US?" SECTION */}
       <section className="py-8 md:py-10 bg-white border-b border-gray-50">
-        <div className="max-w-[800px] mx-auto px-4 text-center mb-12">
-          <h2 className="text-[24px] md:text-[32px] font-[900] text-[#0f1b3d] mb-4 tracking-tight font-heading">
-            Why Choose {subject.name} Assignment Help From Us?
+        <div className="max-w-[1000px] mx-auto px-4 text-center select-none flex flex-col gap-6">
+          <h2 className="text-[24px] md:text-[32px] font-[900] text-[#0f1b3d] tracking-tight font-heading leading-snug">
+            {sectionTwoHeading}
           </h2>
-          <p className="text-[15px] text-gray-600 font-bold leading-relaxed">
-            Well, the answer to your question is simple! When students seek{" "}
-            {subject.name.toLowerCase()} assignment help from us, they get
-            several benefits that add value to their service. So, do you want to
-            know such valuable benefits that explain why seeking our assistance
-            is the right decision to make? Continue reading to learn about it!
-          </p>
-        </div>
-        <div className="max-w-[1000px] mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-          {benefits.map((b, i) => (
-            <div key={i} className="flex items-start text-left">
-              <div className="w-12 h-12 rounded-xl bg-[#f4f2ff] flex items-center justify-center shrink-0 mr-4 border border-purple-50 shadow-sm">
-                {b.icon}
-              </div>
-              <div>
-                <h3 className="text-[16px] md:text-[15px] font-extrabold text-[#0f1b3d] mb-1.5 font-heading">
-                  {b.title}
-                </h3>
-                <p className="text-[13px] text-gray-600 leading-relaxed font-bold">
-                  {b.desc}
-                </p>
-              </div>
+
+          {sectionTwoContent ? (
+            <div className="flex flex-col gap-4 text-left max-w-4xl mx-auto html-desc select-text">
+              <div
+                className="flex flex-col gap-4 text-[13.5px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0 html-desc"
+                dangerouslySetInnerHTML={{ __html: sectionTwoContent }}
+              />
+              {sectionThreeContent && (
+                <>
+                  {sectionThreeHeading && (
+                    <h3 className="text-xl md:text-2xl font-bold text-[#0f1b3d] tracking-tight mt-6">{sectionThreeHeading}</h3>
+                  )}
+                  <div
+                    className="flex flex-col gap-4 text-[13.5px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0 html-desc mt-2"
+                    dangerouslySetInnerHTML={{ __html: sectionThreeContent }}
+                  />
+                </>
+              )}
             </div>
-          ))}
+          ) : (
+            <>
+              <p className="text-[15px] text-gray-600 font-bold leading-relaxed max-w-3xl mx-auto mb-6">
+                Well, the answer to your question is simple! When students seek{" "}
+                {subject.name.toLowerCase()} assignment help from us, they get
+                several benefits that add value to their service. So, do you want to
+                know such valuable benefits that explain why seeking our assistance
+                is the right decision to make? Continue reading to learn about it!
+              </p>
+              <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+                {benefits.map((b, i) => (
+                  <div key={i} className="flex items-start text-left">
+                    <div className="w-12 h-12 rounded-xl bg-[#f4f2ff] flex items-center justify-center shrink-0 mr-4 border border-purple-50 shadow-sm">
+                      {b.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-[16px] md:text-[15px] font-extrabold text-[#0f1b3d] mb-1.5 font-heading">
+                        {b.title}
+                      </h3>
+                      <p className="text-[13px] text-gray-600 leading-relaxed font-bold">
+                        {b.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </section>
 
@@ -1131,36 +1234,85 @@ export default function SubjectLanding() {
         </div>
       </section>
 
+      {/* Dynamic "long_content" SEO text from API */}
+      {longContentHtml && (
+        <section className="py-8 md:py-10 bg-white border-b border-gray-50 select-none">
+          <div className="max-w-[1000px] mx-auto px-4 flex flex-col gap-4">
+            <div
+              className={cn(
+                "relative overflow-hidden transition-all duration-500 ease-in-out",
+                seoExpanded ? "max-h-[3000px]" : "max-h-[260px]"
+              )}
+            >
+              <div
+                className="flex flex-col gap-4 text-[13.5px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0 html-desc select-text"
+                dangerouslySetInnerHTML={{ __html: longContentHtml }}
+              />
+              {!seoExpanded && (
+                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
+              )}
+            </div>
+            <div className="w-full flex justify-center mt-3 z-10">
+              <button
+                type="button"
+                onClick={() => setSeoExpanded(!seoExpanded)}
+                className="py-2.5 px-6 rounded-full border border-solid border-purple-200 text-[#3f159a] bg-[#faf9fe] hover:bg-purple-50 transition-colors font-extrabold text-[12px] shadow-sm select-none cursor-pointer flex items-center justify-center gap-1.5 focus:outline-none"
+              >
+                <span>{seoExpanded ? "Read Less" : "Load More"}</span>
+                <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", seoExpanded && "rotate-180")} />
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 3.8 BOTTOM CTA STRIP */}
       <section className="py-6 bg-white border-b border-gray-50">
         <div className="max-w-[1100px] mx-auto px-4">
-          <div className="bg-[#f4f2ff] border border-purple-100 shadow-[0_8px_30px_rgba(63,21,154,0.04)] rounded-2xl p-5 md:p-7 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex flex-col md:flex-row items-center gap-5 text-center md:text-left">
-              <div className="relative w-20 h-20 shrink-0">
-                <Image
-                  src="/assets/media/avatars/books-with-graduation-cap-digital-art-style-education-day-removebg-preview.png"
-                  alt="Graduation Cap Books"
-                  fill
-                  className="object-contain animate-pulse"
-                />
-              </div>
-              <div>
-                <p className="text-[#0f1b3d] text-[15px] font-extrabold leading-relaxed m-0">
-                  {subject.name} is a crucial subject that requires{" "}
-                  {subject.analyticalWord}.
-                </p>
-                <p className="text-gray-400 text-xs font-bold leading-normal m-0 mt-0.5">
-                  Our experts are here to help you excel in your assignments!
-                </p>
-              </div>
+          {pageData?.cta_content ? (
+            <div className="max-w-4xl mx-auto rounded-3xl bg-[#f4f2ff] border border-purple-100 p-8 text-center flex flex-col items-center gap-4">
+              <div
+                className="text-sm md:text-base text-[#0f1b3d] font-semibold leading-relaxed html-desc text-center"
+                dangerouslySetInnerHTML={{ __html: pageData.cta_content }}
+              />
+              {pageData.cta_button_label && (
+                <a
+                  href={pageData.cta_button_url || "#quote-form"}
+                  className="btn-shutter-blue-open text-white font-bold py-3.5 px-6 rounded-lg text-[13px] transition shadow-md inline-flex items-center justify-center gap-2 cursor-pointer border-none"
+                >
+                  {pageData.cta_button_label}
+                </a>
+              )}
             </div>
-            <Link
-              href="#quote-form"
-              className="btn-shutter-blue-open text-white font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider shadow-md transition duration-200 whitespace-nowrap w-full md:w-auto text-center cursor-pointer border-none"
-            >
-              Order Now &rarr;
-            </Link>
-          </div>
+          ) : (
+            <div className="bg-[#f4f2ff] border border-purple-100 shadow-[0_8px_30px_rgba(63,21,154,0.04)] rounded-2xl p-5 md:p-7 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex flex-col md:flex-row items-center gap-5 text-center md:text-left">
+                <div className="relative w-20 h-20 shrink-0">
+                  <Image
+                    src="/assets/media/avatars/books-with-graduation-cap-digital-art-style-education-day-removebg-preview.png"
+                    alt="Graduation Cap Books"
+                    fill
+                    className="object-contain animate-pulse"
+                  />
+                </div>
+                <div>
+                  <p className="text-[#0f1b3d] text-[15px] font-extrabold leading-relaxed m-0">
+                    {subject.name} is a crucial subject that requires{" "}
+                    {subject.analyticalWord}.
+                  </p>
+                  <p className="text-gray-400 text-xs font-bold leading-normal m-0 mt-0.5">
+                    Our experts are here to help you excel in your assignments!
+                  </p>
+                </div>
+              </div>
+              <Link
+                href="#quote-form"
+                className="btn-shutter-blue-open text-white font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider shadow-md transition duration-200 whitespace-nowrap w-full md:w-auto text-center cursor-pointer border-none"
+              >
+                Order Now &rarr;
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

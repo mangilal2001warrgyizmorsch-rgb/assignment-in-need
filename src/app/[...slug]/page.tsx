@@ -5,14 +5,7 @@ import { useParams } from "next/navigation";
 import ServiceLanding from "../services/[...slug]/page";
 import SubjectPage from "../subjects/[slug]/page";
 import CityDetailPage from "@/components/city/CityDetailPage";
-
-// Service parent slugs that should render the ServiceLanding page
-const SERVICE_PARENT_SLUGS = [
-  "assignment",
-  "dissertation",
-  "assignment-writing-uk",
-  "dissertation-writing-services",
-];
+import { useEffect, useState } from "react";
 
 // List of city identifiers to trigger CityDetailPage rendering
 const CITY_IDENTIFIERS = [
@@ -37,6 +30,37 @@ export default function CatchAllPage() {
   const fullSlug = Array.isArray(slugArray)
     ? slugArray.join("/")
     : (slugArray as string) || "";
+
+  // Dynamic state for service parent slugs initialized with default list
+  const [SERVICE_PARENT_SLUGS, setSERVICE_PARENT_SLUGS] = useState<string[]>([
+    "assignment",
+    "dissertation",
+    "assignment-writing-uk",
+    "dissertation-writing-services",
+    "english",
+    "management-assignment-help",
+  ]);
+
+  useEffect(() => {
+    const fetchParentSlugs = async () => {
+      try {
+        const res = await fetch("/api/service-pages");
+        if (res.ok) {
+          const result = await res.json();
+          if (result.status === "success" && Array.isArray(result.data)) {
+            // use only parent level slugs
+            const parentSlugs = result.data
+              .map((item: any) => item.slug)
+              .filter((slug: string) => slug);
+            setSERVICE_PARENT_SLUGS(parentSlugs);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching service parent slugs:", error);
+      }
+    };
+    fetchParentSlugs();
+  }, []);
 
   // Only service PARENT pages use ServiceLanding
   if (SERVICE_PARENT_SLUGS.includes(fullSlug)) {

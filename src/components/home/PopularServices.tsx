@@ -232,6 +232,8 @@ function ServiceTile({
       <img
         src={service.image}
         alt={service.title}
+        width={isFeature ? 280 : 180}
+        height={isFeature ? 240 : 130}
         className={`${imageSize} object-contain pointer-events-none transition-transform duration-300 group-hover:scale-105`}
         onError={(event) => {
           event.currentTarget.src =
@@ -278,13 +280,16 @@ export default function PopularServices() {
   }, [apiServices]);
 
   return (
-    <section className="py-12 md:py-16 bg-white font-sans w-full flex justify-center">
+    <section className="py-8 md:py-10 bg-white font-sans w-full flex justify-center">
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 w-full">
-        <AnimateIn variant="fadeUp">
-          <h2 className="text-center text-xl md:text-[1.75rem] font-black text-gray-900 m-0 mb-8 md:mb-12">
+        <AnimateIn variant="fadeUp" className="flex flex-col text-center items-center mb-8 md:mb-12">
+          <h2 className="text-xl md:text-[1.75rem] font-black text-gray-900 m-0 mb-3 leading-tight">
             Our Most 
             <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis"> Popular Services</span>
           </h2>
+          <p className="text-[1.02rem] max-md:text-[0.95rem] text-gray-500 m-0 leading-normal max-w-2xl">
+            Explore our top-rated academic writing and support services tailored to your module needs.
+          </p>
         </AnimateIn>
 
         <StaggerContainer className="flex flex-col md:flex-row gap-6 items-stretch w-full">

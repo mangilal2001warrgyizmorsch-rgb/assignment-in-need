@@ -75,13 +75,17 @@ const WORD_COUNTS = [
   { label: "5000 Words (20 Pages)", value: "5000" },
 ];
 
-const COUNTRY_CODES = [
-  { label: "+44", value: "+44" },
-  { label: "+1", value: "+1" },
-  { label: "+61", value: "+61" },
-  { label: "+1-CA", value: "+1-CA" },
-  { label: "+64", value: "+64" },
-];
+import { getCountries, getCountryCallingCode } from "react-phone-number-input";
+import en from "react-phone-number-input/locale/en.json";
+
+const COUNTRY_CODES = getCountries().map((country) => {
+  const code = getCountryCallingCode(country);
+  const name = (en as any)[country] || country;
+  return {
+    label: `${name} (+${code})`,
+    value: `+${code}`
+  };
+}).sort((a, b) => a.label.localeCompare(b.label));
 
 export default function OrderPage() {
   // Step 1: Personal Info
@@ -204,13 +208,6 @@ export default function OrderPage() {
     dynamicServices.forEach((s: any) => {
       const pName = s.title || s.hero_heading || s.meta_title || "Service";
       list.push({ label: pName, value: s.slug });
-      
-      if (Array.isArray(s.children)) {
-        s.children.forEach((c: any) => {
-          const cName = c.title || c.hero_heading || c.meta_title || "Sub-Service";
-          list.push({ label: `↳ ${cName}`, value: c.slug });
-        });
-      }
     });
     return list;
   }, [dynamicServices]);
@@ -941,25 +938,46 @@ export default function OrderPage() {
                     </div>
                   </div>
 
-                  {/* Word Count */}
+                  {/* Word Count Stepper */}
                   <div className="flex flex-col gap-1.5 w-full text-left">
                     <label className="text-[13px] font-bold text-gray-700">
-                      Word Count <span className="text-red-500">*</span>
+                      Pages / Word Count <span className="text-red-500">*</span>
                     </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400 z-10">
-                        <span className="font-black text-[11px] text-gray-400 select-none">
-                          123
+                    <div className="bg-white border border-solid border-gray-200 rounded-xl flex items-center justify-between px-2 w-full h-[46px] shadow-sm select-none">
+                      {/* Decrement Button */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const currentVal = parseInt(selectedWordCount, 10) || 250;
+                          const nextVal = Math.max(250, currentVal - 250);
+                          setSelectedWordCount(String(nextVal));
+                        }}
+                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-solid border-slate-200 text-gray-600 hover:bg-slate-50 hover:text-purple-700 active:scale-95 transition-all cursor-pointer font-bold text-lg select-none outline-none focus:outline-none"
+                      >
+                        −
+                      </button>
+                      {/* Display */}
+                      <span className="text-[14px] font-semibold text-gray-800 flex items-center justify-center gap-1.5">
+                        <span>
+                          {Math.ceil((parseInt(selectedWordCount, 10) || 250) / 250)}{" "}
+                          {Math.ceil((parseInt(selectedWordCount, 10) || 250) / 250) === 1 ? "Page" : "Pages"}
                         </span>
-                      </div>
-                      <CustomDropdown
-                        options={wordCountOptions}
-                        value={selectedWordCount}
-                        onChange={setSelectedWordCount}
-                        placeholder="Select Word Count"
-                        triggerClassName="!text-[14px] !text-gray-800 !font-medium !h-[46px] pl-10 pr-4 bg-white !border !border-solid !border-gray-200 rounded-xl focus:border-purple-600 focus-within:border-purple-600 transition-colors shadow-sm flex items-center justify-between"
-                        dropdownClassName="!text-[14px] shadow-lg rounded-xl border border-gray-150"
-                      />
+                        <span className="text-[12px] text-gray-500 font-medium">
+                          ({parseInt(selectedWordCount, 10) || 250} words)
+                        </span>
+                      </span>
+                      {/* Increment Button */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const currentVal = parseInt(selectedWordCount, 10) || 250;
+                          const nextVal = Math.min(20000, currentVal + 250);
+                          setSelectedWordCount(String(nextVal));
+                        }}
+                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-solid border-slate-200 text-gray-600 hover:bg-slate-50 hover:text-purple-700 active:scale-95 transition-all cursor-pointer font-bold text-lg select-none outline-none focus:outline-none"
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -978,7 +996,7 @@ export default function OrderPage() {
                   className="w-full p-4 border border-gray-200 bg-white rounded-xl text-[14px] text-gray-800 focus:outline-none focus:border-purple-600 transition-colors shadow-sm font-medium"
                   rows={4}
                   value={instructions}
-                  onChange={(e) => setInstructions(e.target.value)}
+                  onChange={handleInstructionsChange}
                 />
               </div>
             </Card>

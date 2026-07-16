@@ -35,6 +35,7 @@ const RESULTS_DATA = [
     img: "/assets/media/layout/testimonial/testimonial1.webp",
   },
 
+
 ];
 
 const TOOLS_DATA = [
@@ -95,7 +96,7 @@ const TOOLS_DATA = [
 
 export default function ResultsAndTools() {
   return (
-    <section className="py-16 px-8 max-md:py-10 max-md:px-4 bg-white font-sans flex flex-col items-center gap-16">
+    <section className="pt-4 pb-6 md:pt-6 md:pb-8 px-8 max-md:py-6 max-md:px-4 bg-white font-sans flex flex-col items-center gap-8 md:gap-10">
       {/* 1. Real Results Section */}
       <div className="max-w-[1200px] w-full flex flex-col gap-8">
         <div className="rounded-[20px] p-[2rem] flex flex-col gap-10 max-md:p-0 max-md:bg-transparent max-md:border-none max-md:shadow-none max-md:gap-6 bg-[#fcfdff] border border-blue-50/50 shadow-[0_12px_40px_rgba(0,0,0,0.02)] w-full">
@@ -146,6 +147,8 @@ export default function ResultsAndTools() {
                     <img
                       src={result.img}
                       alt={result.user}
+                      width={28}
+                      height={28}
                       className="w-7 h-7 rounded-full bg-gray-100 object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                     <span className="text-[0.78rem] font-semibold text-gray-700">
@@ -159,7 +162,7 @@ export default function ResultsAndTools() {
         </div>
       </div>
 
-      {/* 2. Academic Tools Section */}
+      {/* 2. Academic Tools Section
       <div className="max-w-[1200px] w-full flex flex-col gap-8">
         <div className="rounded-[20px] p-[2rem] flex flex-col gap-10 max-md:p-0 max-md:bg-transparent max-md:border-none max-md:shadow-none max-md:gap-6 bg-[#faf8ff] border border-purple-50 shadow-[0_12px_40px_rgba(0,0,0,0.02)] w-full">
           <AnimateIn variant="fadeUp" className="flex flex-col text-center items-center">
@@ -198,7 +201,7 @@ export default function ResultsAndTools() {
             ))}
           </StaggerContainer>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

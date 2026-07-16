@@ -69,6 +69,8 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
                 <img
                   src={avatar}
                   alt={name}
+                  width={38}
+                  height={38}
                   className="w-full h-full object-cover"
                 />
               ) : (

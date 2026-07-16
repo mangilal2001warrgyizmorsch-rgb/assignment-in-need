@@ -60,7 +60,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
             {avatar.length <= 3 ? (
               <span className="font-heading font-extrabold text-base text-primary-700 uppercase">{avatar}</span>
             ) : (
-              <img src={avatar} alt={name} className="w-full h-full object-cover" />
+              <img src={avatar} alt={name} width={64} height={64} className="w-full h-full object-cover" />
             )}
             <div className="absolute bottom-0 right-0 bg-white rounded-full p-0.5 shadow-sm border border-primary-100">
               <ShieldCheck className="w-3.5 h-3.5 text-success fill-success/10" />
@@ -132,6 +132,8 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
           <img
             src={avatar}
             alt={name}
+            width={280}
+            height={220}
             onError={(e) => {
               (e.target as HTMLImageElement).src = "/assets/media/avatars/blank.png";
             }}
@@ -184,7 +186,7 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
             className="text-[12px] font-extrabold uppercase tracking-widest text-center"
             onClick={handleButtonClick}
           >
-            Hire Expert
+            {`Hire ${name.split(" ")[0]}`}
           </Button>
         </div>
       </div>

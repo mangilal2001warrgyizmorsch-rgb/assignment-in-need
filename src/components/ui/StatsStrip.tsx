@@ -17,8 +17,8 @@ interface StatsStripProps {
 const stats = [
   { icon: Trophy, value: "182,532+", label: "Orders Delivered" },
   { icon: Users, value: "30,000+", label: "Happy Clients" },
-  { icon: Star, value: "4.8/5", label: "Clients Rating" },
-  { icon: GraduationCap, value: "4,500+", label: "Ph.D Experts" },
+  { icon: Star, value: "4.8/5", label: "Average Rating" },
+  { icon: GraduationCap, value: "4,500+", label: "PhD Experts" },
 ];
 
 export const StatsStrip: React.FC<StatsStripProps> = ({

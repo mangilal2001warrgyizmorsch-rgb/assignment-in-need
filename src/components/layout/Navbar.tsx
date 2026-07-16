@@ -476,7 +476,11 @@ export const Navbar = () => {
             .znh-logo img:hover {
               transform: scale(1.05);
             }
-            .znh-nav {
+            .znh-nav-drawer {
+              display: flex;
+              align-items: center;
+            }
+            .znh-nav-list {
               display: flex;
               align-items: center;
               gap: 25px;
@@ -735,7 +739,7 @@ export const Navbar = () => {
                 background: transparent;
                 cursor: pointer;
               }
-              .znh-nav {
+              .znh-nav-drawer {
                 position: fixed;
                 top: 0;
                 right: -320px;
@@ -751,8 +755,14 @@ export const Navbar = () => {
                 overflow-y: auto;
                 gap: 0;
               }
-              .znh-nav.active {
+              .znh-nav-drawer.active {
                 right: 0;
+              }
+              .znh-nav-list {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                width: 100%;
               }
               .znh-mobile-overlay.active {
                 display: block;
@@ -931,7 +941,7 @@ export const Navbar = () => {
               </svg>
               +44 7826233106
             </a>
-            <a
+            {/* <a
               href="mailto:order@assignmentinneed.co.uk"
               className="flex items-center gap-[5px] font-semibold text-[12.5px] max-md:text-[11px] whitespace-nowrap [&_svg]:w-[13px] [&_svg]:h-[13px] [&_svg]:shrink-0"
             >
@@ -947,7 +957,7 @@ export const Navbar = () => {
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7" />
               </svg>
               order@assignmentinneed.co.uk
-            </a>
+            </a> */}
           </div>
 
           {/* Middle — marquee offers (constrained to max-w-[50%] on tablet/desktop, full width on mobile) */}
@@ -1016,6 +1026,8 @@ export const Navbar = () => {
             <img
               src="/assets/media/layout/ain-logo.webp"
               alt="Assignment In Need Logo"
+              width={160}
+              height={55}
             />
           </Link>
 
@@ -1024,7 +1036,7 @@ export const Navbar = () => {
             onClick={closeMobileMenu}
           />
 
-          <ul className={cn("znh-nav", isOpen && "active")}>
+          <nav className={cn("znh-nav-drawer", isOpen && "active")}>
             <button
               type="button"
               className="znh-mobile-close"
@@ -1035,6 +1047,7 @@ export const Navbar = () => {
             </button>
 
             <div className="hidden min-[1025px]:contents">
+              <ul className="znh-nav-list">
               <DesktopDropdown label="Services" items={serviceDropdownItems} />
               <DesktopDropdown
                 label="Subjects"
@@ -1066,10 +1079,12 @@ export const Navbar = () => {
                   Contact
                 </Link>
               </li> */}
+              </ul>
             </div>
 
             <div className="contents min-[1025px]:hidden">
-              <MobileDropdown
+              <ul className="znh-nav-list w-full">
+                <MobileDropdown
                 label="Services"
                 id="services"
                 items={serviceDropdownItems}
@@ -1212,11 +1227,16 @@ export const Navbar = () => {
                   </Link>
                 )}
               </li>
+              </ul>
             </div>
-          </ul>
+          </nav>
 
           <div className="znh-right-actions">
-            <a href="tel:+447826233106" className="znh-contact-widget">
+            <a
+              href="tel:+447826233106"
+              className="znh-contact-widget"
+              aria-label="Call +44 78262 33106 for 24/7 Support"
+            >
               <div className="znh-contact-icon">
                 <Phone className="h-[18px] w-[18px]" />
               </div>

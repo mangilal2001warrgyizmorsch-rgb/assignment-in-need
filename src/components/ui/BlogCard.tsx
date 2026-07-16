@@ -21,6 +21,8 @@ export const BlogCard: React.FC<BlogCardProps> = ({ title, excerpt, date, image,
         <img
           src={image}
           alt={title}
+          width={360}
+          height={224}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>

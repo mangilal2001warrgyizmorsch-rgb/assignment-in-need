@@ -8,19 +8,17 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { CustomDropdown } from "../ui/CustomDropdown";
 import { AnimateIn } from "../ui/AnimateIn";
 
-const COUNTRY_CODES = [
-  { label: "UK (+44)", value: "+44" },
-  { label: "US (+1)", value: "+1" },
-  { label: "IN (+91)", value: "+91" },
-  { label: "AU (+61)", value: "+61" },
-  { label: "CA (+1)", value: "+1" },
-  { label: "AE (+971)", value: "+971" },
-  { label: "SA (+966)", value: "+966" },
-  { label: "IE (+353)", value: "+353" },
-  { label: "NZ (+64)", value: "+64" },
-  { label: "SG (+65)", value: "+65" },
-  { label: "MY (+60)", value: "+60" },
-];
+import { getCountries, getCountryCallingCode } from "react-phone-number-input";
+import en from "react-phone-number-input/locale/en.json";
+
+const COUNTRY_CODES = getCountries().map((country) => {
+  const code = getCountryCallingCode(country);
+  const name = (en as any)[country] || country;
+  return {
+    label: `${name} (+${code})`,
+    value: `+${code}`
+  };
+}).sort((a, b) => a.label.localeCompare(b.label));
 import {
   ArrowRight,
   Award,

@@ -36,6 +36,8 @@ export const SampleCard: React.FC<SampleCardProps> = ({
         <img
           src={image}
           alt={title}
+          width={300}
+          height={192}
           className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
         />
         

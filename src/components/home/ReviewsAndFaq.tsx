@@ -197,6 +197,8 @@ function ReviewDetailModal({
               <img
                 src={detail.image}
                 alt={detail.name}
+                width={56}
+                height={56}
                 className="w-14 h-14 rounded-full object-cover border-2 border-purple-100 bg-gray-100"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
@@ -336,7 +338,7 @@ export default function ReviewsAndFaq() {
   const faqsToRender = faqsList.length > 0 ? faqsList : fallbackFaqs;
 
   return (
-    <section className="py-12 px-8 max-md:py-8 max-md:px-4 bg-[#fafaff] font-sans flex justify-center border-t border-gray-100">
+    <section className="pt-8 pb-4 md:pt-10 md:pb-6 px-8 max-md:py-6 max-md:px-4 bg-[#fafaff] font-sans flex justify-center border-t border-gray-100">
       <div className="max-w-[1200px] w-full grid grid-cols-[1.3fr_0.9fr] max-lg:grid-cols-1 gap-12">
         {/* Reviews Column */}
         <div className="flex flex-col">
@@ -357,6 +359,8 @@ export default function ReviewsAndFaq() {
                     <img
                       src={r.image}
                       alt={r.name}
+                      width={40}
+                      height={40}
                       className="w-10 h-10 rounded-full bg-gray-100 object-cover border-2 border-gray-200"
                       onError={(event) => {
                         event.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(r.name)}&background=f3e8ff&color=6b21a8&size=80`;

@@ -39,6 +39,8 @@ export const Footer = () => {
             <img
               src="/assets/media/layout/ain-logo.webp"
               alt="Assignment IN NEED"
+              width={180}
+              height={62}
               className="max-h-[62px] object-contain"
             />
           </Link>
@@ -114,26 +116,36 @@ export const Footer = () => {
               <img
                 src="/images/badge-visa.png"
                 alt="Visa"
+                width={60}
+                height={38}
                 className="h-[38px] w-auto object-contain"
               />
               <img
                 src="/images/badge-mastercard.png"
                 alt="Mastercard"
+                width={60}
+                height={38}
                 className="h-[38px] w-auto object-contain"
               />
               <img
                 src="/images/badge-maestro.png"
                 alt="Maestro"
+                width={60}
+                height={38}
                 className="h-[38px] w-auto object-contain"
               />
               <img
                 src="/images/badge-amex.png"
                 alt="American Express"
+                width={60}
+                height={38}
                 className="h-[38px] w-auto object-contain"
               />
               <img
                 src="/images/badge-discover.png"
                 alt="Discover"
+                width={60}
+                height={38}
                 className="h-[38px] w-auto object-contain"
               />
             </div>
@@ -143,16 +155,22 @@ export const Footer = () => {
               <img
                 src="/images/badge-dmca.png"
                 alt="DMCA Protected"
+                width={60}
+                height={38}
                 className="h-[38px] w-auto object-contain"
               />
               <img
                 src="/images/badge-mcafee.png"
                 alt="McAfee Secure"
+                width={60}
+                height={38}
                 className="h-[38px] w-auto object-contain"
               />
               <img
                 src="/images/badge-gdpr.png"
                 alt="GDPR Compliant"
+                width={60}
+                height={38}
                 className="h-[38px] w-auto object-contain"
               />
             </div>

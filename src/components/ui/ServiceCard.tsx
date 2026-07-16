@@ -40,6 +40,8 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({
         <img
           src={image}
           alt={title}
+          width={300}
+          height={176}
           className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
         />
         <div className="absolute top-3 left-3 bg-primary-700 text-white font-heading font-bold text-xs px-2.5 py-1 rounded-pill">

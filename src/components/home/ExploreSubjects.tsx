@@ -172,6 +172,7 @@ export default function ExploreSubjects() {
           <button
             className="hidden md:flex bg-white border border-gray-200 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] cursor-pointer text-[#4f46e5] items-center justify-center w-8 h-8 rounded-full transition-all duration-300 hover:bg-[#f3e8ff] hover:border-[#d8b4fe] shrink-0 z-[2]"
             onClick={() => slideSubjects(-1)}
+            aria-label="Previous subjects"
           >
             <svg
               viewBox="0 0 24 24"
@@ -291,6 +292,7 @@ export default function ExploreSubjects() {
           <button
             className="hidden md:flex bg-white border border-gray-200 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] cursor-pointer text-[#4f46e5] items-center justify-center w-8 h-8 rounded-full transition-all duration-300 hover:bg-[#f3e8ff] hover:border-[#d8b4fe] shrink-0 z-[2]"
             onClick={() => slideSubjects(1)}
+            aria-label="Next subjects"
           >
             <svg
               viewBox="0 0 24 24"
