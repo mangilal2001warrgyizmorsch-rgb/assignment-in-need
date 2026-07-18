@@ -198,7 +198,7 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
               </h1>
 
               {/* Description */}
-              <p className="text-gray-600 w-full max-w-[450px] text-sm md:text-[15px] font-semibold leading-relaxed mb-6">
+              <p className="text-gray-600 w-full max-w-[450px] text-sm md:text-[15px] font-semibold leading-relaxed mb-6 line-clamp-4">
                 Get accurate, well-researched and plagiarism-free {cityName.toLowerCase()} assignments helped by qualified experts to achieve top grades.
               </p>
 

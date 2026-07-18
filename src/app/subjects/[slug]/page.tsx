@@ -836,7 +836,7 @@ export default function SubjectLanding() {
               {/* Description */}
               {pageData?.hero_content ? (
                 <div
-                  className="text-gray-600 w-full max-w-[450px] text-sm md:text-[15px] font-semibold leading-relaxed mb-6 html-desc"
+                  className="text-gray-600 w-full max-w-[450px] text-sm md:text-[15px] font-semibold leading-relaxed mb-6 html-desc line-clamp-4"
                   dangerouslySetInnerHTML={{ __html: pageData.hero_content }}
                 />
               ) : (
@@ -848,7 +848,7 @@ export default function SubjectLanding() {
               )}
 
               {/* 4 Stats Row */}
-              <div className="grid grid-cols-4 md:flex md:flex-wrap items-center gap-x-2 gap-y-4 mb-8 max-w-[500px] w-full border-t border-b border-gray-100 py-3 md:border-none md:py-0">
+              <div className="grid grid-cols-4 md:flex md:flex-wrap items-center gap-x-2 gap-y-4 mb-8 max-w-[550px] w-full border-t border-b border-gray-100 py-3 md:border-none md:py-0">
                 {/* Stat 1 */}
                 <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2.5 text-center md:text-left border-r border-gray-150 md:border-none last:border-r-0 pr-1 md:pr-0">
                   <div className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center shrink-0 hidden md:flex">
