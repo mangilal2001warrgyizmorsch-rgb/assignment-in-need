@@ -425,7 +425,7 @@ export default function ReviewsAndFaq() {
       <section className="bg-white border-b border-gray-100 py-12">
         <div className="max-w-[1200px] mx-auto px-4 text-center">
           <h2 className="text-2xl font-black text-gray-900 mb-2">Our Detailed Ratings</h2>
-          <p className="text-sm text-gray-500 mb-8">The quality of our service is reflected in the satisfaction of our students.</p>
+          <p className="text-[15px] text-gray-500 mb-8">The quality of our service is reflected in the satisfaction of our students.</p>
           
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
             {[
@@ -882,7 +882,7 @@ export default function ReviewsAndFaq() {
       <section className="bg-white py-12 border-b border-gray-100">
         <div className="max-w-[1200px] mx-auto px-4 text-center">
           <h2 className="text-2xl font-black text-gray-900 mb-2">Best Assignment Help UK Covering 200+ Academic Subjects</h2>
-          <p className="text-sm text-gray-500 mb-8">We Provide Assignment Assistance in the following subjects for Students</p>
+          <p className="text-[15px] text-gray-500 mb-8">We Provide Assignment Assistance in the following subjects for Students</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
             {[
               { name: "Engineering", icon: "⚙️" },
@@ -914,7 +914,7 @@ export default function ReviewsAndFaq() {
             <h2 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">
               Detailed Database Feedback
             </h2>
-            <p className="text-sm text-gray-500">Read the latest verified course entries from our global academic queue.</p>
+            <p className="text-[15px] text-gray-500">Read the latest verified course entries from our global academic queue.</p>
           </div>
 
           <div
@@ -1002,7 +1002,7 @@ export default function ReviewsAndFaq() {
               FAQs About Our <br />
               <span className="text-purple-700">Assignment Help</span> Services
             </h2>
-            <p className="text-gray-500 text-sm leading-relaxed mb-6">
+            <p className="text-gray-500 text-[15px] leading-relaxed mb-6">
               Find answers to the most common questions regarding security, payments, deadline changes, and quality.
             </p>
             <Link href="/faq" className="btn-shutter-blue-close inline-flex items-center justify-center font-bold px-6 py-3 rounded-lg text-sm cursor-pointer">
@@ -1029,7 +1029,7 @@ export default function ReviewsAndFaq() {
                     className="overflow-hidden"
                     style={{ maxHeight: isActive ? '300px' : '0px', transition: 'max-height 0.3s ease-out' }}
                   >
-                    <p className="pb-5 px-5 m-0 text-sm text-gray-500 leading-relaxed border-t border-gray-50 pt-3">{faq.answer}</p>
+                    <p className="pb-5 px-5 m-0 text-[15px] text-gray-500 leading-relaxed border-t border-gray-50 pt-3">{faq.answer}</p>
                   </div>
                 </div>
               );

@@ -1039,7 +1039,7 @@ export default function SubjectLanding() {
               Why Students Choose <span className="text-[#3f159a]">{whyHeading.replace("Why Students Choose ", "")}</span>
             </h2>
             {whySubheading && (
-              <p className="text-xs md:text-sm text-gray-500 font-semibold leading-relaxed mt-1">
+              <p className="text-sm md:text-[15px] text-gray-500 font-semibold leading-relaxed mt-1">
                 {whySubheading}
               </p>
             )}
@@ -1057,7 +1057,7 @@ export default function SubjectLanding() {
                   <h3 className="text-[16px] md:text-[15px] font-extrabold text-[#0f1b3d] leading-snug whitespace-pre-line mb-1.5 font-heading">
                     {f.title}
                   </h3>
-                  <p className="text-[14px] md:text-[13px] text-gray-600 font-bold leading-relaxed whitespace-pre-line">
+                  <p className="text-[15px] text-gray-600 font-bold leading-relaxed whitespace-pre-line">
                     {f.desc}
                   </p>
                 </div>
@@ -1077,7 +1077,7 @@ export default function SubjectLanding() {
           {sectionTwoContent ? (
             <div className="flex flex-col gap-4 text-left max-w-4xl mx-auto html-desc select-text">
               <div
-                className="flex flex-col gap-4 text-[13.5px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0 html-desc"
+                className="flex flex-col gap-4 text-[15px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0 html-desc"
                 dangerouslySetInnerHTML={{ __html: sectionTwoContent }}
               />
               {sectionThreeContent && (
@@ -1086,7 +1086,7 @@ export default function SubjectLanding() {
                     <h3 className="text-xl md:text-2xl font-bold text-[#0f1b3d] tracking-tight mt-6">{sectionThreeHeading}</h3>
                   )}
                   <div
-                    className="flex flex-col gap-4 text-[13.5px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0 html-desc mt-2"
+                    className="flex flex-col gap-4 text-[15px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0 html-desc mt-2"
                     dangerouslySetInnerHTML={{ __html: sectionThreeContent }}
                   />
                 </>
@@ -1111,7 +1111,7 @@ export default function SubjectLanding() {
                       <h3 className="text-[16px] md:text-[15px] font-extrabold text-[#0f1b3d] mb-1.5 font-heading">
                         {b.title}
                       </h3>
-                      <p className="text-[13px] text-gray-600 leading-relaxed font-bold">
+                      <p className="text-[15px] text-gray-600 leading-relaxed font-bold">
                         {b.desc}
                       </p>
                     </div>
@@ -1220,7 +1220,7 @@ export default function SubjectLanding() {
                     “
                   </span>
                   <p
-                    className={`text-[13px] md:text-[14px] leading-relaxed mb-8 relative z-10 pt-4 font-semibold ${
+                    className={`text-[15px] md:text-[15px] leading-relaxed mb-8 relative z-10 pt-4 font-semibold ${
                       isFeatured ? "text-white" : "text-gray-650"
                     }`}
                   >
@@ -1302,7 +1302,7 @@ export default function SubjectLanding() {
           {pageData?.cta_content ? (
             <div className="max-w-4xl mx-auto rounded-3xl bg-[#f4f2ff] border border-purple-100 p-8 text-center flex flex-col items-center gap-4">
               <div
-                className="text-sm md:text-base text-[#0f1b3d] font-semibold leading-relaxed html-desc text-center"
+                className="text-[15px] text-[#0f1b3d] font-semibold leading-relaxed html-desc text-center"
                 dangerouslySetInnerHTML={{ __html: pageData.cta_content }}
               />
               {pageData.cta_button_label && (

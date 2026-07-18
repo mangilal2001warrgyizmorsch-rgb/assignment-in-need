@@ -383,7 +383,7 @@ export default function ServiceLanding() {
                   {service.hero_heading || service.title || service.meta_title || service.slug}
                 </h2>
                 {service.hero_content ? (
-                  <p className="mt-3 text-sm text-gray-600 line-clamp-4">
+                  <p className="mt-3 text-[15px] text-gray-600 line-clamp-4">
                     {service.hero_content}
                   </p>
                 ) : null}
@@ -527,7 +527,7 @@ export default function ServiceLanding() {
 
                 {/* FIX: render hero_content as HTML, not escaped text */}
                 <div
-                  className="text-gray-500 text-xs md:text-sm font-semibold leading-relaxed mb-6 max-w-[500px] line-clamp-5 [&_p]:m-0"
+                  className="text-gray-500 text-sm md:text-[15px] font-semibold leading-relaxed mb-6 max-w-[500px] line-clamp-5 [&_p]:m-0"
                   dangerouslySetInnerHTML={{ __html: contentHtml }}
                 />
 
@@ -739,7 +739,7 @@ export default function ServiceLanding() {
               Why Students Choose <span className="text-[#3f159a]">{whyHeading.replace("Why Students Choose ", "")}</span>
             </h2>
             {whySubheading ? (
-              <p className="mt-3 text-sm md:text-base text-gray-500 font-semibold leading-relaxed">{whySubheading}</p>
+              <p className="mt-3 text-[15px] text-gray-500 font-semibold leading-relaxed">{whySubheading}</p>
             ) : null}
           </div>
 
@@ -776,7 +776,7 @@ export default function ServiceLanding() {
                   </div>
                   <div className="flex flex-col text-left md:text-center">
                     <h3 className="font-bold text-[#0f1b3d] text-[14px] sm:text-[15px] leading-tight mb-1.5 font-heading">{item.title}</h3>
-                    <p className="text-[12px] text-gray-400 leading-relaxed font-normal md:max-w-[180px] md:line-clamp-3">{item.desc}</p>
+                    <p className="text-[15px] text-gray-400 leading-relaxed font-normal md:max-w-[180px] md:line-clamp-3">{item.desc}</p>
                   </div>
                 </div>
               );
@@ -800,7 +800,7 @@ export default function ServiceLanding() {
               <h2 className="text-lg md:text-xl font-extrabold tracking-tight text-white leading-tight">
                 <span className="text-[#ff7a00]">FREE</span> With Every Order
               </h2>
-              <p className="text-[11px] md:text-xs font-semibold text-white/80 mt-0.5">Worth £92 Included Absolutely FREE</p>
+              <p className="text-[15px] md:text-[15px] font-semibold text-white/80 mt-0.5">Worth £92 Included Absolutely FREE</p>
             </div>
 
             <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-5 z-10 relative px-2 lg:px-4">
@@ -873,7 +873,7 @@ export default function ServiceLanding() {
                 ].map((item, idx, arr) => (
                   <div key={idx} className="flex flex-col items-center justify-start relative px-1">
                     {item.icon}
-                    <span className="text-[10px] md:text-[11px] font-extrabold text-white leading-tight mt-1.5 max-w-[110px] select-none">{item.name}</span>
+                    <span className="text-[10px] md:text-[15px] text-white leading-tight mt-1.5 max-w-[110px] select-none">{item.name}</span>
                     {idx < arr.length - 1 && (
                       <div className="absolute right-[-4px] top-1/2 -translate-y-1/2 h-6 w-[1px] bg-white/20 hidden lg:block" />
                     )}
@@ -896,7 +896,7 @@ export default function ServiceLanding() {
             <h2 className="text-2xl md:text-3xl font-extrabold text-[#0f1b3d]">
               What <span className="text-[#3f159a]">Our Students Say</span>
             </h2>
-            <p className="text-gray-500 text-sm md:text-base font-semibold leading-relaxed">
+            <p className="text-gray-500 text-[15px] font-semibold leading-relaxed">
               Trusted by thousands of students across the UK and worldwide.
             </p>
           </div>
@@ -921,7 +921,7 @@ export default function ServiceLanding() {
         <SectionContainer className="bg-white pt-6 pb-6 md:pt-8 md:pb-8">
           <div className="max-w-4xl mx-auto rounded-3xl bg-[#f4f2ff] border border-purple-100 p-8 text-center flex flex-col items-center gap-4">
             <div
-              className="text-sm md:text-base text-[#0f1b3d] font-semibold leading-relaxed"
+              className="text-[15px] text-[#0f1b3d] font-semibold leading-relaxed"
               dangerouslySetInnerHTML={{ __html: pageData.cta_content }}
             />
             {pageData.cta_button_label && (
@@ -943,11 +943,11 @@ export default function ServiceLanding() {
 
           {sectionTwoContent ? (
             <div
-              className="flex flex-col gap-4 text-[13.5px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0"
+              className="flex flex-col gap-4 text-[15px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0"
               dangerouslySetInnerHTML={{ __html: sectionTwoContent }}
             />
           ) : (
-            <div className="flex flex-col gap-4 text-[13.5px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto">
+            <div className="flex flex-col gap-4 text-[15px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto">
               <p>
                 At Assignment In Need, we provide top-quality <strong>assignment writing services</strong> for
                 students across the UK and worldwide. Our team of professional academic writers helps you with
@@ -973,7 +973,7 @@ export default function ServiceLanding() {
                 <h3 className="text-xl md:text-2xl font-bold text-[#0f1b3d] tracking-tight mt-2">{sectionThreeHeading}</h3>
               )}
               <div
-                className="flex flex-col gap-4 text-[13.5px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0"
+                className="flex flex-col gap-4 text-[15px] leading-relaxed text-gray-500 font-medium max-w-4xl mx-auto text-left [&_p]:m-0"
                 dangerouslySetInnerHTML={{ __html: sectionThreeContent }}
               />
             </>
@@ -1045,7 +1045,7 @@ export default function ServiceLanding() {
                       />
                     </button>
                     {isOpen && (
-                      <div className="p-5 border-t border-slate-100 bg-slate-50/50 text-xs sm:text-sm text-text-body leading-relaxed whitespace-pre-line">
+                      <div className="p-5 border-t border-slate-100 bg-slate-50/50 text-[15px] sm:text-[15px] text-text-body leading-relaxed whitespace-pre-line">
                         {faq.answer}
                       </div>
                     )}
@@ -1066,7 +1066,7 @@ export default function ServiceLanding() {
 
           <div
             className={cn(
-              "block text-sm text-text-body leading-relaxed transition-all duration-300 overflow-hidden space-y-3 rich-text-content",
+              "block text-[15px] text-text-body leading-relaxed transition-all duration-300 overflow-hidden space-y-3 rich-text-content",
               !seoExpanded && "max-h-[140px] relative",
             )}
             dangerouslySetInnerHTML={{ __html: longContentHtml }}

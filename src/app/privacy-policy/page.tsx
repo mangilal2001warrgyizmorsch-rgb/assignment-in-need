@@ -141,7 +141,7 @@ export default function PrivacyPolicyPage() {
               Information We Collect
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               To provide expert academic assistance, we collect two categories of information:
             </p>
 
@@ -179,7 +179,7 @@ export default function PrivacyPolicyPage() {
               How We Use Your Data
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               We process your data based on <strong>Contractual Necessity, Legitimate Interests,</strong> or <strong>Explicit Consent:</strong>
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-2">
@@ -207,7 +207,7 @@ export default function PrivacyPolicyPage() {
               Secure Data Sharing
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               We do <strong>not</strong> sell your personal data. Sharing is strictly limited to:
             </p>
             <ol className="text-xs text-gray-500 font-semibold space-y-2 mt-2 leading-relaxed">
@@ -224,7 +224,7 @@ export default function PrivacyPolicyPage() {
               Your Rights Under UK GDPR
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium mb-2">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium mb-2">
               As a user in the United Kingdom, you have significant control over your data:
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -249,7 +249,7 @@ export default function PrivacyPolicyPage() {
               Security Measures
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               We employ industry-standard security to protect your academic integrity and personal identity:
             </p>
             <ul className="text-xs text-gray-500 font-semibold space-y-2 mt-2 leading-relaxed">
@@ -266,7 +266,7 @@ export default function PrivacyPolicyPage() {
               Cookies & Tracking
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               We use cookies to improve your experience. You can manage these via your browser settings.
             </p>
             <ul className="text-xs text-gray-500 font-semibold space-y-2 mt-2 leading-relaxed">

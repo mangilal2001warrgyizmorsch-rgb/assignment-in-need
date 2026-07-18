@@ -363,7 +363,7 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
                   {feature.icon}
                 </div>
                 <h3 className="text-[13px] font-[900] text-[#0f1b3d] whitespace-pre-line leading-tight tracking-tight">{feature.title}</h3>
-                <p className="text-[11px] text-gray-500 whitespace-pre-line leading-relaxed m-0">{feature.desc}</p>
+                <p className="text-[15px] text-gray-500 whitespace-pre-line leading-relaxed m-0">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -412,7 +412,7 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <h3 className="text-[14px] font-[900] text-[#0f1b3d] tracking-tight">{benefit.title}</h3>
-                  <p className="text-[12px] text-gray-500 leading-relaxed m-0">{benefit.desc}</p>
+                  <p className="text-[15px] text-gray-500 leading-relaxed m-0">{benefit.desc}</p>
                 </div>
               </div>
             ))}

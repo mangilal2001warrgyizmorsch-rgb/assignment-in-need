@@ -138,7 +138,7 @@ export default function PromoBannerHome() {
                     <div className="w-[32px] h-[32px] flex items-center justify-center shrink-0">
                       {item.svg}
                     </div>
-                    <span className="text-[9px] lg:text-[10px] font-bold text-gray-800 leading-tight whitespace-normal">
+                    <span className="text-[9px] md:text-[15px] font-bold text-gray-800 leading-tight whitespace-normal">
                       {item.title}
                     </span>
                   </div>

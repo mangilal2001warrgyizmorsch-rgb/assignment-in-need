@@ -45,7 +45,7 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
         {/* Testimonial Quote */}
         <p
           className={cn(
-            "text-[14px] leading-relaxed font-medium",
+            "text-[15px] leading-relaxed font-medium",
             featured ? "text-white" : "text-slate-600"
           )}
         >

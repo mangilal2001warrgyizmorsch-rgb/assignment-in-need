@@ -60,7 +60,7 @@ export const ReviewSection: React.FC = () => {
               </div>
               <div className="review-copy">
                 <p className="text-sm font-semibold text-text-heading mb-1">{item.title}</p>
-                <p className="text-sm text-text-muted leading-relaxed">{item.description}</p>
+                <p className="text-[15px] text-text-muted leading-relaxed">{item.description}</p>
               </div>
               <span className="rating-number">{item.rating}</span>
             </a>

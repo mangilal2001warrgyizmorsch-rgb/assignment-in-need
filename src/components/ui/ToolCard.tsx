@@ -40,7 +40,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
         <Heading level={4} className="text-base group-hover/card:text-primary-700 transition-colors">
           {title}
         </Heading>
-        <p className="text-sm text-text-body leading-relaxed">
+        <p className="text-[15px] text-text-body leading-relaxed">
           {description}
         </p>
       </div>

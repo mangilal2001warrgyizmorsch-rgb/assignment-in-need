@@ -35,7 +35,7 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = ({
             )}
           </h2>
           {subtitle && (
-            <p className="text-gray-500 text-sm md:text-base font-semibold leading-relaxed">
+            <p className="text-gray-500 text-[15px] font-semibold leading-relaxed">
               {subtitle}
             </p>
           )}
@@ -63,7 +63,7 @@ export const ProcessSteps: React.FC<ProcessStepsProps> = ({
             </h3>
 
             {/* 4. Description */}
-            <p className="text-[12.5px] text-gray-500 leading-relaxed font-medium max-w-[170px]">
+            <p className="text-[15px] text-gray-500 leading-relaxed font-medium max-w-[170px]">
               {step.description}
             </p>
 

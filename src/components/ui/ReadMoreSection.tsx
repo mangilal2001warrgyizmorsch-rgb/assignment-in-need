@@ -26,7 +26,7 @@ export const ReadMoreSection: React.FC = () => {
           </Text>
 
           <div className={`overflow-hidden transition-max-height duration-500 ${open ? "max-h-[2000px]" : "max-h-0"}`}>
-            <div className="mt-4 space-y-4 text-text-body text-sm leading-relaxed">
+            <div className="mt-4 space-y-4 text-text-body text-[15px] leading-relaxed">
               <Text>
                 Assignments quickly become a major source of stress, yet skipping them is not an option, as they directly impact overall grades and academic progression. Assignment in Need offers professional assignment help UK that supports students at undergraduate, postgraduate, and doctoral levels.
               </Text>

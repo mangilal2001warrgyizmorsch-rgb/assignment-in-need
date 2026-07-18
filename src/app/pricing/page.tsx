@@ -320,7 +320,7 @@ export default function PricingPage() {
   return (
     <main className="w-full font-sans text-gray-800 bg-[#fbfcff]">
       {/* Breadcrumb row */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-sm text-gray-500">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-[15px] text-gray-500">
         Home <span className="mx-2">&gt;</span>{" "}
         <span className="text-gray-900">Pricing</span>
       </div>
@@ -399,7 +399,7 @@ export default function PricingPage() {
               <h3 className="text-2xl font-[900] text-[#0f1b3d] tracking-tight">
                 Enquiry Sent!
               </h3>
-              <p className="text-gray-500 text-xs md:text-sm font-bold max-w-sm leading-relaxed">
+              <p className="text-gray-500 text-sm md:text-[15px] font-bold max-w-sm leading-relaxed">
                 Thank you, <span className="text-[#3f159a]">{name}</span>. Your
                 enquiry request has been sent successfully. Our support desk
                 will reach out to you shortly.
@@ -643,7 +643,7 @@ export default function PricingPage() {
               <span className="text-purple-700">Choose</span> <br />
               <span className="text-orange-500">Assignment In Need?</span>
             </h2>
-            <p className="text-gray-500 text-sm leading-relaxed">
+            <p className="text-gray-500 text-[15px] leading-relaxed">
               We are committed to helping students achieve academic excellence
               by providing reliable, high-quality, and affordable assignment
               help.
@@ -687,7 +687,7 @@ export default function PricingPage() {
               <span className="text-4xl font-bold text-purple-800">4.8/5</span>
               <span className="text-yellow-400 text-xl mb-1">★★★★★</span>
             </div>
-            <p className="text-sm text-gray-500 font-medium">
+            <p className="text-[15px] text-gray-500 font-medium">
               Based on 2,500+ Reviews
             </p>
           </div>
@@ -703,7 +703,7 @@ export default function PricingPage() {
                     <div className="text-purple-600 text-3xl mb-4 opacity-80 group-hover:text-purple-800 transition-colors duration-300 group-hover:scale-110 transform origin-left">
                       <Quote className="w-8 h-8 fill-current rotate-180" />
                     </div>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-6 group-hover:text-gray-800 transition-colors">
+                    <p className="text-gray-600 text-[15px] leading-relaxed mb-6 group-hover:text-gray-800 transition-colors">
                       {t.quote}
                     </p>
                   </div>
@@ -748,7 +748,7 @@ export default function PricingPage() {
               Find Answers To{" "}
               <span className="text-purple-700">Common Questions</span>
             </h2>
-            <p className="text-gray-500 text-sm leading-relaxed mb-6">
+            <p className="text-gray-500 text-[15px] leading-relaxed mb-6">
               If you have any other questions, feel free to contact our support
               team.
             </p>

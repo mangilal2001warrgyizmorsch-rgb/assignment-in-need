@@ -119,8 +119,8 @@ export default function SeoContentSection() {
               <li key={idx} className="bg-slate-50/80 rounded-2xl p-4 border border-slate-100 flex items-start gap-3">
                 <CheckCircle2 className="w-5 h-5 text-[#3f159a] shrink-0 mt-0.5" />
                 <div className="flex flex-col gap-0.5">
-                  <span className="font-extrabold text-[14px] text-gray-900 leading-snug">{item.title}</span>
-                  <span className="text-[12px] text-slate-500 leading-snug">{item.desc}</span>
+                  <span className="font-extrabold text-[16px] text-gray-900 leading-snug">{item.title}</span>
+                  <span className="text-[15px] text-slate-500 leading-snug">{item.desc}</span>
                 </div>
               </li>
             ))}

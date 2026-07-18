@@ -556,7 +556,7 @@ export default function SamplesPage() {
                   <div className="text-purple-600 text-3xl mb-4 opacity-80 group-hover:text-purple-800 group-hover:scale-110 transform origin-left transition-all duration-300">
                     <Quote className="w-8 h-8 fill-current" />
                   </div>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4 group-hover:text-gray-800 transition-colors">
+                  <p className="text-gray-600 text-[15px] leading-relaxed mb-4 group-hover:text-gray-800 transition-colors">
                     {test.text}
                   </p>
                 </div>
@@ -602,7 +602,7 @@ export default function SamplesPage() {
               Find Answers To{" "}
               <span className="text-purple-700">Common Questions</span>
             </h2>
-            <p className="text-gray-500 text-sm leading-relaxed mb-6">
+            <p className="text-gray-500 text-[15px] leading-relaxed mb-6">
               If you have any other questions, feel free to contact our support
               team.
             </p>

@@ -160,7 +160,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                 Free <span className="text-purple-700">{readableCategory}</span>{" "}
                 Assignment Samples
               </h1>
-              <p className="text-gray-500 text-sm mt-2 leading-relaxed">
+              <p className="text-gray-500 text-[15px] mt-2 leading-relaxed">
                 Review verified solutions, structures, references, and argument
                 structures for {readableCategory} assignments.
               </p>

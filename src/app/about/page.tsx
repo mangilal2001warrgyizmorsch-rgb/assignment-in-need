@@ -322,7 +322,7 @@ export default function AboutPage() {
               <h2 className="text-[28px] sm:text-[34px] font-[900] text-[#0f1b3d] tracking-tight">
                 About Assignment In Need
               </h2>
-              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed max-w-[620px]">
+              <p className="text-gray-500 text-sm sm:text-[15px] font-bold leading-relaxed max-w-[620px]">
                 Assignment in Need was built on a simple idea: UK students
                 deserve academic support written by someone who actually
                 understands the assignment, not spat out by an AI tool in thirty
@@ -415,7 +415,7 @@ export default function AboutPage() {
           {/* Desktop flow (horizontal) */}
           <div className="hidden md:flex flex-col gap-5 items-start justify-center gap-0 w-full max-w-[1100px] mx-auto">
             
-            <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">
+            <p className="text-gray-500 text-sm sm:text-[15px] font-bold leading-relaxed">
               We match your assignment to a writer with real background in that
               subject. A nursing case study doesn't land with someone whose only
               experience is general essay writing. Someone with relevant
@@ -435,7 +435,7 @@ export default function AboutPage() {
                       </span>
                     </div>
                   </div>
-                  <p className="text-xs sm:text-sm font-extrabold text-[#0f1b3d] leading-snug mt-1 font-heading">
+                  <p className="text-sm sm:text-[15px] font-extrabold text-[#0f1b3d] leading-snug mt-1 font-heading">
                     {step.title}
                   </p>
                   <p className="text-[11px] text-gray-500 font-bold max-w-[150px] leading-relaxed">
@@ -455,14 +455,14 @@ export default function AboutPage() {
             ))}
             </div>
 
-            <p className="text-start text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">
+            <p className="text-start text-gray-500 text-sm sm:text-[15px] font-bold leading-relaxed">
               Referencing gets applied the way your department
               expects it, whether that's Harvard, OSCOLA, APA 7th or something
               else. Get this part wrong and markers notice immediately, even
               when the argument underneath is solid. 
             </p>
 
-            <ul className="item-start text-start display: flex flex-col gap-2 list-disc text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">
+            <ul className="item-start text-start display: flex flex-col gap-2 list-disc text-gray-500 text-sm sm:text-[15px] font-bold leading-relaxed">
               <li>Written entirely by human subject-matched writers</li>
               <li>Checked for plagiarism and AI content before delivery</li>
               <li>UK referencing styles applied correctly</li>
@@ -471,24 +471,24 @@ export default function AboutPage() {
 
             <div className="text-start ">
               <h2 className="mb-3">Where We Stand on UK Education Standards</h2>
-              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">The Skills and Post-16 Education Act 2022 pushed UK education toward more transparency and accountability. We're not regulated directly under it, but we hold our own process to that same bar clear about what we do, and honest about what students should and shouldn't submit as their own.
+              <p className="text-gray-500 text-sm sm:text-[15px] font-bold leading-relaxed">The Skills and Post-16 Education Act 2022 pushed UK education toward more transparency and accountability. We're not regulated directly under it, but we hold our own process to that same bar clear about what we do, and honest about what students should and shouldn't submit as their own.
                 <span className="italic">This section touches on UK education legislation and is worth a legal review before it goes live.</span>
               </p>
             </div>
 
             <div className="text-start ">
               <h2 className="mb-3">Who Writes for You</h2>
-              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">Our writers come from UK academic backgrounds relevant to the subjects they cover. We'd rather tell you honestly what a writer's background is when you ask than publish a generic "PhD experts" badge with nothing behind it. </p>
+              <p className="text-gray-500 text-sm sm:text-[15px] font-bold leading-relaxed">Our writers come from UK academic backgrounds relevant to the subjects they cover. We'd rather tell you honestly what a writer's background is when you ask than publish a generic "PhD experts" badge with nothing behind it. </p>
             </div>
 
             <div className="text-start ">
               <h3 className="mb-3">Your Data Stays Yours</h3>
-              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">Your order details and personal information are handled under UK GDPR principles and aren't shared beyond what's needed to complete your work.</p>
+              <p className="text-gray-500 text-sm sm:text-[15px] font-bold leading-relaxed">Your order details and personal information are handled under UK GDPR principles and aren't shared beyond what's needed to complete your work.</p>
             </div>
 
             <div className="text-start ">
               <h3 className="mb-3">Talk to Us</h3>
-              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">Questions about how we work or whether we're right for your assignment get in touch and we'll answer directly, no sales script.</p>
+              <p className="text-gray-500 text-sm sm:text-[15px] font-bold leading-relaxed">Questions about how we work or whether we're right for your assignment get in touch and we'll answer directly, no sales script.</p>
             </div>
           </div>
 
@@ -535,12 +535,12 @@ export default function AboutPage() {
                 We're On A Mission To Make A Difference
               </h2>
               <div className="w-12 h-0.5 bg-gradient-to-r from-[#ea580c] to-[#3f159a] rounded-full mb-3" />
-              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed">
+              <p className="text-gray-500 text-sm sm:text-[15px] font-bold leading-relaxed">
                 Our mission is to empower students by providing expert academic
                 support that enhances learning, builds confidence, and helps
                 them achieve their full potential.
               </p>
-              <p className="text-gray-500 text-xs sm:text-sm font-bold leading-relaxed mt-1">
+              <p className="text-gray-500 text-sm sm:text-[15px] font-bold leading-relaxed mt-1">
                 We believe every student deserves the right guidance to succeed.
               </p>
             </div>

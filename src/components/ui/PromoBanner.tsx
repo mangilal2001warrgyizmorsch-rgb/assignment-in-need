@@ -54,7 +54,7 @@ export const PromoBanner: React.FC<PromoBannerProps> = ({
               {title}
             </Heading>
             
-            <Text className="text-primary-100 text-sm md:text-base leading-relaxed">
+            <Text className="text-primary-100 text-[15px] leading-relaxed">
               {description}
             </Text>
 

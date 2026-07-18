@@ -41,6 +41,9 @@ const config: Config = {
           muted: "#78787c",
         },
       },
+      fontSize: {
+        base: ["15px", "24px"],
+      },
       borderRadius: {
         card: "0.375rem", // sharper card corners matching Laravel style
         pill: "9999px",

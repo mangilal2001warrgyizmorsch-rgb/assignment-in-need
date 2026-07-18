@@ -93,7 +93,7 @@ export default async function BlogDetailPage({ params }: Props) {
 
             <article className="prose max-w-none text-text-body leading-relaxed">
               <div
-                className="blog-content-container space-y-4"
+                className="blog-content-container rich-text-content space-y-4"
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
             </article>

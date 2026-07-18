@@ -235,7 +235,7 @@ export default function TermsConditionsPage() {
               Privacy and Data Protection
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               We are committed to protecting your privacy and handling your
               personal data in accordance with applicable UK data protection
               laws, including the UK General Data Protection Regulation (UK
@@ -255,7 +255,7 @@ export default function TermsConditionsPage() {
               Intellectual Property
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               All content on our Website, including text, graphics, logos, and
               software, is the property of Assignment In Need or its licensors
               and is protected by UK copyright and other intellectual property
@@ -275,7 +275,7 @@ export default function TermsConditionsPage() {
               Limitation of Liability
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               To the maximum extent permitted by law in the United Kingdom, the
               Company shall not be liable for any indirect, incidental, special,
               consequential, or punitive damages arising out of or in connection
@@ -296,7 +296,7 @@ export default function TermsConditionsPage() {
               Termination
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               We reserve the right to suspend or terminate your access to our
               Services at any time, with or without notice, if we believe you
               have violated these Terms and Conditions, engaged in illegal or
@@ -314,7 +314,7 @@ export default function TermsConditionsPage() {
               Amendments
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               We may update or modify these Terms and Conditions at any time
               without prior notice. Any changes will be effective upon the
               posting of the revised Terms on our Website with an updated
@@ -333,7 +333,7 @@ export default function TermsConditionsPage() {
               Governing Law and Jurisdiction
             </h2>
             <div className="h-0.5 w-12 bg-purple-100 rounded-full mb-2" />
-            <p className="text-sm leading-relaxed text-gray-600 font-medium">
+            <p className="text-[15px] leading-relaxed text-gray-600 font-medium">
               These Terms and Conditions shall be governed by and construed in
               accordance with the laws of England and Wales. Any dispute arising
               out of or in connection with these Terms and Conditions shall be

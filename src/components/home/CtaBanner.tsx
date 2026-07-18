@@ -28,7 +28,7 @@ export default function CtaBanner() {
           <h2 className="text-xl md:text-2xl lg:text-[2rem] font-black text-white tracking-tight leading-tight m-0 text-center">
             Stuck On Your Assignment?
           </h2>
-          <p className="text-xs md:text-sm text-purple-100 font-semibold mt-1.5 mb-5 lg:mb-6 max-w-lg leading-relaxed m-0 text-center">
+          <p className="text-sm md:text-[15px] text-purple-100 font-semibold mt-1.5 mb-5 lg:mb-6 max-w-lg leading-relaxed m-0 text-center">
             Get expert help and improve your grades with confidence.
           </p>
 

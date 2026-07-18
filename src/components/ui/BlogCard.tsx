@@ -50,7 +50,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({ title, excerpt, date, image,
 
         {/* Excerpt Box */}
         <div className="bg-[#FFFDF4] border border-[#F5E2C4]/40 rounded-2xl p-4 mb-5 flex-grow">
-          <p className="text-sm text-text-body leading-relaxed line-clamp-3 italic">
+          <p className="text-[15px] text-text-body leading-relaxed line-clamp-3 italic">
             &ldquo;{excerpt}&rdquo;
           </p>
         </div>
