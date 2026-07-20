@@ -1,8 +1,18 @@
-const BASE_URL = "https://assignmentinneed.co.uk";
 const BACKEND_URL =
   process.env.BACKEND_INTERNAL_URL ||
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   "https://ain.warrgyizmorsch.com";
+
+export function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, "-")           // Replace spaces with -
+    .replace(/[^\w\-]+/g, "")       // Remove all non-word chars
+    .replace(/\-\-+/g, "-")         // Replace multiple - with single -
+    .replace(/^-+/, "")             // Trim - from start of text
+    .replace(/-+$/, "");            // Trim - from end of text
+}
 
 export const staticRoutes = [
   "",
@@ -20,7 +30,7 @@ export const staticRoutes = [
   "/subjects",
   "/terms-conditions",
   "/writers",
-].map((route) => `${BASE_URL}${route}`);
+];
 
 export const citySlugs = [
   "london",
@@ -48,50 +58,20 @@ export const citySlugs = [
   "penang",
 ];
 
-export const cityRoutes = citySlugs.map((slug) => `${BASE_URL}/${slug}-assignment-help`);
+export function getCityRoutes(baseUrl: string): string[] {
+  // Map standard UK and global city paths to the /cities/[slug] format
+  return citySlugs.map((slug) => `${baseUrl}/cities/${slug}`);
+}
 
-export const subjectSlugs = [
-  "math",
-  "english",
-  "economics",
-  "chemistry",
-  "history",
-  "law",
-  "linguistic",
-  "nursing",
-  "physics",
-  "sociology",
-  "philosophy",
-  "statistics",
-  "accounting",
-  "programming",
-  "marketing",
-  "computer-science",
-  "engineering",
-  "finance",
-  "management",
-  "business",
-  "geography",
-  "psychology",
-  "biology",
-  "entrepreneurship",
-  "artificial-intelligence",
-  "machine-learning",
-  "cybersecurity",
-  "humanities",
-];
-
-export const subjectRoutes = subjectSlugs.map((slug) => `${BASE_URL}/${slug}-assignment-help`);
-
-export async function fetchBlogs() {
+export async function fetchBlogs(baseUrl: string): Promise<string[]> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/blogs?limit=250`, {
-      next: { revalidate: 86400 },
+    const res = await fetch(`${BACKEND_URL}/api/blogs?limit=2000`, {
+      next: { revalidate: 3600 },
     });
     if (res.ok) {
       const payload = await res.json();
       const list = payload?.data?.data || [];
-      return list.map((blog: any) => `${BASE_URL}/blog/${blog.slug}`);
+      return list.map((blog: any) => `${baseUrl}/blog/${blog.slug}`);
     }
   } catch (e) {
     console.error("Sitemap: Failed to fetch blogs", e);
@@ -99,10 +79,10 @@ export async function fetchBlogs() {
   return [];
 }
 
-export async function fetchServicePages() {
+export async function fetchServicePages(baseUrl: string): Promise<string[]> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/service-pages`, {
-      next: { revalidate: 86400 },
+      next: { revalidate: 3600 },
     });
     if (res.ok) {
       const payload = await res.json();
@@ -110,27 +90,21 @@ export async function fetchServicePages() {
 
       const routes: string[] = [];
       list.forEach((service: any) => {
-        const parentSlug =
-          service.slug
-            ?.trim()
-            .replace(/^\/+/, "")
-            .replace(/^service\//, "") || "";
+        let parentSlug = service.slug?.trim().replace(/^\/+/, "") || "";
         if (parentSlug) {
-          routes.push(`${BASE_URL}/${parentSlug}`);
+          routes.push(`${baseUrl}/${parentSlug}`);
         }
 
         if (Array.isArray(service.children)) {
           service.children.forEach((child: any) => {
-            const childSlug =
-              child.slug
-                ?.trim()
-                .replace(/^\/+/, "")
-                .replace(
-                  /^service\/assignment\/|^service\/dissertation\/|^service\//,
-                  "",
-                ) || "";
+            let childSlug = child.slug?.trim().replace(/^\/+/, "") || "";
             if (childSlug) {
-              routes.push(`${BASE_URL}/${childSlug}`);
+              if (childSlug.startsWith("service/assignment/")) {
+                const lastSeg = childSlug.split("/").pop() || childSlug;
+                routes.push(`${baseUrl}/subject/${lastSeg}`);
+              } else {
+                routes.push(`${baseUrl}/${childSlug}`);
+              }
             }
           });
         }
@@ -143,17 +117,17 @@ export async function fetchServicePages() {
   return [];
 }
 
-export async function fetchSubjectPages() {
+export async function fetchSubjectPages(baseUrl: string): Promise<string[]> {
   try {
     const res = await fetch(`${BACKEND_URL}/api/subject-pages`, {
-      next: { revalidate: 86400 },
+      next: { revalidate: 3600 },
     });
     if (res.ok) {
       const payload = await res.json();
       const list = Array.isArray(payload?.data) ? payload.data : [];
       return list.map((subject: any) => {
         const slug = subject.slug?.trim().replace(/^\/+/, "") || "";
-        return `${BASE_URL}/${slug}`;
+        return `${baseUrl}/${slug}`;
       });
     }
   } catch (e) {
@@ -162,23 +136,71 @@ export async function fetchSubjectPages() {
   return [];
 }
 
-export function toSitemapXml(urls: string[]) {
-  // De-duplicate URLs
-  const uniqueUrls = Array.from(new Set(urls.map((u) => u.toLowerCase())));
-  
-  // Format dates as YYYY-MM-DD
-  const dateStr = new Date().toISOString().split("T")[0];
+export async function fetchSamples(baseUrl: string): Promise<string[]> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/samples?limit=2000`, {
+      next: { revalidate: 3600 },
+    });
+    if (res.ok) {
+      const payload = await res.json();
+      const list = payload?.data?.data || [];
+      return list.map((sample: any) => {
+        const cat = slugify(sample.category_name || "general");
+        return `${baseUrl}/free-samples/${cat}/${sample.slug}`;
+      });
+    }
+  } catch (e) {
+    console.error("Sitemap: Failed to fetch samples", e);
+  }
+  return [];
+}
 
+export async function fetchSampleCategories(baseUrl: string): Promise<string[]> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/sample-categories`, {
+      next: { revalidate: 3600 },
+    });
+    if (res.ok) {
+      const payload = await res.json();
+      const list = Array.isArray(payload?.data) ? payload.data : [];
+      return list.map((cat: any) => `${baseUrl}/free-samples/${slugify(cat.name)}`);
+    }
+  } catch (e) {
+    console.error("Sitemap: Failed to fetch sample categories", e);
+  }
+  return [];
+}
+
+export async function fetchWriters(baseUrl: string): Promise<string[]> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/experts`, {
+      next: { revalidate: 3600 },
+    });
+    if (res.ok) {
+      const payload = await res.json();
+      const list = Array.isArray(payload?.data) ? payload.data : [];
+      return list.map((writer: any) => `${baseUrl}/writers/${writer.slug}`);
+    }
+  } catch (e) {
+    console.error("Sitemap: Failed to fetch writers", e);
+  }
+  return [];
+}
+
+export function toSitemapXml(
+  urls: { loc: string; priority: string; lastmod?: string; changefreq?: string }[]
+) {
+  const today = new Date().toISOString().split("T")[0];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${uniqueUrls
+${urls
   .map(
-    (url) => `  <url>
-    <loc>${url}</loc>
-    <lastmod>${dateStr}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>`
+    (item) => `   <url>
+      <loc>${item.loc}</loc>
+      <lastmod>${item.lastmod || today}</lastmod>
+      <changefreq>${item.changefreq || "daily"}</changefreq>
+      <priority>${item.priority}</priority>
+   </url>`
   )
   .join("\n")}
 </urlset>`;

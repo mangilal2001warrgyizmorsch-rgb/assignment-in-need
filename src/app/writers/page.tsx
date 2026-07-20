@@ -56,7 +56,7 @@ export default function WritersDirectory() {
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        const res = await fetch("/api/admin/subjects");
+        const res = await fetch("/api/subject-pages");
         if (res.ok) {
           const payload = await res.json();
           if ((payload.success || payload.status === "success") && Array.isArray(payload.data)) {

@@ -110,10 +110,13 @@ export default function OrderPage() {
   const [apiBasePrice, setApiBasePrice] = useState<number>(0.03);
   const [apiDiscountPercent, setApiDiscountPercent] = useState<number>(40);
 
+  const [apiFormServices, setApiFormServices] = useState<any[]>([]);
+  const [apiFormSubjects, setApiFormSubjects] = useState<any[]>([]);
+
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await fetch("/api/admin/service-pages");
+        const res = await fetch("/api/service-pages");
         if (res.ok) {
           const result = await res.json();
           if ((result.success || result.status === "success") && Array.isArray(result.data)) {
@@ -130,7 +133,7 @@ export default function OrderPage() {
 
     const fetchSubjects = async () => {
       try {
-        const res = await fetch("/api/admin/subjects");
+        const res = await fetch("/api/subject-pages");
         if (res.ok) {
           const payload = await res.json();
           if ((payload.success || payload.status === "success") && Array.isArray(payload.data)) {
@@ -149,16 +152,18 @@ export default function OrderPage() {
 
     const fetchAppConfigs = async () => {
       try {
-        const [wcRes, urgRes, countryRes] = await Promise.all([
-          fetch("/api/app/word-count"),
-          fetch("/api/app/urgencies"),
-          fetch("/api/app/countries")
+        const [wcRes, urgRes, countryRes, servicesRes, subjectsRes] = await Promise.all([
+          fetch("/api/word-count"),
+          fetch("/api/urgencies"),
+          fetch("/api/app/countries"),
+          fetch("/api/services"),
+          fetch("/api/subjects"),
         ]);
 
         if (wcRes.ok) {
           const payload = await wcRes.json();
-          if (payload.success && Array.isArray(payload.data)) {
-            setApiWordCounts(payload.data);
+          if (payload.success) {
+            if (Array.isArray(payload.data)) setApiWordCounts(payload.data);
             if (payload.base_price_per_word) {
               setApiBasePrice(Number(payload.base_price_per_word));
             }
@@ -172,6 +177,20 @@ export default function OrderPage() {
           const payload = await urgRes.json();
           if (payload.success && Array.isArray(payload.data)) {
             setApiUrgencies(payload.data);
+          }
+        }
+
+        if (servicesRes.ok) {
+          const payload = await servicesRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiFormServices(payload.data);
+          }
+        }
+
+        if (subjectsRes.ok) {
+          const payload = await subjectsRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiFormSubjects(payload.data);
           }
         }
 
@@ -192,6 +211,12 @@ export default function OrderPage() {
   }, []);
 
   const subjectOptions = useMemo(() => {
+    if (apiFormSubjects.length > 0) {
+      return apiFormSubjects.map((sub: any) => ({
+        label: sub.name,
+        value: sub.value || sub.name
+      }));
+    }
     if (dynamicSubjects.length > 0) {
       return dynamicSubjects.map((sub: any) => {
         const cleanSlug = (sub.slug || "").replace(/^\/+/, "");
@@ -202,16 +227,22 @@ export default function OrderPage() {
       });
     }
     return SUBJECTS.map((sub) => ({ label: sub.name, value: sub.slug }));
-  }, [dynamicSubjects]);
+  }, [apiFormSubjects, dynamicSubjects]);
 
   const serviceOptions = useMemo(() => {
+    if (apiFormServices.length > 0) {
+      return apiFormServices.map((s: any) => ({
+        label: s.name,
+        value: s.value || s.name
+      }));
+    }
     const list: { label: string; value: string }[] = [];
     dynamicServices.forEach((s: any) => {
       const pName = s.title || s.hero_heading || s.meta_title || "Service";
       list.push({ label: pName, value: s.slug });
     });
     return list;
-  }, [dynamicServices]);
+  }, [apiFormServices, dynamicServices]);
 
   // Step 3: Delivery Details
   const [selectedDeadline, setSelectedDeadline] = useState("3d");
@@ -296,9 +327,9 @@ export default function OrderPage() {
     const basePricePerWord = apiBasePrice || 0.03;
     let basePrice = basePricePerWord * wordCount;
 
-    // Find multiplier from API data
+    // Find word count multiplier from API data
     const matchedWc = apiWordCounts.find((wc: any) => Number(wc.value) === wordCount);
-    if (matchedWc) {
+    if (matchedWc && matchedWc.multiplier) {
       basePrice *= Number(matchedWc.multiplier);
     } else {
       // Range-based fallback
@@ -319,31 +350,48 @@ export default function OrderPage() {
       }
     }
 
-    // Deadline Multipliers
+    // Deadline Multipliers from API
     let deadlineMult = 1.0;
-    const matchedUrg = apiUrgencies.find((urg: any) => String(urg.value) === selectedDeadline);
-    if (matchedUrg) {
+    const matchedUrg = apiUrgencies.find(
+      (urg: any) =>
+        String(urg.value) === String(selectedDeadline) ||
+        urg.name === selectedDeadline ||
+        String(urg.value) === selectedDeadline.replace(/[^0-9]/g, "")
+    );
+    if (matchedUrg && matchedUrg.multiplier) {
       deadlineMult = Number(matchedUrg.multiplier);
     } else {
       // Fallback mapping for Next.js static deadline slugs
-      if (selectedDeadline === "12h") deadlineMult = 2.5;
-      else if (selectedDeadline === "24h") deadlineMult = 2.0;
+      if (selectedDeadline === "12h" || selectedDeadline === "1") deadlineMult = 2.0;
+      else if (selectedDeadline === "24h" || selectedDeadline === "2") deadlineMult = 1.5;
       else if (selectedDeadline === "2d") deadlineMult = 1.5;
-      else if (selectedDeadline === "3d") deadlineMult = 1.4;
-      else if (selectedDeadline === "5d") deadlineMult = 1.2;
-      else if (selectedDeadline === "7d") deadlineMult = 1.1;
-      else if (selectedDeadline === "10d") deadlineMult = 1.05;
-      else if (selectedDeadline === "14d") deadlineMult = 1.0;
+      else if (selectedDeadline === "3d" || selectedDeadline === "3") deadlineMult = 1.4;
+      else if (selectedDeadline === "5d" || selectedDeadline === "5") deadlineMult = 1.2;
+      else if (selectedDeadline === "7d" || selectedDeadline === "7") deadlineMult = 1.1;
+      else if (selectedDeadline === "10d" || selectedDeadline === "10") deadlineMult = 1.05;
+      else if (selectedDeadline === "14d" || selectedDeadline === "15") deadlineMult = 1.0;
     }
 
-    // Service Multiplier (Dissertation, Thesis, and Research Project get 1.1)
-    const serviceSlug = (selectedService || "").toLowerCase();
-    const serviceMultiplier =
-      serviceSlug.includes("dissertation") ||
-      serviceSlug.includes("thesis") ||
-      serviceSlug.includes("research")
-        ? 1.1
-        : 1.0;
+    // Service Multiplier from /api/services API
+    let serviceMultiplier = 1.0;
+    const matchedService = apiFormServices.find(
+      (s: any) =>
+        s.value === selectedService ||
+        s.name === selectedService ||
+        s.slug === selectedService
+    );
+    if (matchedService && matchedService.multiplier) {
+      serviceMultiplier = Number(matchedService.multiplier);
+    } else {
+      const serviceSlug = (selectedService || "").toLowerCase();
+      if (
+        serviceSlug.includes("dissertation") ||
+        serviceSlug.includes("thesis") ||
+        serviceSlug.includes("research")
+      ) {
+        serviceMultiplier = 1.1;
+      }
+    }
 
     // Academic Level Multipliers
     let levelMult = 1.0;
@@ -373,6 +421,7 @@ export default function OrderPage() {
     selectedWorkType,
     apiWordCounts,
     apiUrgencies,
+    apiFormServices,
     apiBasePrice
   ]);
 

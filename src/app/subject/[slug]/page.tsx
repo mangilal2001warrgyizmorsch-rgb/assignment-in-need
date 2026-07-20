@@ -208,92 +208,49 @@ export default function SubjectLanding() {
       if (!slug) return;
       try {
         setLoading(true);
-        let cleanSlug = slug.replace("-assignment-help", "");
-        if (cleanSlug === "math") {
-          cleanSlug = "maths";
-        }
-        let res = await fetch(`/api/admin/subjects?slug=${cleanSlug}`);
-        let payload: any = null;
-        if (res.ok) {
-          payload = await res.json();
-        }
+        let pageResult: any = null;
+        let cleanSlug = slug.toLowerCase().replace("-assignment-writing-help", "").replace("-assignment-help", "").replace("-help", "").trim();
+        if (cleanSlug === "math") cleanSlug = "maths";
 
-        if (!payload || !payload.success || !payload.data || !payload.data.page) {
-          const res2 = await fetch(`/api/admin/subjects?slug=/subject/${cleanSlug}`);
-          if (res2.ok) {
-            const temp = await res2.json();
-            if (temp.success && temp.data && temp.data.page) {
-              payload = temp;
+        const endpointsToTry = [
+          `/api/subject-pages/subject/${cleanSlug}`,
+          `/api/subject-pages/${cleanSlug}`,
+          `/api/service-pages/service/assignment/${cleanSlug}`,
+          `/api/service-pages/service/${cleanSlug}`,
+          `/api/service-pages/${cleanSlug}`,
+          `/api/service-pages/subject/${cleanSlug}`,
+          `/api/subject-pages/subject/${slug}`,
+          `/api/subject-pages/${slug}`,
+          `/api/service-pages/${slug}`,
+        ];
+
+        for (const endpoint of endpointsToTry) {
+          if (pageResult && pageResult.success && pageResult.data && pageResult.data.page) break;
+          try {
+            const res = await fetch(endpoint);
+            if (res.ok) {
+              const temp = await res.json();
+              if (temp && temp.success && temp.data && temp.data.page) {
+                pageResult = temp;
+              }
             }
-          }
+          } catch (e) {}
         }
 
-        if (!payload || !payload.success || !payload.data || !payload.data.page) {
-          const res3 = await fetch(`/api/admin/subjects?slug=subject/${cleanSlug}`);
-          if (res3.ok) {
-            const temp = await res3.json();
-            if (temp.success && temp.data && temp.data.page) {
-              payload = temp;
-            }
-          }
-        }
-
-        // Fallback: try the service-pages API (for service children like economics, english)
-        if (!payload || !payload.success || !payload.data || !payload.data.page) {
-          const serviceRes = await fetch(`/api/admin/service-pages?slug=${cleanSlug}`);
-          if (serviceRes.ok) {
-            const servicePayload = await serviceRes.json();
-            if (servicePayload.success && servicePayload.data && servicePayload.data.page) {
-              payload = servicePayload;
-            }
-          }
-        }
-
-        // Fallback: try with the original uncleaned slug (e.g. management-assignment-help)
-        if (!payload || !payload.success || !payload.data || !payload.data.page) {
-          const origRes = await fetch(`/api/admin/subjects?slug=${slug}`);
-          if (origRes.ok) {
-            const temp = await origRes.json();
-            if (temp.success && temp.data && temp.data.page) {
-              payload = temp;
-            }
-          }
-        }
-
-        if (!payload || !payload.success || !payload.data || !payload.data.page) {
-          const origRes2 = await fetch(`/api/admin/subjects?slug=subject/${slug}`);
-          if (origRes2.ok) {
-            const temp = await origRes2.json();
-            if (temp.success && temp.data && temp.data.page) {
-              payload = temp;
-            }
-          }
-        }
-
-        if (!payload || !payload.success || !payload.data || !payload.data.page) {
-          const origRes3 = await fetch(`/api/admin/service-pages?slug=${slug}`);
-          if (origRes3.ok) {
-            const temp = await origRes3.json();
-            if (temp.success && temp.data && temp.data.page) {
-              payload = temp;
-            }
-          }
-        }
-
-        if (!payload || !payload.success || !payload.data || !payload.data.page) {
+        if (!pageResult || !pageResult.success || !pageResult.data || !pageResult.data.page) {
           setIsNotFound(true);
           setLoading(false);
           return;
         }
 
-        if (payload && payload.success && payload.data && payload.data.page) {
-          setPageData(payload.data.page);
+        if (pageResult && pageResult.success && pageResult.data && pageResult.data.page) {
+          setPageData(pageResult.data.page);
           
           if (
-            Array.isArray(payload.data.reviews) &&
-            payload.data.reviews.length > 0
+            Array.isArray(pageResult.data.reviews) &&
+            pageResult.data.reviews.length > 0
           ) {
-            const mapped = payload.data.reviews.map((item: any) => ({
+            const mapped = pageResult.data.reviews.map((item: any) => ({
               name: item.name,
               uni: item.location || "UK University",
               text: item.description,
@@ -303,10 +260,10 @@ export default function SubjectLanding() {
           }
 
           if (
-            Array.isArray(payload.data.experts) &&
-            payload.data.experts.length > 0
+            Array.isArray(pageResult.data.experts) &&
+            pageResult.data.experts.length > 0
           ) {
-            const mapped = payload.data.experts.map((item: any) => {
+            const mapped = pageResult.data.experts.map((item: any) => {
               const parsed = mapExpertToWriter(item);
               return {
                 id: parsed.id,

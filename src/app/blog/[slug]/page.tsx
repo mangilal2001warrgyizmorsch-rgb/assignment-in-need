@@ -7,10 +7,47 @@ import { getBaseUrl, getImageUrl } from "@/lib/api";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { SidebarQuoteForm } from "@/components/ui/SidebarQuoteForm";
 
-export const dynamic = "force-dynamic";
+import type { Metadata } from "next";
 
 interface Props {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  try {
+    const baseUrl = getBaseUrl();
+    const res = await fetch(`${baseUrl}/api/blogs/${slug}`);
+    if (res.ok) {
+      const result = await res.json();
+      if (result.success && result.data) {
+        const post = result.data;
+        return {
+          title: post.meta_title || post.tittle || "Blog - Assignment In Need",
+          description: post.meta_discribtion || post.meta_description || "Read expert academic articles and student guides.",
+          robots: {
+            index: true,
+            follow: true,
+            googleBot: {
+              index: true,
+              follow: true,
+              "max-video-preview": -1,
+              "max-image-preview": "large",
+              "max-snippet": -1,
+            },
+          },
+        };
+      }
+    }
+  } catch (e) {}
+
+  return {
+    title: "Blog - Assignment In Need",
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
 }
 
 export default async function BlogDetailPage({ params }: Props) {

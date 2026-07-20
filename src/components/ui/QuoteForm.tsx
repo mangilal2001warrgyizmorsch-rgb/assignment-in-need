@@ -87,13 +87,19 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
 
   const [apiServices, setApiServices] = useState<any[]>([]);
   const [apiUrgencies, setApiUrgencies] = useState<any[]>([]);
+  const [apiSubjects, setApiSubjects] = useState<any[]>([]);
+  const [apiWordCounts, setApiWordCounts] = useState<any[]>([]);
+  const [apiBasePrice, setApiBasePrice] = useState<number>(0.03);
+  const [apiDiscountPercent, setApiDiscountPercent] = useState<number>(40);
 
   useEffect(() => {
     const fetchConfigs = async () => {
       try {
-        const [servicesRes, urgenciesRes] = await Promise.all([
-          fetch("/api/app/services"),
-          fetch("/api/app/urgencies")
+        const [servicesRes, urgenciesRes, subjectsRes, wcRes] = await Promise.all([
+          fetch("/api/services"),
+          fetch("/api/urgencies"),
+          fetch("/api/subjects"),
+          fetch("/api/word-count"),
         ]);
 
         if (servicesRes.ok) {
@@ -107,6 +113,22 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           const payload = await urgenciesRes.json();
           if (payload.success && Array.isArray(payload.data)) {
             setApiUrgencies(payload.data);
+          }
+        }
+
+        if (subjectsRes.ok) {
+          const payload = await subjectsRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiSubjects(payload.data);
+          }
+        }
+
+        if (wcRes.ok) {
+          const payload = await wcRes.json();
+          if (payload.success) {
+            if (Array.isArray(payload.data)) setApiWordCounts(payload.data);
+            if (payload.base_price_per_word) setApiBasePrice(Number(payload.base_price_per_word));
+            if (payload.discount_percentage) setApiDiscountPercent(Number(payload.discount_percentage));
           }
         }
       } catch (err) {
@@ -135,6 +157,16 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
     }
     return timePeriodOptions;
   }, [apiUrgencies, timePeriodOptions]);
+
+  const finalSubjects = useMemo(() => {
+    if (apiSubjects.length > 0) {
+      return apiSubjects.map((sub: any) => ({
+        label: sub.name,
+        value: sub.value || sub.name
+      }));
+    }
+    return [];
+  }, [apiSubjects]);
 
   // Country Code -> ISO
   const getCountryIso = (code: string) => {

@@ -90,17 +90,20 @@ export function SidebarQuoteForm({ sourceName = "Blog Page" }: SidebarQuoteFormP
     return mapping[code] || "GB";
   };
 
+  const [apiWordCounts, setApiWordCounts] = useState<any[]>([]);
+
   useEffect(() => {
     const fetchAppConfigs = async () => {
       try {
-        const [wcRes, urgRes, subRes] = await Promise.all([
-          fetch("/api/app/services"),
-          fetch("/api/app/urgencies"),
-          fetch("/api/app/subjects")
+        const [servicesRes, urgRes, subRes, wcRes] = await Promise.all([
+          fetch("/api/services"),
+          fetch("/api/urgencies"),
+          fetch("/api/subjects"),
+          fetch("/api/word-count"),
         ]);
 
-        if (wcRes.ok) {
-          const payload = await wcRes.json();
+        if (servicesRes.ok) {
+          const payload = await servicesRes.json();
           if (payload.success && Array.isArray(payload.data)) {
             setApiServices(payload.data);
           }
@@ -121,31 +124,17 @@ export function SidebarQuoteForm({ sourceName = "Blog Page" }: SidebarQuoteFormP
               value: sub.value || sub.name
             }));
             setSubjectsOptions(mapped);
-            return; // Successful fetch from app/subjects
+          }
+        }
+
+        if (wcRes.ok) {
+          const payload = await wcRes.json();
+          if (payload.success && Array.isArray(payload.data)) {
+            setApiWordCounts(payload.data);
           }
         }
       } catch (err) {
-        console.error("Error fetching app configurations for sidebar form:", err);
-      }
-
-      // Fallback: fetch from admin subjects if app subjects didn't load
-      try {
-        const res = await fetch("/api/admin/subjects");
-        if (res.ok) {
-          const payload = await res.json();
-          if ((payload.success || payload.status === "success") && Array.isArray(payload.data)) {
-            const mapped = payload.data.map((sub: any) => {
-              const cleanSlug = (sub.slug || "").replace(/^\/+/, "");
-              const finalSlug = cleanSlug.startsWith("subject/") ? cleanSlug.replace("subject/", "") : cleanSlug;
-              const humanized = finalSlug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
-              const label = sub.title?.split(" Help")[0]?.split(" Assignment")[0] || humanized;
-              return { label, value: label };
-            });
-            setSubjectsOptions(mapped);
-          }
-        }
-      } catch (e) {
-        console.error("Fallback subjects fetch failed:", e);
+        console.error("Error fetching configurations for sidebar form:", err);
       }
     };
 
@@ -432,14 +421,22 @@ export function SidebarQuoteForm({ sourceName = "Blog Page" }: SidebarQuoteFormP
               <div className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-xs text-text-heading focus-within:border-primary-500 focus-within:bg-white transition-all h-[38px] flex items-center">
                 <CustomDropdown
                   options={subjectsOptions.length > 0 ? subjectsOptions : [
-                    { label: "Accounting Outline", value: "Accounting Outline" },
+                    { label: "Matlab", value: "Matlab" },
+                    { label: "Data Science", value: "Data Science" },
+                    { label: "Engineering", value: "Engineering" },
+                    { label: "App Development", value: "App Development" },
+                    { label: "Web Development", value: "Web Development" },
+                    { label: "Exam", value: "Exam" },
+                    { label: "Public Health", value: "Public Health" },
+                    { label: "Presentation (PPT)", value: "Presentation" },
+                    { label: "Portfolio", value: "Portfolio" },
+                    { label: "Research Report", value: "Research Report" },
                     { label: "Business Management", value: "Business Management" },
+                    { label: "Project Management", value: "Project Management" },
+                    { label: "Essay", value: "Essay" },
+                    { label: "HRM", value: "HRM" },
                     { label: "Economic", value: "Economic" },
-                    { label: "law", value: "law" },
-                    { label: "marketing", value: "marketing" },
-                    { label: "Nursing", value: "Nursing" },
-                    { label: "psychology", value: "psychology" },
-                    { label: "History", value: "History" },
+                    { label: "Other", value: "Other" },
                   ]}
                   value={subject}
                   onChange={setSubject}

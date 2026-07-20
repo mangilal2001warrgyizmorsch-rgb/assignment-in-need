@@ -1,209 +1,35 @@
 import { NextResponse } from "next/server";
+import { staticRoutes, fetchServicePages, fetchSubjectPages, toSitemapXml } from "@/lib/sitemap-data";
 
-export async function GET() {
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-   <url>
-      <loc>https://assignmentinneed.co.uk/</loc>
-      <priority>1</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/marketing-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/business-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/management-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/entrepreneurship-assignment-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/finance-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/accounting-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/economic-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/statistics-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/law-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/engineering-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/computer-science-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/machine-learning-assignment-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/artificial-intelligence-assignment-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/nursing-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/biology-assignment-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/chemistry-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/physics-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/math-assignment-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/humanities-assignment-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/psychology-assignment-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/sociology-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/geography-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/philosophy-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/programming-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/english-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/linguistic-assignment-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/dissertation-editing-and-proofreading-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/dissertation-topic-selection-service-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/dissertation-writing-help-services</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/dissertation-literature-review-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/dissertation-results-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/dissertation-findings-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/reflective-essay-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/descriptive-essay-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/personal-statement-essay-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/argumentative-essay-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/literature-review-essay-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/analytical-essay-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/persuasive-essay-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/extended-essay-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/custom-research-paper-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/masters-research-paper-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/phd-research-paper-help-uk</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/homework-writing-help-services</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/thesis-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/summary-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/personal-statement-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/coursework-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://assignmentinneed.co.uk/term-paper-writing-help</loc>
-      <priority>0.9</priority>
-   </url>
-</urlset>`;
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const baseUrl = `${url.protocol}//${url.host}`;
+
+  const servicePages = await fetchServicePages(baseUrl);
+  const subjectPages = await fetchSubjectPages(baseUrl);
+
+  const urls = [
+    { loc: `${baseUrl}/`, priority: "1.0" },
+    ...staticRoutes.filter((route: string) => route !== "").map((route: string) => ({
+      loc: `${baseUrl}${route}`,
+      priority: "0.9"
+    })),
+    ...servicePages.map((page: string) => ({ loc: page, priority: "0.9" })),
+    ...subjectPages.map((page: string) => ({ loc: page, priority: "0.9" }))
+  ];
+
+  // De-duplicate URLs by loc (case-insensitive)
+  const uniqueUrls: typeof urls = [];
+  const seen = new Set<string>();
+  for (const item of urls) {
+    const key = item.loc.toLowerCase().trim();
+    if (!seen.has(key)) {
+      seen.add(key);
+      uniqueUrls.push(item);
+    }
+  }
+
+  const xml = toSitemapXml(uniqueUrls);
 
   return new NextResponse(xml, {
     headers: {

@@ -35,7 +35,7 @@ type ServicePageApiItem = {
 
 const serviceHref = (slug: string) => `/${slug.replace(/^\/+/, "")}`;
 
-const SERVICE_PAGES_API_URL = "/api/admin/service-pages";
+const SERVICE_PAGES_API_URL = "/api/service-pages";
 
 const humanizeSlug = (slug: string) =>
   slug
@@ -48,16 +48,24 @@ const mapServicePagesToMenu = (
   services: ServicePageApiItem[],
 ): NavLinkItem[] => {
   return services.map((service) => {
-    const parentSlug = service.slug?.trim().replace(/^\/+/, "").replace(/^service\//, "") || "";
+    const parentSlug = service.slug?.trim().replace(/^\/+/, "") || "";
     const parentPath = `/${parentSlug}`;
     
     const parentName = service.title?.trim() || service.hero_heading?.trim() || service.meta_title?.trim() || humanizeSlug(parentSlug || "service");
     
+    const isAssignmentParent = parentSlug === "service/assignment" || parentSlug === "assignment";
+
     const mappedChildren = Array.isArray(service.children)
       ? service.children.map((child) => {
-          const childSlug = child.slug?.trim().replace(/^\/+/, "").replace(/^service\/assignment\/|^service\/dissertation\/|^service\//, "") || "";
-          const childPath = `/${childSlug}`;
-          const childName = child.title?.trim() || child.hero_heading?.trim() || child.meta_title?.trim() || humanizeSlug(childSlug || "service");
+          const rawChildSlug = child.slug?.trim().replace(/^\/+/, "") || "";
+          let childPath = `/${rawChildSlug}`;
+
+          if (isAssignmentParent || rawChildSlug.startsWith("service/assignment/")) {
+            const lastSeg = rawChildSlug.split("/").pop() || rawChildSlug;
+            childPath = `/subject/${lastSeg}`;
+          }
+
+          const childName = child.title?.trim() || child.hero_heading?.trim() || child.meta_title?.trim() || humanizeSlug(rawChildSlug || "service");
           return {
             name: childName,
             path: childPath,
@@ -74,37 +82,36 @@ const mapServicePagesToMenu = (
 };
 
 const SUBJECTS: NavLinkItem[] = [
-  ["Maths", "math"],
-  ["English", "english"],
-  ["Economics", "economics"],
-  ["Chemistry", "chemistry"],
-  ["History", "history"],
-  ["Law", "law"],
-  ["Linguistic", "linguistic"],
-  ["Nursing", "nursing"],
-  ["Physics", "physics"],
-  ["Sociology", "sociology"],
-  ["Philosophy", "philosophy"],
-  ["Statistics", "statistics"],
-  ["Accounting", "accounting"],
-  ["Programming", "programming"],
-  ["Marketing", "marketing"],
-  ["Computer Science", "computer-science"],
-  ["Engineering", "engineering"],
-  ["Finance", "finance"],
-  ["Management", "management"],
-  ["Business", "business"],
-  ["Geography", "geography"],
-  ["Psychology", "psychology"],
-  ["Biology", "biology"],
-  ["Entrepreneurship", "entrepreneurship"],
-  ["Artificial Intelligence", "artificial-intelligence"],
-  ["Machine Learning", "machine-learning"],
-  ["Cybersecurity", "cybersecurity"],
-  ["Humanities", "humanities"],
+  ["Maths", "subject/maths"],
+  ["English", "subject/english"],
+  ["Economics", "subject/economics"],
+  ["Chemistry", "subject/chemistry"],
+  ["History", "subject/history"],
+  ["Law", "subject/law"],
+  ["Linguistic", "subject/linguistic"],
+  ["Nursing", "subject/nursing"],
+  ["Physics", "subject/physics"],
+  ["Sociology", "subject/sociology"],
+  ["Philosophy", "subject/philosophy"],
+  ["Statistics", "subject/statistics"],
+  ["Accounting", "subject/accounting"],
+  ["Programming", "subject/programming"],
+  ["Marketing", "subject/marketing"],
+  ["Computer Science", "subject/computer-science"],
+  ["Engineering", "subject/engineering"],
+  ["Finance", "subject/finance"],
+  ["Management", "subject/management-assignment-help"],
+  ["Business", "subject/business"],
+  ["Geography", "subject/geography"],
+  ["Psychology", "subject/psychology"],
+  ["Biology", "subject/biology"],
+  ["Entrepreneurship", "subject/entrepreneurship"],
+  ["Artificial Intelligence", "subject/artificial-intelligence"],
+  ["Machine Learning", "subject/machine-learning"],
+  ["Cybersecurity", "subject/cybersecurity"],
+  ["Humanities", "subject/humanities"],
 ].map(([name, slug]) => {
-  const mappedSlug = slug === "maths" || slug === "math" ? "math" : slug;
-  return { name, path: `/${mappedSlug}-assignment-help` };
+  return { name, path: `/${slug}` };
 });
 
 const RESOURCES: NavLinkItem[] = [
@@ -321,7 +328,7 @@ export const Navbar = () => {
 
     const fetchSubjects = async () => {
       try {
-        const response = await fetch("/api/admin/subjects", {
+        const response = await fetch("/api/subject-pages", {
           headers: { Accept: "application/json" },
         });
         const payload = await response.json();
@@ -332,17 +339,14 @@ export const Navbar = () => {
         ) {
           const mapped = payload.data.map((item: any) => {
             const cleanSlug = (item.slug || "").replace(/^\/+/, "");
-            const finalSlug = cleanSlug.startsWith("subject/")
-              ? cleanSlug.replace("subject/", "")
-              : cleanSlug;
-            const humanized = finalSlug
+            const humanized = cleanSlug
+              .replace(/^subject\//, "")
               .replace(/-/g, " ")
               .replace(/\b\w/g, (c: string) => c.toUpperCase());
             const name = item.title?.trim() || humanized;
-            const mappedSlug = finalSlug === "maths" || finalSlug === "math" ? "math" : finalSlug;
             return {
               name,
-              path: `/${mappedSlug}-assignment-help`,
+              path: `/${cleanSlug}`,
             };
           });
           setSubjects(mapped);

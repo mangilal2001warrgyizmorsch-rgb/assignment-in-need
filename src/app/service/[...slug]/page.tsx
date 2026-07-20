@@ -127,6 +127,29 @@ export default function ServiceLanding() {
         // instead of the old admin query-string variant.
         let pageResult: any = null;
         
+        // Try 0: Full original slug with service/ or subject/ prefix
+        try {
+          const pageRes0 = await fetch(`/api/service-pages/service/${fullSlug}`);
+          if (pageRes0.ok) {
+            const temp = await pageRes0.json();
+            if (temp && temp.success && temp.data && temp.data.page) {
+              pageResult = temp;
+            }
+          }
+        } catch (e) {}
+
+        if (!pageResult || !pageResult.success || !pageResult.data || !pageResult.data.page) {
+          try {
+            const pageResSub = await fetch(`/api/service-pages/subject/${fullSlug}`);
+            if (pageResSub.ok) {
+              const temp = await pageResSub.json();
+              if (temp && temp.success && temp.data && temp.data.page) {
+                pageResult = temp;
+              }
+            }
+          } catch (e) {}
+        }
+
         // Try 1: Cleaned/extracted apiSlug
         try {
           const pageRes = await fetch(`/api/service-pages/${apiSlug}`);
@@ -248,6 +271,15 @@ export default function ServiceLanding() {
           metaDesc.setAttribute("content", pageData.meta_description);
           document.head.appendChild(metaDesc);
         }
+      }
+      let robotsTag = document.querySelector('meta[name="robots"]');
+      if (robotsTag) {
+        robotsTag.setAttribute("content", "index, follow, max-image-preview:large");
+      } else {
+        robotsTag = document.createElement("meta");
+        robotsTag.setAttribute("name", "robots");
+        robotsTag.setAttribute("content", "index, follow, max-image-preview:large");
+        document.head.appendChild(robotsTag);
       }
     }
   }, [pageData]);

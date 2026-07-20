@@ -248,7 +248,8 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
                     return (
                       <StaggerItem key={sample.id}>
-                        <div
+                        <Link
+                          href={`/samples/${category}/${sample.slug}`}
                           className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer text-left h-full"
                         >
                           <div>
@@ -291,17 +292,16 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                               </span>
                             </div>
 
-                            <Link
-                              href={`/samples/${category}/${sample.slug}`}
+                            <div
                               className="flex items-center justify-between font-bold text-xs text-purple-700 group-hover:text-purple-800 hover:underline"
                             >
                               View or Download{" "}
                               <span className="group-hover:translate-x-1 transition-transform">
                                 &rarr;
                               </span>
-                            </Link>
+                            </div>
                           </div>
-                        </div>
+                        </Link>
                       </StaggerItem>
                     );
                   })}

@@ -80,7 +80,7 @@ export default function SubjectsListPage() {
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        const response = await fetch("/api/admin/subjects", {
+        const response = await fetch("/api/subject-pages", {
           headers: { Accept: "application/json" },
         });
         const payload = await response.json();

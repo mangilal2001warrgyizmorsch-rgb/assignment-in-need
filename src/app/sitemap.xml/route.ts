@@ -1,25 +1,28 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const baseUrl = `${url.protocol}//${url.host}`;
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <sitemap>
-      <loc>https://assignmentinneed.co.uk/page-sitemap.xml</loc>
+      <loc>${baseUrl}/page-sitemap.xml</loc>
    </sitemap>
    <sitemap>
-      <loc>https://assignmentinneed.co.uk/blog.sitemap.xml</loc>
+      <loc>${baseUrl}/blog.sitemap.xml</loc>
    </sitemap>
    <sitemap>
-      <loc>https://assignmentinneed.co.uk/samples-sitemap.xml</loc>
+      <loc>${baseUrl}/samples-sitemap.xml</loc>
    </sitemap>
    <sitemap>
-      <loc>https://assignmentinneed.co.uk/citypage-sitemap.xml</loc>
+      <loc>${baseUrl}/citypage-sitemap.xml</loc>
    </sitemap>
    <sitemap>
-      <loc>https://assignmentinneed.co.uk/writer.sitemap.xml</loc>
+      <loc>${baseUrl}/writer.sitemap.xml</loc>
    </sitemap>
    <sitemap>
-      <loc>https://assignmentinneed.co.uk/other-sitemap.xml</loc>
+      <loc>${baseUrl}/other-sitemap.xml</loc>
    </sitemap>
 </sitemapindex>`;
 

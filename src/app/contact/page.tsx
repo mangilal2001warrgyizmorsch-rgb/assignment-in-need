@@ -44,23 +44,18 @@ export default function ContactPage() {
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
-        const res = await fetch("/api/admin/subjects");
+        const res = await fetch("/api/subjects");
         if (res.ok) {
           const payload = await res.json();
-          if ((payload.success || payload.status === "success") && Array.isArray(payload.data)) {
-            const mapped = payload.data.map((sub: any) => {
-              const cleanSlug = (sub.slug || "").replace(/^\/+/, "");
-              const finalSlug = cleanSlug.startsWith("subject/") ? cleanSlug.replace("subject/", "") : cleanSlug;
-              const humanized = finalSlug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
-              const label = sub.title?.split(" Help")[0]?.split(" Assignment")[0] || humanized;
-              return { label, value: finalSlug };
-            });
+          if (payload.success && Array.isArray(payload.data)) {
+            const mapped = payload.data.map((sub: any) => ({
+              label: sub.name,
+              value: sub.value || sub.name
+            }));
             setSubjectsOptions(mapped);
           }
         }
-      } catch (e) {
-        // fallback
-      }
+      } catch (e) {}
     };
     fetchSubjects();
   }, []);

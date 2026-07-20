@@ -116,6 +116,30 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
     fetchExperts();
   }, [slug, cityName]);
 
+  useEffect(() => {
+    document.title = `${cityName} Assignment Help UK | Top Experts in ${cityName}`;
+    let metaDesc = document.querySelector('meta[name="description"]');
+    const descText = `Need assignment help in ${cityName}? Get top-rated academic writing support from expert writers in ${cityName}, ${countryName}. 100% plagiarism free & on-time.`;
+    if (metaDesc) {
+      metaDesc.setAttribute("content", descText);
+    } else {
+      metaDesc = document.createElement("meta");
+      metaDesc.setAttribute("name", "description");
+      metaDesc.setAttribute("content", descText);
+      document.head.appendChild(metaDesc);
+    }
+
+    let robotsTag = document.querySelector('meta[name="robots"]');
+    if (robotsTag) {
+      robotsTag.setAttribute("content", "index, follow, max-image-preview:large");
+    } else {
+      robotsTag = document.createElement("meta");
+      robotsTag.setAttribute("name", "robots");
+      robotsTag.setAttribute("content", "index, follow, max-image-preview:large");
+      document.head.appendChild(robotsTag);
+    }
+  }, [cityName, countryName]);
+
 
 
   const expertsToRender = expertsList.length > 0
