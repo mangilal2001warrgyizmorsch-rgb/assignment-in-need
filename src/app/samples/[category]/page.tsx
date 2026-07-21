@@ -36,6 +36,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   // Find category ID based on the string slug
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [categoryName, setCategoryName] = useState<string>(category);
+  const [allCategories, setAllCategories] = useState<any[]>([]);
 
   // Filtering and pagination states
   const [searchTerm, setSearchTerm] = useState("");
@@ -47,10 +48,31 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   useEffect(() => {
     const resolveCategoryId = async () => {
       try {
+        // Fetch subject list first
+        const subRes = await fetch("/api/subject-pages");
+        if (subRes.ok) {
+          const subJson = await subRes.json();
+          if ((subJson.success || subJson.status === "success") && Array.isArray(subJson.data) && subJson.data.length > 0) {
+            const mapped = subJson.data.map((s: any) => {
+              const rawTitle = s.title || s.name || s.slug || "";
+              const cleanTitle = rawTitle.split(" Help")[0]?.split(" Assignment")[0]?.trim() || rawTitle;
+              return {
+                id: s.id,
+                name: cleanTitle,
+                slug: s.slug || s.name || cleanTitle,
+              };
+            });
+            setAllCategories(mapped);
+          }
+        }
+
         const response = await fetch("/api/sample-categories");
         if (response.ok) {
           const json = await response.json();
           if (json.success && Array.isArray(json.data)) {
+            if (allCategories.length === 0) {
+              setAllCategories(json.data);
+            }
             const matched = json.data.find(
               (cat: any) =>
                 cat.name.toLowerCase() === category.toLowerCase() ||
@@ -386,29 +408,29 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                 Other Subjects
               </h4>
               <div className="flex flex-col gap-2.5">
-                {[
-                  { name: "Accounting", path: "Account" },
-                  { name: "Business Management", path: "Business" },
-                  { name: "Economics", path: "Economic" },
-                  { name: "Law Studies", path: "law" },
-                  { name: "Marketing Strategy", path: "marketing" },
-                  { name: "Nursing & Health", path: "Nursing" },
-                  { name: "Psychology Speciality", path: "psychology" },
-                ]
-                  .filter(
-                    (item) =>
-                      item.path.toLowerCase() !== category.toLowerCase(),
-                  )
-                  .map((item, idx) => (
-                    <Link
-                      key={idx}
-                      href={`/samples/${item.path}`}
-                      className="flex items-center justify-between text-sm font-semibold text-gray-600 hover:text-purple-700 transition py-1"
-                    >
-                      <span>{item.name}</span>
-                      <span>&rarr;</span>
-                    </Link>
-                  ))}
+                {allCategories
+                  .filter((item: any) => {
+                    const catName = item.name || item.title || "";
+                    return (
+                      catName.toLowerCase() !== category.toLowerCase() &&
+                      catName.toLowerCase().replace(/-/g, " ") !== category.toLowerCase().replace(/-/g, " ")
+                    );
+                  })
+                  .slice(0, 8)
+                  .map((item: any, idx: number) => {
+                    const rawName = item.name || item.title || "";
+                    const displayName = rawName.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+                    return (
+                      <Link
+                        key={item.id || idx}
+                        href={`/samples/${encodeURIComponent(rawName)}`}
+                        className="flex items-center justify-between text-sm font-semibold text-gray-600 hover:text-purple-700 transition py-1"
+                      >
+                        <span>{displayName}</span>
+                        <span>&rarr;</span>
+                      </Link>
+                    );
+                  })}
               </div>
             </div>
           </div>

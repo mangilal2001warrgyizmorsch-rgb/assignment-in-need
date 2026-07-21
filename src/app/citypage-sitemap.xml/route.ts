@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { getCityRoutes, toSitemapXml, getSitemapBaseUrl } from "@/lib/sitemap-data";
+import { fetchCityPages, toSitemapXml, getSitemapBaseUrl } from "@/lib/sitemap-data";
 
 export async function GET() {
   const baseUrl = getSitemapBaseUrl();
 
-  const cityRoutes = getCityRoutes(baseUrl);
+  const cityRoutes = await fetchCityPages(baseUrl);
 
   const urls = cityRoutes.map((cityUrl: string) => ({
     loc: cityUrl,

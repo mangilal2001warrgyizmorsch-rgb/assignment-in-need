@@ -25,6 +25,8 @@ import {
   Network,
   PaintRoller,
   MapPin,
+  HelpCircle,
+  ChevronDown,
 } from "lucide-react";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { ExpertCard } from "@/components/ui/ExpertCard";
@@ -70,17 +72,56 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
   const cityName = matchedCity.name;
   const countryName = matchedCity.country;
 
-  // Dynamic experts
+  // Dynamic experts & page data
   const [expertsList, setExpertsList] = useState<any[]>([]);
+  const [pageData, setPageData] = useState<any>(null);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchExperts = async () => {
+    const fetchCityPageData = async () => {
       try {
         setLoading(true);
-        const res = await fetch("/api/experts");
+        const res = await fetch(`/api/city-pages/${citySlug}`);
         if (res.ok) {
           const result = await res.json();
+          if (result.success && result.data) {
+            if (result.data.page) {
+              setPageData(result.data.page);
+            }
+            if (Array.isArray(result.data.experts) && result.data.experts.length > 0) {
+              const mapped = result.data.experts.map((item: any) => {
+                const parsed = mapExpertToWriter(item);
+                return {
+                  id: parsed.id,
+                  name: parsed.name,
+                  role: `${cityName} Expert`,
+                  qual: parsed.qualifications,
+                  exp: parsed.experience.includes("Years")
+                    ? parsed.experience
+                    : `${parsed.experience} Experience`,
+                  rating: parsed.rating,
+                  orders: parsed.ordersCompleted,
+                  img: parsed.avatar,
+                  expertise: parsed.expertise,
+                };
+              });
+              mapped.sort((a: any, b: any) => {
+                if (b.rating !== a.rating) return b.rating - a.rating;
+                const aOrders = parseInt(a.orders) || 0;
+                const bOrders = parseInt(b.orders) || 0;
+                return bOrders - aOrders;
+              });
+              setExpertsList(mapped);
+              return;
+            }
+          }
+        }
+
+        // Fallback: fetch general experts if no city experts returned
+        const expRes = await fetch("/api/experts");
+        if (expRes.ok) {
+          const result = await expRes.json();
           if (result.success && Array.isArray(result.data)) {
             const mapped = result.data.map((item: any) => {
               const parsed = mapExpertToWriter(item);
@@ -108,18 +149,26 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
           }
         }
       } catch (err) {
-        console.warn("Failed to fetch experts for city page:", err);
+        console.warn("Failed to fetch data for city page:", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchExperts();
-  }, [slug, cityName]);
+    fetchCityPageData();
+  }, [slug, citySlug, cityName]);
 
   useEffect(() => {
-    document.title = `${cityName} Assignment Help UK | Top Experts in ${cityName}`;
+    if (pageData?.meta_title) {
+      document.title = pageData.meta_title;
+    } else {
+      document.title = `${cityName} Assignment Help UK | Top Experts in ${cityName}`;
+    }
+
+    const descText =
+      pageData?.meta_description ||
+      `Need assignment help in ${cityName}? Get top-rated academic writing support from expert writers in ${cityName}, ${countryName}. 100% plagiarism free & on-time.`;
+
     let metaDesc = document.querySelector('meta[name="description"]');
-    const descText = `Need assignment help in ${cityName}? Get top-rated academic writing support from expert writers in ${cityName}, ${countryName}. 100% plagiarism free & on-time.`;
     if (metaDesc) {
       metaDesc.setAttribute("content", descText);
     } else {
@@ -138,7 +187,7 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
       robotsTag.setAttribute("content", "index, follow, max-image-preview:large");
       document.head.appendChild(robotsTag);
     }
-  }, [cityName, countryName]);
+  }, [cityName, countryName, pageData]);
 
 
 
@@ -216,9 +265,15 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
 
               {/* Title */}
               <h1 className="text-[26px] sm:text-[34px] md:text-[40px] lg:text-[42px] w-full max-w-[500px] font-[900] leading-[1.08] text-[#0f1b3d] tracking-tight mb-3 font-heading">
-                Expert {cityName} Assignment Help
-                <br />
-                <span className="text-[#ea580c] block mt-1.5">You Can Rely On</span>
+                {pageData?.hero_heading ? (
+                  pageData.hero_heading
+                ) : (
+                  <>
+                    Expert {cityName} Assignment Help
+                    <br />
+                    <span className="text-[#ea580c] block mt-1.5">You Can Rely On</span>
+                  </>
+                )}
               </h1>
 
               {/* Description */}
@@ -443,6 +498,53 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
           </div>
         </div>
       </section>
+
+      {/* FAQ SECTION */}
+      {Array.isArray(pageData?.faqs) && pageData.faqs.length > 0 && (
+        <section className="py-10 md:py-14 bg-[#faf9fe] border-b border-gray-50">
+          <div className="max-w-[900px] mx-auto px-4">
+            <div className="text-center mb-8">
+              <h2 className="text-[22px] md:text-[28px] font-[900] text-[#0f1b3d] tracking-tight font-heading mb-2">
+                Frequently Asked Questions ({cityName})
+              </h2>
+              <p className="text-xs text-gray-500 font-medium">
+                Everything you need to know about our assignment services in {cityName}.
+              </p>
+            </div>
+            <div className="space-y-3">
+              {pageData.faqs.map((faq: any, idx: number) => {
+                const isOpen = openFaqIndex === idx;
+                return (
+                  <div
+                    key={idx}
+                    className="bg-white border border-gray-150 rounded-xl overflow-hidden shadow-sm transition-all duration-200"
+                  >
+                    <button
+                      onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                      className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 font-bold text-[#0f1b3d] text-sm md:text-base hover:bg-gray-50/50 transition-colors cursor-pointer"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <HelpCircle className="w-4 h-4 text-[#3f159a] shrink-0" />
+                        {faq.question}
+                      </span>
+                      <ChevronDown
+                        className={`w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200 ${
+                          isOpen ? "rotate-180 text-[#3f159a]" : ""
+                        }`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className="px-5 pb-5 pt-1 text-xs md:text-sm text-gray-600 leading-relaxed border-t border-gray-100 bg-gray-50/30">
+                        {faq.answer}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* BOTTOM CTA */}
       <section className="bg-[#0f1b3d] py-12 md:py-16 px-4 text-center">

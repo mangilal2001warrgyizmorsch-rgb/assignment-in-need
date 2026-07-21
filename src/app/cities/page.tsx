@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search, MapPin, Users, Star, ArrowRight, ShieldCheck, HelpCircle, Building2, Globe } from "lucide-react";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
@@ -9,77 +9,68 @@ import { SectionContainer } from "@/components/ui/SectionContainer";
 import { Button } from "@/components/ui/Button";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
 
-const CITIES_DATA = [
-  {
-    country: "United Kingdom",
-    countryCode: "UK",
-    cities: [
-      { name: "London", slug: "london", description: "Top-rated academic assignment support for students in London universities.", writersCount: 142, rating: 4.9, successRate: "99.8%" },
-      { name: "Birmingham", slug: "birmingham", description: "Professional essay and thesis help tailored to Birmingham academic standards.", writersCount: 88, rating: 4.8, successRate: "99.4%" },
-      { name: "Manchester", slug: "manchester", description: "Comprehensive coursework and project report support for Manchester students.", writersCount: 95, rating: 4.9, successRate: "99.6%" },
-      { name: "Leeds", slug: "leeds", description: "Expert writers familiar with Leeds university modules and structures.", writersCount: 64, rating: 4.8, successRate: "98.9%" },
-      { name: "Glasgow", slug: "glasgow", description: "High-quality academic formatting and essay drafting help in Glasgow.", writersCount: 52, rating: 4.7, successRate: "98.8%" },
-      { name: "Edinburgh", slug: "edinburgh", description: "Premier assignment and research writing support in Edinburgh.", writersCount: 58, rating: 4.9, successRate: "99.5%" },
-      { name: "Bristol", slug: "bristol", description: "On-time delivery coursework templates for Bristol university students.", writersCount: 45, rating: 4.8, successRate: "99.1%" },
-      { name: "Liverpool", slug: "liverpool", description: "Dedicated writers supporting Liverpool academic institutions.", writersCount: 41, rating: 4.7, successRate: "98.7%" },
-    ]
-  },
-  {
-    country: "Australia",
-    countryCode: "AU",
-    cities: [
-      { name: "Sydney", slug: "sydney", description: "Expert homework guidance tailored to University of Sydney formats.", writersCount: 110, rating: 4.9, successRate: "99.7%" },
-      { name: "Melbourne", slug: "melbourne", description: "High-caliber thesis and case study support for Melbourne scholars.", writersCount: 104, rating: 4.9, successRate: "99.6%" },
-      { name: "Brisbane", slug: "brisbane", description: "Affordable coursework assistance for students in Brisbane universities.", writersCount: 55, rating: 4.8, successRate: "99.0%" },
-      { name: "Perth", slug: "perth", description: "Fast-turnaround academic helpers for Perth colleges and institutes.", writersCount: 48, rating: 4.7, successRate: "98.6%" },
-      { name: "Adelaide", slug: "adelaide", description: "Quality essay editing and bibliography research in Adelaide.", writersCount: 38, rating: 4.8, successRate: "98.9%" },
-      { name: "Canberra", slug: "canberra", description: "Professional report analysis for Canberra university students.", writersCount: 30, rating: 4.9, successRate: "99.3%" },
-    ]
-  },
-  {
-    country: "Canada",
-    countryCode: "CA",
-    cities: [
-      { name: "Toronto", slug: "toronto", description: "Custom academic writing assistance for Toronto higher education.", writersCount: 82, rating: 4.9, successRate: "99.5%" },
-      { name: "Vancouver", slug: "vancouver", description: "Reliable assignment templates for Vancouver college students.", writersCount: 60, rating: 4.8, successRate: "99.1%" },
-      { name: "Montreal", slug: "montreal", description: "Expert academic editing and proofreading for Montreal students.", writersCount: 46, rating: 4.7, successRate: "98.8%" },
-      { name: "Ottawa", slug: "ottawa", description: "Top-scoring assignment structure guidance for Ottawa universities.", writersCount: 35, rating: 4.8, successRate: "99.0%" },
-    ]
-  },
-  {
-    country: "United Arab Emirates",
-    countryCode: "UAE",
-    cities: [
-      { name: "Dubai", slug: "dubai", description: "Premium academic support tailored for Dubai international universities.", writersCount: 75, rating: 4.9, successRate: "99.6%" },
-      { name: "Abu Dhabi", slug: "abu-dhabi", description: "High-grade coursework and presentation slides assistance in Abu Dhabi.", writersCount: 42, rating: 4.8, successRate: "99.2%" },
-      { name: "Sharjah", slug: "sharjah", description: "Dedicated essay drafting for Sharjah higher education colleges.", writersCount: 28, rating: 4.7, successRate: "98.9%" },
-    ]
-  },
-  {
-    country: "Malaysia",
-    countryCode: "MY",
-    cities: [
-      { name: "Kuala Lumpur", slug: "kuala-lumpur", description: "Reliable assignment writing support for KL university courses.", writersCount: 50, rating: 4.8, successRate: "99.3%" },
-      { name: "Penang", slug: "penang", description: "Custom academic writing and analysis templates in Penang.", writersCount: 22, rating: 4.7, successRate: "98.5%" },
-    ]
-  }
-];
-
 export default function CitiesListPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("All");
+  const [citiesData, setCitiesData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const tabs = ["All", "United Kingdom", "Australia", "Canada", "UAE", "Malaysia"];
+  useEffect(() => {
+    async function fetchApiCities() {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/city-pages");
+        if (res.ok) {
+          const payload = await res.json();
+          const apiCitiesList = [
+            ...(Array.isArray(payload?.static_cities) ? payload.static_cities : []),
+            ...(Array.isArray(payload?.data) ? payload.data : []),
+          ];
+
+          if (apiCitiesList.length > 0) {
+            const citiesList = apiCitiesList.map((item: any) => {
+              const cSlug = (item.id || item.slug?.split("/").pop() || "").toLowerCase();
+              const cName = item.city || item.title?.replace(/^Assignment Help\s+/i, "") || cSlug.replace(/-/g, " ");
+              const formattedName = cName.charAt(0).toUpperCase() + cName.slice(1);
+              return {
+                name: formattedName,
+                slug: cSlug,
+                description: `Professional essay and assignment help tailored for ${formattedName} university students.`,
+                writersCount: 45,
+                rating: 4.9,
+                successRate: "99.2%",
+              };
+            });
+
+            setCitiesData([
+              {
+                country: "United Kingdom",
+                countryCode: "UK",
+                cities: citiesList,
+              },
+            ]);
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to fetch cities list:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchApiCities();
+  }, []);
+
+  const tabs = ["All", "United Kingdom"];
 
   // Filter cities by tab and search query
-  const filteredData = CITIES_DATA.map((group) => {
+  const filteredData = citiesData.map((group: any) => {
     // Check if the group matches the active tab
     const tabMatch = activeTab === "All" || group.country.toLowerCase().includes(activeTab.toLowerCase());
     if (!tabMatch) return { ...group, cities: [] };
 
     // Check search term filter on cities within group
     const filteredCities = group.cities.filter(
-      (city) =>
+      (city: any) =>
         city.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         group.country.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -88,9 +79,9 @@ export default function CitiesListPage() {
       ...group,
       cities: filteredCities,
     };
-  }).filter((group) => group.cities.length > 0);
+  }).filter((group: any) => group.cities.length > 0);
 
-  const totalFilteredCities = filteredData.reduce((acc, curr) => acc + curr.cities.length, 0);
+  const totalFilteredCities = filteredData.reduce((acc: number, curr: any) => acc + curr.cities.length, 0);
 
   return (
     <main className="w-full bg-surface-white font-sans">
@@ -195,7 +186,7 @@ export default function CitiesListPage() {
 
                 {/* Cities Grid */}
                 <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {group.cities.map((city, idx) => (
+                  {group.cities.map((city: any, idx: number) => (
                     <StaggerItem key={city.slug || idx}>
                       <div className="bg-white rounded-2xl border border-gray-100/80 p-5 flex flex-col justify-between shadow-[0_4px_20px_rgb(0,0,0,0.01)] hover:shadow-[0_15px_35px_rgba(63,21,154,0.05)] hover:-translate-y-1 duration-300 min-h-[220px] relative overflow-hidden group">
                         {/* Subtle sky background detail */}

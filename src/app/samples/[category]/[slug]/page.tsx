@@ -33,8 +33,7 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [categoryName, setCategoryName] = useState<string>(category);
-
-
+  const [allCategories, setAllCategories] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchSampleDetail = async () => {
@@ -57,6 +56,23 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
           try {
             let resolvedCategoryId = category;
             try {
+              const subRes = await fetch("/api/subject-pages");
+              if (subRes.ok) {
+                const subJson = await subRes.json();
+                if ((subJson.success || subJson.status === "success") && Array.isArray(subJson.data) && subJson.data.length > 0) {
+                  const mapped = subJson.data.map((s: any) => {
+                    const rawTitle = s.title || s.name || s.slug || "";
+                    const cleanTitle = rawTitle.split(" Help")[0]?.split(" Assignment")[0]?.trim() || rawTitle;
+                    return {
+                      id: s.id,
+                      name: cleanTitle,
+                      slug: s.slug || s.name || cleanTitle,
+                    };
+                  });
+                  setAllCategories(mapped);
+                }
+              }
+
               const catRes = await fetch("/api/sample-categories");
               if (catRes.ok) {
                 const catJson = await catRes.json();
@@ -319,24 +335,29 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
                 Other Subjects
               </h4>
               <div className="flex flex-col gap-2.5">
-                {[
-                  { name: "Accounting Outlines", path: "Account" },
-                  { name: "Business Management", path: "Business" },
-                  { name: "Economics Theory", path: "Economic" },
-                  { name: "Law Case Study", path: "law" },
-                  { name: "Marketing Strategy", path: "marketing" },
-                  { name: "Nursing Outlines", path: "Nursing" },
-                  { name: "Psychology Analysis", path: "psychology" },
-                ].map((item, idx) => (
-                  <Link
-                    key={idx}
-                    href={`/samples/${item.path}`}
-                    className="flex items-center justify-between text-xs font-bold text-gray-600 hover:text-purple-700 transition"
-                  >
-                    <span>{item.name}</span>
-                    <span>&rarr;</span>
-                  </Link>
-                ))}
+                {allCategories
+                  .filter((item: any) => {
+                    const catName = item.name || item.title || "";
+                    return (
+                      catName.toLowerCase() !== category.toLowerCase() &&
+                      catName.toLowerCase().replace(/-/g, " ") !== category.toLowerCase().replace(/-/g, " ")
+                    );
+                  })
+                  .slice(0, 8)
+                  .map((item: any, idx: number) => {
+                    const rawName = item.name || item.title || "";
+                    const displayName = rawName.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+                    return (
+                      <Link
+                        key={item.id || idx}
+                        href={`/samples/${encodeURIComponent(rawName)}`}
+                        className="flex items-center justify-between text-xs font-bold text-gray-600 hover:text-purple-700 transition"
+                      >
+                        <span>{displayName}</span>
+                        <span>&rarr;</span>
+                      </Link>
+                    );
+                  })}
               </div>
             </div>
           </AnimateIn>

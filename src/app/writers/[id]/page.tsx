@@ -22,7 +22,7 @@ import {
   Award,
   ShieldCheck,
   MessageSquare,
-  Loader2
+  Loader2,
 } from "lucide-react";
 
 export default function WriterProfile() {

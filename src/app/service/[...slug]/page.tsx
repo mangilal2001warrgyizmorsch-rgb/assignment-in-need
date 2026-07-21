@@ -1049,45 +1049,55 @@ export default function ServiceLanding() {
       </SectionContainer>
 
       {/* 7. Dynamic FAQ Accordion */}
-      {pageData?.faqs && pageData.faqs.length > 0 && (
-        <SectionContainer className="bg-white border-t border-slate-100 py-6 md:py-8 lg:py-10">
-          <div className="max-w-4xl mx-auto flex flex-col gap-8">
-            <div className="text-center max-w-2xl mx-auto flex flex-col gap-2">
-              <Badge variant="soft-purple" className="w-fit mx-auto text-xs px-3 py-1 font-bold">FAQs</Badge>
-              <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
-                Frequently Asked Questions
-              </Heading>
-            </div>
+      {(() => {
+        const parsedFaqs = normalizeArray(pageData?.faqs || pageData?.faq);
+        const faqsList = parsedFaqs.length > 0 ? parsedFaqs : [
+          { question: "How does your assignment writing service work?", answer: "Place your order by uploading your assignment instructions. Our subject matter experts write your paper from scratch following UK university standards." },
+          { question: "Is your assignment help plagiarism free?", answer: "Yes, 100% plagiarism free. Every paper is written from scratch and checked with premium plagiarism detection software before delivery." },
+          { question: "Can I request revisions if needed?", answer: "Absolutely. We offer unlimited free revisions to ensure your complete satisfaction with the delivered assignment." },
+          { question: "How fast can you complete an urgent assignment?", answer: "We handle urgent requests with deadlines as short as 24 hours while maintaining top academic quality." }
+        ];
 
-            <div className="space-y-4 text-left">
-              {pageData.faqs.map((faq: any, idx: number) => {
-                const isOpen = activeFaq === idx;
-                return (
-                  <div key={idx} className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
-                    <button
-                      onClick={() => setActiveFaq(isOpen ? null : idx)}
-                      className="w-full flex items-center justify-between p-5 text-left font-heading font-extrabold text-sm sm:text-base text-text-heading hover:bg-slate-50 transition-colors outline-none"
-                    >
-                      <span>{faq.question}</span>
-                      <ChevronDown
-                        className={cn(
-                          "w-5 h-5 text-text-muted transition-transform duration-200 shrink-0 ml-4",
-                          isOpen && "transform rotate-180",
-                        )}
-                      />
-                    </button>
-                    {isOpen && (
-                      <div className="p-5 border-t border-slate-100 bg-slate-50/50 text-[15px] sm:text-[15px] text-text-body leading-relaxed whitespace-pre-line">
-                        {faq.answer}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+        return (
+          <SectionContainer className="bg-white border-t border-slate-100 py-6 md:py-8 lg:py-10">
+            <div className="max-w-4xl mx-auto flex flex-col gap-8">
+              <div className="text-center max-w-2xl mx-auto flex flex-col gap-2">
+                <Badge variant="soft-purple" className="w-fit mx-auto text-xs px-3 py-1 font-bold">FAQs</Badge>
+                <Heading level={2} className="text-2xl md:text-3xl font-bold text-text-heading">
+                  Frequently Asked Questions
+                </Heading>
+              </div>
+
+              <div className="space-y-4 text-left">
+                {faqsList.map((faq: any, idx: number) => {
+                  const isOpen = activeFaq === idx;
+                  return (
+                    <div key={idx} className="border border-slate-200 rounded-2xl overflow-hidden bg-white shadow-sm">
+                      <button
+                        onClick={() => setActiveFaq(isOpen ? null : idx)}
+                        className="w-full flex items-center justify-between p-5 text-left font-heading font-extrabold text-sm sm:text-base text-text-heading hover:bg-slate-50 transition-colors outline-none cursor-pointer"
+                      >
+                        <span>{faq.question}</span>
+                        <ChevronDown
+                          className={cn(
+                            "w-5 h-5 text-text-muted transition-transform duration-200 shrink-0 ml-4",
+                            isOpen && "transform rotate-180",
+                          )}
+                        />
+                      </button>
+                      {isOpen && (
+                        <div className="p-5 border-t border-slate-100 bg-slate-50/50 text-[15px] sm:text-[15px] text-text-body leading-relaxed whitespace-pre-line">
+                          {faq.answer}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </SectionContainer>
-      )}
+          </SectionContainer>
+        );
+      })()}
 
       {/* 8. Backend-driven long-form SEO content (was fully hard-coded before) */}
       <SectionContainer className="bg-surface-lavender py-6 md:py-8 lg:py-10">

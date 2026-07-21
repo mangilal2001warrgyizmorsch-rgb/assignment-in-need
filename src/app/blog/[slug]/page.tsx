@@ -9,6 +9,8 @@ import { SidebarQuoteForm } from "@/components/ui/SidebarQuoteForm";
 
 import type { Metadata } from "next";
 
+import { FaqAccordion } from "@/components/ui/FaqAccordion";
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
@@ -203,6 +205,38 @@ export default async function BlogDetailPage({ params }: Props) {
           </AnimateIn>
         </div>
       </SectionContainer>
+
+      {/* Blog FAQs Section */}
+      {(() => {
+        let blogFaqs: any[] = [];
+        if (post.faqs) {
+          if (Array.isArray(post.faqs)) blogFaqs = post.faqs;
+          else if (typeof post.faqs === "string") {
+            try { blogFaqs = JSON.parse(post.faqs); } catch (e) {}
+          }
+        } else if (post.faq) {
+          if (Array.isArray(post.faq)) blogFaqs = post.faq;
+          else if (typeof post.faq === "string") {
+            try { blogFaqs = JSON.parse(post.faq); } catch (e) {}
+          }
+        }
+
+        if (!Array.isArray(blogFaqs) || blogFaqs.length === 0) {
+          blogFaqs = [
+            { question: "How does Assignment In Need help students with academic writing?", answer: "Assignment In Need provides expert academic writing assistance, coursework planning, research guidance, and proofreading services tailored to UK university standards." },
+            { question: "Are the study guides and articles free to access?", answer: "Yes, all articles, guides, and tips published on our blog are 100% free for students to read and reference." },
+            { question: "Can I order custom assignment help based on these blog topics?", answer: "Absolutely. Our expert writers specialize in every subject covered on our blog and can assist you with custom assignments." }
+          ];
+        }
+
+        return (
+          <FaqAccordion
+            title="Frequently Asked Questions"
+            description="Helpful answers to common questions about our articles and academic guidance."
+            faqs={blogFaqs}
+          />
+        );
+      })()}
     </div>
   );
 }

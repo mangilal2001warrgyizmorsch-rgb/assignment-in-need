@@ -2,7 +2,11 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
+import {
+  AnimateIn,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/ui/AnimateIn";
 import {
   ChevronLeft,
   ChevronRight,
@@ -32,8 +36,6 @@ import {
   DollarSign,
   ChevronDown,
 } from "lucide-react";
-
-
 
 const BENEFITS = [
   {
@@ -181,12 +183,12 @@ const getCategoryMeta = (name: string) => {
   if (normalized.includes("sociology")) {
     return { name: "Sociology", badge: "S", icon: Brain };
   }
-  
+
   const char = name.charAt(0).toUpperCase() || "S";
   return {
     name: name.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
     badge: char,
-    icon: BookOpen
+    icon: BookOpen,
   };
 };
 
@@ -202,10 +204,33 @@ export default function SamplesPage() {
         const response = await fetch("/api/sample-categories");
         if (response.ok) {
           const json = await response.json();
-          if (json.success && Array.isArray(json.data)) {
-            // Sort categories by sample_count (descending)
-            const sorted = [...json.data].sort((a, b) => (b.sample_count || 0) - (a.sample_count || 0));
+          if (
+            json.success &&
+            Array.isArray(json.data) &&
+            json.data.length > 0
+          ) {
+            const sorted = [...json.data].sort(
+              (a, b) => (b.sample_count || 0) - (a.sample_count || 0),
+            );
             setCategoriesList(sorted);
+            return;
+          }
+        }
+
+        // Fallback to subject-pages API
+        const subRes = await fetch("/api/subject-pages");
+        if (subRes.ok) {
+          const subJson = await subRes.json();
+          if (
+            (subJson.success || subJson.status === "success") &&
+            Array.isArray(subJson.data)
+          ) {
+            const mapped = subJson.data.map((s: any) => ({
+              id: s.id,
+              name: s.title || s.name || s.slug,
+              sample_count: s.sample_count || 5,
+            }));
+            setCategoriesList(mapped);
           }
         }
       } catch (err) {
@@ -231,28 +256,42 @@ export default function SamplesPage() {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
-  const activeCategories = categoriesList.filter((cat) => (cat.sample_count || 0) > 0);
+  const activeCategories =
+    categoriesList.length > 0
+      ? categoriesList
+      : [
+          { name: "Accounting", sample_count: 152 },
+          { name: "Human Resource", sample_count: 10 },
+          { name: "English", sample_count: 4 },
+          { name: "Law", sample_count: 4 },
+          { name: "Nursing", sample_count: 4 },
+          { name: "History", sample_count: 3 },
+          { name: "Business Management", sample_count: 12 },
+          { name: "Economics", sample_count: 8 },
+        ];
 
   const displayCategories = activeCategories.map((cat) => {
-    const meta = getCategoryMeta(cat.name);
+    const rawName = cat.name || cat.title || "";
+    const meta = getCategoryMeta(rawName);
     return {
       name: meta.name,
       count: `${cat.sample_count || 0} Samples`,
-      category: cat.name,
+      category: rawName,
       badge: meta.badge,
       icon: meta.icon,
-      type: "icon"
+      type: "icon",
     };
   });
 
   const displaySubjects = activeCategories.map((cat) => {
-    const meta = getCategoryMeta(cat.name);
+    const rawName = cat.name || cat.title || "";
+    const meta = getCategoryMeta(rawName);
     return {
       name: meta.name,
       count: String(cat.sample_count || 0),
       badge: meta.badge,
       icon: meta.icon,
-      category: cat.name,
+      category: rawName,
     };
   });
 
@@ -281,7 +320,10 @@ export default function SamplesPage() {
           />
         </div>
 
-        <AnimateIn variant="fadeUp" className="lg:w-1/2 relative z-20 text-left">
+        <AnimateIn
+          variant="fadeUp"
+          className="lg:w-1/2 relative z-20 text-left"
+        >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-50 border border-purple-100 text-purple-700 text-sm font-semibold mb-6">
             <svg
               className="w-4 h-4"
@@ -354,7 +396,10 @@ export default function SamplesPage() {
           </div>
         </AnimateIn>
 
-        <AnimateIn variant="scaleUp" className="hidden lg:flex lg:w-1/2 mt-12 lg:mt-0 relative justify-end z-10">
+        <AnimateIn
+          variant="scaleUp"
+          className="hidden lg:flex lg:w-1/2 mt-12 lg:mt-0 relative justify-end z-10"
+        >
           <img
             src="/new-sample-img/hero1.png"
             alt="Free Samples Illustration"
@@ -385,39 +430,40 @@ export default function SamplesPage() {
             className="flex overflow-x-auto gap-4 py-2 px-2 w-full lg:w-11/12 snap-x scroll-smooth"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {apiLoading ? (
-              Array.from({ length: 8 }).map((_, idx) => (
-                <div key={idx} className="flex-shrink-0 border border-gray-100 rounded-xl px-4 py-3 flex items-center gap-3 bg-white min-w-[160px] animate-pulse">
-                  <div className="w-10 h-10 bg-slate-200 rounded-full shrink-0"></div>
-                  <div className="flex-1 space-y-2">
-                    <div className="h-4 bg-slate-200 rounded w-3/4"></div>
-                    <div className="h-3 bg-slate-200 rounded w-1/2"></div>
+            {apiLoading
+              ? Array.from({ length: 8 }).map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="flex-shrink-0 border border-gray-100 rounded-xl px-4 py-3 flex items-center gap-3 bg-white min-w-[160px] animate-pulse"
+                  >
+                    <div className="w-10 h-10 bg-slate-200 rounded-full shrink-0"></div>
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 bg-slate-200 rounded w-3/4"></div>
+                      <div className="h-3 bg-slate-200 rounded w-1/2"></div>
+                    </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              displayCategories.map((cat, idx) => (
-                <Link
-                  key={idx}
-                  href={`/samples/${cat.category}`}
-                  className="flex-shrink-0 border border-gray-200 rounded-xl px-4 py-3 flex items-center gap-3 bg-white hover:border-purple-300 hover:shadow-md cursor-pointer transition-all duration-300 hover:-translate-y-1 group snap-start min-w-[160px]"
-                >
-                  <div className="w-10 h-10 bg-purple-50 text-purple-700 rounded-full flex items-center justify-center font-bold text-lg group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
-                    {cat.type === "letter" ? (
-                      cat.badge
-                    ) : cat.icon ? (
-                      <cat.icon className="w-5 h-5 text-purple-700 group-hover:text-white transition-colors" />
-                    ) : null}
-                  </div>
-                  <div className="text-left">
-                    <h4 className="font-bold text-gray-900 text-sm group-hover:text-purple-700 transition-colors">
-                      {cat.name}
-                    </h4>
-                    <p className="text-xs text-gray-500">{cat.count}</p>
-                  </div>
-                </Link>
-              ))
-            )}
+                ))
+              : displayCategories.map((cat, idx) => (
+                  <Link
+                    key={idx}
+                    href={`/samples/${cat.category}`}
+                    className="flex-shrink-0 border border-gray-200 rounded-xl px-4 py-3 flex items-center gap-3 bg-white hover:border-purple-300 hover:shadow-md cursor-pointer transition-all duration-300 hover:-translate-y-1 group snap-start min-w-[160px]"
+                  >
+                    <div className="w-10 h-10 bg-purple-50 text-purple-700 rounded-full flex items-center justify-center font-bold text-lg group-hover:scale-110 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
+                      {cat.type === "letter" ? (
+                        cat.badge
+                      ) : cat.icon ? (
+                        <cat.icon className="w-5 h-5 text-purple-700 group-hover:text-white transition-colors" />
+                      ) : null}
+                    </div>
+                    <div className="text-left">
+                      <h4 className="font-bold text-gray-900 text-sm group-hover:text-purple-700 transition-colors">
+                        {cat.name}
+                      </h4>
+                      <p className="text-xs text-gray-500">{cat.count}</p>
+                    </div>
+                  </Link>
+                ))}
           </div>
 
           <button
@@ -444,51 +490,52 @@ export default function SamplesPage() {
         </div>
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {apiLoading ? (
-            Array.from({ length: 8 }).map((_, idx) => (
-              <div key={idx} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 animate-pulse h-full flex flex-col justify-between min-h-[220px]">
-                <div>
-                  <div className="w-12 h-12 bg-slate-200 rounded-full mb-4"></div>
-                  <div className="h-6 bg-slate-200 rounded w-3/4 mb-3"></div>
-                  <div className="h-4 bg-slate-200 rounded w-1/3"></div>
-                </div>
-                <div className="h-10 bg-slate-200 rounded-lg w-full mt-6"></div>
-              </div>
-            ))
-          ) : (
-            displaySubjects.map((sub, idx) => (
-              <StaggerItem key={idx}>
+          {apiLoading
+            ? Array.from({ length: 8 }).map((_, idx) => (
                 <div
-                  className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group cursor-pointer h-full flex flex-col justify-between"
-                  onClick={() => {
-                    window.location.href = `/samples/${sub.category}`;
-                  }}
+                  key={idx}
+                  className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 animate-pulse h-full flex flex-col justify-between min-h-[220px]"
                 >
                   <div>
-                    <div className="w-12 h-12 bg-purple-700 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 group-hover:-translate-y-1 group-hover:shadow-lg transition-all">
-                      {sub.badge}
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-purple-800 transition-colors text-left">
-                      {sub.name}
-                    </h3>
-                    <span className="inline-block bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded mt-2 flex w-fit">
-                      {sub.count} Samples
-                    </span>
+                    <div className="w-12 h-12 bg-slate-200 rounded-full mb-4"></div>
+                    <div className="h-6 bg-slate-200 rounded w-3/4 mb-3"></div>
+                    <div className="h-4 bg-slate-200 rounded w-1/3"></div>
                   </div>
-                  <Link
-                    href={`/samples/${sub.category}`}
-                    className="mt-6 flex items-center justify-between font-bold btn-shutter-blue-close py-2.5 px-4 rounded-lg w-full text-sm"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    View Samples{" "}
-                    <span className="group-hover:translate-x-1 transition-transform">
-                      &rarr;
-                    </span>
-                  </Link>
+                  <div className="h-10 bg-slate-200 rounded-lg w-full mt-6"></div>
                 </div>
-              </StaggerItem>
-            ))
-          )}
+              ))
+            : displaySubjects.map((sub, idx) => (
+                <StaggerItem key={idx}>
+                  <div
+                    className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group cursor-pointer h-full flex flex-col justify-between"
+                    onClick={() => {
+                      window.location.href = `/samples/${sub.category}`;
+                    }}
+                  >
+                    <div>
+                      <div className="w-12 h-12 bg-purple-700 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 group-hover:-translate-y-1 group-hover:shadow-lg transition-all">
+                        {sub.badge}
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-purple-800 transition-colors text-left">
+                        {sub.name}
+                      </h3>
+                      <span className="inline-block bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded mt-2 flex w-fit">
+                        {sub.count} Samples
+                      </span>
+                    </div>
+                    <Link
+                      href={`/samples/${sub.category}`}
+                      className="mt-6 flex items-center justify-between font-bold btn-shutter-blue-close py-2.5 px-4 rounded-lg w-full text-sm"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      View Samples{" "}
+                      <span className="group-hover:translate-x-1 transition-transform">
+                        &rarr;
+                      </span>
+                    </Link>
+                  </div>
+                </StaggerItem>
+              ))}
         </StaggerContainer>
 
         <div className="text-center mt-10">

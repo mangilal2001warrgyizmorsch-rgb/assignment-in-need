@@ -71,6 +71,7 @@ import {
   GraduationCap,
   Network,
   PaintRoller,
+  HelpCircle,
 } from "lucide-react";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { QuoteForm } from "@/components/ui/QuoteForm";
@@ -145,6 +146,7 @@ export default function SubjectLanding() {
   const [loading, setLoading] = useState(true);
   const [isNotFound, setIsNotFound] = useState(false);
   const [seoExpanded, setSeoExpanded] = useState(false);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   // Map backend helper to match Writer model
   const mapExpertToWriterLocal = (expert: any) => {
@@ -1302,6 +1304,63 @@ export default function SubjectLanding() {
           )}
         </div>
       </section>
+
+      {/* Dynamic FAQ Accordion Section */}
+      {(() => {
+        const parsedFaqs = normalizeArray(pageData?.faqs || pageData?.faq);
+        const faqsList = parsedFaqs.length > 0 ? parsedFaqs : [
+          { question: `Why should I choose your ${subject.name} assignment help?`, answer: `Our ${subject.name} experts hold advanced Master's and Ph.D. degrees. They write plagiarism-free assignments adhering strictly to UK university guidelines.` },
+          { question: `Are your ${subject.name} assignments 100% original?`, answer: `Yes, every paper is written from scratch. We provide free plagiarism and AI-check reports with every completed assignment.` },
+          { question: `Can I request revisions for my ${subject.name} coursework?`, answer: `We offer unlimited free revisions until you are completely satisfied with your ${subject.name} paper.` },
+          { question: `How quickly can an expert deliver my ${subject.name} assignment?`, answer: `We accommodate urgent requests with turnarounds starting as fast as 24 hours while maintaining exceptional quality.` }
+        ];
+
+        return (
+          <section className="py-10 md:py-14 bg-[#faf9fe] border-b border-gray-50">
+            <div className="max-w-[900px] mx-auto px-4">
+              <div className="text-center mb-8">
+                <h2 className="text-[22px] md:text-[28px] font-[900] text-[#0f1b3d] tracking-tight font-heading mb-2">
+                  Frequently Asked Questions ({subject.name})
+                </h2>
+                <p className="text-xs text-gray-500 font-medium">
+                  Find answers to common questions about our {subject.name} writing services.
+                </p>
+              </div>
+              <div className="space-y-3">
+                {faqsList.map((faq: any, idx: number) => {
+                  const isOpen = activeFaq === idx;
+                  return (
+                    <div
+                      key={idx}
+                      className="bg-white border border-gray-150 rounded-xl overflow-hidden shadow-sm transition-all duration-200"
+                    >
+                      <button
+                        onClick={() => setActiveFaq(isOpen ? null : idx)}
+                        className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 font-bold text-[#0f1b3d] text-sm md:text-base hover:bg-gray-50/50 transition-colors cursor-pointer"
+                      >
+                        <span className="flex items-center gap-2.5">
+                          <HelpCircle className="w-4 h-4 text-[#3f159a] shrink-0" />
+                          {faq.question}
+                        </span>
+                        <ChevronDown
+                          className={`w-4 h-4 text-gray-400 shrink-0 transition-transform duration-200 ${
+                            isOpen ? "rotate-180 text-[#3f159a]" : ""
+                          }`}
+                        />
+                      </button>
+                      {isOpen && (
+                        <div className="px-5 pb-5 pt-1 text-xs md:text-sm text-gray-600 leading-relaxed border-t border-gray-100 bg-gray-50/30 whitespace-pre-line">
+                          {faq.answer}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* Custom Stylesheet for Select Box arrows and custom focus styles matching HeroSection.tsx */}
       <style>{`

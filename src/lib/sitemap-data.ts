@@ -33,13 +33,10 @@ export const staticRoutes = [
   "/blog",
   "/cities",
   "/contact",
-  "/login",
-  "/order",
   "/pricing",
   "/privacy-policy",
   "/review",
   "/samples",
-  "/signup",
   "/subjects",
   "/terms-conditions",
   "/writers",
@@ -74,6 +71,46 @@ export const citySlugs = [
 export function getCityRoutes(baseUrl: string): string[] {
   // Map standard UK and global city paths to the /cities/[slug] format
   return citySlugs.map((slug) => `${baseUrl}/cities/${slug}`);
+}
+
+export async function fetchCityPages(baseUrl: string): Promise<string[]> {
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/city-pages`, {
+      next: { revalidate: 3600 },
+    });
+    if (res.ok) {
+      const payload = await res.json();
+      const staticCities = Array.isArray(payload?.static_cities) ? payload.static_cities : [];
+      const dynamicData = Array.isArray(payload?.data) ? payload.data : [];
+
+      const routes: string[] = [];
+
+      staticCities.forEach((city: any) => {
+        if (city.id) {
+          routes.push(`${baseUrl}/cities/${city.id}`);
+        } else if (city.slug) {
+          const lastSeg = city.slug.split("/").pop();
+          if (lastSeg) routes.push(`${baseUrl}/cities/${lastSeg}`);
+        }
+      });
+
+      dynamicData.forEach((city: any) => {
+        if (city.id) {
+          routes.push(`${baseUrl}/cities/${city.id}`);
+        } else if (city.slug) {
+          const lastSeg = city.slug.split("/").pop();
+          if (lastSeg) routes.push(`${baseUrl}/cities/${lastSeg}`);
+        }
+      });
+
+      if (routes.length > 0) {
+        return Array.from(new Set(routes));
+      }
+    }
+  } catch (e) {
+    console.error("Sitemap: Failed to fetch city pages", e);
+  }
+  return getCityRoutes(baseUrl);
 }
 
 export async function fetchBlogs(baseUrl: string): Promise<string[]> {
