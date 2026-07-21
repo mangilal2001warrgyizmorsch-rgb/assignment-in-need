@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
+import { getSitemapBaseUrl } from "@/lib/sitemap-data";
 
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const baseUrl = `${url.protocol}//${url.host}`;
+export async function GET() {
+  const baseUrl = getSitemapBaseUrl();
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { fetchSamples, fetchSampleCategories, toSitemapXml } from "@/lib/sitemap-data";
+import { fetchSamples, fetchSampleCategories, toSitemapXml, getSitemapBaseUrl } from "@/lib/sitemap-data";
 
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const baseUrl = `${url.protocol}//${url.host}`;
+export async function GET() {
+  const baseUrl = getSitemapBaseUrl();
 
   const sampleCategories = await fetchSampleCategories(baseUrl);
   const samples = await fetchSamples(baseUrl);

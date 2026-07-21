@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { toSitemapXml } from "@/lib/sitemap-data";
+import { toSitemapXml, getSitemapBaseUrl } from "@/lib/sitemap-data";
 
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const baseUrl = `${url.protocol}//${url.host}`;
+export async function GET() {
+  const baseUrl = getSitemapBaseUrl();
 
   const pages = [
     "contact-us",
