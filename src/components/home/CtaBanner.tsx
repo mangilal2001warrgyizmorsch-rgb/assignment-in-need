@@ -5,7 +5,7 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 
 export default function CtaBanner() {
   return (
-    <section className="pt-2 pb-6 px-4 md:pt-4 md:pb-8 md:px-6 bg-[#fafaff] font-sans flex justify-center overflow-hidden">
+    <section className="pt-2 pb-6 px-4 md:pt-4 md:pb-8 md:px-6 bg-[#fafaff] font-sans flex justify-center ">
       {/* Outer Banner Card with responsive padding to accommodate absolute student image */}
       <AnimateIn variant="scaleUp" className="relative w-full max-w-[1200px] bg-gradient-to-r from-[#241165] via-[#3a1a8c] to-[#e8523f] rounded-2xl flex flex-col lg:flex-row items-center justify-between p-6 md:p-[2rem_2rem_2rem_200px] lg:p-[2rem_3rem_2rem_220px] text-center lg:text-left gap-6 lg:gap-0 shadow-[0_10px_35px_rgba(0,0,0,0.06)] overflow-visible">
         {/* Layered transparent circles for premium texture */}

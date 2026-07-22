@@ -1295,7 +1295,7 @@ export default function SubjectLanding() {
                 </div>
               </div>
               <Link
-                href="#quote-form"
+                href="/order"
                 className="btn-shutter-blue-open text-white font-extrabold py-3.5 px-6 rounded-lg text-[11px] uppercase tracking-wider shadow-md transition duration-200 whitespace-nowrap w-full md:w-auto text-center cursor-pointer border-none"
               >
                 Order Now &rarr;
@@ -1320,10 +1320,10 @@ export default function SubjectLanding() {
             <div className="max-w-[900px] mx-auto px-4">
               <div className="text-center mb-8">
                 <h2 className="text-[22px] md:text-[28px] font-[900] text-[#0f1b3d] tracking-tight font-heading mb-2">
-                  Frequently Asked Questions ({subject.name})
+                  Frequently Asked Questions
                 </h2>
                 <p className="text-xs text-gray-500 font-medium">
-                  Find answers to common questions about our {subject.name} writing services.
+                  Find answers to common questions about our {subject.name} Assignment writing services.
                 </p>
               </div>
               <div className="space-y-3">
