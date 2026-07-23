@@ -242,6 +242,7 @@ function ServiceTile({
         alt={service.title}
         width={isFeature ? 280 : 180}
         height={isFeature ? 240 : 130}
+        style={{ width: "auto", height: "auto" }}
         className={`${imageSize} object-contain pointer-events-none transition-transform duration-300 group-hover:scale-105`}
         onError={() => {
           setImgSrc(SERVICE_STYLES[index % SERVICE_STYLES.length].image);

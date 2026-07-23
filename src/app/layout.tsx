@@ -32,7 +32,9 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://assignmentinneed.co.uk"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL || "https://assignmentinneed.co.uk",
+  ),
   title: "Assignment Help UK | Human-Written Academic Support",
   description:
     "Need reliable Assignment Help UK? Get human-written essays, reports, coursework, and dissertations from subject specialists who understand UK universities.",
@@ -102,19 +104,25 @@ export default function RootLayout({
     >
       <head>
         <CanonicalHeader />
-        <link
-          rel="preload"
-          href="/new-home-page-images/ain-hero-bg.webp"
-          as="image"
-          fetchPriority="high"
-          type="image/webp"
-        />
-        <link
-          rel="preload"
-          href="/new-home-page-images/New-Hero-Bg.webp"
-          as="image"
-          fetchPriority="high"
-          type="image/webp"
+        <Script
+          id="chunk-error-handler"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (typeof window !== 'undefined') {
+                window.addEventListener('error', function(e) {
+                  if (e && e.message && (/Loading chunk .* failed/.test(e.message) || /ChunkLoadError/.test(e.message))) {
+                    window.location.reload();
+                  }
+                });
+                window.addEventListener('unhandledrejection', function(e) {
+                  if (e && e.reason && (e.reason.name === 'ChunkLoadError' || /Loading chunk .* failed/.test(e.reason.message || ''))) {
+                    window.location.reload();
+                  }
+                });
+              }
+            `,
+          }}
         />
         <Script
           id="google-tag-manager"
@@ -148,7 +156,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           reverseOrder={false}
           containerStyle={{ zIndex: 99999 }}
         />
-      </body>   
+      </body>
     </html>
   );
 }

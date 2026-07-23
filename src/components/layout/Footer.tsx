@@ -42,6 +42,7 @@ export const Footer = () => {
               alt="Assignment IN NEED"
               width={180}
               height={62}
+              style={{ width: "auto", height: "auto" }}
               className="max-h-[62px] object-contain"
             />
           </Link>

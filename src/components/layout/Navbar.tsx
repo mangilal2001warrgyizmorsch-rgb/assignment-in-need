@@ -1068,6 +1068,7 @@ export const Navbar = () => {
               alt="Assignment In Need Logo"
               width={160}
               height={55}
+              style={{ width: "auto" }}
               priority
             />
           </Link>
