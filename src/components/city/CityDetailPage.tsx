@@ -158,6 +158,10 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
   }, [slug, citySlug, cityName]);
 
   useEffect(() => {
+    if (loading) {
+      return;
+    }
+
     if (pageData?.meta_title) {
       document.title = pageData.meta_title;
     } else {
@@ -187,9 +191,38 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
       robotsTag.setAttribute("content", "index, follow, max-image-preview:large");
       document.head.appendChild(robotsTag);
     }
-  }, [cityName, countryName, pageData]);
+  }, [cityName, countryName, loading, pageData]);
 
-
+  if (loading) {
+    return (
+      <div
+        className="min-h-[620px] bg-white"
+        role="status"
+        aria-label={`Loading ${cityName} assignment help`}
+      >
+        <section
+          className="border-b border-gray-100 px-4 py-10 md:px-6 lg:px-8"
+          style={{ background: "linear-gradient(115deg, #ffffff 48%, #faf8ff)" }}
+        >
+          <div className="mx-auto max-w-[1250px] animate-pulse">
+            <div className="mb-8 h-3 w-52 rounded bg-gray-200" />
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+              <div className="space-y-5 lg:col-span-7">
+                <div className="h-4 w-56 rounded bg-gray-200" />
+                <div className="h-10 w-full max-w-[500px] rounded bg-gray-200" />
+                <div className="h-10 w-4/5 max-w-[420px] rounded bg-gray-200" />
+                <div className="h-4 w-full max-w-[450px] rounded bg-gray-100" />
+                <div className="h-4 w-3/4 max-w-[340px] rounded bg-gray-100" />
+                <div className="h-12 w-44 rounded-lg bg-gray-200" />
+              </div>
+              <div className="h-[360px] rounded-2xl bg-gray-100 lg:col-span-4 lg:col-start-9" />
+            </div>
+          </div>
+        </section>
+        <span className="sr-only">Loading city page…</span>
+      </div>
+    );
+  }
 
   const expertsToRender = expertsList.length > 0
     ? expertsList

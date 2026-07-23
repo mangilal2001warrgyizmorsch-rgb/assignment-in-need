@@ -11,5 +11,10 @@ interface CityRoutePageProps {
 
 export default function CityRoutePage({ params }: CityRoutePageProps) {
   const resolvedParams = use(params);
-  return <CityDetailPage slug={resolvedParams.slug} />;
+  return (
+    <CityDetailPage
+      key={resolvedParams.slug}
+      slug={resolvedParams.slug}
+    />
+  );
 }
