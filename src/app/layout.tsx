@@ -5,7 +5,6 @@ import { Footer } from "@/components/layout/Footer";
 import Script from "next/script";
 import { Toaster } from "react-hot-toast";
 import { CanonicalHeader } from "@/components/layout/CanonicalHeader";
-import { ChunkFix } from "@/components/common/ChunkFix";
 import { ChatBot } from "@/components/ui/ChatBot";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import "./globals.css";
@@ -110,18 +109,59 @@ export default function RootLayout({
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-              if (typeof window !== 'undefined') {
-                window.addEventListener('error', function(e) {
-                  if (e && e.message && (/Loading chunk .* failed/.test(e.message) || /ChunkLoadError/.test(e.message))) {
-                    window.location.reload();
+              (function () {
+                var RETRY_KEY = 'ain:chunk-retry';
+                var RETRY_WINDOW_MS = 60000;
+
+                function isChunkError(value) {
+                  var message = value && value.message
+                    ? value.message
+                    : String(value || '');
+
+                  return (
+                    (value && value.name === 'ChunkLoadError') ||
+                    /ChunkLoadError/i.test(message) ||
+                    /Loading chunk .* failed/i.test(message) ||
+                    /Failed to load chunk/i.test(message)
+                  );
+                }
+
+                function recoverFromChunkError() {
+                  var now = Date.now();
+
+                  try {
+                    var lastRetry = Number(sessionStorage.getItem(RETRY_KEY) || 0);
+                    if (now - lastRetry < RETRY_WINDOW_MS) {
+                      return;
+                    }
+                    sessionStorage.setItem(RETRY_KEY, String(now));
+                  } catch (_) {
+                    return;
+                  }
+
+                  var retryUrl = new URL(window.location.href);
+                  retryUrl.searchParams.set('_chunk_retry', String(now));
+                  window.location.replace(retryUrl.toString());
+                }
+
+                window.addEventListener('error', function (event) {
+                  var failedAsset = event && event.target;
+                  var assetUrl = failedAsset && (failedAsset.src || failedAsset.href);
+
+                  if (
+                    isChunkError(event && event.error ? event.error : event) ||
+                    (assetUrl && assetUrl.indexOf('/_next/static/') !== -1)
+                  ) {
+                    recoverFromChunkError();
                   }
                 });
-                window.addEventListener('unhandledrejection', function(e) {
-                  if (e && e.reason && (e.reason.name === 'ChunkLoadError' || /Loading chunk .* failed/.test(e.reason.message || ''))) {
-                    window.location.reload();
+
+                window.addEventListener('unhandledrejection', function (event) {
+                  if (isChunkError(event && event.reason)) {
+                    recoverFromChunkError();
                   }
                 });
-              }
+              })();
             `,
           }}
         />
@@ -147,7 +187,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        <ChunkFix />
         <Navbar />
         <main className="flex-grow">{children}</main>
         <Footer />
