@@ -95,12 +95,10 @@ export const mapExpertToWriter = (expert: any): Writer => {
     }
   }
 
-  // Fallback avatar initials or full image URL
-  let avatarUrl = "";
-  if (expert.image) {
+  // Fallback avatar full image URL or default blank avatar
+  let avatarUrl = "/assets/media/avatars/blank.png";
+  if (expert.image && !expert.image.includes("blank.png") && !expert.image.includes("ui-avatars.com")) {
     avatarUrl = getImageUrl(expert.image);
-  } else {
-    avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=f3e8ff&color=6b21a8`;
   }
 
   return {

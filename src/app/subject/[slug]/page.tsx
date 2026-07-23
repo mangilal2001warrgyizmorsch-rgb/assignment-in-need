@@ -77,6 +77,7 @@ import { AnimateIn } from "@/components/ui/AnimateIn";
 import { QuoteForm } from "@/components/ui/QuoteForm";
 import { Button } from "@/components/ui/Button";
 import { ExpertCard } from "@/components/ui/ExpertCard";
+import { ExpertSlider } from "@/components/ui/ExpertSlider";
 
 export default function SubjectLanding() {
   const params = useParams();
@@ -183,13 +184,11 @@ export default function SubjectLanding() {
     }
 
     // Get image
-    let avatarUrl = "";
-    if (expert.image) {
+    let avatarUrl = "/assets/media/avatars/blank.png";
+    if (expert.image && !expert.image.includes("blank.png") && !expert.image.includes("ui-avatars.com")) {
       avatarUrl = expert.image.startsWith("http")
         ? expert.image
         : `https://ain.warrgyizmorsch.com/${expert.image.startsWith("/") ? expert.image : `/${expert.image}`}`;
-    } else {
-      avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(writerName)}&background=f3e8ff&color=6b21a8`;
     }
 
     const finalImg = avatarUrl;
@@ -215,14 +214,14 @@ export default function SubjectLanding() {
         if (cleanSlug === "math") cleanSlug = "maths";
 
         const endpointsToTry = [
+          `/api/subject-pages/${slug}`,
+          `/api/subject-pages/subject/${slug}`,
           `/api/subject-pages/subject/${cleanSlug}`,
           `/api/subject-pages/${cleanSlug}`,
           `/api/service-pages/service/assignment/${cleanSlug}`,
           `/api/service-pages/service/${cleanSlug}`,
           `/api/service-pages/${cleanSlug}`,
           `/api/service-pages/subject/${cleanSlug}`,
-          `/api/subject-pages/subject/${slug}`,
-          `/api/subject-pages/${slug}`,
           `/api/service-pages/${slug}`,
         ];
 
@@ -957,29 +956,21 @@ export default function SubjectLanding() {
                 View All Experts <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
+            <ExpertSlider
+              experts={expertsToRender.map((expert, i) => ({
+                id: expert.id || String(i),
+                name: expert.name,
+                role: expert.role,
+                rating: expert.rating,
+                ordersCount: expert.orders,
+                avatar: expert.img || "/assets/media/avatars/blank.png",
+                experience: expert.exp,
+                qualifications: expert.qual,
+                slug: expert.slug,
+              }))}
+            />
           </div>
           <div className="relative">
-            {/* Carousel track */}
-            <div
-              className="flex overflow-x-auto pb-4 lg:pb-0 -mx-4 px-4 snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:gap-5 lg:overflow-visible lg:mx-0 lg:px-0 gap-4 scroll-smooth"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              {expertsToRender.map((expert, i) => (
-                <ExpertCard
-                  key={i}
-                  name={expert.name}
-                  role={expert.role}
-                  rating={expert.rating}
-                  ordersCount={expert.orders}
-                  avatar={expert.img || "/assets/media/avatars/blank.png"}
-                  experience={expert.exp}
-                  qualifications={expert.qual}
-                  variant="subject"
-                  className="w-[265px] sm:w-[45%] lg:w-auto shrink-0"
-                />
-              ))}
-            </div>
-
             {/* Visual Dot pagination for mobile to match design spec */}
             <div className="flex md:hidden justify-center gap-2 mt-6">
               <span className="w-2.5 h-2.5 rounded-full bg-gray-300" />
@@ -1229,8 +1220,8 @@ export default function SubjectLanding() {
           <div className="max-w-[1000px] mx-auto px-4 flex flex-col gap-4">
             <div
               className={cn(
-                "relative overflow-hidden transition-all duration-500 ease-in-out",
-                seoExpanded ? "max-h-[3000px]" : "max-h-[260px]"
+                "relative transition-all duration-500 ease-in-out",
+                seoExpanded ? "max-h-none overflow-visible" : "max-h-[260px] overflow-hidden"
               )}
             >
               <div

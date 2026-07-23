@@ -28,6 +28,7 @@ import {
   StaggerItem,
 } from "@/components/ui/AnimateIn";
 import { ExpertCard } from "@/components/ui/ExpertCard";
+import { ExpertSlider } from "@/components/ui/ExpertSlider";
 
 export default function AboutPage() {
   const steps = [
@@ -132,14 +133,13 @@ export default function AboutPage() {
                   name: writer.name,
                   role: writer.role,
                   rating: writer.rating,
-                  img: hasRealImage ? writer.avatar : "",
+                  img: hasRealImage ? writer.avatar : "/assets/media/avatars/blank.png",
                   orders: writer.ordersCompleted || 1200,
                   success: writer.successRate || 98,
                   hasRealImage,
                 };
               })
-              .filter((expert: any) => expert.hasRealImage && expert.img)
-              .slice(0, 4);
+              .slice(0, 8);
             setDynamicExperts(mapped);
           }
         }
@@ -645,34 +645,19 @@ export default function AboutPage() {
             </Link>
           </div>
 
-          {/* Experts cards: row on desktop, stacked list on mobile */}
-          <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {experts.map((expert, i) => {
-              const firstLetter = (expert.name || "A").charAt(0).toUpperCase();
-              const bgGradients = [
-                "bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-700 shadow-indigo-200",
-                "bg-gradient-to-br from-rose-400 via-pink-500 to-rose-600 shadow-rose-200",
-                "bg-gradient-to-br from-emerald-400 via-teal-500 to-emerald-600 shadow-emerald-200",
-                "bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 shadow-amber-200",
-              ];
-              const activeGradient = bgGradients[i % bgGradients.length];
-
-              return (
-                <div key={i} className="w-full">
-                  <ExpertCard
-                    name={expert.name}
-                    role={expert.role}
-                    rating={expert.rating}
-                    ordersCount={expert.orders}
-                    avatar={expert.img || "/assets/media/avatars/blank.png"}
-                    experience={expert.exp}
-                    qualifications={expert.qual}
-                    variant="subject"
-                  />
-                </div>
-              );
-            })}
-          </div>
+          <ExpertSlider
+            experts={experts.map((expert, i) => ({
+              id: expert.id || String(i),
+              name: expert.name,
+              role: expert.role,
+              rating: expert.rating,
+              ordersCount: expert.orders,
+              avatar: expert.img || "/assets/media/avatars/blank.png",
+              experience: expert.exp,
+              qualifications: expert.qual,
+              slug: expert.slug,
+            }))}
+          />
 
           {/* Mobile view only "View All Experts" button */}
           <div className="flex md:hidden w-full mt-6">

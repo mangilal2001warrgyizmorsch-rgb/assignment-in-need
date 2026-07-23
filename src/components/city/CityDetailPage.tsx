@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { AnimateIn } from "@/components/ui/AnimateIn";
 import { ExpertCard } from "@/components/ui/ExpertCard";
+import { ExpertSlider } from "@/components/ui/ExpertSlider";
 import { QuoteForm } from "@/components/ui/QuoteForm";
 
 const CITIES_LIST = [
@@ -434,25 +435,19 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
             </div>
           </div>
           <div className="relative">
-            <div
-              className="flex overflow-x-auto pb-4 lg:pb-0 -mx-4 px-4 snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:gap-5 lg:overflow-visible lg:mx-0 lg:px-0 gap-4 scroll-smooth"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              {expertsToRender.map((expert, i) => (
-                <ExpertCard
-                  key={expert.id || i}
-                  name={expert.name}
-                  role={expert.role}
-                  rating={expert.rating}
-                  ordersCount={expert.orders}
-                  avatar={expert.img || "/assets/media/avatars/blank.png"}
-                  experience={expert.exp}
-                  qualifications={expert.qual}
-                  variant="subject"
-                  className="w-[265px] sm:w-[45%] lg:w-auto shrink-0"
-                />
-              ))}
-            </div>
+            <ExpertSlider
+              experts={expertsToRender.map((expert, i) => ({
+                id: expert.id || String(i),
+                name: expert.name,
+                role: expert.role,
+                rating: expert.rating,
+                ordersCount: expert.orders,
+                avatar: expert.img || "/assets/media/avatars/blank.png",
+                experience: expert.exp,
+                qualifications: expert.qual,
+                slug: expert.slug,
+              }))}
+            />
             <div className="flex md:hidden justify-center gap-2 mt-6">
               <span className="w-2.5 h-2.5 rounded-full bg-gray-300" />
               <span className="w-2.5 h-2.5 rounded-full bg-gray-300" />
