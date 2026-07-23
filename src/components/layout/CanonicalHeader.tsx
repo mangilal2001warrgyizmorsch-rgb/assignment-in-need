@@ -12,7 +12,7 @@ export function CanonicalHeader() {
       : pathname.endsWith("/")
         ? pathname.slice(0, -1)
         : pathname;
-  const canonicalUrl = `https://assignmentinneed.co.uk${cleanPath}`;
+  const canonicalUrl = `https://www.assignmentinneed.co.uk${cleanPath}`;
 
   return <link rel="canonical" href={canonicalUrl} />;
 }
