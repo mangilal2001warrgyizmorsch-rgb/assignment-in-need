@@ -10,6 +10,7 @@ import { QuoteForm } from "@/components/ui/QuoteForm";
 import { StatsStrip } from "@/components/ui/StatsStrip";
 import { TestimonialCarousel } from "@/components/ui/TestimonialCarousel";
 import { ExpertCard } from "@/components/ui/ExpertCard";
+import { ExpertSlider } from "@/components/ui/ExpertSlider";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { ProcessSteps } from "@/components/ui/ProcessSteps";
 import { Badge } from "@/components/ui/Badge";
@@ -694,72 +695,37 @@ export default function ServiceLanding() {
             </h2>
           </div>
 
-          <div className="relative">
-            <div
-              className="flex overflow-x-auto pb-4 lg:pb-0 -mx-4 px-4 snap-x snap-mandatory lg:grid lg:grid-cols-4 lg:gap-5 lg:overflow-visible lg:mx-0 lg:px-0 gap-4 scroll-smooth"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              {expertsToShow.slice(0, 4).map((writer, index) => {
-                const firstName = writer.name.split(" ")[0];
+          <ExpertSlider
+            experts={expertsToShow.map((writer, index) => {
+              const hasPhoto =
+                writer.avatar &&
+                (writer.avatar.startsWith("/") || writer.avatar.startsWith("http")) &&
+                !writer.avatar.includes("blank.png") &&
+                !writer.avatar.includes("ui-avatars.com");
 
-                const getAvatarUrl = (avatarStr: string, writerName: string, idx: number) => {
-                  if (
-                    avatarStr &&
-                    (avatarStr.startsWith("/") || avatarStr.startsWith("http")) &&
-                    !avatarStr.includes("ui-avatars.com")
-                  ) {
-                    return avatarStr;
-                  }
-                  const nameLower = writerName.toLowerCase();
-                  const isFemale =
-                    nameLower.includes("sophia") || nameLower.includes("sophie") ||
-                    nameLower.includes("olivia") || nameLower.includes("emily") ||
-                    nameLower.includes("sara") || nameLower.includes("chloe") ||
-                    nameLower.includes("grace") || nameLower.includes("lily") ||
-                    nameLower.includes("jessica") || nameLower.includes("lucy") ||
-                    nameLower.includes("mia") || nameLower.includes("ruby") ||
-                    nameLower.includes("hannah");
+              const avatarUrl = hasPhoto ? writer.avatar : "/assets/media/avatars/blank.png";
 
-                  if (isFemale) {
-                    const females = ["/assets/media/avatars/150-5.jpg", "/assets/media/avatars/150-3.jpg", "/assets/media/avatars/150-9.jpg"];
-                    return females[idx % females.length];
-                  } else {
-                    const males = ["/assets/media/avatars/150-2.jpg", "/assets/media/avatars/150-4.jpg", "/assets/media/avatars/150-10.jpg"];
-                    return males[idx % males.length];
-                  }
-                };
+              const formattedRating =
+                typeof writer.rating === "number"
+                  ? writer.rating
+                  : parseFloat(writer.rating || "4.9");
+              const experienceStr = writer.experience
+                ? writer.experience.includes("Years") ? writer.experience : `${writer.experience} Experience`
+                : "6+ Years Experience";
 
-                const avatarUrl = getAvatarUrl(writer.avatar, writer.name, index);
-
-                const formattedRating =
-                  typeof writer.rating === "number"
-                    ? writer.rating.toFixed(1)
-                    : parseFloat(writer.rating || "4.9").toFixed(1);
-
-                const experienceStr = writer.experience
-                  ? writer.experience.includes("Years") ? writer.experience : `${writer.experience} Experience`
-                  : "6+ Years Experience";
-
-                const qualStr = writer.qualifications || writer.qual || "Master's Qualified";
-                const ordersCount = writer.ordersCompleted || writer.orders || "1200+";
-
-                return (
-                  <ExpertCard
-                    key={writer.id || index}
-                    name={writer.name}
-                    role={writer.role || `${title} Expert`}
-                    rating={parseFloat(formattedRating)}
-                    ordersCount={ordersCount}
-                    avatar={avatarUrl || "/assets/media/avatars/blank.png"}
-                    experience={experienceStr}
-                    qualifications={qualStr}
-                    variant="subject"
-                    className="w-[265px] sm:w-[45%] lg:w-auto shrink-0"
-                  />
-                );
-              })}
-            </div>
-          </div>
+              return {
+                id: writer.id || String(index),
+                name: writer.name,
+                role: writer.role || `${title} Expert`,
+                rating: formattedRating,
+                ordersCount: writer.ordersCompleted || writer.orders || "1200+",
+                avatar: avatarUrl,
+                experience: experienceStr,
+                qualifications: writer.qualifications || writer.qual || "Master's Qualified",
+                slug: writer.slug,
+              };
+            })}
+          />
         </div>
       </SectionContainer>
 
@@ -1108,8 +1074,8 @@ export default function ServiceLanding() {
 
           <div
             className={cn(
-              "block text-[15px] text-text-body leading-relaxed transition-all duration-300 overflow-hidden space-y-3 rich-text-content",
-              !seoExpanded && "max-h-[140px] relative",
+              "block text-[15px] text-text-body leading-relaxed transition-all duration-300 space-y-3 rich-text-content",
+              seoExpanded ? "max-h-none overflow-visible" : "max-h-[140px] overflow-hidden relative",
             )}
             dangerouslySetInnerHTML={{ __html: longContentHtml }}
           />

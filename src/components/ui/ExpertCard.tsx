@@ -20,6 +20,8 @@ export interface ExpertCardProps extends React.HTMLAttributes<HTMLDivElement> {
   onHire?: () => void;
 }
 
+const DEFAULT_BLANK_AVATAR = "/assets/media/avatars/blank.png";
+
 export const ExpertCard: React.FC<ExpertCardProps> = ({
   className,
   name,
@@ -34,7 +36,32 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
   onHire,
   ...props
 }) => {
-  const isDirectoryVariant = variant === "directory";
+  const [imgSrc, setImgSrc] = React.useState<string>(() => {
+    if (
+      avatar &&
+      avatar.length > 3 &&
+      (avatar.startsWith("/") || avatar.startsWith("http")) &&
+      !avatar.includes("blank.png") &&
+      !avatar.includes("ui-avatars.com")
+    ) {
+      return avatar;
+    }
+    return DEFAULT_BLANK_AVATAR;
+  });
+
+  React.useEffect(() => {
+    if (
+      avatar &&
+      avatar.length > 3 &&
+      (avatar.startsWith("/") || avatar.startsWith("http")) &&
+      !avatar.includes("blank.png") &&
+      !avatar.includes("ui-avatars.com")
+    ) {
+      setImgSrc(avatar);
+    } else {
+      setImgSrc(DEFAULT_BLANK_AVATAR);
+    }
+  }, [avatar]);
 
   const handleButtonClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -51,67 +78,8 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
     }
   };
 
-  if (isDirectoryVariant) {
-    // Directory listing layout matching screenshots (circular photo, expertise tags, qualifications, info tags, outline button)
-    return (
-      <Card hoverEffect={true} className={cn("p-5 gap-4 bg-white border border-primary-100/50 flex flex-col justify-between text-left", className)} {...props}>
-        <CardHeader className="p-0 flex items-start gap-4">
-          <div className="relative w-16 h-16 rounded-full bg-primary-50 border-2 border-primary-100 flex items-center justify-center shrink-0 overflow-hidden">
-            {avatar.length <= 3 ? (
-              <span className="font-heading font-extrabold text-base text-primary-700 uppercase">{avatar}</span>
-            ) : (
-              <img src={avatar} alt={name} width={64} height={64} className="w-full h-full object-cover" />
-            )}
-            <div className="absolute bottom-0 right-0 bg-white rounded-full p-0.5 shadow-sm border border-primary-100">
-              <ShieldCheck className="w-3.5 h-3.5 text-success fill-success/10" />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1 min-w-0">
-            <Heading level={3} className="text-base md:text-lg leading-tight truncate">{name}</Heading>
-            <Badge variant="soft-purple" className="text-[10px] py-0.5 px-2 w-fit">{role}</Badge>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <div className="flex items-center gap-0.5 text-warning shrink-0">
-                <Star className="w-3.5 h-3.5 fill-current" />
-                <span className="font-bold text-text-heading text-xs ml-0.5">{rating.toFixed(1)}</span>
-              </div>
-              <span className="text-[10px] text-text-muted font-bold">•</span>
-              <span className="text-xs text-text-muted shrink-0">{ordersCount} Orders completed</span>
-            </div>
-          </div>
-        </CardHeader>
-
-        <CardBody className="p-0 flex flex-col gap-3 border-t border-dashed border-primary-50 pt-4">
-          {expertise && expertise.length > 0 && (
-            <div className="flex flex-col gap-1">
-              <span className="text-[10px] text-text-muted font-extrabold uppercase tracking-wider">Expertise</span>
-              <p className="text-xs text-text-body leading-relaxed line-clamp-2">
-                {expertise.join(", ")}
-              </p>
-            </div>
-          )}
-          {qualifications && (
-            <div className="flex flex-col gap-1">
-              <span className="text-[10px] text-text-muted font-extrabold uppercase tracking-wider">Qualifications</span>
-              <p className="text-xs text-text-heading font-bold flex items-center gap-1.5">
-                <Award className="w-4 h-4 text-primary-500 shrink-0" />
-                <span>{qualifications}</span>
-              </p>
-            </div>
-          )}
-        </CardBody>
-
-        <CardFooter className="p-0 w-full mt-2">
-          <Button variant="orangeOpen" size="sm" fullWidth={true} onClick={onHire}>
-            Hire Now
-          </Button>
-        </CardFooter>
-      </Card>
-    );
-  }
-
-  // Premium expert card design with grey top header and clean layout for subject and default variants
-  const formattedRating = typeof rating === "number" ? rating.toFixed(1) : parseFloat(String(rating)).toFixed(1);
+  // Premium home page expert card design for all variants
+  const formattedRating = typeof rating === "number" ? rating.toFixed(1) : parseFloat(String(rating) || "4.9").toFixed(1);
   const expText = experience ? (experience.includes("Exp.") ? experience : `${experience} Exp.`) : "8+ Years Exp.";
 
   return (
@@ -124,22 +92,14 @@ export const ExpertCard: React.FC<ExpertCardProps> = ({
     >
       {/* Top Image Container with off-white/light-grey background */}
       <div className="w-full h-[220px] bg-[#f0f0f0] flex items-center justify-center relative overflow-hidden">
-        {avatar.length <= 3 ? (
-          <div className="w-full h-full flex items-center justify-center font-heading font-extrabold text-2xl text-primary-700 uppercase bg-primary-50">
-            {avatar}
-          </div>
-        ) : (
-          <img
-            src={avatar}
-            alt={name}
-            width={280}
-            height={220}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "/assets/media/avatars/blank.png";
-            }}
-            className="h-full w-full object-cover object-top"
-          />
-        )}
+        <img
+          src={imgSrc}
+          alt={name}
+          width={280}
+          height={220}
+          onError={() => setImgSrc(DEFAULT_BLANK_AVATAR)}
+          className="h-full w-full object-cover object-top"
+        />
       </div>
 
       {/* Body Content */}
