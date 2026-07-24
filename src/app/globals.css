@@ -7,6 +7,19 @@
     scroll-behavior: smooth;
   }
 
+  /* Prevent SVG icon sizing explosion / FOUC before CSS utilities load */
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+  }
+
+  /* Fallback constraint for SVGs lacking inline width attribute */
+  svg:not([width]) {
+    max-width: 1.5rem;
+    max-height: 1.5rem;
+  }
+
   body {
     @apply bg-white text-text-body font-sans antialiased;
     font-size: 15px;

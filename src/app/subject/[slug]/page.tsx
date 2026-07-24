@@ -348,23 +348,29 @@ export default function SubjectLanding() {
   }, [slug, subject.name]);
 
   useEffect(() => {
-    if (pageData) {
-      if (pageData.meta_title) {
-        document.title = pageData.meta_title;
-      }
-      if (pageData.meta_description) {
-        let metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) {
-          metaDesc.setAttribute("content", pageData.meta_description);
-        } else {
-          metaDesc = document.createElement("meta");
-          metaDesc.setAttribute("name", "description");
-          metaDesc.setAttribute("content", pageData.meta_description);
-          document.head.appendChild(metaDesc);
-        }
-      }
+    if (loading) return;
+
+    const titleToUse =
+      pageData?.meta_title ||
+      pageData?.hero_heading ||
+      `${subject.name} Assignment Help | Expert ${subject.professionalsWord}`;
+    const descToUse =
+      pageData?.meta_description ||
+      (pageData?.hero_content ? pageData.hero_content.replace(/<[^>]*>/g, "").slice(0, 160) : "") ||
+      `Get expert ${subject.name} assignment help from qualified UK academic writers. 100% original, plagiarism-free, on-time delivery.`;
+
+    document.title = titleToUse;
+
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", descToUse);
+    } else {
+      metaDesc = document.createElement("meta");
+      metaDesc.setAttribute("name", "description");
+      metaDesc.setAttribute("content", descToUse);
+      document.head.appendChild(metaDesc);
     }
-  }, [pageData]);
+  }, [loading, pageData, subject]);
 
   if (isNotFound) {
     notFound();

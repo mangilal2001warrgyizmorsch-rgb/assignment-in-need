@@ -50,6 +50,16 @@ export default function BlogPage() {
 
   useEffect(() => {
     fetchBlogs(1);
+    document.title = "Academic Blogs & Study Guides | Assignment In Need";
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Read our latest academic writing guides, study tips, assignment advice, and university dissertation insights.");
+    } else {
+      metaDesc = document.createElement("meta");
+      metaDesc.setAttribute("name", "description");
+      metaDesc.setAttribute("content", "Read our latest academic writing guides, study tips, assignment advice, and university dissertation insights.");
+      document.head.appendChild(metaDesc);
+    }
   }, []);
 
   const handleShowMore = () => {
@@ -263,7 +273,7 @@ export default function BlogPage() {
                 {/* 2. WhatsApp Order Banner */}
                 <div className="rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:scale-[1.01] transition-transform duration-300">
                   <Link
-                    href="https://wa.me/447575757575"
+                    href="https://wa.me/447826233106"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

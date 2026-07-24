@@ -143,7 +143,7 @@ export default async function BlogDetailPage({ params }: Props) {
               {/* WhatsApp Order Banner */}
               <div className="rounded-2xl overflow-hidden shadow-sm hover:scale-[1.01] transition duration-300">
                 <Link
-                  href="https://wa.me/447575757575"
+                  href="https://wa.me/447826233106"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -46,6 +46,22 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
+    const formattedName = categoryName
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+    document.title = `${formattedName} Assignment Samples & Papers | Assignment In Need`;
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", `Explore free ${formattedName} assignment samples, essays, case studies, and university research papers.`);
+    } else {
+      metaDesc = document.createElement("meta");
+      metaDesc.setAttribute("name", "description");
+      metaDesc.setAttribute("content", `Explore free ${formattedName} assignment samples, essays, case studies, and university research papers.`);
+      document.head.appendChild(metaDesc);
+    }
+  }, [categoryName]);
+
+  useEffect(() => {
     const resolveCategoryId = async () => {
       try {
         // Fetch subject list first

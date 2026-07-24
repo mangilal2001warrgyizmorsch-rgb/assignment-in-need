@@ -968,6 +968,8 @@ export const Navbar = () => {
               className="flex items-center gap-[5px] font-semibold text-[12.5px] max-md:text-[11px] whitespace-nowrap [&_svg]:w-[13px] [&_svg]:h-[13px] [&_svg]:shrink-0"
             >
               <svg
+                width="13"
+                height="13"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -984,6 +986,8 @@ export const Navbar = () => {
               className="flex items-center gap-[5px] font-semibold text-[12.5px] max-md:text-[11px] whitespace-nowrap [&_svg]:w-[13px] [&_svg]:h-[13px] [&_svg]:shrink-0"
             >
               <svg
+                width="13"
+                height="13"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -1043,6 +1047,8 @@ export const Navbar = () => {
                 }}
               >
                 <svg
+                  width="14"
+                  height="14"
                   className="w-3.5 h-3.5 max-md:w-3 max-md:h-3 shrink-0"
                   viewBox="0 0 24 24"
                   fill="currentColor"

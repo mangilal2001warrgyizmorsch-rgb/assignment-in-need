@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { CanonicalHeader } from "@/components/layout/CanonicalHeader";
 import { ChatBot } from "@/components/ui/ChatBot";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { QuoteModal } from "@/components/ui/QuoteModal";
 import "./globals.css";
 // import "./blog/blog.css";
 
@@ -104,9 +105,8 @@ export default function RootLayout({
     >
       <head>
         <CanonicalHeader />
-        <Script
+        <script
           id="chunk-error-handler"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function () {
@@ -192,6 +192,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <Footer />
         <WhatsAppButton />
         <ChatBot />
+        <QuoteModal />
         <Toaster
           position="top-center"
           reverseOrder={false}

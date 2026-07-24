@@ -159,19 +159,18 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
   }, [slug, citySlug, cityName]);
 
   useEffect(() => {
-    if (loading) {
-      return;
-    }
-
-    if (pageData?.meta_title) {
-      document.title = pageData.meta_title;
-    } else {
-      document.title = `${cityName} Assignment Help UK | Top Experts in ${cityName}`;
-    }
+    const titleToUse =
+      pageData?.meta_title ||
+      pageData?.title ||
+      pageData?.hero_heading ||
+      `${cityName} Assignment Help UK | Top Experts in ${cityName}`;
 
     const descText =
       pageData?.meta_description ||
+      (pageData?.hero_content ? pageData.hero_content.replace(/<[^>]*>/g, "").slice(0, 160) : "") ||
       `Need assignment help in ${cityName}? Get top-rated academic writing support from expert writers in ${cityName}, ${countryName}. 100% plagiarism free & on-time.`;
+
+    document.title = titleToUse;
 
     let metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
@@ -477,29 +476,115 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
         </div>
       </section>
 
-      {/* PROMO BANNER */}
-      <section className="bg-gradient-to-r from-[#3f159a] to-[#6c2bd9] py-8 px-4">
-        <div className="max-w-[1250px] mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-white text-center md:text-left">
-              <h2 className="text-[22px] md:text-[26px] text-purple-200 font-[900] tracking-tight font-heading mb-1">
-                All Services Include
+      {/* FREE WITH EVERY ORDER BANNER */}
+      <section className="bg-white py-6 md:py-8 w-full">
+        <div className="max-w-[1250px] mx-auto px-4 md:px-8 w-full">
+          <div className="w-full rounded-2xl py-6 px-5 md:py-6 md:px-8 lg:pr-[200px] text-white bg-gradient-to-r from-[#0b0742] via-[#1a0f69] to-[#3b1793] border border-purple-500/25 shadow-xl relative overflow-hidden select-none">
+            {/* Background ambient glow circles */}
+            <div className="absolute right-0 top-0 bottom-0 w-[40%] pointer-events-none select-none z-0 overflow-hidden">
+              <div className="absolute top-[-30px] right-[-40px] w-[180px] h-[180px] rounded-full bg-purple-600/10 border border-purple-500/10" />
+              <div className="absolute top-[20px] right-[40px] w-[130px] h-[130px] rounded-full bg-indigo-500/15 border border-indigo-400/15" />
+              <div className="absolute bottom-[-30px] right-[-20px] w-[200px] h-[200px] rounded-full bg-purple-500/10 border border-purple-400/10" />
+            </div>
+
+            <div className="text-center mb-5 z-10 relative">
+              <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-white leading-tight">
+                <span className="text-[#ff7a00]">FREE</span> With Every Order
               </h2>
-              <p className="text-purple-200 text-xs font-medium">
-                Premium quality inclusions with every order — no hidden charges.
+              <p className="text-sm md:text-[15px] font-semibold text-white/80 mt-1">
+                Worth £92 Included Absolutely FREE
               </p>
             </div>
-            <div className="flex items-center gap-4 md:gap-6 flex-wrap justify-center">
-              {promoInclusions.map((item, idx) => (
-                <div key={idx} className={`${item.visibility} flex-col items-center gap-1.5 text-center text-white`}>
-                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+
+            <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-5 z-10 relative px-2 lg:px-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-y-4 gap-x-2 flex-1 w-full text-center items-start">
+                {[
+                  {
+                    name: "Turnitin Report",
+                    icon: (
+                      <svg className="w-6 h-6 mx-auto mb-1 text-white opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6M7 3h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 10a2 2 0 100-4 2 2 0 000 4z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    name: "AI Report",
+                    icon: (
+                      <svg className="w-6 h-6 mx-auto mb-1 text-white opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                        <circle cx="12" cy="8" r="1.2" fill="currentColor" />
+                        <circle cx="9" cy="11" r="1.2" fill="currentColor" />
+                        <circle cx="15" cy="11" r="1.2" fill="currentColor" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v3m-3 0h6" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    name: "Bibliography & References",
+                    icon: (
+                      <svg className="w-6 h-6 mx-auto mb-1 text-white opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 19V5a2 2 0 012-2h10" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9h4m-4 4h4" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    name: "Title Page",
+                    icon: (
+                      <svg className="w-6 h-6 mx-auto mb-1 text-white opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.25h13.5a2.25 2.25 0 012.25 2.25v13.5a2.25 2.25 0 01-2.25 2.25H5.25a2.25 2.25 0 01-2.25-2.25V7.5a2.25 2.25 0 012.25-2.25z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    name: "Proper Formatting",
+                    icon: (
+                      <svg className="w-6 h-6 mx-auto mb-1 text-white opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h10" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    name: "Unlimited Revisions",
+                    icon: (
+                      <svg className="w-6 h-6 mx-auto mb-1 text-white opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    name: "24/7 Support",
+                    icon: (
+                      <svg className="w-6 h-6 mx-auto mb-1 text-white opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 11.034V12a6 6 0 01-12 0v-.966m12 0A6.003 6.003 0 0012 5a6.003 6.003 0 00-6 6.034m12 0v1.071c0 .173-.105.328-.268.388l-1.732.646a1.5 1.5 0 01-1.996-1.002L16 11.034zm-12 0v1.071c0 .173.105.328.268.388l1.732.646a1.5 1.5 0 001.996-1.002L8 11.034z" />
+                      </svg>
+                    ),
+                  },
+                ].map((item, idx, arr) => (
+                  <div key={idx} className="flex flex-col items-center justify-start relative px-1">
                     {item.icon}
+                    <span className="text-xs md:text-[13px] text-white leading-tight mt-1.5 max-w-[110px] select-none font-medium">
+                      {item.name}
+                    </span>
+                    {idx < arr.length - 1 && (
+                      <div className="absolute right-[-4px] top-1/2 -translate-y-1/2 h-8 w-[1px] bg-white/20 hidden lg:block" />
+                    )}
                   </div>
-                  <span className="text-[9px] font-bold whitespace-pre-line leading-tight uppercase tracking-wider">
-                    {item.label}
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+
+            {/* 3D Gift Box Graphic */}
+            <div className="w-[120px] h-[120px] lg:w-[190px] lg:h-[190px] shrink-0 relative lg:absolute lg:right-6 lg:top-1/2 lg:-translate-y-1/2 flex items-center justify-center z-10 mt-6 lg:mt-0 mx-auto">
+              <Image
+                src="/images/gift.png"
+                alt="3D Gift Box"
+                fill
+                className="object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.35)]"
+              />
             </div>
           </div>
         </div>
@@ -533,10 +618,10 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
           <div className="max-w-[900px] mx-auto px-4">
             <div className="text-center mb-8">
               <h2 className="text-[22px] md:text-[28px] font-[900] text-[#0f1b3d] tracking-tight font-heading mb-2">
-                Frequently Asked Questions ({cityName})
+                Frequently Asked Questions.
               </h2>
               <p className="text-xs text-gray-500 font-medium">
-                Everything you need to know about our assignment services in {cityName}.
+                Everything you need to know about our assignment writing services in {cityName}.
               </p>
             </div>
             <div className="space-y-3">
@@ -591,7 +676,7 @@ export default function CityDetailPage({ slug }: CityDetailPageProps) {
               Get Instant Quote <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <a
-              href="https://wa.me/447466847847"
+              href="https://wa.me/447826233106"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center font-heading font-semibold rounded-lg transition-all duration-200 px-7 py-3.5 text-[11px] bg-green-600 hover:bg-green-700 text-white gap-2 shadow-md hover:shadow-lg active:scale-95 uppercase tracking-wider font-extrabold"

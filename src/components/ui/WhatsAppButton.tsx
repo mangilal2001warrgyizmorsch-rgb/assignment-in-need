@@ -13,6 +13,8 @@ export function WhatsAppButton() {
     >
       <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-75 animate-ping group-hover:animate-none pointer-events-none" />
       <svg
+        width="32"
+        height="32"
         className="w-8 h-8 fill-current relative z-10"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"

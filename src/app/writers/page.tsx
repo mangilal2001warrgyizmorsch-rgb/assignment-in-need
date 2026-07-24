@@ -106,6 +106,16 @@ export default function WritersDirectory() {
     };
 
     fetchWriters();
+    document.title = "Our Expert Academic Writers & Tutors | Assignment In Need";
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Meet our PhD and Master's qualified academic writers. Hire trusted UK experts for your assignments, essays, reports, and dissertations.");
+    } else {
+      metaDesc = document.createElement("meta");
+      metaDesc.setAttribute("name", "description");
+      metaDesc.setAttribute("content", "Meet our PhD and Master's qualified academic writers. Hire trusted UK experts for your assignments, essays, reports, and dissertations.");
+      document.head.appendChild(metaDesc);
+    }
   }, []);
 
   // Filter and sort logic

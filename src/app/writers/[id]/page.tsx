@@ -64,10 +64,35 @@ export default function WriterProfile() {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (!writer) return;
+
+    const titleToUse =
+      (writer as any).meta_tag ||
+      (writer as any).meta_title ||
+      `${writer.name} - ${writer.role} | Assignment In Need`;
+    const descToUse =
+      (writer as any).meta_description ||
+      (writer.about && writer.about[0] ? writer.about[0].slice(0, 160) : "") ||
+      `${writer.name} is a ${writer.qualifications} ${writer.role} with ${writer.experience} experience. Hire top academic writers at Assignment In Need.`;
+
+    document.title = titleToUse;
+
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", descToUse);
+    } else {
+      metaDesc = document.createElement("meta");
+      metaDesc.setAttribute("name", "description");
+      metaDesc.setAttribute("content", descToUse);
+      document.head.appendChild(metaDesc);
+    }
+  }, [writer]);
+
   if (loading || !writer) {
     return (
       <div className="bg-white min-h-[80vh]">
-        <SectionContainer className="bg-white py-6 md:py-10">
+        <SectionContainer className="bg-white pt-2 pb-6 md:pt-4 md:pb-10 lg:pt-4 lg:pb-10">
           {/* Breadcrumb Skeleton */}
           <div className="w-1/4 h-4 bg-slate-200 rounded animate-pulse mb-6" />
 
@@ -165,7 +190,7 @@ export default function WriterProfile() {
 
   return (
     <div className="bg-white">
-      <SectionContainer className="bg-white py-6 md:py-10">
+      <SectionContainer className="bg-white pt-2 pb-6 md:pt-4 md:pb-10 lg:pt-4 lg:pb-10">
         <Breadcrumb items={breadcrumbItems} className="mb-4" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-2">
@@ -178,21 +203,21 @@ export default function WriterProfile() {
               <div className="absolute top-0 right-0 w-24 h-24 bg-primary-100/30 rounded-full blur-2xl pointer-events-none" />
 
               {/* Profile Ring Avatar */}
-              <div className="w-24 h-24 rounded-full bg-white p-1 border-2 border-primary-500 shadow-md flex items-center justify-center overflow-hidden shrink-0 relative">
+              <div className="w-24 h-24 rounded-full bg-white p-1 border-2 border-primary-500 shadow-md flex items-center justify-center overflow-show shrink-0 relative">
                 {writer.avatar.length <= 3 ? (
                   <span className="font-heading font-extrabold text-2xl text-primary-700 uppercase">{writer.avatar}</span>
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={writer.avatar} alt={writer.name} className="w-full h-full rounded-full object-cover" />
                 )}
-                <div className="absolute bottom-1 right-1 bg-white rounded-full p-0.5 shadow border border-primary-100">
+                <div className="absolute bottom-1 right-1 bg-white rounded-full p-0.5 shadow border z-50 border-primary-100">
                   <ShieldCheck className="w-4 h-4 text-success fill-success/10" />
                 </div>
               </div>
 
               {/* Title metrics */}
               <div className="flex flex-col items-center sm:items-start gap-1">
-                <Heading level={1} className="text-xl md:text-2xl font-extrabold text-text-heading">
+                <Heading level={1} className="text-text-heading">
                   {writer.name}
                 </Heading>
                 <Badge variant="soft-purple" className="text-[10px] py-0.5 px-2.5 font-bold mt-0.5">

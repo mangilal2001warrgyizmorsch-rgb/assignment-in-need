@@ -371,10 +371,33 @@ export default function ServiceLanding() {
   }, [pageData, fullSlug, expertsFromPage]);
 
   useEffect(() => {
-    if (pageData && pageData.meta_title) {
-      document.title = pageData.meta_title;
+    if (loading) return;
+
+    const fallbackTitle =
+      pageData?.hero_heading ||
+      pageData?.title ||
+      fullSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+    const titleToUse =
+      pageData?.meta_title ||
+      `${fallbackTitle} Help UK | Professional Academic Writing Services`;
+    const descToUse =
+      pageData?.meta_description ||
+      (pageData?.hero_content ? pageData.hero_content.replace(/<[^>]*>/g, "").slice(0, 160) : "") ||
+      `Get expert ${fallbackTitle} help from qualified UK academic writers. 100% original, plagiarism-free, on-time delivery.`;
+
+    document.title = titleToUse;
+
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", descToUse);
+    } else {
+      metaDesc = document.createElement("meta");
+      metaDesc.setAttribute("name", "description");
+      metaDesc.setAttribute("content", descToUse);
+      document.head.appendChild(metaDesc);
     }
-  }, [pageData]);
+  }, [loading, pageData, fullSlug]);
 
   useEffect(() => {
     if (!loading && !pageData && childServicePages.length === 1) {
