@@ -193,11 +193,24 @@ export async function fetchSamples(baseUrl: string): Promise<string[]> {
     });
     if (res.ok) {
       const payload = await res.json();
-      const list = payload?.data?.data || [];
-      return list.map((sample: any) => {
-        const cat = slugify(sample.category_name || "general");
-        return `${baseUrl}/free-samples/${cat}/${sample.slug}`;
-      });
+      const list = Array.isArray(payload?.data?.data)
+        ? payload.data.data
+        : Array.isArray(payload?.data)
+        ? payload.data
+        : [];
+      return list
+        .filter((sample: any) => sample && (sample.slug || sample.id))
+        .map((sample: any) => {
+          const catName =
+            sample.category_name ||
+            sample.category_slug ||
+            sample.category?.name ||
+            sample.category?.slug ||
+            "general";
+          const cat = slugify(catName);
+          const sampleSlug = sample.slug || sample.id;
+          return `${baseUrl}/samples/${cat}/${sampleSlug}`;
+        });
     }
   } catch (e) {
     console.error("Sitemap: Failed to fetch samples", e);
@@ -212,8 +225,31 @@ export async function fetchSampleCategories(baseUrl: string): Promise<string[]> 
     });
     if (res.ok) {
       const payload = await res.json();
-      const list = Array.isArray(payload?.data) ? payload.data : [];
-      return list.map((cat: any) => `${baseUrl}/free-samples/${slugify(cat.name)}`);
+      const list = Array.isArray(payload?.data?.data)
+        ? payload.data.data
+        : Array.isArray(payload?.data)
+        ? payload.data
+        : [];
+      if (list.length > 0) {
+        return list
+          .filter((cat: any) => cat && (cat.name || cat.slug))
+          .map((cat: any) => `${baseUrl}/samples/${slugify(cat.slug || cat.name)}`);
+      }
+    }
+    // Fallback: fetch subject-pages if sample-categories empty
+    const subRes = await fetch(`${BACKEND_URL}/api/subject-pages`, {
+      next: { revalidate: 3600 },
+    });
+    if (subRes.ok) {
+      const subPayload = await subRes.json();
+      const subList = Array.isArray(subPayload?.data) ? subPayload.data : [];
+      return subList
+        .filter((s: any) => s && (s.slug || s.name || s.title))
+        .map((s: any) => {
+          const rawTitle = s.title || s.name || s.slug || "";
+          const cleanTitle = rawTitle.split(" Help")[0]?.split(" Assignment")[0]?.trim() || rawTitle;
+          return `${baseUrl}/samples/${slugify(cleanTitle)}`;
+        });
     }
   } catch (e) {
     console.error("Sitemap: Failed to fetch sample categories", e);

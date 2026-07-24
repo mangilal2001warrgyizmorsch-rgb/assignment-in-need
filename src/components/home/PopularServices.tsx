@@ -4,7 +4,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getBaseUrl } from "@/lib/api";
-import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/AnimateIn";
+import {
+  AnimateIn,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/ui/AnimateIn";
 
 interface HomeService {
   id: string;
@@ -201,9 +205,11 @@ function ServiceTile({
     setImgSrc(service.image);
   }, [service.image]);
 
+  
+
   const imageSize = isFeature
-    ? "absolute bottom-[-5%] right-[-5%] w-[100%] max-h-[70%]"
-    : "absolute bottom-[-10px] right-[-10px] w-[62%] max-h-[80%]";
+    ? "absolute bottom-[-15%] right-[-15%] w-[100%] max-h-[70%]"
+    : "absolute bottom-[-35px] right-[-35px] w-[62%] max-h-[80%]";
   const minHeight = isFeature
     ? "min-h-[320px] md:min-h-[380px]"
     : "min-h-[150px] md:min-h-[180px]";
@@ -227,7 +233,7 @@ function ServiceTile({
           </p>
         </div>
         <div className="flex flex-col gap-0.5 items-start mt-auto">
-          <span className="text-xs text-gray-400 font-medium">
+          <span className="text-xs text-gray-800 font-medium">
             {service.orders}
           </span>
           <span className="mt-2">
@@ -290,13 +296,19 @@ export default function PopularServices() {
   return (
     <section className="py-8 md:py-10 bg-white font-sans w-full flex justify-center">
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 w-full">
-        <AnimateIn variant="fadeUp" className="flex flex-col text-center items-center mb-8 md:mb-12">
+        <AnimateIn
+          variant="fadeUp"
+          className="flex flex-col text-center items-center mb-8 md:mb-12"
+        >
           <h2 className="text-xl md:text-[1.75rem] font-black text-gray-900 m-0 mb-3 leading-tight">
-            Our Most 
-            <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis"> Popular Services</span>
+            Our Most{" "}
+            <span className="bg-gradient-to-r from-purple-800 to-orange-600 bg-clip-text text-transparent overflow-hidden text-ellipsis">
+              Popular Services
+            </span>
           </h2>
           <p className="text-[1.02rem] max-md:text-[0.95rem] text-gray-500 m-0 leading-normal max-w-2xl">
-            Explore our top-rated academic writing and support services tailored to your module needs.
+            Explore our top-rated academic writing and support services tailored
+            to your module needs.
           </p>
         </AnimateIn>
 
@@ -309,10 +321,7 @@ export default function PopularServices() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full flex-1">
               {services.slice(1, 4).map((service, index) => (
                 <StaggerItem key={service.id}>
-                  <ServiceTile
-                    service={service}
-                    index={index + 1}
-                  />
+                  <ServiceTile service={service} index={index + 1} />
                 </StaggerItem>
               ))}
             </div>
@@ -320,10 +329,7 @@ export default function PopularServices() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full flex-1">
               {services.slice(4, 8).map((service, index) => (
                 <StaggerItem key={service.id}>
-                  <ServiceTile
-                    service={service}
-                    index={index + 4}
-                  />
+                  <ServiceTile service={service} index={index + 4} />
                 </StaggerItem>
               ))}
             </div>

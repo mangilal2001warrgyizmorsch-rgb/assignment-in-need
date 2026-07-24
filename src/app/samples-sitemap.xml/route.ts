@@ -8,7 +8,7 @@ export async function GET() {
   const samples = await fetchSamples(baseUrl);
 
   const urls = [
-    { loc: `${baseUrl}/free-samples`, priority: "0.9" },
+    { loc: `${baseUrl}/samples`, priority: "0.9" },
     ...sampleCategories.map((catUrl: string) => ({
       loc: catUrl,
       priority: "0.9",

@@ -16,6 +16,19 @@ export default function CitiesListPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = "Assignment Help Cities | UK & Global University Locations";
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Get localized assignment help across top university cities in the UK, Australia, and worldwide.");
+    } else {
+      metaDesc = document.createElement("meta");
+      metaDesc.setAttribute("name", "description");
+      metaDesc.setAttribute("content", "Get localized assignment help across top university cities in the UK, Australia, and worldwide.");
+      document.head.appendChild(metaDesc);
+    }
+  }, []);
+
+  useEffect(() => {
     async function fetchApiCities() {
       try {
         setLoading(true);
@@ -268,7 +281,7 @@ export default function CitiesListPage() {
               </Button>
             </Link>
             <a
-              href="https://wa.me/447466847847"
+              href="https://wa.me/447826233106"
               target="_blank"
               rel="noopener noreferrer"
               className="group inline-flex items-center justify-center font-heading font-semibold rounded-btn transition-all duration-200 px-7 py-3 text-lg bg-green-600 hover:bg-green-700 text-white gap-2 shadow-md hover:shadow-lg active:scale-95"

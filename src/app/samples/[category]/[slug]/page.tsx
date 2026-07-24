@@ -36,6 +36,31 @@ export default function SampleDetailPage({ params }: SampleDetailPageProps) {
   const [allCategories, setAllCategories] = useState<any[]>([]);
 
   useEffect(() => {
+    if (!sample) return;
+
+    const titleToUse =
+      sample.meta_title ||
+      sample.title ||
+      `${sample.title || "Sample Paper"} | Assignment In Need`;
+    const descToUse =
+      sample.meta_description ||
+      (sample.description ? sample.description.replace(/<[^>]*>/g, "").slice(0, 160) : "") ||
+      `Read free university sample paper for ${sample.title || "academic writing"}. Standard UK university example.`;
+
+    document.title = titleToUse;
+
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", descToUse);
+    } else {
+      metaDesc = document.createElement("meta");
+      metaDesc.setAttribute("name", "description");
+      metaDesc.setAttribute("content", descToUse);
+      document.head.appendChild(metaDesc);
+    }
+  }, [sample]);
+
+  useEffect(() => {
     const fetchSampleDetail = async () => {
       setLoading(true);
       setError(null);

@@ -292,7 +292,7 @@ export default function PrivacyPolicyPage() {
               </div>
               <div className="flex flex-col text-xs font-semibold text-gray-500 gap-1 border-t border-gray-100 pt-3">
                 <span className="text-gray-400 font-bold uppercase tracking-wider text-[9px]">Phone Support</span>
-                <span className="text-gray-800 font-bold text-sm">+44 2037695831</span>
+                <span className="text-gray-800 font-bold text-sm">+44 78262 33106</span>
               </div>
               <div className="flex flex-col text-xs font-semibold text-gray-500 gap-1 border-t border-gray-100 pt-3">
                 <span className="text-gray-400 font-bold uppercase tracking-wider text-[9px]">Registered Office</span>

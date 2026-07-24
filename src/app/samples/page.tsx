@@ -199,6 +199,17 @@ export default function SamplesPage() {
   const [apiLoading, setApiLoading] = useState(true);
 
   React.useEffect(() => {
+    document.title = "Free Assignment Samples & Academic Essays | Assignment In Need";
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Browse our free collection of high-quality university assignment samples, essays, case studies, and dissertations.");
+    } else {
+      metaDesc = document.createElement("meta");
+      metaDesc.setAttribute("name", "description");
+      metaDesc.setAttribute("content", "Browse our free collection of high-quality university assignment samples, essays, case studies, and dissertations.");
+      document.head.appendChild(metaDesc);
+    }
+
     const fetchCategories = async () => {
       try {
         const response = await fetch("/api/sample-categories");
